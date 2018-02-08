@@ -260,7 +260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/命令查看keystore签名/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/Activity常用的4种载入方式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="superman">
@@ -279,7 +279,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/07/命令查看keystore签名/" itemprop="url">命令查看keystore签名</a></h1>
+                <a class="post-title-link" href="/2018/02/07/Activity常用的4种载入方式/" itemprop="url">Activity常用的4种载入方式</a></h1>
         
 
         <div class="post-meta">
@@ -291,7 +291,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:17:49+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:33:21+08:00">
                 2018-02-07
               </time>
             
@@ -353,7 +353,21 @@
       
         
           
-            <p>keytool -list -v -keystore “.keystore签名文件的绝对路径”</p>
+            <p>#一:xml配置</p>
+<p>###1.android:launchMode=”standard”<br>这是默认的方式,每次启动一个Activity都会重新创建一个新的实例,不管这个实例是否已经存在.在这种模式下,谁启动了这个Activity,那么这个Activity就运行在启动它的那个Activity所在的栈中<br>当我们用ApplicationContext去启动standard模式的Activity的时候会报错,因为standard模式的Activity默认会进入启动它的Activity所属的任务栈中,但是由于非Activity类型的Context(如ApplicationContext)并没有所谓的任务栈,所以这就有问题了.解决这个问题的方法是为待启动的Activity指定FLAG_ACTIVITY_NEW_TASK标记位,这样启动的时候就会为它创建一个新的任务栈</p>
+<p>###2.android:launchMode=”singleTop”<br>栈顶复用模式,在这种模式下,如果新Activity已经位于任务栈的栈顶,那么此Activity不会被重新创建,同时它的onNewIntent方法会被回调,调用此方法的参数我们可以取出当前请求的信息.需要注意的是,这个Activity的onCreate,onStart不会被系统调用,因为它并没有发生改变.如果新Activity的实例已存在但不是位于栈顶,那么新Activity仍然会重新创建</p>
+<p>###3.android:launchMode=”singleTask”<br>栈内复用模式,这是一种单实例模式,在这种模式下,只要Activity在一个栈中存在,那么多次启动此Activity都不会重新创建实例,和singleTop一样,系统也会回调其onNewIntent.如果被启动的Activity不在栈顶,那么就会把它上面的Activity出栈</p>
+<p>###4.android:launchMode=”singleInstance”<br>加强的栈内复用模式,它除了具有singleTask模式的所有特性外,还加强了一点,那就是具有此种模式的Activity只能单独的位于一个任务栈中,换句话说,比如Activity A是singleInstance模式,当A启动后,系统会为它创建一个新的任务栈,然后A独自在这个新的任务栈中,由于栈内复用的特性,后续的请求均不会创建新的Activity,除非这个独特的任务栈被系统销毁了</p>
+<p>#二.设置Intent的Flag标志</p>
+<p>###1.FLAG_ACTIVITY_NEW_TASK<br>如果当前app还没有任务栈会创建一个任务栈然后把Activity放进去<br>如果已经有了就用已存在的任务栈<br>如果启动Activity的Context没有任务栈并且没有指定此标记位会报错,例如用ApplicationContext启动Activity</p>
+<p>###2.FLAG_ACTIVITY_CLEAR_TOP或者FLAG_ACTIVITY_NEW_TASK  | FLAG_ACTIVITY_CLEAR_TOP<br>和singleTask效果是一样的</p>
+<pre><code>设被启动的Activity的名字为A:
+当A已存在栈中的时候
+1.当A的启动模式是standard的时候,A和它之上的Activity都会出栈然后创建新的A并放入栈中
+2.当A的启动模式是其它3种的时候(singleTask,singleInstance,singleTop),A之上的Activity都会出栈然后调用已存在的A的onNewIntent方法
+当A不存在栈中的时候用FLAG_ACTIVITY_NEW_TASK |FLAG_ACTIVITY_CLEAR_TOP会创建一个A,如果不加FLAG_ACTIVITY_NEW_TASK会报错
+</code></pre><p>###3.FLAG_ACTIVITY_SIGNLE_TOP<br>和singleTop效果是一样的</p>
+<p>###4.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS<br>具有这个标记的Activity不会出现在历史Activity的列表中,当某些情况下我们不希望用户通过历史列表回到我们的Activity的时候这个标记比较有用.它等同于在XML中指定Activity的属性android:excludeFromRecents=”true”</p>
 
           
         
@@ -402,7 +416,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/adb常用命令/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/微信支付中的坑及解决办法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="superman">
@@ -421,7 +435,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/07/adb常用命令/" itemprop="url">adb常用命令</a></h1>
+                <a class="post-title-link" href="/2018/02/07/微信支付中的坑及解决办法/" itemprop="url">微信支付中的坑及解决办法</a></h1>
         
 
         <div class="post-meta">
@@ -433,7 +447,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:17:36+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:33:06+08:00">
                 2018-02-07
               </time>
             
@@ -495,1041 +509,19 @@
       
         
           
-            <p><strong>1.当有多个设备online时，命令行窗口通过adb连接指定设备方法</strong></p>
-<ol>
-<li>通过adb devices命令获取所有online设备的serial number。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;adb devices</span><br><span class="line">List of devices </span><br><span class="line">attachedemulator-5554   device</span><br><span class="line">SH0A6PL00243    device</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>上面表示，当前有两个设备online，第一个emulator-5554是模拟器，后一个是真机会SH0A6PL00243。</p>
-<ol>
-<li>通过adb -s <serial number=""> cmd向设备发送adb命令。<br>比如：运行命令shell。<br>C:\Users\Administrator&gt;adb -s SH0A6PL00243 shell<br>比如：down一个应用的[数据库]到本地f:\test目录下面。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;adb -s SH0A6PL00243 pull data/data/com.android.tencent/databases/AgendaDetails.db f:\test</span><br><span class="line">555 KB/s (5120 bytes in 0.009s)</span><br></pre></td></tr></table></figure>
-</serial></li>
-</ol>
-<p>运行其它命令和运行pull命令一样的，只是在adb和cmd之间需要额外添加-s <serial number="">即可。</serial></p>
-<p><strong>2.模拟app被系统回收掉（需要root权限）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># find the process id</span><br><span class="line">adb shell ps</span><br><span class="line"># then find the line with the package name of your app</span><br><span class="line"># Mac/Unix: save some time by using grep:</span><br><span class="line">adb shell ps | grep your.app.package</span><br><span class="line"># The result should look like:</span><br><span class="line"># USER      PID   PPID  VSIZE  RSS     WCHAN    PC         NAME</span><br><span class="line"># u0_a198   21997 160   827940 22064 ffffffff 00000000 S your.app.package</span><br><span class="line"># Kill the app by PID</span><br><span class="line">adb shell kill -9 21997</span><br><span class="line"># the app is now killed</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/android-databinding框架开发环境配置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/android-databinding框架开发环境配置/" itemprop="url">android databinding框架开发环境配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:17:19+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这几天学dagger2,无意中看到Data Binding Library这么个东西,Data Binding 框架如果能够推广开来，也许 <strong>RoboGuice、ButterKnife</strong> 这样的依赖注入框架会慢慢失去市场，因为在 Java 代码中直接使用 View变量的情况会越来越少。网上有很多配置databinding的方法,有些是错误的,所以在此记录一下</p>
-<pre><code>配置databinding
-</code></pre><p>如果直接在xml使用@{}肯定会出错的,网上很多只说了怎么用,直接用@{}肯定会报错,我们首先要配置databinding,方法如下:</p>
-<p><strong>现在只需在 gradle 中加入 databinding 就可以使用了，之前的 plugin 和 classpath 都不需要了，现在的 databinding 作为 support lib 存在，所以使用之前需要去 SDK Manager 中更新 support 包。：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  ...</span><br><span class="line">  dataBinding &#123;</span><br><span class="line">    enabled = true</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后我们就可以使用Data Binding了,具体使用方法网上有很多,我就不再赘述了</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/ListView从底部开始绘制和新item自动移动到底部/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/ListView从底部开始绘制和新item自动移动到底部/" itemprop="url">ListView从底部开始绘制和新item自动移动到底部</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:17:00+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天做聊天,才知道ListView的2个属性,android:stackFromBottom和android:transcriptMode</p>
-<p>android:stackFromBottom</p>
-<pre><code>true的时候,ListView内容就从底部开始显示,如果只有一条内容这条内容就在列表的最底部,默认是false
-</code></pre><p>android:transcriptMode</p>
-<pre><code>设置列表的transcriptMode模式，该模式指定列表添加新的选项的时候，是否自动滑动到底部，显示新的选项。 
-
-disabled：取消transcriptMode模式，默认的 
-normal：当接受到数据集合改变的通知，并且仅仅当最后一个选项已经显示在屏幕的时候，自动滑动到底部。 
-alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动到底部显示最新的选项。 
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/解决ScrollView里如果有动态更新的ChildView时会自动滚动到底部的方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/解决ScrollView里如果有动态更新的ChildView时会自动滚动到底部的方法/" itemprop="url">解决ScrollView里如果有动态更新的ChildView时会自动滚动到底部的方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:16:42+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在这个ChildView的xml属性里加上</p>
-<p>android:focusable=”true”<br>android:focusableInTouchMode=”true”</p>
-<p>就可以解决</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/android-studio-的配置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/android-studio-的配置/" itemprop="url">android studio 的配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:15:56+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了</p>
-<p>1.gradle问题,下载最新gradle,然后android studio指定gradle目录</p>
-<p>2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系</p>
-<p>3.apply plugin: ‘com.android.application’这句话会报错,需要添加下面的代码到build.gradle,与android同级<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenCentral() // or jcenter()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;com.android.tools.build:gradle:2.1.2&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>4.junit报错,FQ可以解决,或者直接删掉testCompile ‘junit:junit:4.12’</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/windowSoftInputMode属性讲解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/windowSoftInputMode属性讲解/" itemprop="url">windowSoftInputMode属性讲解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:15:30+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>windowSoftInputMode属性讲解</strong>（下面这段内容我参考别人的博客，并加入我的一些意见）<br>我们从这个属性的名称中，可以很直观的看出它的作用，这个属性就是来设置窗口软键盘的交互模式的。android:windowSoftInputMode属性一共有9个取值，分别是：</p>
-<p>【A】stateUnspecified：软键盘的状态并没有指定，系统将选择一个合适的状态或依赖于主题的设置<br>【B】stateUnchanged：当这个activity出现时，软键盘将一直保持在上一个activity里的状态，无论是隐藏还是显示<br>【C】stateHidden：用户选择activity时，软键盘总是被隐藏<br>【D】stateAlwaysHidden：当该Activity主窗口获取焦点时，软键盘也总是被隐藏的<br>【E】stateVisible：软键盘通常是可见的<br>【F】stateAlwaysVisible：用户选择activity时，软键盘总是显示的状态<br>【G】adjustUnspecified：默认设置，通常由系统自行决定是隐藏还是显示<br>【H】adjustResize：该Activity总是调整屏幕的大小以便留出软键盘的空间<br>【I】adjustPan：当前窗口的内容将自动移动以便当前焦点从不被键盘覆盖和用户能总是看到输入内容的部分</p>
-<p>来源:<a href="http://www.bozhiyue.com/anroid/boke/2016/0604/177871.html" target="_blank" rel="noopener">http://www.bozhiyue.com/anroid/boke/2016/0604/177871.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/小米手机无法打开程序报错Unable-to-instantiate-application-com-android-tools-fd-runtime-BootstrapApplication的解决办法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/小米手机无法打开程序报错Unable-to-instantiate-application-com-android-tools-fd-runtime-BootstrapApplication的解决办法/" itemprop="url">小米手机无法打开程序报错Unable to instantiate application com.android.tools.fd.runtime.BootstrapApplication的解决办法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:15:03+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>打开studio的setting 然后<br><strong>Preferences -&gt; Build, Execution, Deployment -&gt; Instant Run -&gt; Enable Instant Run</strong><br>把勾去掉，就可以了</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/如何让自己的app尽量不被系统杀死/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/如何让自己的app尽量不被系统杀死/" itemprop="url">如何让自己的app尽量不被系统杀死</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:14:40+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.<br>在Service中重写下面的方法，这个方法有三个返回值， START_STICKY是service被kill掉后自动重写创建<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override </span><br><span class="line">public int onStartCommand(Intent intent, int flags, int startId)&#123; </span><br><span class="line">  return START_STICKY;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.<br>在Service的onDestroy()中重启Service.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onDestroy() &#123; </span><br><span class="line">　　super.onDestroy();</span><br><span class="line">　　Intent localIntent = new Intent(); </span><br><span class="line">　　localIntent.setClass(this, MyService.class); //销毁时重新启动Service </span><br><span class="line">　　this.startService(localIntent); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.<br>在mf.xml的application的节点中添加android:persistent=”true”<br>这个方法,必须要system app,所以这个基本没用</p>
-<p>4.<br>fork进程的方式做守护,在5.0已经不行了</p>
-<p>5.<br>在Service里创建一个静态内部Service,然后启动外部Service和静态内部Service为前台服务,然后停止这个静态内部Service,这样通知栏虽然不显示通知但是外部Service仍然是前台Service,这是利用android的一个bug,不过高版本应该也修复了,参考</p>
-<p><a href="http://zhoujianghua.com/2015/07/28/black_technology_in_alipay/" target="_blank" rel="noopener">http://zhoujianghua.com/2015/07/28/black_technology_in_alipay/</a><br>(最下面有个demo示例)</p>
-<p><a href="http://blog.csdn.net/lhd201006/article/details/50920464" target="_blank" rel="noopener">http://blog.csdn.net/lhd201006/article/details/50920464</a></p>
+            <p>这几天做微信支付遇到很多坑,官方的demo跑不起来,首先这个demo隐藏的很深…很难找到那个支付的demo,而且你找到以后还有错误,因为代码里引入的包都是sdk什么什么,但是他自己带的jar包实际的包名是opensdk什么什么,你改过来之后就算运行起来也调不起微信,因为这个demo里的url已经无法访问了…<br>然后网上查资料,用网上的各种办法终于解决了,现在总结一下,你用我的办法肯定能解决微信支付的问题</p>
+<p>#####坑1:调不起微信<br>首先,你要保证服务器返回的参数都正确,如果参数不正确的话肯定调用不起来,这里假设参数是正确的.支付的appid可以在客户端保存也可以在服务器返回,这里我用服务器返回的做示例,步骤如下:<br>1.调用支付的Activity中,实例化IWXAPI<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends Activity &#123;</span><br><span class="line"></span><br><span class="line">	private IWXAPI api;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">		super.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		//在这里可以不传AppId传null就可以</span><br><span class="line">		api = WXAPIFactory.createWXAPI(this, null);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//payParamResponse是我封装的服务器返回的参数</span><br><span class="line">	private void startPay(PayParamResponse payParamResponse)&#123;</span><br><span class="line">		PayReq req = new PayReq();</span><br><span class="line">		req.appId = payParamResponse.getAppid();</span><br><span class="line">		req.nonceStr = payParamResponse.getNoncestr();</span><br><span class="line">		req.packageValue = &quot;Sign=WXPay&quot;;</span><br><span class="line">		req.partnerId = payParamResponse.getPartnerid();</span><br><span class="line">		req.prepayId = payParamResponse.getPrepayid();</span><br><span class="line">		req.timeStamp = payParamResponse.getTimestamp();</span><br><span class="line">		req.sign = payParamResponse.getSign();</span><br><span class="line">		//在sendReq方法发起支付之前需要注册你的AppId</span><br><span class="line">		api.registerApp(payParamResponse.getAppid());</span><br><span class="line">		api.sendReq(req);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.从服务器获取到支付参数后调用startPay即可调起微信来支付</p>
+<p>#####坑2:找不到WXPayEntryActivity类<br>因为现在都是用android studio开发了,而且大部分都用到了多渠道打包,所以你们是不是遇到了回调找不到WXPayEntryActivity类的bug?<br>不得不说微信支付sdk太傻比,这里有这几种情况<br>假设manifest的package为A,build.gradle的applicationId为B</p>
 <blockquote>
-<p>保活这个东西,我查了很多很多的资料了,在现在这个环境,我觉得保活的控制权各大厂商已经交给了用户,比如在华为EMUI系统和MIUI系统,锁屏后默认都杀死应用,想要应用不被杀死,就得自己开启锁屏不被杀或者开启自启动选项,如果做推送,就用手机厂商自己的推送服务,我个人也觉得这种方式很好,否则,你可以想一下android当初刚出来的时候,各种软件有多么的流氓,就知道现在为什么把控制权交给用户了</p>
+<p>1:WXPayEntryActivity的activity:name的包名为”.wxapi.WXPayEntryActivity”(注意最前面有个”.”)<br>2:WXPayEntryActivity的activity:name的包名为”A.wxapi.WXPayEntryActivity”(这次是”A.”)<br>3:WXPayEntryActivity的activity:name的包名为”B.wxapi.WXPayEntryActivity”(这次是”B.”)(建议写为”${applicationId}.wxapi.WXPayEntryActivity”)</p>
 </blockquote>
+<p>第一种情况下还有2种情况:(.wxapi.WXPayEntryActivity)<br>1.A为微信平台注册的包名,这时候支付后(不管成功与否),可以跳转到WXPayEntryActivity页面<br>1.B为微信平台注册的包名,这时候支付后(不管成功与否),只会回到支付前的页面,无法跳转到WXPayEntryActivity页面(反编译apk会发现WXPayEntryActivity的路径为A.wxapi.WXPayEntryActivity,而A并不是微信平台注册的包名)</p>
+<p>第二种情况下也是还有2种情况:(A.wxapi.WXPayEntryActivity)<br>1.A为微信平台注册的包名,这时候支付后(不管成功与否),可以跳转到WXPayEntryActivity页面<br>1.B为微信平台注册的包名,这时候支付后(不管成功与否),只会回到支付前的页面,无法跳转到WXPayEntryActivity页面(因为这时候WXPayEntryActivity的路径为A.wxapi.WXPayEntryActivity,而A并不是微信平台注册的包名)</p>
+<p>第三种情况下也是还有2种情况:(B.wxapi.WXPayEntryActivity)<br>1.A为微信平台注册的包名,这时候支付后(不管成功与否),无法跳转到WXPayEntryActivity页面(因为这时候WXPayEntryActivity的路径为B.wxapi.WXPayEntryActivity,而B并不是微信平台注册的包名)<br>1.B为微信平台注册的包名,这时候支付后(不管成功与否),可以跳转到WXPayEntryActivity页面</p>
+<p>上面说的比较详细,其实我估计微信是通过你的AppId能在微信平台查到你的包名,然后startActivity的时候传递的是”包名.wxapi.WXPayEntryActivity”,如果路径错了他就查不到这个类所以就跳转失败</p>
+<p>#####所以现在我的解决办法是,有几个productFlavors(我的每个productFlavors都有一个applicationId),就对应建立applicationId.wxapi包名的文件夹然后放入WXPayEntryActivity,建议可以写个类去实现IWXAPIEventHandler接口,比如这个实现IWXAPIEventHandler接口的类名叫AClass,然后你的几个wxapi包下建立WXPayEntryActivity继承AClass就可以了,AClass的实现直接拷贝之前的WXPayEntryActivity里面的代码就行,继承AClass的子类里面不需要任何代码</p>
+<p>#####然后我再贴一下WXPayEntryActivity类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler &#123;</span><br><span class="line"></span><br><span class="line">	private static final String TAG = &quot;MicroMsg.SDKSample.WXPayEntryActivity&quot;;</span><br><span class="line"></span><br><span class="line">	private IWXAPI api;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">		super.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.pay_result);</span><br><span class="line">		api = WXAPIFactory.createWXAPI(this, null);</span><br><span class="line">		//这里可以不注册appId</span><br><span class="line">		api.handleIntent(getIntent(), this);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	protected void onNewIntent(Intent intent) &#123;</span><br><span class="line">		super.onNewIntent(intent);</span><br><span class="line">		setIntent(intent);</span><br><span class="line">		api.handleIntent(intent, this);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onReq(BaseReq req) &#123;</span><br><span class="line">		Log.e(&quot;onReq:&quot;, &quot;req=&quot; + req);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onResp(final BaseResp resp) &#123;</span><br><span class="line">		Log.d(&quot;resp:&quot;, &quot;code=&quot; + resp.errCode + &quot;,str=&quot; + resp.errStr);</span><br><span class="line">		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) &#123;</span><br><span class="line">			switch (resp.errCode) &#123;</span><br><span class="line">				case 0: &#123;</span><br><span class="line">					Toast.makeText(WXPayEntryActivity.this, &quot;支付成功&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">					break;</span><br><span class="line">				&#125;</span><br><span class="line">				case -1: &#123;</span><br><span class="line">					Toast.makeText(WXPayEntryActivity.this, &quot;发生错误\t可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">					break;</span><br><span class="line">				&#125;</span><br><span class="line">				case -2: &#123;</span><br><span class="line">					Toast.makeText(WXPayEntryActivity.this, &quot;用户取消支付&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">					break;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1578,7 +570,7 @@ alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/如何使用Service的Context弹出Dialog对话框，即全局性对话框/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/Android-自定义-DialogFragment-宽度问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="superman">
@@ -1597,7 +589,7 @@ alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/07/如何使用Service的Context弹出Dialog对话框，即全局性对话框/" itemprop="url">如何使用Service的Context弹出Dialog对话框，即全局性对话框</a></h1>
+                <a class="post-title-link" href="/2018/02/07/Android-自定义-DialogFragment-宽度问题/" itemprop="url">Android 自定义 DialogFragment 宽度问题</a></h1>
         
 
         <div class="post-meta">
@@ -1609,7 +601,7 @@ alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:14:24+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:32:51+08:00">
                 2018-02-07
               </time>
             
@@ -1671,11 +663,1154 @@ alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动�
       
         
           
-            <p>在dialog.show()语句前加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);</span><br></pre></td></tr></table></figure></p>
-<p>然后在AndroidManifest.xml中加入权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
-<p>下面进行简单的解释：</p>
-<p>如果只在Service中写入常在Activity中使用的创建Dialog的代码，运行时是会发生错误的，因为Dialog的显示需要依附于一个确定的Activity类。而以上做法就是声明我们要弹出的这个提示框是一个系统的提示框，即全局性质的提示框，所以只要手机处于开机状态，无论它现在处于何种界面之下，只要调用dialog.show()，就会弹出提示框来。</p>
-<p>需要注意的是，如果用<strong>TYPE_SYSTEM_ALERT</strong>，某些手机对底层进行了修改(小米，魅族之类)，系统会默认会拒绝该权限。解决：通过将<strong>type</strong>设定为<strong>TYPE_TOAST</strong>，就可以绕过检查，这时候需要改动<strong>TYPE_SYSTEM_ALERT</strong>为<strong>TYPE_TOAST</strong></p>
+            <p>转载:<a href="http://blog.csdn.net/zhyh1986/article/details/48655885" target="_blank" rel="noopener">http://blog.csdn.net/zhyh1986/article/details/48655885</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/360插件框架RePlugin的坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/360插件框架RePlugin的坑/" itemprop="url">360插件框架RePlugin的坑</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:32:34+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>6月30号360新开源了一个插件开发框架RePlugin,然而文档不全,根据360的文档你做出来的项目一编译就是一大堆错误,因为很多需要配置的东西在360的插件开发文档里根本就没有,我在这里记录一下给需要的人</p>
+<p>####1.<a href="https://github.com/Qihoo360/RePlugin/wiki/主程序接入指南" target="_blank" rel="noopener">https://github.com/Qihoo360/RePlugin/wiki/主程序接入指南</a><br>在这里的第一步 <strong>[添加 RePlugin Host Gradle 依赖]</strong>之前还有一步,文档并没有写,就是在项目根目录的 <strong>build.gradle</strong>中的<strong>buildscript</strong>和<strong>allprojects</strong>的下面添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">maven &#123;</span><br><span class="line">    url  &quot;https://dl.bintray.com/qihoo360/replugin&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>否则框架所需要的资源根本找不到,完整配置类似如下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">        maven &#123;</span><br><span class="line">            url  &quot;https://dl.bintray.com/qihoo360/replugin&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;com.android.tools.build:gradle:2.1.3&apos;</span><br><span class="line">        classpath &apos;com.qihoo360.replugin:replugin-host-gradle:2.1.0&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">        maven &#123;</span><br><span class="line">            url  &quot;https://dl.bintray.com/qihoo360/replugin&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task clean(type: Delete) &#123;</span><br><span class="line">    delete rootProject.buildDir</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>####2.还是在<a href="https://github.com/Qihoo360/RePlugin/wiki/主程序接入指南" target="_blank" rel="noopener">https://github.com/Qihoo360/RePlugin/wiki/主程序接入指南</a> 还有一步也没有写,必须在你的宿主Module的assets下面增加plugins文件夹,即使里面没有插件文件也要创建该文件夹,否则会出现以下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error:Execution failed for task &apos;:app:processDebugResources&apos;.</span><br><span class="line">&gt; /Users/xxx/Documents/WorkSpace/WorkSpaceAndroid/TestRePlugin/app/src/main/assets/plugins</span><br></pre></td></tr></table></figure></p>
+<p>添加了这个文件夹后编译会自动出现plugins-builtin.json文件</p>
+<p>####3.LocalBroadcastManager类找不到的错误<br>你的程序需要添加v4包,因为插件框架内部使用到了v4包的LocalBroadcastManager类</p>
+<p>####4.Failed to apply plugin [id ‘replugin-plugin-gradle’]<br>在<a href="https://github.com/Qihoo360/RePlugin/wiki/插件接入指南" target="_blank" rel="noopener">https://github.com/Qihoo360/RePlugin/wiki/插件接入指南</a> 这里需要注意这几个地方:</p>
+<p>######4.1.1 gradle版本必须是gradle-2.14.1-all,如果编译出现下图这样的错误<br><img src="http://upload-images.jianshu.io/upload_images/545982-73c4e051275ac484.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>那么你需要修改你的工程中的gradle-&gt;warpper-&gt;gradle-wrapper.properties文件的distributionUrl为https\://services.gradle.org/distributions/gradle-2.14.1-all.zip<br>比如下面这样的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#Sun Jul 02 15:33:02 CST 2017</span><br><span class="line">distributionBase=GRADLE_USER_HOME</span><br><span class="line">distributionPath=wrapper/dists</span><br><span class="line">zipStoreBase=GRADLE_USER_HOME</span><br><span class="line">zipStorePath=wrapper/dists</span><br><span class="line">distributionUrl=https\://services.gradle.org/distributions/gradle-2.14.1-all.zip</span><br></pre></td></tr></table></figure></p>
+<p>######4.1.2 apply plugin: ‘replugin-plugin-gradle’这句话要放在build.gradle文件的末尾处<br>例如下面这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;com.android.application&apos;</span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion 25</span><br><span class="line">    buildToolsVersion &quot;26.0.0&quot;</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId &quot;com.test.replugin.plugin&quot;</span><br><span class="line">        minSdkVersion 15</span><br><span class="line">        targetSdkVersion 25</span><br><span class="line">        versionCode 1</span><br><span class="line">        versionName &quot;1.0&quot;</span><br><span class="line">        testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled false</span><br><span class="line">            proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile &apos;com.android.support:support-v4:25.3.0&apos;</span><br><span class="line">    compile &apos;com.qihoo360.replugin:replugin-plugin-lib:2.1.0&apos;</span><br><span class="line">&#125;</span><br><span class="line">apply plugin: &apos;replugin-plugin-gradle&apos;</span><br></pre></td></tr></table></figure>
+<p><small>参考问题:<a href="https://github.com/Qihoo360/RePlugin/issues/53" target="_blank" rel="noopener">https://github.com/Qihoo360/RePlugin/issues/53</a></small></p>
+<p>#####4.2 在<a href="https://github.com/Qihoo360/RePlugin/issues/43" target="_blank" rel="noopener">https://github.com/Qihoo360/RePlugin/issues/43</a> 这个问题中,作者说宿主和插件不能在同一个工程,否则编译不通过,会报上面的Failed to apply plugin [id ‘replugin-plugin-gradle’]错误,即使你的gradle配置全部正确也无法通过编译,本人测试发现确实是这样的,作者建议将插件和宿主放到同一个工程目录下（本质上仍然是两个工程），这样只需打开一个根目录，就能打开主程序 + 插件工程了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/Retrofit2的一些坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/Retrofit2的一些坑/" itemprop="url">Retrofit2的一些坑</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:32:18+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>现在都在说Retrofit2和RxJava2,作为一个程序猿自然不能落伍,然后就试用了一下,遇到一些坑,在这里记录一下</p>
+<p>#####1.<br><figure class="highlight plain"><figcaption><span>closed```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">和</span><br><span class="line">```Caused by: java.lang.IllegalStateException: closed</span><br></pre></td></tr></table></figure></p>
+<p>这两个异常今天研究了好几个小时…  网上都是说Response.body().string()方法不能调用2次,但是在我的代码里这个方法并没有调用2次,一个Response的ResponseBody属性我只调用了1次string()方法,后来终于发现,在我的判断里有不同的流程,其中一个流程就没有问题,然后发现流程A的Response我直接return了,但是流程B的Response我调用了它的body().string()方法,我判断了里面的返回结果字符串,发现如果没有错误就把这个流程B的Response对象return了,但是!!! 因为我return的这个Response已经被我调用过body().string()方法了,Retrofit2把结果返回上层应用的时候,在convert的时候(因为retrofit调用了addConverterFactory方法)就出错了,因为这个Response的ResponseBody属性已经close了,所以在返回的时候,需要一个新的Response,并设置其中的body为新的body,代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Response response = chain.proceed(newRequest);//执行新请求</span><br><span class="line">String responseString = response.body().string();</span><br><span class="line">//对responseString...执行一些判断之类的操作</span><br><span class="line">return response.newBuilder().body(ResponseBody.create(response.body().contentType(), responseString)).build();</span><br></pre></td></tr></table></figure></p>
+<p>###注意:</p>
+<blockquote>
+<p>1.上面的这个问题,如果你添加了自己的log拦截器,在你的log拦截器里如果调用了Response的body属性的string()方法,那么返回的response对象你也要这么处理,否则在其他类里时候的时候,虽然response不是一个对象,但是里面的body是同一个对象(不信的可以debug查看log拦截器里面你返回的response的body属性内存地址和其他拦截器里同请求的这个response的body属性的内存地址),然后其他类调用response.body().string()的时候会报close错误,所以只要用到了response.body().string()方法,在返回这个response的时候就要像上面那样返回才可以避免close问题</p>
+<p>2.如果不是string()方法,你用的是response.body().bytes()方法再转字符串是一样的,在方法内部都close了,所以仍然需要像上面那样处理</p>
+</blockquote>
+<p>#####2.<br><figure class="highlight plain"><figcaption><span>by: java.lang.IllegalStateException: network interceptor xxx must call proceed() exactly once```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">和</span><br><span class="line">```io.reactivex.exceptions.OnErrorNotImplementedException: network interceptor xxx must call proceed() exactly once</span><br></pre></td></tr></table></figure></p>
+<p>这是因为你的<code>OkHttpClient.Builder</code>调用的<code>addNetworkInterceptor</code>方法添加的拦截器,这种方式添加的拦截器里面的<code>Chain</code>只能调用一次<code>proceed</code>方法,如果想调用多次,你的拦截器就要用<code>addInterceptor</code>方法添加,就没问题了</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/method-ID-not-in-0-0xffff-65536解决办法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/method-ID-not-in-0-0xffff-65536解决办法/" itemprop="url">method ID not in [0, 0xffff]: 65536解决办法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:31:59+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###配置方法数超过 64K 的应用<br>随着 Android 平台的持续成长，Android 应用的大小也在增加。当您的应用及其引用的库达到特定大小时，您会遇到构建错误，指明您的应用已达到 Android 应用构建架构的极限。早期版本的构建系统按如下方式报告这一错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Conversion to Dalvik format failed:</span><br><span class="line">Unable to execute dex: method ID not in [0, 0xffff]: 65536</span><br></pre></td></tr></table></figure></p>
+<p>较新版本的 Android 构建系统虽然显示的错误不同，但指示的是同一问题：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trouble writing output:</span><br><span class="line">Too many field references: 131000; max is 65536.</span><br><span class="line">You may try using --multi-dex option.</span><br></pre></td></tr></table></figure></p>
+<p>这些错误状况都会显示下面这个数字：65,536。这个数字很重要，因为它代表的是单个 Dalvik Executable (DEX) 字节码文件内的代码可调用的引用总数。本页介绍如何通过启用被称为 Dalvik 可执行文件分包的应用配置来越过这一限制，使您的应用能够构建并读取 Dalvik 可执行文件分包 DEX 文件。</p>
+<p>###关于 64K 引用限制<br>Android 应用 (APK) 文件包含 <a href="https://source.android.com/devices/tech/dalvik/" target="_blank" rel="noopener">Dalvik</a> Executable (DEX) 文件形式的可执行字节码文件，其中包含用来运行您的应用的已编译代码。Dalvik Executable 规范将可在单个 DEX 文件内可引用的方法总数限制在 65,536，其中包括 Android 框架方法、库方法以及您自己代码中的方法。在计算机科学领域内，术语<a href="https://en.wikipedia.org/wiki/Kilo-" target="_blank" rel="noopener"><em>千（简称 K）</em></a>表示 1024（或 2^10）。由于 65,536 等于 64 X 1024，因此这一限制也称为“64K 引用限制”。</p>
+<p>###Android 5.0 之前版本的 Dalvik 可执行文件分包支持<br>Android 5.0（API 级别 21）之前的平台版本使用 Dalvik 运行时来执行应用代码。默认情况下，Dalvik 限制应用的每个 APK 只能使用单个 classes.dex字节码文件。要想绕过这一限制，您可以使用 <a href="https://developer.android.com/tools/support-library/features.html#multidex" target="_blank" rel="noopener">Dalvik 可执行文件分包支持库</a>，它会成为您的应用主要 DEX 文件的一部分，然后管理对其他 DEX 文件及其所包含代码的访问。</p>
+<blockquote>
+<p><strong>注</strong>：如果您的项目配置时所面向的 Dalvik 可执行文件分包使用的是 minSdkVersion 20或更低版本，并且您将其部署到运行 Android 4.4（API 级别 20）或更低版本的目标设备上，则 Android Studio 会停用 <a href="https://developer.android.com/tools/building/building-studio.html#instant-run" target="_blank" rel="noopener">Instant Run</a>。</p>
+</blockquote>
+<p>###Android 5.0 及更高版本的 Dalvik 可执行文件分包支持<br>Android 5.0（API 级别 21）及更高版本使用名为 ART 的运行时，后者原生支持从 APK 文件加载多个 DEX 文件。ART 在应用安装时执行预编译，扫描 classesN.dex 文件，并将它们编译成单个 .oat 文件，供 Android 设备执行。因此，如果您的 minSdkVersion 为 21 或更高值，则不需要 Dalvik 可执行文件分包支持库。<br>如需了解有关 Android 5.0 运行时的详细信息，请参阅 <a href="https://source.android.com/devices/tech/dalvik/art.html" target="_blank" rel="noopener">ART 和 Dalvik</a>。</p>
+<blockquote>
+<p><strong>注</strong>：如果将应用的 minSdkVersion 设置为 21 或更高值，使用 <a href="https://developer.android.com/tools/building/building-studio.html#instant-run" target="_blank" rel="noopener">Instant Run</a> 时，Android Studio 会自动将应用配置为进行 Dalvik 可执行文件分包。由于 Instant Run 仅适用于调试版本的应用，您仍需配置发布构建进行 Dalvik 可执行文件分包，以规避 64K 限制。</p>
+</blockquote>
+<p>###规避 64K 限制<br>在将您的应用配置为支持使用 64K 或更多方法引用之前，您应该采取措施减少应用代码调用的引用总数，包括由您的应用代码或包含的库定义的方法。下列策略可帮助您避免达到 DEX 引用限制：<br><strong>检查您的应用的直接和传递依赖项</strong> - 确保您在应用中使用任何庞大依赖库所带来的好处大于为应用添加大量代码所带来的弊端。一种常见的反面模式是，仅仅为了使用几个实用方法就在应用中加入非常庞大的库。减少您的应用代码依赖项往往能够帮助您规避 dex 引用限制。<br><strong>通过 ProGuard 移除未使用的代码</strong> - 为您的版本构建<a href="https://developer.android.com/studio/build/shrink-code.html" target="_blank" rel="noopener">启用代码压缩</a>以运行 ProGuard。启用压缩可确保您交付的 APK 不含有未使用的代码。</p>
+<p>使用这些技巧使您不必在应用中启用 Dalvik 可执行文件分包，同时还会减小 APK 的总体大小。</p>
+<p>###配置您的应用进行 Dalvik 可执行文件分包<br>将您的应用项目设置为使用 Dalvik 可执行文件分包配置需要对您的应用项目进行以下修改，具体取决于应用支持的最低 Android 版本。</p>
+<p>如果您的 minSdkVersion 设置为 21 或更高值，您只需在模块级 build.gradle 文件中将 multiDexEnabled 设置为 true，如此处所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        ...</span><br><span class="line">        minSdkVersion 21 </span><br><span class="line">        targetSdkVersion 25</span><br><span class="line">        multiDexEnabled true</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是，如果您的 minSdkVersion 设置为 20 或更低值，则您必须按如下方式使用 <a href="https://developer.android.com/tools/support-library/features.html#multidex" target="_blank" rel="noopener">Dalvik 可执行文件分包支持库</a>：<br>修改模块级 build.gradle 文件以启用 Dalvik 可执行文件分包，并将 Dalvik 可执行文件分包库添加为依赖项，如此处所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        ...</span><br><span class="line">        minSdkVersion 15 </span><br><span class="line">        targetSdkVersion 25</span><br><span class="line">        multiDexEnabled true</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">  compile &apos;com.android.support:multidex:1.0.1&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>根据是否要替换 <a href="https://developer.android.com/reference/android/app/Application.html" target="_blank" rel="noopener">Application
+</a> 类，执行以下操作之一：<br>如果您<em>没有</em>替换 <a href="https://developer.android.com/reference/android/app/Application.html" target="_blank" rel="noopener">Application
+</a> 类，请编辑清单文件，按如下方式设置 <application>标记中的 android:name：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    package=&quot;com.example.myapp&quot;&gt;</span><br><span class="line">    &lt;application</span><br><span class="line">            android:name=&quot;android.support.multidex.MultiDexApplication&quot; &gt;</span><br><span class="line">        ...</span><br><span class="line">    &lt;/application&gt;</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure></application></p>
+<p>如果您替换了 <a href="https://developer.android.com/reference/android/app/Application.html" target="_blank" rel="noopener">Application
+</a> 类，请按如下方式对其进行更改以扩展 <a href="https://developer.android.com/reference/android/support/multidex/MultiDexApplication.html" target="_blank" rel="noopener">MultiDexApplication</a><br>（如果可能）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class MyApplication extends MultiDexApplication &#123; ... &#125;</span><br></pre></td></tr></table></figure></p>
+<p>或者，如果您替换了 <a href="https://developer.android.com/reference/android/app/Application.html" target="_blank" rel="noopener">Application
+</a> 类，但无法更改基本类，则可以改为替换 <a href="https://developer.android.com/reference/android/content/ContextWrapper.html#attachBaseContext(android.content.Context" target="_blank" rel="noopener">attachBaseContext()
+</a>) 方法并调用 <a href="https://developer.android.com/reference/android/support/multidex/MultiDex.html#install(android.content.Context" target="_blank" rel="noopener">MultiDex.install(this)
+</a>) 来启用 Dalvik 可执行文件分包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class MyApplication extends SomeOtherApplication &#123;</span><br><span class="line">  @Override</span><br><span class="line">  protected void attachBaseContext(Context base) &#123;</span><br><span class="line">     super.attachBaseContext(context);</span><br><span class="line">     Multidex.install(this);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>构建应用后，Android 构建工具会根据需要构建主 DEX 文件 (classes.dex) 和辅助 DEX 文件（classes2.dex 和 classes3.dex 等）。然后，构建系统会将所有 DEX 文件打包到您的 APK 中。</p>
+<p>运行时，Dalvik 可执行文件分包 API 使用特殊的类加载器来搜索适用于您的方法的所有 DEX 文件（而不是仅在主 classes.dex 文件中搜索）。</p>
+<p>原文:<a href="https://developer.android.com/studio/build/multidex.html#keep" target="_blank" rel="noopener">https://developer.android.com/studio/build/multidex.html#keep</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/android中判断服务或者进程是否存在/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/android中判断服务或者进程是否存在/" itemprop="url">android中判断服务或者进程是否存在</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:31:42+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.判断进程是否存在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 判断是否在主进程,这个方法判断进程名或者pid都可以,如果进程名一样那pid肯定也一样</span><br><span class="line"> *</span><br><span class="line"> * @return true:当前进程是主进程 false:当前进程不是主进程</span><br><span class="line"> */</span><br><span class="line">public boolean isUIProcess() &#123;</span><br><span class="line">	ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));</span><br><span class="line">	List&lt;ActivityManager.RunningAppProcessInfo&gt; processInfos = am.getRunningAppProcesses();</span><br><span class="line">	String mainProcessName = getPackageName();</span><br><span class="line">	int myPid = android.os.Process.myPid();</span><br><span class="line">	for (ActivityManager.RunningAppProcessInfo info : processInfos) &#123;</span><br><span class="line">		if (info.pid == myPid &amp;&amp; mainProcessName.equals(info.processName)) &#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.判断服务是否存在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 判断service是否已经运行</span><br><span class="line"> * 必须判断uid,因为可能有重名的Service,所以要找自己程序的Service,不同进程只要是同一个程序就是同一个uid,个人理解android系统中一个程序就是一个用户</span><br><span class="line"> * 用pid替换uid进行判断强烈不建议,因为如果是远程Service的话,主进程的pid和远程Service的pid不是一个值,在主进程调用该方法会导致Service即使已经运行也会认为没有运行</span><br><span class="line"> * 如果Service和主进程是一个进程的话,用pid不会出错,但是这种方法强烈不建议,如果你后来把Service改成了远程Service,这时候判断就出错了</span><br><span class="line"> *</span><br><span class="line"> * @param className Service的全名,例如PushService.class.getName()</span><br><span class="line"> * @return true:Service已运行 false:Service未运行</span><br><span class="line"> */</span><br><span class="line">public boolean isServiceExisted(String className) &#123;</span><br><span class="line">	ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">	List&lt;ActivityManager.RunningServiceInfo&gt; serviceList = am.getRunningServices(Integer.MAX_VALUE);</span><br><span class="line">	int myUid = android.os.Process.myUid();</span><br><span class="line">	for (ActivityManager.RunningServiceInfo runningServiceInfo : serviceList) &#123;</span><br><span class="line">		if (runningServiceInfo.uid == myUid &amp;&amp; runningServiceInfo.service.getClassName().equals(className)) &#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>#注意:<br>上面判断Service是否存在,用的uid和Service的类全名,网上我查到的资料,全部是用的pid,在Service和主进程是一个进程的时候,pid没有问题,但是如果Service是远程Service,和主进程就不是一个进程了,这时候用pid和Service的类全名进行判断就会判断错误</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/GridLayout子控件超出屏幕的解决办法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/GridLayout子控件超出屏幕的解决办法/" itemprop="url">GridLayout子控件超出屏幕的解决办法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:31:25+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_gravity=&quot;fill_horizontal&quot;</span><br></pre></td></tr></table></figure></p>
+<p>加上这个属性,就可以充满屏幕而不是超出屏幕了<br>例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;GridLayout</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:columnCount=&quot;2&quot;&gt;</span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_gravity=&quot;right&quot;</span><br><span class="line">            android:layout_marginRight=&quot;10dp&quot;</span><br><span class="line">            android:text=&quot;标题1:&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;EditText</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_gravity=&quot;fill_horizontal&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_gravity=&quot;right&quot;</span><br><span class="line">            android:layout_marginRight=&quot;10dp&quot;</span><br><span class="line">            android:text=&quot;标题2:&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;EditText</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_gravity=&quot;fill_horizontal&quot;/&gt;</span><br><span class="line">    &lt;/GridLayout&gt;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/Android后台保活实践总结：即时通讯应用无法根治的“顽疾”/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/Android后台保活实践总结：即时通讯应用无法根治的“顽疾”/" itemprop="url">Android后台保活实践总结：即时通讯应用无法根治的“顽疾”</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:31:07+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>前言</p>
+</blockquote>
+<p>Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。</p>
+<p>在应用场景上，由于即时通讯应用（包括IM聊天应用、消息推送服务等）为了保证消息的全时、实时送达能力，必须要实现进程或Service的保活。而就这一看似不起眼的问题，实际处理起来，因为众多Android手机和Android系统版本的差异，让问题的处理充满了不确定性。</p>
+<p>本文基于作者的实践以及相关资料的整理，总结了自已对Android进程和Service保活的理解，希望能为你的应用开发带来启发。</p>
+<blockquote>
+<p>概述</p>
+</blockquote>
+<p>近期做了一个Android项目，涉及到了后台进程和Service保活的问题，网上找了很多资料，基本的保活方法都测试了。结果是：不同的手机，不同的Android版本保活效果各有差异。最难绕过的是个厂商对“后台程序保活”管理。</p>
+<p>本文主要把相应的实践结果和保活方法进行总结。然而，因笔者可用的测试真机有限，可能存有不完整的地方，还请及时提出指正并补充，大家共同进步。</p>
+<blockquote>
+<p>手机QQ、微信这样的大型IM是如何解决保活问题的？</p>
+</blockquote>
+<p>以小米手机为例，MIUI的神隐模式让很多IM和推送开发同行纠结不已：在MIUI深度休眠之后,默认会彻底断开后台应用的socket。但微信、QQ这样的应用，MIUI官方的帖子说了:给这2个应用特殊照顾。好吧，特殊照顾，普通的APP只能继续折腾了。（关于MIUI的神隐模式的讨论，见此贴的回复：<br><a href="http://www.52im.net/thread-354-1-1.html" target="_blank" rel="noopener">http://www.52im.net/thread-354-1-1.html</a>）</p>
+<blockquote>
+<p>本文实践涉及到的真机型号和版本</p>
+</blockquote>
+<p>手机：三星9100-4.1.2，三星9300-4.3，华为G730-4.1.2，华为TL00H-EMUI3.1(android 5.1.1)，魅族MX4-Flyme4.2.8.2c(android 4.4.2)。</p>
+<p>手头能用的测试机就这些了。主要测试的service是一个最基本的service，在相应的生命周期的触发函数上做了输出。测试时都没有添加到后台保护中，注：三星的机子没找到有后台保护设置的地方。</p>
+<blockquote>
+<p>为什么我们的后台进程/Service会被结束掉？</p>
+</blockquote>
+<p>我想到的是有三个方面：</p>
+<ol>
+<li>Android系统内存回收机制；</li>
+<li>各厂商对后台程序的一个管理制度（就是允许程序后台运行那个）；</li>
+<li>第三方软件的清理(360什么的)。</li>
+</ol>
+<p>其中有的后台程序保护把程序结束的同时会把程序弄成停止状态，导致无法接收广播！</p>
+<blockquote>
+<p>我们的保活方案有哪些？</p>
+</blockquote>
+<p>#####1.控制onStartCommand函数的返回值：<br>我对这个函数的理解是：当服务被异常终止时，是否重启服务?有些文章里面在用这个做保活时，修改的是flag，在我实际测试中是无效。有效的做法是直接返回参数。另外默认的flags值为0，是START_STICKY_COMPATIBILITY。</p>
+<p>######具体代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">publicintonStartCommand(Intent intent,intflags,intstartId) &#123;</span><br><span class="line">    // TODO Auto-generated method stub</span><br><span class="line">    return START_STICKY;</span><br><span class="line">    //return super.onStartCommand(intent, flags, startId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>######测试结果：<br>魅族的机子无效，不管默认还是修改参数，在DDMS里面直接结束进程后都不会重启服务。其它三台机子（9100没测）：默认参数的情况下就会重启服务，return START_STICKY 会重启，return START_NOT_STICKY 不会重启。</p>
+<p>另外：用360一键清理，或者360超级ROOT的手机优化，会杀死进程，过会儿还是会重启，只是会慢很多，大概是在排队重启服务。</p>
+<p>#####2.在service 的onDestory里面重启服务：<br>这个在所有能触发onDestory的情况下都是有效的。4台测试机都测试过。直接startService 或者发送广播重启都可以 。</p>
+<p>但能触发onDestory的情况，我不知道内存回收会不会触发。另外两种情况（2，3）是不触发的。我的测试方法是在“设置”-&gt; 应用管理-&gt; 正在运行-&gt; 停止服务。（这个是正常停止服务，会触发onDestory，所以上面的onStartCommand效果不会触发。）</p>
+<p>#####3.提高服务的优先级：<br>这个主要是针对第一种kill服务的情况，内存回收机制。由于这个测试比较难搭建。360清理什么把后台的进程都杀的，体现不出优先级这样的概念。我的建议是能提高就提高，下面几个实验。</p>
+<p>######[1] 前台service：<br>创建一个通知使自己成为前台service<br>测试结果：<br>360一键清理和手机优化，不会把该service结束掉。</p>
+<p>######[2] 对于后台保护：<br>华为G730不结束service，魅族和华为TL00H都会结束service。通知栏的保活效果还是可以的，一般的应用要求基本能满足了。</p>
+<p>######[3] 若有root权限：<br>android:persistent=”true”,并放入system/app中<br>测试结果：<br>效果一般，三星9100上用360等清理工具杀不掉进程，在华为G730上没什么效果.（这个测试跟onStartCommand有点干扰）。</p>
+<p>#####4.守护进程：<br>双服务：360会同时杀掉两个服务，分两个apk也一样。native守护进程：360不会杀掉native的守护进程，但在魅族和华为TL00H中待机一段时间后还是会被杀掉。</p>
+<p><strong>结论和待续：</strong></p>
+<ol>
+<li>一般的应用添加到后台保护进程后，改个onStartCommand返回值，再加个通知。基本上大部分都能保活了。</li>
+<li>双服务我觉得没有native守护进程来的好，虽然360，微信什么的都有几个进程服务，但如果不添加到后台保活的话，效果一样不能保活，也会进入停止状态。</li>
+<li>但是.360手机助手会创建双natice守护进程做相互的看守。存活的效果会高一点点。“没添加到后台保活”一般只会杀一次，（魅族是屏幕关闭后5分钟，华为TL00H是屏幕关闭时）。</li>
+</ol>
+<p>附个native守护进程：利用socket来判断服务是否存在，需要在被保活的服务里创建一个监听socket。调试信息会在SD卡目录下创建一个daemon.log。使用方法：NDKFork port包名/.服务名。具体下载链接：<a href="http://download.csdn.net/detail/pvlking/9412815" target="_blank" rel="noopener">http://download.csdn.net/detail/pvlking/9412815</a></p>
+<blockquote>
+<p>Android应用实现保活的基本原理总结</p>
+</blockquote>
+<p>都是通过双进程互拉以及设置进程的重要性，除非你root后，把自己的进程设置成系统进程。</p>
+<p><strong>互拉的方式有很多种：</strong></p>
+<ol>
+<li>可以通过监听系统广播来把自己拉起来</li>
+<li>可以多个app相互拉</li>
+<li>可以把自己的服务搞成前台服务</li>
+<li>在service的onstart方法里返回 STATR_STICK</li>
+<li>添加Manifest文件属性值为android:persistent=“true”</li>
+<li>覆写Service的onDestroy方法</li>
+<li>服务互相绑定</li>
+<li>设置闹钟，定时唤醒</li>
+<li>自己的app在native层fork一个子进程来与主进程互拉。</li>
+</ol>
+<p>综上所述，总结下来就是，目前实现Android后台保活没有完美实现，只能针对不同的机型综合使用上面列举的方法，同时祈祷自已APP的用户不要遇到奇葩机型的保活问题。</p>
+<blockquote>
+<p>推荐一个开源的解决方案</p>
+</blockquote>
+<p><strong>源码托管地址</strong><br>源码托管地址是：<a href="https://github.com/52im/MarsDaemon" target="_blank" rel="noopener">https://github.com/52im/MarsDaemon</a>。</p>
+<p><strong>实现原理</strong><br><strong>原理：
+</strong>使用Jni,在 c端 fork进程，检测Service是否存活，若Service已被杀死，则进行重启Service.  至于检测方式，可以轮询获取子进程Pid,若为1, 则说明子进程被Init进程所领养,已经成为了孤儿进程.    但是这种方式比较消耗电量，并且由于不同手机系统定制的改变，当应用被强制停止时，父进程并不一定被真正杀死，因此在一些特定机型上是无法通过此方式进行判断. 这里推荐使用liunx socket的方式进行类似心跳包的检测，并且当触发检测Service是否被杀死之前，需要判断应用是否已经被卸载，如果应用已经被卸载，则不再进行检测Service行为，直接调用exit(0)退出子进程，避免浪费系统资源和消耗电量.</p>
+<p><strong>注意:
+</strong> 目前在Android 5.0系统上会把fork出来的进程放到一个进程组里， 当程序主进程挂掉后，也会把整个进程组杀掉,因此用fork的方式也无法在Android5.0及以上系统实现守护进程. 这个是系统层面的限制，当然也是为了优化整个的系统环境,守护进程给手机带来的体验并不好</p>
+<p><strong>具体见源码：
+</strong><a href="http://androidxref.com/5.0.0_r2/xref/frameworks/base/services/core/java/com/android/server/am/ProcessRecord.java" target="_blank" rel="noopener">http://androidxref.com/5.0.0_r2/ … /ProcessRecord.java</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/545982-d765c5e38993d112.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><strong>好消息：</strong><br>Android5.0 以上目前已在 <a href="https://github.com/52im/MarsDaemon" target="_blank" rel="noopener">https://github.com/52im/MarsDaemon</a> 中被黑科技攻克，部分机型可能无法起到作用，但思路很值得借鉴，代码结构也不错, 具体方案请见源码哦。</p>
+<p>原文:<a href="http://www.52im.net/thread-429-1-1.html" target="_blank" rel="noopener">http://www.52im.net/thread-429-1-1.html</a><br>因为原文已经无法打开,所以将内容复制到了这里</p>
+<hr>
+<p>在android5.0及以上,谷歌出了一个JobService,经测试可以在原生系统里定时执行任务,所以在三星这种机器上,可以用JobService拉起自己的Service</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/Android-技巧-——-Debug-判断不再用-BuildConfig/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/Android-技巧-——-Debug-判断不再用-BuildConfig/" itemprop="url">Android 技巧 —— Debug 判断不再用 BuildConfig</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:30:48+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Android 开发中一般会通过 BuildConfig.DEBUG 判断是否是 Debug 模式，从而做一些在 Debug 模式才开启的特殊操作，比如打印日志。这样好处是不用在发布前去主动修改，因为这个值在 Debug 模式下为 true，Release 模式下为 false。</p>
+<p>#####1. 问题<br>如果应用只有一个 Module 没有问题，Debug 模式下 BuildConfig.DEBUG 会始终为 true。如果现在有两个 Module，分别为 App 和 Lib，且 App 依赖 Lib，在 Lib 内有工具类 LogUtils，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">import android.util.Log;</span><br><span class="line">import cn.trinea.android.lib.util.BuildConfig;</span><br><span class="line"> </span><br><span class="line">public class LogUtils &#123;</span><br><span class="line"> </span><br><span class="line">    public static void d(String log) &#123;</span><br><span class="line">        if (BuildConfig.DEBUG) &#123;</span><br><span class="line">            Log.d(&quot;trinea-debug&quot;, log);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当我们在 App Module 内调用 LogUtils 时我们会发现始终无法打印日志，因为上面的 BuildConfig.DEBUG 会始终为 false。为什么呢？</p>
+<p>#####2. 原因<br>BuildConfig.java 是编译时自动生成的，并且每个 Module 都会生成一份，以该 Module 的 packageName 为 BuildConfig.java 的 packageName。所以如果你的应用有多个 Module 就会有多个 BuildConfig.java 生成，而上面的 Lib Module import 的是自己的 BuildConfig.java，编译时被依赖的 Module 默认会提供 Release 版给其他 Module 或工程使用，这就导致该 BuildConfig.DEBUG 会始终为 false。</p>
+<p>#####3. 解决方案<br>根据上面分析的原因，目前我们有两个思路：<br>(1) 始终调用最终运行的 Module 的 BuildConfig，因为它没有被任何其他 Module 依赖，所以 BuildConfig.DEBUG 值会准确。<br>(2) 让被依赖的 Module 提供除 Release 版以外的其他版本。</p>
+<p>3.1 解决方案一：使用其他的 BuildConfig.java<br>如果 Lib Module 中能够 import 到外层真正运行 App 的 BuildConfig 就 ok 了，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * Utils for App</span><br><span class="line"> * &lt;ul&gt;</span><br><span class="line"> * &lt;li&gt;&#123;@link #syncIsDebug(Context)&#125; Should be called in module Application&lt;/li&gt;</span><br><span class="line"> * &lt;/ul&gt;</span><br><span class="line"> * Created by Trinea on 2017/3/9.</span><br><span class="line"> */</span><br><span class="line">public class AppUtils &#123;</span><br><span class="line"> </span><br><span class="line">    private static Boolean isDebug = null;</span><br><span class="line"> </span><br><span class="line">    public static boolean isDebug() &#123;</span><br><span class="line">        return isDebug == null ? false : isDebug.booleanValue();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    /**</span><br><span class="line">     * Sync lib debug with app&apos;s debug value. Should be called in module Application</span><br><span class="line">     *</span><br><span class="line">     * @param context</span><br><span class="line">     */</span><br><span class="line">    public static void syncIsDebug(Context context) &#123;</span><br><span class="line">        if (isDebug == null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                String packageName = context.getPackageName();</span><br><span class="line">                Class buildConfig = Class.forName(packageName + &quot;.BuildConfig&quot;);</span><br><span class="line">                Field DEBUG = buildConfig.getField(&quot;DEBUG&quot;);</span><br><span class="line">                DEBUG.setAccessible(true);</span><br><span class="line">                isDebug = DEBUG.getBoolean(null);</span><br><span class="line">            &#125; catch (Throwable t) &#123;</span><br><span class="line">                // Do nothing</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过反射得到真正执行的 Module 的 BuildConfig，在自己的 Application 内调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AppUtils.syncIsDebug(getApplicationContext());</span><br></pre></td></tr></table></figure></p>
+<p>这样看起来达到目的了。</p>
+<p>但仔细想想会发现这种解决方案还是有问题，因为 BuildConfig.java 的 packageName 是 Module 的 Package Name，即 AndroidManifest.xml 中的 package 属性，而 context.getPackageName() 得到的是应用的 applicationId，这个 applicationId 通过 build.gradle 是可以修改的。所以当 build.gradle 中的 applicationId 与 AndroidManifest.xml 中的 package 属性不一致时，上面的反射查找类路径便会出错。</p>
+<p>PS：这种方案还有个变种就是通过 android.app.ActivityThread.currentPackageName 得到包名，从而省去传递 Context 初始化的步骤，但依然有 applicationId 被修改后类查找不到类似的问题。</p>
+<p>#####3.2 解决方案二：被依赖的 Module 提供其他版本<br>让被依赖的 Module 提供除 Release 版以外的其他版本，这种方案需要将所有被依赖 library 中添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    publishNonDefault true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>表示该 Module 打包时会同时打包其他版本，包括 Debug 版。并且需要在 App Module 中将其依赖的 library 如下逐个添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    releaseCompile project(path: &apos;:library&apos;, configuration: &apos;release&apos;)</span><br><span class="line">    debugCompile project(path: &apos;:library&apos;, configuration: &apos;debug&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>表示依赖不同版本的依赖 Module。<br>然而这种方式所有 Module 配置都需要修改，侵入性太强。</p>
+<p>#####3.3 最终解决方案：使用 ApplicationInfo.FLAG_DEBUGGABLE<br>既然 BuildConfig 的方式行不通，我们反编译 Debug 包和 Release 包对比看看有没有其他的区别，会发现他们 AndroidManifest.xml 中 application 节点的 android:debuggable 值是不同的。Debug 包值为 true，Release 包值为 false，这是编译自动修改的。所以我们考虑通过 ApplicationInfo 的这个属性去判断是否是 Debug 版本，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * Utils for App</span><br><span class="line"> * &lt;ul&gt;</span><br><span class="line"> * &lt;li&gt;&#123;@link #syncIsDebug(Context)&#125; Should be called in module Application&lt;/li&gt;</span><br><span class="line"> * &lt;/ul&gt;</span><br><span class="line"> * Created by Trinea on 2017/3/9.</span><br><span class="line"> */</span><br><span class="line">public class AppUtils &#123;</span><br><span class="line"> </span><br><span class="line">    private static Boolean isDebug = null;</span><br><span class="line"> </span><br><span class="line">    public static boolean isDebug() &#123;</span><br><span class="line">        return isDebug == null ? false : isDebug.booleanValue();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    /**</span><br><span class="line">     * Sync lib debug with app&apos;s debug value. Should be called in module Application</span><br><span class="line">     *</span><br><span class="line">     * @param context</span><br><span class="line">     */</span><br><span class="line">    public static void syncIsDebug(Context context) &#123;</span><br><span class="line">        if (isDebug == null) &#123;</span><br><span class="line">            isDebug = context.getApplicationInfo() != null &amp;&amp;</span><br><span class="line">                    (context.getApplicationInfo().flags &amp; ApplicationInfo.FLAG_DEBUGGABLE) != 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在自己的 Application 内调用进行初始化，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AppUtils.syncIsDebug(getApplicationContext());</span><br></pre></td></tr></table></figure></p>
+<p>这样以后调用 AppUtils.isDebug() 即可判断是否是 Debug 版本，比如在上面的 LogUtils 中。同时适用于 Module 是 Lib 和 applicationId 被修改的情况，比 BuildConfig.DEBUG 靠谱的多。</p>
+<p>这个方案有个注意事项就是自己 App Module 中不能主动设置 android:debuggable，否则无论 Debug 还是 Release 版会始终是设置的值。当然本身就没有自动设置的必要。</p>
+<p>原文地址:<a href="http://www.trinea.cn/android/android-whether-debug-mode-why-buildconfig-debug-always-false/" target="_blank" rel="noopener">http://www.trinea.cn/android/android-whether-debug-mode-why-buildconfig-debug-always-false/</a></p>
 
           
         
@@ -1715,7 +1850,7 @@ alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动�
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1761,7 +1896,7 @@ alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">70</span>
+                  <span class="site-state-item-count">103</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1772,7 +1907,7 @@ alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动�
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1783,7 +1918,7 @@ alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
