@@ -270,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Android-Studio中的六种依赖/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/如何在library中使用productFlavors/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="superman">
@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/08/Android-Studio中的六种依赖/" itemprop="url">Android Studio中的六种依赖</a></h1>
+                <a class="post-title-link" href="/2018/02/08/如何在library中使用productFlavors/" itemprop="url">如何在library中使用productFlavors</a></h1>
         
 
         <div class="post-meta">
@@ -342,9 +342,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/08/Android-Studio中的六种依赖/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/08/如何在library中使用productFlavors/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/Android-Studio中的六种依赖/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/08/如何在library中使用productFlavors/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -374,12 +374,23 @@
       
         
           
-            <p>####Compile<br>compile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。</p>
-<p>####Provided<br>Provided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。</p>
-<p>####APK<br>只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错</p>
-<p>####Test compile<br>Test compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。</p>
-<p>####Debug compile<br>Debug compile 仅仅针对debug模式的编译和最终的debug apk打包。</p>
-<p>####Release compile<br>Release compile 仅仅针对Release 模式的编译和最终的Release apk打包。</p>
+            <p>源地址:<a href="http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao</a></p>
+<p>###前言：<br>前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。<br>一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是不允许的。所以下面我们就来介绍一下如何在library中使用productFlavors。</p>
+<p>###1.基础<br>前面介绍过如何使用productFlavors，不了解的朋友需要先看看这篇文章<br><a href="http://blog.csdn.net/yulyu/article/details/59111697" target="_blank" rel="noopener">活用productFlavors,批量定制化</a><br><a href="http://blog.csdn.net/yulyu/article/details/59111697" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/59111697</a></p>
+<p>###2.场景介绍<br>首先我们引用了一个picmodule，然后picmodule里面有一个正常的产品，两个定制化的产品</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/545982-e0a9a4ea96a62da6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>main是普通产品，red和blue是定制化产品（这里只是里面使用的图片不一样）</p>
+<p>###3.解决方法<br>于是我们就在picmodule的gradle配置productFlavors，但是picmodule是属于一个library，所以这样做是不允许的，项目将找不到引入的picmodule</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/545982-65c9816351c171d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>那么如何解决呢？<br>首先我们需要在picmodule的gradle里面加入一句话（记住不要漏了）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">publishNonDefault true</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/545982-3762056f0f5faf2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>接着我们在application下的build.gradle里面加入一些配置<br>在<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>模块内加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">productFlavors&#123;</span><br><span class="line">    common&#123;&#125;</span><br><span class="line"></span><br><span class="line">    red&#123;&#125;</span><br><span class="line"></span><br><span class="line">    blue&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在gradle最外层加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">configurations &#123;</span><br><span class="line">    commonCompile</span><br><span class="line">    redCompile</span><br><span class="line">    blueCompile</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/545982-9a7cae994136745b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>接着修改一下引入picmodule的方法<br>平时引入module是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile project(&apos;:picmodule&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>我们改成下面这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">commonCompile project(path: &apos;:picmodule&apos;, configuration: &apos;commonRelease&apos;)</span><br><span class="line">redCompile project(path: &apos;:picmodule&apos;, configuration: &apos;redRelease&apos;)</span><br><span class="line">blueCompile project(path: &apos;:picmodule&apos;, configuration: &apos;blueRelease&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>这里library我是用的Release包，如果要用debug版的library也可以改成下面这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">commonCompile project(path: &apos;:picmodule&apos;, configuration: &apos;commonDebug&apos;)</span><br><span class="line">redCompile project(path: &apos;:picmodule&apos;, configuration: &apos;redDebug&apos;)</span><br><span class="line">blueCompile project(path: &apos;:picmodule&apos;, configuration: &apos;blueDebug&apos;)</span><br></pre></td></tr></table></figure></p>
+<p><strong>然后同步一下就可以了</strong><br><strong>这个时候如果找不到R文件，那么clean一下或者重启一下as都可以</strong></p>
 
           
         
@@ -739,159 +750,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Joda-Time-简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/Joda-Time-简介/" itemprop="url">Joda-Time 简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:49:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/Joda-Time-简介/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/Joda-Time-简介/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转载ibm:<a href="https://www.ibm.com/developerworks/cn/java/j-jodatime.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-jodatime.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux命令备忘录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -999,6 +857,159 @@
             <p>####1.netstat常用命令<br>-a：查看所有端口的占用<br>-t：只列出 TCP 或 UDP 协议的连接<br>-u：列出 UDP 协议的连接<br>-n：禁用反向域名解析，加快查询速度<br>-l：只列出监听中的连接<br>-p：获取进程名、进程号以及用户 ID<br>-ep：可以同时查看进程名和用户名</p>
 <p>####2.kill -9 pid<br>杀死pid这个进程</p>
 <p>####3.刷新dns<br>sudo /etc/init.d/networking restart </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Joda-Time-简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/Joda-Time-简介/" itemprop="url">Joda-Time 简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:49:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/Joda-Time-简介/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/Joda-Time-简介/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转载ibm:<a href="https://www.ibm.com/developerworks/cn/java/j-jodatime.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-jodatime.html</a></p>
 
           
         
@@ -1207,6 +1218,174 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="url">linux常用命令-帮助命令man,whatis,apropos,info,help</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:48:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>man 命令</p>
+<p>　　man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径</p>
+<p>　　man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页</p>
+<p>　　man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助,</p>
+<p>　　　　所以如果要看配置文件的帮助文档,需要输入man 5 passwd</p>
+<p>whatis 命令</p>
+<p>　　可以查看某命令的简短的帮助信息</p>
+<p>apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径</p>
+<p>　　可以查看某配置文件的简短的帮助信息</p>
+<p>命令 –help</p>
+<p>　　列出该命令的常见选项</p>
+<p>info 命令或者配置文件</p>
+<p>　　类似man,可以显示当前查看文件的进度</p>
+<p>help</p>
+<p>　　可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的</p>
+<p>　　例:help cd</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用软件安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1316,161 +1495,6 @@
 <p>####3.md文件转html<br>要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。<br>$ sudo apt-get install discount</p>
 <p>用discount提供的markdown工具转换：<br>$ markdown -o Release-Notes.html Release-Notes.md</p>
 <p>python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-压缩解压命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/linux常用命令-压缩解压命令/" itemprop="url">linux常用命令-压缩解压命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:48:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/linux常用命令-压缩解压命令/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/linux常用命令-压缩解压命令/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>gzip [文件]<br>　　压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件<br>gunzip [文件] 或者 gzip -d [文件]<br>　　解压缩.gz的压缩文件<br>tar [-zcvf] [压缩后文件名] [目录]<br>　　打包目录<br>　　压缩后文件格式 .tar.gz<br>　　-c 打包<br>　　-x 解压缩<br>　　-v 显示详细信息<br>　　-f 指定文件名<br>　　-z 打包同时压缩<br>tar [-zxvf] [解压缩文件名] [目录]</p>
-<p>zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高<br>　　[-r] [压缩后文件名] [目录]:压缩目录<br>　　压缩后文件格式 .zip<br>　　注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容</p>
-<p>bzip2 [-k] [压缩文件] 压缩比例最高<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的<br>bunzip2 [-k] [压缩文件]<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的</p>
 
           
         
@@ -1673,7 +1697,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-压缩解压命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="superman">
@@ -1692,7 +1716,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="url">linux常用命令-帮助命令man,whatis,apropos,info,help</a></h1>
+                <a class="post-title-link" href="/2018/02/08/linux常用命令-压缩解压命令/" itemprop="url">linux常用命令-压缩解压命令</a></h1>
         
 
         <div class="post-meta">
@@ -1745,9 +1769,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/08/linux常用命令-压缩解压命令/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/08/linux常用命令-压缩解压命令/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1777,22 +1801,9 @@
       
         
           
-            <p>man 命令</p>
-<p>　　man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径</p>
-<p>　　man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页</p>
-<p>　　man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助,</p>
-<p>　　　　所以如果要看配置文件的帮助文档,需要输入man 5 passwd</p>
-<p>whatis 命令</p>
-<p>　　可以查看某命令的简短的帮助信息</p>
-<p>apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径</p>
-<p>　　可以查看某配置文件的简短的帮助信息</p>
-<p>命令 –help</p>
-<p>　　列出该命令的常见选项</p>
-<p>info 命令或者配置文件</p>
-<p>　　类似man,可以显示当前查看文件的进度</p>
-<p>help</p>
-<p>　　可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的</p>
-<p>　　例:help cd</p>
+            <p>gzip [文件]<br>　　压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件<br>gunzip [文件] 或者 gzip -d [文件]<br>　　解压缩.gz的压缩文件<br>tar [-zcvf] [压缩后文件名] [目录]<br>　　打包目录<br>　　压缩后文件格式 .tar.gz<br>　　-c 打包<br>　　-x 解压缩<br>　　-v 显示详细信息<br>　　-f 指定文件名<br>　　-z 打包同时压缩<br>tar [-zxvf] [解压缩文件名] [目录]</p>
+<p>zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高<br>　　[-r] [压缩后文件名] [目录]:压缩目录<br>　　压缩后文件格式 .zip<br>　　注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容</p>
+<p>bzip2 [-k] [压缩文件] 压缩比例最高<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的<br>bunzip2 [-k] [压缩文件]<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的</p>
 
           
         
