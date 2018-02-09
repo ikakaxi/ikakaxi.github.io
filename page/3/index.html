@@ -270,6 +270,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-文件搜索命令-find/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/linux常用命令-文件搜索命令-find/" itemprop="url">linux常用命令-文件搜索命令-find</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:47:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/linux常用命令-文件搜索命令-find/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/linux常用命令-文件搜索命令-find/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>find [目录] [选项] 文件名或者正则表达式</p>
+<p>　　-name 根据文件名搜索</p>
+<p>　　-iname 搜索文件名的时候忽略大小写</p>
+<p>　　　　例:find /etc -name init</p>
+<p>　　    　　find /etc -iname init*</p>
+<p>　　-size +n:大于n数据块 -n:小于n数据块 n:等于n数据块</p>
+<p>　　　　　　1个数据块等于512字节,也就是0.5k,换算的时候,需要当前kb乘以2就是n的大小</p>
+<p>　　　　例: find / -size +204800 搜索大于100M的文件,100M=102400kb=204800数据块</p>
+<p>　　-user 查找所有者为user的文件</p>
+<p>　　　　例:find /home -user superman</p>
+<p>　　-group 查找所有者为group组的文件</p>
+<p>　　　　例:find /home -group work</p>
+<p>　　-amin 根据访问时间查找</p>
+<p>　　-cmin 根据文件属性查找<br>　　　　例:find /etc -cmin -5 在etc下查找5分钟内被修改过属性的文件和目录</p>
+<p>　　　　　　-n:n分钟之内　　+n:超过n分钟</p>
+<p>　　-mmin 根据文件内容查找</p>
+<p>　　-a 两个条件同时满足</p>
+<p>　　-o 两个条件满足一个即可</p>
+<p>　　-type f 文件</p>
+<p>　　　　　d 目录</p>
+<p>　　　　　l 软链接文件</p>
+<p>　　-inum 根据i节点查找</p>
+<p>　　-exec或者/ok 命令 {} \; 对搜索结果执行某命令,区别是exec不会询问,而ok会每个都询问,用y或者n确认.</p>
+<p>　　　　　　　　　　　{} \;是固定的格式</p>
+<p>　　　　例:find /etc -name inittab -exec ls -l {} \;</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-用户管理命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1078,160 +1255,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/" itemprop="url">修复 VirtualBox 下 Ubuntu 14.10 屏幕分辨率问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:42:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。</p>
-<p><strong>解决办法</strong><br>你需要安装一个 VirtualBox 的额外组件到你的 Ubuntu-Guest 中，可运行如下命令：<br>安装完毕需要重启虚拟机就可以。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/ubuntu安装python一些安装包/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1343,6 +1366,160 @@
 <p><strong>windows安装wxPython界面开发工具</strong><br><a href="http://boa-constructor.sourceforge.net/Download.html" target="_blank" rel="noopener">http://boa-constructor.sourceforge.net/Download.html</a></p>
 <p><strong>windows安装Qt设计师</strong><br>安装完pyQt自动安装了好像</p>
 <p><strong>把python文件做成exe文件</strong><br>　　安装py2exe:在这里下载安装程序安装:<a href="http://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/" target="_blank" rel="noopener">http://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/</a><br>　　或者cx-freeze:<br>　　<a href="http://sourceforge.net/projects/cx-freeze/files/4.3.2/" target="_blank" rel="noopener">http://sourceforge.net/projects/cx-freeze/files/4.3.2/</a><br><strong>poster包可以上传文件到服务器</strong><br>　　pip install poster</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/" itemprop="url">修复 VirtualBox 下 Ubuntu 14.10 屏幕分辨率问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:42:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。</p>
+<p><strong>解决办法</strong><br>你需要安装一个 VirtualBox 的额外组件到你的 Ubuntu-Guest 中，可运行如下命令：<br>安装完毕需要重启虚拟机就可以。</p>
 
           
         
@@ -1691,206 +1868,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/kotlin中的lambda表达式知识整理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/kotlin中的lambda表达式知识整理/" itemprop="url">kotlin中的lambda表达式知识整理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:40:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/kotlin中的lambda表达式知识整理/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/kotlin中的lambda表达式知识整理/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#####如何定义lambda表达式(将表达式赋值给一个常量或变量):</p>
-<ul>
-<li>######如果有小括号</li>
-</ul>
-<ol>
-<li>如果需要参数(没有参数可以写()),就在小括号里写明参数类型,参数名可以省略,然后小括号后面加上-&gt;{},</li>
-<li>-&gt;后面如果没有返回值就写Unit,</li>
-<li><p>然后在大括号{}里面写上具体的方法实现</p>
-<pre><code>1. 在大括号{}的方法实现里,如果只有一个参数,可以用it指定而不需要再写x-&gt;...这种代码,例如
-val add1: (Int) -&gt; Int = { it + 1 }
-2. 如果方法实现里有多个参数,则需要x:Int,y:Int-&gt;...这种方式指明-&gt;后面的自定义参数名,例如
-val add: (Int,Int) -&gt; Int = { x:Int,y:Int-&gt;x+y }
-
-x,y的参数类型可以不写,因为在前面的小括号()里面定义了,所以可以写成x,y-&gt;...这种方式,改进后
-val add: (Int,Int) -&gt; Int = { x,y-&gt;x+y }
-
-这里有个参数顺序问题,lambda表达式的参数顺序,是按照大括号{}方法体里面的参数顺序传参的,
-而不是按照定义函数时小括号()里的顺序传参的,如下面的代码
-val f:(x:Int, y:Int) -&gt; Int = {y: Int, x: Int -&gt; x - y}
-如果调用f(2,1),则参数会按照大括号里的顺序传参,所以上面的y==2,x==1.而不是按照小括号里的(x:Int, y:Int)的顺序传参的
-</code></pre></li>
-</ol>
-<ul>
-<li>######如果没有小括号,可以直接写大括号里的方法体</li>
-</ul>
-<ol>
-<li>写方法体的时候,因为前面没有在小括号()里定义参数类型,就需要在方法体里指明参数类型,例如下面需要指明x的参数类型 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val add1 = &#123; x:Int-&gt;x + 1 &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>#####如何定义lambda表达式(直接给方法传参,读者可以联想view.setOnClickListener(new OnClickListener…)):</p>
-<ol>
-<li>作为参数传递给高阶函数的时候,只需要写大括号{}方法体</li>
-</ol>
-<blockquote>
-<p>因为是作为参数传递给高阶函数,而在高阶函数里已经定义了方法类型和返回值,所以大括号{}方法体里的参数类型可以省略</p>
-<ol>
-<li>这时候不可以再写小括号()去定义函数了,只需要写大括号{}里的方法实现,因为在高阶函数里已经定义好了函数的参数类型和返回值,<br>这就好像android用java代码给View设置OnClickListener点击监听,这时候只需要给View传递一个匿名类即可,例如<figure class="highlight plain"><figcaption><span>OnClickListener(View view)&#123;...&#125;);```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">而不再需要</span><br><span class="line">```view.setOnClickListener(OnClickListener onClickListener = new OnClickListener(View view)&#123;...&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</blockquote>
-<p>否则上面的方式会报错</p>
-<pre><code>//举个例子:
-//定义高阶函数
-fun invoke(add:(x:Int,y:Int)-&gt;Int):Int{
-    return add(1,2)
-}
-//调用高阶函数
-invoke { x, y -&gt; x+y }
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1941,7 +1918,7 @@ invoke { x, y -&gt; x+y }
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">103</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -270,6 +270,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/android自定义权限可能出现的问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/07/android自定义权限可能出现的问题/" itemprop="url">android自定义权限可能出现的问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:34:27+08:00">
+                2018-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/07/android自定义权限可能出现的问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/07/android自定义权限可能出现的问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>为了方便描述,这里先定义两个app的名字:<br>调用方:A<br>被调用方:B<br>A调用B的Activity名字:AActivity<br>被调用方的Activity名字:BActivity<br>一个很可能出现的异常:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.SecurityException: Permission Denial: starting Intent &#123; act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=xxx/.xxx.BActivity &#125; from null (pid=3202, uid=2000) requires xxx.permission</span><br></pre></td></tr></table></figure></p>
+<p>在B的manifest.xml的manifest标签里定义自定义权限(signature代表同样签名的app才可以调用)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;permission</span><br><span class="line">        android:name=&quot;xxx.permission&quot;</span><br><span class="line">        android:label=&quot;权限描述&quot;</span><br><span class="line">        android:permissionGroup=&quot;权限组名,随便写&quot;</span><br><span class="line">        android:protectionLevel=&quot;signature&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>还需要在B的manifest.xml里写上类似下面的代码,注意最好添加android:exported=”true”,虽然如果intent-filter下面有action会默认android:exported为true,但是最好还是写上,因为即使有action也可以将android:exported设置为false的<br>(例如这里叫BActivity)<br>(如果需要隐藏这个app的图标,就添加类似下面的data属性)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">  android:name=&quot;.BActivity&quot;</span><br><span class="line">  android:exported=&quot;true&quot;&gt;</span><br><span class="line">  &lt;intent-filter&gt;</span><br><span class="line">    &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt;</span><br><span class="line">    &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;</span><br><span class="line">    &lt;data</span><br><span class="line">        android:host=&quot;随便写&quot;</span><br><span class="line">        android:scheme=&quot;随便写&quot; /&gt;</span><br><span class="line">  &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后在A的manifest.xml的manifest标签里写上,否则如果先安装A再安装B会出现上面说的授权错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=&quot;xxx.permission&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/Activity常用的4种载入方式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1796,176 +1952,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/Android-技巧-——-Debug-判断不再用-BuildConfig/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/Android-技巧-——-Debug-判断不再用-BuildConfig/" itemprop="url">Android 技巧 —— Debug 判断不再用 BuildConfig</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T22:30:48+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/07/Android-技巧-——-Debug-判断不再用-BuildConfig/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/07/Android-技巧-——-Debug-判断不再用-BuildConfig/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Android 开发中一般会通过 BuildConfig.DEBUG 判断是否是 Debug 模式，从而做一些在 Debug 模式才开启的特殊操作，比如打印日志。这样好处是不用在发布前去主动修改，因为这个值在 Debug 模式下为 true，Release 模式下为 false。</p>
-<p>#####1. 问题<br>如果应用只有一个 Module 没有问题，Debug 模式下 BuildConfig.DEBUG 会始终为 true。如果现在有两个 Module，分别为 App 和 Lib，且 App 依赖 Lib，在 Lib 内有工具类 LogUtils，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">import android.util.Log;</span><br><span class="line">import cn.trinea.android.lib.util.BuildConfig;</span><br><span class="line"> </span><br><span class="line">public class LogUtils &#123;</span><br><span class="line"> </span><br><span class="line">    public static void d(String log) &#123;</span><br><span class="line">        if (BuildConfig.DEBUG) &#123;</span><br><span class="line">            Log.d(&quot;trinea-debug&quot;, log);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当我们在 App Module 内调用 LogUtils 时我们会发现始终无法打印日志，因为上面的 BuildConfig.DEBUG 会始终为 false。为什么呢？</p>
-<p>#####2. 原因<br>BuildConfig.java 是编译时自动生成的，并且每个 Module 都会生成一份，以该 Module 的 packageName 为 BuildConfig.java 的 packageName。所以如果你的应用有多个 Module 就会有多个 BuildConfig.java 生成，而上面的 Lib Module import 的是自己的 BuildConfig.java，编译时被依赖的 Module 默认会提供 Release 版给其他 Module 或工程使用，这就导致该 BuildConfig.DEBUG 会始终为 false。</p>
-<p>#####3. 解决方案<br>根据上面分析的原因，目前我们有两个思路：<br>(1) 始终调用最终运行的 Module 的 BuildConfig，因为它没有被任何其他 Module 依赖，所以 BuildConfig.DEBUG 值会准确。<br>(2) 让被依赖的 Module 提供除 Release 版以外的其他版本。</p>
-<p>3.1 解决方案一：使用其他的 BuildConfig.java<br>如果 Lib Module 中能够 import 到外层真正运行 App 的 BuildConfig 就 ok 了，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * Utils for App</span><br><span class="line"> * &lt;ul&gt;</span><br><span class="line"> * &lt;li&gt;&#123;@link #syncIsDebug(Context)&#125; Should be called in module Application&lt;/li&gt;</span><br><span class="line"> * &lt;/ul&gt;</span><br><span class="line"> * Created by Trinea on 2017/3/9.</span><br><span class="line"> */</span><br><span class="line">public class AppUtils &#123;</span><br><span class="line"> </span><br><span class="line">    private static Boolean isDebug = null;</span><br><span class="line"> </span><br><span class="line">    public static boolean isDebug() &#123;</span><br><span class="line">        return isDebug == null ? false : isDebug.booleanValue();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    /**</span><br><span class="line">     * Sync lib debug with app&apos;s debug value. Should be called in module Application</span><br><span class="line">     *</span><br><span class="line">     * @param context</span><br><span class="line">     */</span><br><span class="line">    public static void syncIsDebug(Context context) &#123;</span><br><span class="line">        if (isDebug == null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                String packageName = context.getPackageName();</span><br><span class="line">                Class buildConfig = Class.forName(packageName + &quot;.BuildConfig&quot;);</span><br><span class="line">                Field DEBUG = buildConfig.getField(&quot;DEBUG&quot;);</span><br><span class="line">                DEBUG.setAccessible(true);</span><br><span class="line">                isDebug = DEBUG.getBoolean(null);</span><br><span class="line">            &#125; catch (Throwable t) &#123;</span><br><span class="line">                // Do nothing</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>通过反射得到真正执行的 Module 的 BuildConfig，在自己的 Application 内调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AppUtils.syncIsDebug(getApplicationContext());</span><br></pre></td></tr></table></figure></p>
-<p>这样看起来达到目的了。</p>
-<p>但仔细想想会发现这种解决方案还是有问题，因为 BuildConfig.java 的 packageName 是 Module 的 Package Name，即 AndroidManifest.xml 中的 package 属性，而 context.getPackageName() 得到的是应用的 applicationId，这个 applicationId 通过 build.gradle 是可以修改的。所以当 build.gradle 中的 applicationId 与 AndroidManifest.xml 中的 package 属性不一致时，上面的反射查找类路径便会出错。</p>
-<p>PS：这种方案还有个变种就是通过 android.app.ActivityThread.currentPackageName 得到包名，从而省去传递 Context 初始化的步骤，但依然有 applicationId 被修改后类查找不到类似的问题。</p>
-<p>#####3.2 解决方案二：被依赖的 Module 提供其他版本<br>让被依赖的 Module 提供除 Release 版以外的其他版本，这种方案需要将所有被依赖 library 中添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    publishNonDefault true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>表示该 Module 打包时会同时打包其他版本，包括 Debug 版。并且需要在 App Module 中将其依赖的 library 如下逐个添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    releaseCompile project(path: &apos;:library&apos;, configuration: &apos;release&apos;)</span><br><span class="line">    debugCompile project(path: &apos;:library&apos;, configuration: &apos;debug&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>表示依赖不同版本的依赖 Module。<br>然而这种方式所有 Module 配置都需要修改，侵入性太强。</p>
-<p>#####3.3 最终解决方案：使用 ApplicationInfo.FLAG_DEBUGGABLE<br>既然 BuildConfig 的方式行不通，我们反编译 Debug 包和 Release 包对比看看有没有其他的区别，会发现他们 AndroidManifest.xml 中 application 节点的 android:debuggable 值是不同的。Debug 包值为 true，Release 包值为 false，这是编译自动修改的。所以我们考虑通过 ApplicationInfo 的这个属性去判断是否是 Debug 版本，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * Utils for App</span><br><span class="line"> * &lt;ul&gt;</span><br><span class="line"> * &lt;li&gt;&#123;@link #syncIsDebug(Context)&#125; Should be called in module Application&lt;/li&gt;</span><br><span class="line"> * &lt;/ul&gt;</span><br><span class="line"> * Created by Trinea on 2017/3/9.</span><br><span class="line"> */</span><br><span class="line">public class AppUtils &#123;</span><br><span class="line"> </span><br><span class="line">    private static Boolean isDebug = null;</span><br><span class="line"> </span><br><span class="line">    public static boolean isDebug() &#123;</span><br><span class="line">        return isDebug == null ? false : isDebug.booleanValue();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    /**</span><br><span class="line">     * Sync lib debug with app&apos;s debug value. Should be called in module Application</span><br><span class="line">     *</span><br><span class="line">     * @param context</span><br><span class="line">     */</span><br><span class="line">    public static void syncIsDebug(Context context) &#123;</span><br><span class="line">        if (isDebug == null) &#123;</span><br><span class="line">            isDebug = context.getApplicationInfo() != null &amp;&amp;</span><br><span class="line">                    (context.getApplicationInfo().flags &amp; ApplicationInfo.FLAG_DEBUGGABLE) != 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在自己的 Application 内调用进行初始化，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AppUtils.syncIsDebug(getApplicationContext());</span><br></pre></td></tr></table></figure></p>
-<p>这样以后调用 AppUtils.isDebug() 即可判断是否是 Debug 版本，比如在上面的 LogUtils 中。同时适用于 Module 是 Lib 和 applicationId 被修改的情况，比 BuildConfig.DEBUG 靠谱的多。</p>
-<p>这个方案有个注意事项就是自己 App Module 中不能主动设置 android:debuggable，否则无论 Debug 还是 Release 版会始终是设置的值。当然本身就没有自动设置的必要。</p>
-<p>原文地址:<a href="http://www.trinea.cn/android/android-whether-debug-mode-why-buildconfig-debug-always-false/" target="_blank" rel="noopener">http://www.trinea.cn/android/android-whether-debug-mode-why-buildconfig-debug-always-false/</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2016,7 +2002,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">103</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
