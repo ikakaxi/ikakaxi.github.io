@@ -270,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用软件安装/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="superman">
@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/08/linux常用软件安装/" itemprop="url">linux常用软件安装</a></h1>
+                <a class="post-title-link" href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="url">linux常用命令-帮助命令man,whatis,apropos,info,help</a></h1>
         
 
         <div class="post-meta">
@@ -342,9 +342,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/08/linux常用软件安装/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/linux常用软件安装/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -374,11 +374,22 @@
       
         
           
-            <p>####1.mongodb的conf文件<br>port=27017 #【代表端口号，如果不指定则默认为   27017   】<br>dbpath= /home/username/Soft/mongoDBFiles  #【数据库路径】<br>logpath= /home/username/Soft/mongoDBFiles/mongodb.log  #【日志路径】<br>logappend=true  #【日志文件自动累加，而不是覆盖】<br>推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件]</p>
-<p>####2.nodejs<br>官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下</p>
-<p>####3.md文件转html<br>要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。<br>$ sudo apt-get install discount</p>
-<p>用discount提供的markdown工具转换：<br>$ markdown -o Release-Notes.html Release-Notes.md</p>
-<p>python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式</p>
+            <p>man 命令</p>
+<p>　　man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径</p>
+<p>　　man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页</p>
+<p>　　man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助,</p>
+<p>　　　　所以如果要看配置文件的帮助文档,需要输入man 5 passwd</p>
+<p>whatis 命令</p>
+<p>　　可以查看某命令的简短的帮助信息</p>
+<p>apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径</p>
+<p>　　可以查看某配置文件的简短的帮助信息</p>
+<p>命令 –help</p>
+<p>　　列出该命令的常见选项</p>
+<p>info 命令或者配置文件</p>
+<p>　　类似man,可以显示当前查看文件的进度</p>
+<p>help</p>
+<p>　　可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的</p>
+<p>　　例:help cd</p>
 
           
         
@@ -1412,6 +1423,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/" itemprop="url">修复 VirtualBox 下 Ubuntu 14.10 屏幕分辨率问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:42:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。</p>
+<p><strong>解决办法</strong><br>你需要安装一个 VirtualBox 的额外组件到你的 Ubuntu-Guest 中，可运行如下命令：<br>安装完毕需要重启虚拟机就可以。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/ubuntu安装python一些安装包/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1523,160 +1688,6 @@
 <p><strong>windows安装wxPython界面开发工具</strong><br><a href="http://boa-constructor.sourceforge.net/Download.html" target="_blank" rel="noopener">http://boa-constructor.sourceforge.net/Download.html</a></p>
 <p><strong>windows安装Qt设计师</strong><br>安装完pyQt自动安装了好像</p>
 <p><strong>把python文件做成exe文件</strong><br>　　安装py2exe:在这里下载安装程序安装:<a href="http://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/" target="_blank" rel="noopener">http://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/</a><br>　　或者cx-freeze:<br>　　<a href="http://sourceforge.net/projects/cx-freeze/files/4.3.2/" target="_blank" rel="noopener">http://sourceforge.net/projects/cx-freeze/files/4.3.2/</a><br><strong>poster包可以上传文件到服务器</strong><br>　　pip install poster</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/" itemprop="url">修复 VirtualBox 下 Ubuntu 14.10 屏幕分辨率问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:42:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。</p>
-<p><strong>解决办法</strong><br>你需要安装一个 VirtualBox 的额外组件到你的 Ubuntu-Guest 中，可运行如下命令：<br>安装完毕需要重启虚拟机就可以。</p>
 
           
         
