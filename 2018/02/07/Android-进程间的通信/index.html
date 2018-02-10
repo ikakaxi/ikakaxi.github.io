@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进">
+<meta name="description" content="在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进程">
 <meta name="keywords" content="跨进程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 进程间的通信">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/Android-进程间的通信/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进">
+<meta property="og:description" content="在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进程">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-10T03:19:31.842Z">
+<meta property="og:updated_time" content="2018-02-10T03:41:15.636Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 进程间的通信">
-<meta name="twitter:description" content="在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进">
+<meta name="twitter:description" content="在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进程">
 
 
 
@@ -371,8 +371,7 @@
       
 
       
-        <a id="more"></a>
-<p>在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进程，在主进程结束后，这个进程还可以独立运行。</p>
+        <p>在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进程，在主进程结束后，这个进程还可以独立运行。<br><a id="more"></a></p>
 <p>咱们这里不讨论怎么创建进程，咱们先讨论怎么让进程通信。</p>
 <p>Android 里有四个基础组件，Activity，Service，Broastcast，Content Provider。</p>
 <p>####Activity<br>Activity 跨进程通信其实咱们很经常用，但是却忽略了。咱们通过实例化一个 Intent，然后 startActivity ，是不是把一个意图，也就是 Intent 发送出去了？那么最终被 start 的 Activity 完全可能是在另外一个进程里的啊。比如你发送微博，你在你的 APP 里，通过 Intent 把数据发送给了微博客户端，微博客户端发完微博又回到了你的 APP，这个时候你需要 startActivityForResult 和 onActivityResult 就解决了你的进程和微博客户端进程的通信。</p>

@@ -373,13 +373,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>gzip [文件]<br>　　压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件<br>gunzip [文件] 或者 gzip -d [文件]<br>　　解压缩.gz的压缩文件<br>tar [-zcvf] [压缩后文件名] [目录]<br>　　打包目录<br>　　压缩后文件格式 .tar.gz<br>　　-c 打包<br>　　-x 解压缩<br>　　-v 显示详细信息<br>　　-f 指定文件名<br>　　-z 打包同时压缩<br>tar [-zxvf] [解压缩文件名] [目录]</p>
-<p>zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高<br>　　[-r] [压缩后文件名] [目录]:压缩目录<br>　　压缩后文件格式 .zip<br>　　注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容</p>
-<p>bzip2 [-k] [压缩文件] 压缩比例最高<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的<br>bunzip2 [-k] [压缩文件]<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的</p>
-
-          
+          <p>gzip [文件]<br>　　压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/linux常用命令-压缩解压命令/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -529,35 +530,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>find [目录] [选项] 文件名或者正则表达式</p>
-<p>　　-name 根据文件名搜索</p>
-<p>　　-iname 搜索文件名的时候忽略大小写</p>
-<p>　　　　例:find /etc -name init</p>
-<p>　　    　　find /etc -iname init*</p>
-<p>　　-size +n:大于n数据块 -n:小于n数据块 n:等于n数据块</p>
-<p>　　　　　　1个数据块等于512字节,也就是0.5k,换算的时候,需要当前kb乘以2就是n的大小</p>
-<p>　　　　例: find / -size +204800 搜索大于100M的文件,100M=102400kb=204800数据块</p>
-<p>　　-user 查找所有者为user的文件</p>
-<p>　　　　例:find /home -user superman</p>
-<p>　　-group 查找所有者为group组的文件</p>
-<p>　　　　例:find /home -group work</p>
-<p>　　-amin 根据访问时间查找</p>
-<p>　　-cmin 根据文件属性查找<br>　　　　例:find /etc -cmin -5 在etc下查找5分钟内被修改过属性的文件和目录</p>
-<p>　　　　　　-n:n分钟之内　　+n:超过n分钟</p>
-<p>　　-mmin 根据文件内容查找</p>
-<p>　　-a 两个条件同时满足</p>
-<p>　　-o 两个条件满足一个即可</p>
-<p>　　-type f 文件</p>
-<p>　　　　　d 目录</p>
-<p>　　　　　l 软链接文件</p>
-<p>　　-inum 根据i节点查找</p>
-<p>　　-exec或者/ok 命令 {} \; 对搜索结果执行某命令,区别是exec不会询问,而ok会每个都询问,用y或者n确认.</p>
-<p>　　　　　　　　　　　{} \;是固定的格式</p>
-<p>　　　　例:find /etc -name inittab -exec ls -l {} \;</p>
-
-          
+          <p>find [目录] [选项] 文件名或者正则表达式</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/linux常用命令-文件搜索命令-find/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -685,34 +665,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>useradd 用户名<br>passwd 用户名:修改该用户的密码<br>groupadd 组名<br>who:<br><img src="http://upload-images.jianshu.io/upload_images/545982-e39eaacca1825e18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>　　who用来查看现在登录了几个用户,得到的信息含义如下</p>
-<p>　　登录用户名　　登录终端类型　　登录时间　　登录终端的IP地址(如果没有写就是本机登录)</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">登录终端类型</th>
-<th style="text-align:center">登录终端含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">tty</td>
-<td style="text-align:center">本地终端</td>
-</tr>
-<tr>
-<td style="text-align:center">pts</td>
-<td style="text-align:center">远程终端,后面的 /数字 代表不同的远程终端号</td>
-</tr>
-</tbody>
-</table>
-<p>w:查看更详细的已登录用户信息</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-98f12894c88b6db2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>　　信息含义如下:</p>
-<p>　　当前时间　　系统已运行时间(uptime命令可以得到相同信息)　　当前有几个用户登录　　负载信息,分别是过去1,5,15分钟的负载情况</p>
-<p>　　IDLE 空闲运行时间<br>　　PCPU   当前用户登录以后当前执行的操作占用CPU的时间<br>　　WHAT 当前执行了什么操作<br>　　JCPU   当前用户登录以后累计执行的所有操作占用CPU的时间</p>
-
-          
+          <p>useradd 用户名<br>passwd 用户名:修改该用户的密码<br>groupadd 组名<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/linux常用命令-用户管理命令/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -862,28 +822,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>chmod  [{ugoa}{+-=}{rwx}] [文件或目录]</p>
-<p>　　　　[mode=421] [文件或目录]</p>
-<p>　　　　-R 递归修改</p>
-<p>　　　　例:chmod g+w,o-r 文件或目录</p>
-<p>　　　　但是一般用数字配置权限,例:chmod 766 文件或目录</p>
-<p>chown 用户 文件或目录:改变文件或目录的所有者,只有root才可以用该命令</p>
-<p>chgrp  用户 文件或目录:改变文件活目录的所属组,只有root才可以用该命令</p>
-<p>umask [-S] 查看当前创建目录或文件的默认权限,注意,文件默认是没有x权限的</p>
-<p>　　如果不加S,则出现的是掩码,第一个0是特殊权限,后面的3个数字,用777减去,得到的才是实际的默认权限</p>
-<p>　　如果加S,则出现的是每个组对应的权限</p>
-<p>　　umask配置权限,后面跟的是掩码,需要用777减去实际的默认权限,然后设置</p>
-<p>　　例,想要默认权限是rwxr-xr-x,对应的数字是755,777-755是022,所以配置默认新目录或文件的权限命令就是umask 022</p>
-<p>rwx的含义　　文件:r 可以查看</p>
-<p>　　　　　　　　　w 可以修改内容</p>
-<p>　　　　　　　　　x 可以执行</p>
-<p>　　　　　　　目录:r 可以列出目录下的内容</p>
-<p>　　　　　　　　　w 可以在该目录下添加删除文件</p>
-<p>　　　　　　　　　x 可以进入该目录</p>
-
-          
+          <p>chmod  [{ugoa}{+-=}{rwx}] [文件或目录]<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/linux常用命令-权限管理命令-1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1033,187 +979,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>ls -a -l -d -h -i</p>
-<p>mkdir [-p] 创建目录,-p递归创建目录</p>
-<p>rmdir 删除一个空目录</p>
-<p>cp [-r,-p] -r,拷贝目录,-p,保持属性,新文件的修改时间为源文件的修改时间,而不是拷贝时的时间</p>
-<p>　　拷贝的时候可以修改文件(目录)名称,如果目标文件(目录)名称不存在,则拷贝到目标文件(目录)然后修改目标文件(目录)名称</p>
-<p>mv 剪切文件或者给文件改名</p>
-<p>rm [-r,-f] -r,删除目录,-f,强制删除</p>
-<p>cat [-n] -n,显示行号</p>
-<p>tac 类似cat,倒着显示数据,不过没有-n参数</p>
-<p>more [-f或空格,回车,q或者Q] 如果数据较多,用这个命令可以翻页</p>
-<p>　　-f或空格,翻页</p>
-<p>　　回车,显示下一行</p>
-<p>　　q或者Q,退出</p>
-<p>less 这个比more功能强大,可以向上翻页,用page up翻页或者上箭头翻一行,还可以输入/来查找内容,然后按n键来继续查找下面的该内容</p>
-<p>head [-n 数字] 可以查看某文件的指定前n行(包括n)内容,如果不指定数字,那么默认为10行,例 head -n 7 /etc/services</p>
-<p>tail [-n 数字,-f] 可以查看某文件的指定末尾n行(包括n)内容,如果不指定数字,那么默认为10行,例 tail -n 7 /etc/services</p>
-<p>　　-f,可以实时查看该文件的末尾的改动</p>
-<p>ln [-s] 不带s默认创建的硬链接,带s创建的软连接,软链接类似windows的快捷方式</p>
-<p>　　硬链接特征:</p>
-<p>　　　　1.拷贝cp -p 加同步更新</p>
-<p>　　　　2.通过i节点识别</p>
-<p>　　　　3.不能跨分区</p>
-<p>　　　　4.不能针对目录使用</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux各目录的作用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/linux各目录的作用/" itemprop="url">linux各目录的作用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:43:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/linux各目录的作用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/linux各目录的作用/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-d1ff3fba9cdb1fc5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="http://upload-images.jianshu.io/upload_images/545982-b7b1f72481badc0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="http://upload-images.jianshu.io/upload_images/545982-5f4b06beb1fcebd0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-
-          
+          <p>ls -a -l -d -h -i<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/linux常用命令-文件处理命令/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1363,14 +1136,171 @@
 
       
         
-          
-            <a id="more"></a>
-<p><strong>1.安装oracle-jdk</strong><br>打开终端，使用下面的命令：<br>java -version<br>如果你看到像下面的输出，这就意味着你并没有安装过Java:</p>
-<p>The program ‘java’ can be found in the following packages:<br>* default-jre<br>* gcj-4.6-jre-headless<br>* openjdk-6-jre-headless<br>* gcj-4.5-jre-headless<br>* openjdk-7-jre-headless<br>Try: sudo apt-get install</p>
-<p>使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：<br>sudo add-apt-repository ppa:webupd8team/java<br>sudo apt-get update<br>sudo apt-get install oracle-java8-installer<br>sudo apt-get install oracle-java8-set-default</p>
-<p><strong>2.安装genymotion</strong><br>安装genymotion需要先安装virtualbox，命令如下：<br>sudo apt-get install virtualbox<br>然后下载genymotion，chmod +x geny…..bin 增加权限后执行，会解压缩，然后双击即可打开</p>
+          <p><strong>1.安装oracle-jdk</strong><br>打开终端，使用下面的命令：<br>java -version<br>如果你看到像下面的输出，这就意味着你并没有安装过Java:<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/ubuntu安装android开发环境/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux各目录的作用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/linux各目录的作用/" itemprop="url">linux各目录的作用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:43:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/linux各目录的作用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/linux各目录的作用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="http://upload-images.jianshu.io/upload_images/545982-d1ff3fba9cdb1fc5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/linux各目录的作用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1520,12 +1450,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。</p>
-<p><strong>解决办法</strong><br>你需要安装一个 VirtualBox 的额外组件到你的 Ubuntu-Guest 中，可运行如下命令：<br>安装完毕需要重启虚拟机就可以。</p>
-
-          
+          <p>在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/修复-VirtualBox-下-Ubuntu-14-10-屏幕分辨率问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1675,17 +1607,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>sudo apt-get install python-pip<br>sudo pip install distribute<br>sudo pip install nose<br>sudo pip install virtualenv<br>sudo pip install lpthw.web<br>windows下面去掉sudo即可</p>
-<p><strong>windows安装pip</strong><br>　　pip 是一个安装和管理 Python 包的工具 , 是 easy_install 的一个替换品，使用 pip 使安装、更新和卸载 python 包变得简单。<br>　　第一步：<a href="https://pypi.python.org/pypi/pip" target="_blank" rel="noopener">https://pypi.python.org/pypi/pip</a>下载，运行python setup.py install即完成安装<br>　　第二步：设windows环境变量，将C:\Python27\Scripts添加至path，重启cmd窗口<br>　　第三步：pip使用，如最基本的pip install MODELNAME</p>
-<p><strong>windows安装pyQt4</strong><br><a href="http://www.riverbankcomputing.com/software/pyqt/download" target="_blank" rel="noopener">http://www.riverbankcomputing.com/software/pyqt/download</a></p>
-<p><strong>Qt开发IDE</strong><br><a href="https://www.qt.io/zh-hans/download-open-source/" target="_blank" rel="noopener">https://www.qt.io/zh-hans/download-open-source/</a></p>
-<p><strong>windows安装wxPython界面开发工具</strong><br><a href="http://boa-constructor.sourceforge.net/Download.html" target="_blank" rel="noopener">http://boa-constructor.sourceforge.net/Download.html</a></p>
-<p><strong>windows安装Qt设计师</strong><br>安装完pyQt自动安装了好像</p>
-<p><strong>把python文件做成exe文件</strong><br>　　安装py2exe:在这里下载安装程序安装:<a href="http://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/" target="_blank" rel="noopener">http://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/</a><br>　　或者cx-freeze:<br>　　<a href="http://sourceforge.net/projects/cx-freeze/files/4.3.2/" target="_blank" rel="noopener">http://sourceforge.net/projects/cx-freeze/files/4.3.2/</a><br><strong>poster包可以上传文件到服务器</strong><br>　　pip install poster</p>
-
-          
+          <p>sudo apt-get install python-pip<br>sudo pip install distribute<br>sudo pip install nose<br>sudo pip install virtualenv<br>sudo pip install lpthw.web<br>windows下面去掉sudo即可<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/ubuntu安装python一些安装包/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1813,15 +1742,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>看到AS中External Libraries有好几个同名但是版本不一样的lib的时候，真的逼死强迫症患者。 这些多个重复的lib出现的原因就是多个module各自compile了同名但是不同版本的lib（即依赖没有统一），所以统一性的确认这些依赖就好了。<br><strong>Step1:</strong><br>在根目录新建一个config.gradle文件，里面键入要统一的依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">ext &#123;</span><br><span class="line">  android = [</span><br><span class="line">          compileSdkVersion: 23,</span><br><span class="line">          buildToolsVersion: &quot;23.0.3&quot;,</span><br><span class="line">          minSdkVersion    : 15,</span><br><span class="line">          targetSdkVersion : 22,</span><br><span class="line">          versionCode      : 1,</span><br><span class="line">          versionName      : &quot;1.0&quot;</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">  dependencies = [</span><br><span class="line">          &quot;gson&quot;               : &quot;com.google.code.gson:gson:2.6.2&quot;,</span><br><span class="line">          &quot;eventbus&quot;           : &apos;org.greenrobot:eventbus:3.0.0&apos;,</span><br><span class="line">          &quot;butterknife&quot;        : &apos;com.jakewharton:butterknife:7.0.1&apos;,</span><br><span class="line">          &quot;support-design&quot;     : &apos;com.android.support:design:24.1.1&apos;,</span><br><span class="line">          &quot;support-appcompatV7&quot;: &apos;com.android.support:appcompat-v7:24.1.1&apos;,</span><br><span class="line">          &quot;support-percent&quot;    : &apos;com.android.support:percent:24.1.1&apos;,</span><br><span class="line">          &quot;support-multidex&quot;   : &apos;com.android.support:multidex:1.0.1&apos;,</span><br><span class="line">          &quot;glide&quot;              : &apos;com.github.bumptech.glide:glide:3.7.0&apos;,</span><br><span class="line">          &quot;support-v4&quot;         : &apos;com.android.support:support-v4:24.1.1&apos;,</span><br><span class="line">          &quot;okhttp3&quot;            : &apos;com.squareup.okhttp3:okhttp:3.3.1&apos;,</span><br><span class="line">          &quot;nineoldandroids&quot;    : &apos;com.nineoldandroids:library:2.4.0&apos;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>Step2:</strong><br>在根目录的build.gradle文件里面头部增加一句引用 apply from: “config.gradle”</p>
-<p><strong>Step3:</strong><br>在module里面开始应用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">compileSdkVersion rootProject.ext.android.compileSdkVersion //android&#123;&#125;节点</span><br><span class="line">compile rootProject.ext.dependencies[&quot;support-appcompatV7&quot;] //dependencies&#123;&#125;节点</span><br></pre></td></tr></table></figure></p>
-<p><strong>The end</strong><br>clean一下去External Libraries看看，是不是还有重复的，如果还有，说明前面config里面的依赖其他地方还有遗漏的，全局搜索一下在同样方式替换一下就好了。</p>
-<p>转载:<a href="https://jackl-e-e.github.io/android/2016/08/26/多module统一gradle配置.html" target="_blank" rel="noopener">https://jackl-e-e.github.io/android/2016/08/26/多module统一gradle配置.html</a></p>
-
-          
+          <p>看到AS中External Libraries有好几个同名但是版本不一样的lib的时候，真的逼死强迫症患者。 这些多个重复的lib出现的原因就是多个module各自compile了同名但是不同版本的lib（即依赖没有统一），所以统一性的确认这些依赖就好了。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/AndroidStudio-多个module统一gradle文件配置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

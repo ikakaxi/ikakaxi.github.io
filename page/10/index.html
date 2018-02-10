@@ -373,15 +373,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了</p>
-<p>1.gradle问题,下载最新gradle,然后android studio指定gradle目录</p>
-<p>2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系</p>
-<p>3.apply plugin: ‘com.android.application’这句话会报错,需要添加下面的代码到build.gradle,与android同级<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenCentral() // or jcenter()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;com.android.tools.build:gradle:2.1.2&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>4.junit报错,FQ可以解决,或者直接删掉testCompile ‘junit:junit:4.12’</p>
-
-          
+          <p>因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/android-studio-的配置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -531,13 +530,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p><strong>windowSoftInputMode属性讲解</strong>（下面这段内容我参考别人的博客，并加入我的一些意见）<br>我们从这个属性的名称中，可以很直观的看出它的作用，这个属性就是来设置窗口软键盘的交互模式的。android:windowSoftInputMode属性一共有9个取值，分别是：</p>
-<p>【A】stateUnspecified：软键盘的状态并没有指定，系统将选择一个合适的状态或依赖于主题的设置<br>【B】stateUnchanged：当这个activity出现时，软键盘将一直保持在上一个activity里的状态，无论是隐藏还是显示<br>【C】stateHidden：用户选择activity时，软键盘总是被隐藏<br>【D】stateAlwaysHidden：当该Activity主窗口获取焦点时，软键盘也总是被隐藏的<br>【E】stateVisible：软键盘通常是可见的<br>【F】stateAlwaysVisible：用户选择activity时，软键盘总是显示的状态<br>【G】adjustUnspecified：默认设置，通常由系统自行决定是隐藏还是显示<br>【H】adjustResize：该Activity总是调整屏幕的大小以便留出软键盘的空间<br>【I】adjustPan：当前窗口的内容将自动移动以便当前焦点从不被键盘覆盖和用户能总是看到输入内容的部分</p>
-<p>来源:<a href="http://www.bozhiyue.com/anroid/boke/2016/0604/177871.html" target="_blank" rel="noopener">http://www.bozhiyue.com/anroid/boke/2016/0604/177871.html</a></p>
-
-          
+          <p><strong>windowSoftInputMode属性讲解</strong>（下面这段内容我参考别人的博客，并加入我的一些意见）<br>我们从这个属性的名称中，可以很直观的看出它的作用，这个属性就是来设置窗口软键盘的交互模式的。android:windowSoftInputMode属性一共有9个取值，分别是：<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/windowSoftInputMode属性讲解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -688,8 +688,7 @@
       
         
           
-            <a id="more"></a>
-<p>打开studio的setting 然后<br><strong>Preferences -&gt; Build, Execution, Deployment -&gt; Instant Run -&gt; Enable Instant Run</strong><br>把勾去掉，就可以了</p>
+            <p>打开studio的setting 然后<br><strong>Preferences -&gt; Build, Execution, Deployment -&gt; Instant Run -&gt; Enable Instant Run</strong><br>把勾去掉，就可以了</p>
 
           
         
@@ -841,20 +840,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>1.<br>在Service中重写下面的方法，这个方法有三个返回值， START_STICKY是service被kill掉后自动重写创建<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override </span><br><span class="line">public int onStartCommand(Intent intent, int flags, int startId)&#123; </span><br><span class="line">  return START_STICKY;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.<br>在Service的onDestroy()中重启Service.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onDestroy() &#123; </span><br><span class="line">　　super.onDestroy();</span><br><span class="line">　　Intent localIntent = new Intent(); </span><br><span class="line">　　localIntent.setClass(this, MyService.class); //销毁时重新启动Service </span><br><span class="line">　　this.startService(localIntent); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.<br>在mf.xml的application的节点中添加android:persistent=”true”<br>这个方法,必须要system app,所以这个基本没用</p>
-<p>4.<br>fork进程的方式做守护,在5.0已经不行了</p>
-<p>5.<br>在Service里创建一个静态内部Service,然后启动外部Service和静态内部Service为前台服务,然后停止这个静态内部Service,这样通知栏虽然不显示通知但是外部Service仍然是前台Service,这是利用android的一个bug,不过高版本应该也修复了,参考</p>
-<p><a href="http://zhoujianghua.com/2015/07/28/black_technology_in_alipay/" target="_blank" rel="noopener">http://zhoujianghua.com/2015/07/28/black_technology_in_alipay/</a><br>(最下面有个demo示例)</p>
-<p><a href="http://blog.csdn.net/lhd201006/article/details/50920464" target="_blank" rel="noopener">http://blog.csdn.net/lhd201006/article/details/50920464</a></p>
-<blockquote>
-<p>保活这个东西,我查了很多很多的资料了,在现在这个环境,我觉得保活的控制权各大厂商已经交给了用户,比如在华为EMUI系统和MIUI系统,锁屏后默认都杀死应用,想要应用不被杀死,就得自己开启锁屏不被杀或者开启自启动选项,如果做推送,就用手机厂商自己的推送服务,我个人也觉得这种方式很好,否则,你可以想一下android当初刚出来的时候,各种软件有多么的流氓,就知道现在为什么把控制权交给用户了</p>
-</blockquote>
-
-          
+          <p>1.<br>在Service中重写下面的方法，这个方法有三个返回值， START_STICKY是service被kill掉后自动重写创建<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/如何让自己的app尽量不被系统杀死/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1004,15 +997,16 @@
 
       
         
-          
-            <a id="more"></a>
-<p>在dialog.show()语句前加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);</span><br></pre></td></tr></table></figure></p>
+          <p>在dialog.show()语句前加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);</span><br></pre></td></tr></table></figure></p>
 <p>然后在AndroidManifest.xml中加入权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
-<p>下面进行简单的解释：</p>
-<p>如果只在Service中写入常在Activity中使用的创建Dialog的代码，运行时是会发生错误的，因为Dialog的显示需要依附于一个确定的Activity类。而以上做法就是声明我们要弹出的这个提示框是一个系统的提示框，即全局性质的提示框，所以只要手机处于开机状态，无论它现在处于何种界面之下，只要调用dialog.show()，就会弹出提示框来。</p>
-<p>需要注意的是，如果用<strong>TYPE_SYSTEM_ALERT</strong>，某些手机对底层进行了修改(小米，魅族之类)，系统会默认会拒绝该权限。解决：通过将<strong>type</strong>设定为<strong>TYPE_TOAST</strong>，就可以绕过检查，这时候需要改动<strong>TYPE_SYSTEM_ALERT</strong>为<strong>TYPE_TOAST</strong></p>
-
-          
+<p>下面进行简单的解释：<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/如何使用Service的Context弹出Dialog对话框，即全局性对话框/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1790,14 +1784,16 @@
 
       
         
-          
-            <a id="more"></a>
-<p>有两种办法:</p>
+          <p>有两种办法:</p>
 <p>第一种，使用scrollTo(),这个方法不需要handler,直接调用就行</p>
-<p>第二种方式，使用fullScrol(),下面我们看一下这个函数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　scrollView.fullScroll(ScrollView.FOCUS_DOWN);滚动到底部</span><br><span class="line">　　scrollView.fullScroll(ScrollView.FOCUS_UP);滚动到顶部</span><br></pre></td></tr></table></figure></p>
-<p>　　需要注意的是，该方法不能直接被调用<br>　　因为Android很多函数都是基于消息队列来同步，所以需要异步操作，<br>　　addView完之后，不等于马上就会显示，而是在队列中等待处理，虽然很快，但是如果立即调用fullScroll， view可能还没有显示出来，所以会失败<br>　　应该通过handler在新线程中更新</p>
-
-          
+<p>第二种方式，使用fullScrol(),下面我们看一下这个函数:<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/Android控制ScrollView滚动/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

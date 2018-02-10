@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="今天测试一段代码,代码如下12345678910class Person14(var age: Int)fun main(args: Array&amp;lt;String&amp;gt;) &amp;#123;    val p1 = Person14(1)    val p2 = Person14(2)    val p14age = p1::age    val p14Age = Person14::age//T">
+<meta name="description" content="今天测试一段代码,代码如下">
 <meta name="keywords" content="IDE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IDEA的一个bug">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/08/IDEA的一个bug/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="今天测试一段代码,代码如下12345678910class Person14(var age: Int)fun main(args: Array&amp;lt;String&amp;gt;) &amp;#123;    val p1 = Person14(1)    val p2 = Person14(2)    val p14age = p1::age    val p14Age = Person14::age//T">
+<meta property="og:description" content="今天测试一段代码,代码如下">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-10T03:22:33.225Z">
+<meta property="og:updated_time" content="2018-02-10T03:37:08.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IDEA的一个bug">
-<meta name="twitter:description" content="今天测试一段代码,代码如下12345678910class Person14(var age: Int)fun main(args: Array&amp;lt;String&amp;gt;) &amp;#123;    val p1 = Person14(1)    val p2 = Person14(2)    val p14age = p1::age    val p14Age = Person14::age//T">
+<meta name="twitter:description" content="今天测试一段代码,代码如下">
 
 
 
@@ -371,8 +371,7 @@
       
 
       
-        <a id="more"></a>
-<p>今天测试一段代码,代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Person14(var age: Int)</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val p1 = Person14(1)</span><br><span class="line">    val p2 = Person14(2)</span><br><span class="line">    val p14age = p1::age</span><br><span class="line">    val p14Age = Person14::age//TODO 这句话有异常,是kotlin的问题?</span><br><span class="line">    println(p14age)</span><br><span class="line">    println(p14Age)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <p>今天测试一段代码,代码如下<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Person14(var age: Int)</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val p1 = Person14(1)</span><br><span class="line">    val p2 = Person14(2)</span><br><span class="line">    val p14age = p1::age</span><br><span class="line">    val p14Age = Person14::age//TODO 这句话有异常,是kotlin的问题?</span><br><span class="line">    println(p14age)</span><br><span class="line">    println(p14Age)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>发现会报<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.NoClassDefFoundError: Kt14Kt$main$p14age$1 (wrong name: Kt14Kt$main$p14Age$1)</span><br></pre></td></tr></table></figure></p>
 <p>异常<br>经测试发现是IDEA的问题,因为在<a href="https://glot.io/" target="_blank" rel="noopener">https://glot.io/</a> 输入以上代码却没有问题</p>
 

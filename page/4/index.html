@@ -373,36 +373,15 @@
 
       
         
-          
-            <a id="more"></a>
-<ol>
-<li>Gradle 2.2 使用<br>出现下面的警告，编译的时候出现更多。。。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning:The `android.dexOptions.incremental` property is deprecated and it has no effect on the build process.</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>解决：</strong> 项目build.gradle 中删除下面配置 ，新的貌似不需要dex配置了！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//655xxx的方法限制分包处理 </span><br><span class="line">dexOptions &#123; </span><br><span class="line">  javaMaxHeapSize &quot;4g&quot; </span><br><span class="line">  //加快编译速度 </span><br><span class="line">  incremental true </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>java8 与 jack工具链问题<br>出现下面错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error:Could not get unknown property &apos;classpath&apos; for task&apos;:app:transformJackWithJackForInstantrunconfigDebug&apos; of type com.android.build.gradle.internal.pipeline</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>解决：</strong> 项目build.gradle 中删除下面配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.apply plugin: &apos;android-apt&apos;</span><br><span class="line">2.把apt替换成annotationProcessor</span><br><span class="line">3.删除根目录的classpath &apos;com.neenbedankt.gradle.plugins:android-apt:1.8&apos;</span><br><span class="line">4.这个不用Java8也可以这么写的，现在AS自带了注解插件</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>intant Run 与 shrinkResources 问题<br>当你进行运行时，出现下面错误：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app/build/intermediates/res/resources-debug-stripped.ap_&apos; specified for property &apos;resourceFile&apos; does not exist.</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>解决：</strong><br>项目build.gradle 中的 buildTypes 中的 shrinkResoutces设置为false<br>具体可以看下：<a href="https://developer.android.com/studio/build/shrink-code.html" target="_blank" rel="noopener">https://developer.android.com/studio/build/shrink-code.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">       debug &#123;</span><br><span class="line">           buildConfigField &quot;boolean&quot;, &quot;LOG_DEBUG&quot;, &quot;true&quot;</span><br><span class="line">           debuggable true</span><br><span class="line">           zipAlignEnabled true</span><br><span class="line">           minifyEnabled false</span><br><span class="line">           shrinkResources false //android studio 2.2 设置为false </span><br><span class="line">           signingConfig signingConfigs.config</span><br><span class="line">           proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;</span><br><span class="line">       &#125;</span><br><span class="line">       release &#123;</span><br><span class="line">           buildConfigField &quot;boolean&quot;, &quot;LOG_DEBUG&quot;, &quot;false&quot;</span><br><span class="line">           debuggable false</span><br><span class="line">           zipAlignEnabled true</span><br><span class="line">           minifyEnabled false</span><br><span class="line">           shrinkResources false //android 2.2 设置为false</span><br><span class="line">           signingConfig signingConfigs.config</span><br><span class="line">           proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>Instant Run 与 C++ Debugger<br>出现下面三个问题：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Instant Run requires that the platform corresponding to your target device </span><br><span class="line">Instant Run requires that the platform corresponding to your target device (Android 5.0 (Lollipop)) is installed. </span><br><span class="line">C++ debugger package is missing or incompatible - do you want to fix it</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>一样的解决方案：</strong><br>打开SDK管理，下载 5.0.1 , 5.1.1 的 SDK Platform 即可 ！可以试试，我只下载 5.1.1不行，下载了5.0.1才可以！</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-f1428a18553044e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>5.Android Studio Gradle Plugin 版本<br>Gradle Plugin 插件地址：配置已有的版本即可<br><a href="https://jcenter.bintray.com/com/android/tools/build/gradle/" target="_blank" rel="noopener">https://jcenter.bintray.com/com/android/tools/build/gradle/</a><br><strong>举个例子：</strong><br>目前最新版是 2.2 ，如果你在跟目录下的build.gradle配置 3.0 就会出现下面错误<br>下面配置会出错，截止今日最新版为2.2！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;com.android.tools.build:gradle:3.0&apos;</span><br><span class="line"></span><br><span class="line">        // NOTE: Do not place your application dependencies here; they belong</span><br><span class="line">        // in the individual module build.gradle files</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>报错如下！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Error:Could not find com.android.tools.build:gradle:3.0.</span><br><span class="line">Searched in the following locations:</span><br><span class="line">    file:/C:/Program Files/Android/Android Studio/gradle/m2repository/com/android/tools/build/gradle/3.0/gradle-3.0.pom</span><br><span class="line">    file:/C:/Program Files/Android/Android Studio/gradle/m2repository/com/android/tools/build/gradle/3.0/gradle-3.0.jar</span><br><span class="line">    https://jcenter.bintray.com/com/android/tools/build/gradle/3.0/gradle-3.0.pom</span><br><span class="line">    https://jcenter.bintray.com/com/android/tools/build/gradle/3.0/gradle-3.0.jar</span><br><span class="line">    http://maven.bughd.com/public/com/android/tools/build/gradle/3.0/gradle-3.0.pom</span><br><span class="line">    http://maven.bughd.com/public/com/android/tools/build/gradle/3.0/gradle-3.0.jar</span><br></pre></td></tr></table></figure></p>
-<p>============ 上面是Android Studio Gradle Plugin 版本 ==================</p>
-<p>============ 下面是Android Studio Gradle 编译进行编译的版本 ==================<br>在gradle-wrapper.properties 中进行配置 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#Mon Sep 19 15:29:17 CST 2016</span><br><span class="line">distributionBase=GRADLE_USER_HOME</span><br><span class="line">distributionPath=wrapper/dists</span><br><span class="line">zipStoreBase=GRADLE_USER_HOME</span><br><span class="line">zipStorePath=wrapper/dists</span><br><span class="line">distributionUrl=https\://services.gradle.org/distributions/gradle-3.0-all.zip</span><br></pre></td></tr></table></figure></p>
-<p>Gradle 下载地址 ： 使用3.0编译，速度更快！ <a href="http://services.gradle.org/distributions" target="_blank" rel="noopener">http://services.gradle.org/distributions</a></p>
-
-          
+          <ol>
+<li>Gradle 2.2 使用<br>出现下面的警告，编译的时候出现更多。。。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/Android-Studio-2-2-问题汇总/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -552,58 +531,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>#####如何定义lambda表达式(将表达式赋值给一个常量或变量):</p>
-<ul>
-<li>######如果有小括号</li>
-</ul>
-<ol>
-<li>如果需要参数(没有参数可以写()),就在小括号里写明参数类型,参数名可以省略,然后小括号后面加上-&gt;{},</li>
-<li>-&gt;后面如果没有返回值就写Unit,</li>
-<li><p>然后在大括号{}里面写上具体的方法实现</p>
-<pre><code>1. 在大括号{}的方法实现里,如果只有一个参数,可以用it指定而不需要再写x-&gt;...这种代码,例如
-val add1: (Int) -&gt; Int = { it + 1 }
-2. 如果方法实现里有多个参数,则需要x:Int,y:Int-&gt;...这种方式指明-&gt;后面的自定义参数名,例如
-val add: (Int,Int) -&gt; Int = { x:Int,y:Int-&gt;x+y }
-
-x,y的参数类型可以不写,因为在前面的小括号()里面定义了,所以可以写成x,y-&gt;...这种方式,改进后
-val add: (Int,Int) -&gt; Int = { x,y-&gt;x+y }
-
-这里有个参数顺序问题,lambda表达式的参数顺序,是按照大括号{}方法体里面的参数顺序传参的,
-而不是按照定义函数时小括号()里的顺序传参的,如下面的代码
-val f:(x:Int, y:Int) -&gt; Int = {y: Int, x: Int -&gt; x - y}
-如果调用f(2,1),则参数会按照大括号里的顺序传参,所以上面的y==2,x==1.而不是按照小括号里的(x:Int, y:Int)的顺序传参的
-</code></pre></li>
-</ol>
-<ul>
-<li>######如果没有小括号,可以直接写大括号里的方法体</li>
-</ul>
-<ol>
-<li>写方法体的时候,因为前面没有在小括号()里定义参数类型,就需要在方法体里指明参数类型,例如下面需要指明x的参数类型 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val add1 = &#123; x:Int-&gt;x + 1 &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>#####如何定义lambda表达式(直接给方法传参,读者可以联想view.setOnClickListener(new OnClickListener…)):</p>
-<ol>
-<li>作为参数传递给高阶函数的时候,只需要写大括号{}方法体</li>
-</ol>
-<blockquote>
-<p>因为是作为参数传递给高阶函数,而在高阶函数里已经定义了方法类型和返回值,所以大括号{}方法体里的参数类型可以省略</p>
-<ol>
-<li>这时候不可以再写小括号()去定义函数了,只需要写大括号{}里的方法实现,因为在高阶函数里已经定义好了函数的参数类型和返回值,<br>这就好像android用java代码给View设置OnClickListener点击监听,这时候只需要给View传递一个匿名类即可,例如<figure class="highlight plain"><figcaption><span>OnClickListener(View view)&#123;...&#125;);```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">而不再需要</span><br><span class="line">```view.setOnClickListener(OnClickListener onClickListener = new OnClickListener(View view)&#123;...&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</blockquote>
-<p>否则上面的方式会报错</p>
-<pre><code>//举个例子:
-//定义高阶函数
-fun invoke(add:(x:Int,y:Int)-&gt;Int):Int{
-    return add(1,2)
-}
-//调用高阶函数
-invoke { x, y -&gt; x+y }
-</code></pre>
-          
+          <p>#####如何定义lambda表达式(将表达式赋值给一个常量或变量):<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/kotlin中的lambda表达式知识整理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -753,56 +688,14 @@ invoke { x, y -&gt; x+y }
 
       
         
-          
-            <a id="more"></a>
-<h1 id="VisibleDomainDemo"><a href="#VisibleDomainDemo" class="headerlink" title="VisibleDomainDemo"></a>VisibleDomainDemo</h1><p><strong>一个讨论Kotlin和Java可见域的demo</strong></p>
-<p>因本群一个小伙伴的问题,在解决的过程中发现了这些东西…kotlin的internal模块级私有和java的默认包级私有,在互相调用的过程中,会有哪些问题呢?看完本demo你就了解了,如有错误请纠正</p>
-<p><strong>测试前提:</strong></p>
-<pre><code>lib类库里的Java类有默认可见域的接口(包级私有)和public可见域的接口实现类
-lib类库里的kotlin类有internal可见域的接口和public可见域的接口实现类
-</code></pre><p><strong>测试内容一:</strong></p>
-<pre><code>测试lib类库里的java类
-
-假设lib类库里包级私有接口名为IA,里面有包级私有的内部接口IAInner
-
-假设IA的public可见域的实现类名为AImpl,里面有包级私有的内部接口AImplInner
-</code></pre><p><strong>测试步骤一:</strong></p>
-<pre><code>1.app类中的Java类能否引用lib类库里AImpl继承下来的IAInner和AImpl自己的AImplInner
-
-2.app类中的Kotlin类能否引用lib类库里AImpl继承下来的IAInner和AImpl自己的AImplInner
-
-3.app类中的Java类能否改变lib类库里IA和IAInner的可见域和AImpl自己的AImplInner可见域
-
-4.app类中的Kotlin类能否改变lib类库里IA和IAInner的可见域和AImpl自己的AImplInner可见域
-</code></pre><p><strong>测试内容二:</strong></p>
-<pre><code>测试lib类库里的kotlin类
-
-假设lib类库里模块级私有接口名为IA,里面有模块级私有的内部接口IAInner
-
-假设IA的public可见域(kotlin默认)的实现类名为AImpl,里面有模块级私有的内部接口AImplInner
-</code></pre><p><strong>测试步骤二:</strong></p>
-<pre><code>5.app类中的Java类能否引用lib类库里的IA和IAInner和AImpl自己的AImplInner
-
-6.app类中的Kotlin类能否引用lib类库里AImpl继承下来的IAInner和AImpl自己的AImplInner
-
-7.app类中的Java类能否改变lib类库里IA和IAInner的可见域和AImpl自己的AImplInner可见域
-
-8.app类中的Kotlin类能否改变lib类库里IA和IAInner的可见域和AImpl自己的AImplInner可见域
-</code></pre><p><strong>测试结果:</strong></p>
-<pre><code>详见各个测试类
-</code></pre><p><strong>测试总结:</strong></p>
-<pre><code>1.java的app调用java的lib类库,即使java的lib类库有类(或者接口)有内部类(或者有内部接口)为包级私有,只要这些类(或者接口)有子类(或者实现类),并且这些子类(或者实现类)是public的,那么这些子类(或者实现类)是能暴露父类(或者父接口)的包级私有内部类(或者包级私有内部接口)的可见性的(这是错误的,不应该暴露)
-
-2.java的app调用java的lib类库,即使java的lib类库有类(或者接口)有内部类(或者有内部接口)为包级私有,只要在app层创建这些包级私有类(或者接口)的同包名类(或者接口),就可以访问lib类库里的这些包级私有类(或者接口)
-
-3.java的app调用kotlin的lib类库,即使kotlin的lib类库有类(或接口)为internal模块级私有权限,但是对java来说就和public一样可见要解决这个问题可以参考这篇文章(http://ice1000.org/2017/11/12/InternalFucksJava/#%E6%96%B9%E6%B3%95%E4%B8%80)不过,kotlin函数可以用这篇文章的办法解决,但是类却不可以,因为@file:JvmName只能将这个kt文件命名为该类,却不能改变指定类的名字
-
-4.kotlin的app调用java的lib类库,会严格遵守可见性,不会因为继承(或者实现)了父类(或父接口)而把父类(或者副接口)的内部包级私有类(或者内部包级私有接口)暴露,所以也不会像java的app那样能调用父类(或副接口)的内部包级私有类(或内部包级私有接口)
-
-5.kotlin的app调用kotlin的lib类库,如果kotlin的lib类库有类(或接口)为internal模块级私有权限,那么kotlin是无法调用的
-</code></pre><p>github地址:<br><a href="https://github.com/ikakaxi/VisibleDomainDemo" target="_blank" rel="noopener">https://github.com/ikakaxi/VisibleDomainDemo</a></p>
-
-          
+          <h1 id="VisibleDomainDemo"><a href="#VisibleDomainDemo" class="headerlink" title="VisibleDomainDemo"></a>VisibleDomainDemo</h1>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/一个讨论Kotlin和Java可见域的demo/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -952,17 +845,14 @@ lib类库里的kotlin类有internal可见域的接口和public可见域的接口
 
       
         
-          
-            <a id="more"></a>
-<p>有关kotlin的幕后字段,在 <a href="https://zhuanlan.zhihu.com/p/27493630" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27493630</a> 这里讲得很好,我总结了一下,如果让一个kotlin的类属性有幕后字段,需要满足以下条件</p>
-<ul>
-<li>不管是var或者val字段,只要有默认的setter/getter方法,就有幕后字段</li>
-<li>如果没有默认的setter/getter方法,只要在setter/getter方法里使用了field,也会生成幕后字段</li>
-<li>接口不能有幕后字段</li>
-<li>类的幕后字段必须初始化,或者显式声明需要延迟初始化,如果该字段没有默认的setter/getter方法说明它并不是幕后字段</li>
-</ul>
-
-          
+          <p>有关kotlin的幕后字段,在 <a href="https://zhuanlan.zhihu.com/p/27493630" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27493630</a> 这里讲得很好,我总结了一下,如果让一个kotlin的类属性有幕后字段,需要满足以下条件<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/kotlin的幕后字段-backing-field-的个人理解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1112,13 +1002,14 @@ lib类库里的kotlin类有internal可见域的接口和public可见域的接口
 
       
         
-          
-            <a id="more"></a>
-<p>今天测试一段代码,代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Person14(var age: Int)</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val p1 = Person14(1)</span><br><span class="line">    val p2 = Person14(2)</span><br><span class="line">    val p14age = p1::age</span><br><span class="line">    val p14Age = Person14::age//TODO 这句话有异常,是kotlin的问题?</span><br><span class="line">    println(p14age)</span><br><span class="line">    println(p14Age)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>发现会报<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.NoClassDefFoundError: Kt14Kt$main$p14age$1 (wrong name: Kt14Kt$main$p14Age$1)</span><br></pre></td></tr></table></figure></p>
-<p>异常<br>经测试发现是IDEA的问题,因为在<a href="https://glot.io/" target="_blank" rel="noopener">https://glot.io/</a> 输入以上代码却没有问题</p>
-
-          
+          <p>今天测试一段代码,代码如下<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/IDEA的一个bug/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1268,13 +1159,14 @@ lib类库里的kotlin类有internal可见域的接口和public可见域的接口
 
       
         
-          
-            <a id="more"></a>
-<p>必须用Bundle传递常规类型数据，否则会报错：</p>
-<p>java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes.</p>
-<p>因为Binder事务传递的数据被称为包裹(Parcel)，必须实现Parcelable接口，否则无法在两个应用之间进行通信。之所以用Bundle传递是因为该类实现了Parcelable接口。当然如果要传递类也必须实现该接口。</p>
-
-          
+          <p>必须用Bundle传递常规类型数据，否则会报错：<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/java-lang-RuntimeException-Can-t-marshal-non-Parcelable-objects-across-processes的解决办法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1424,13 +1316,14 @@ lib类库里的kotlin类有internal可见域的接口和public可见域的接口
 
       
         
-          
-            <a id="more"></a>
-<p>我用桥接的方式实现的:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@SuppressLint(&quot;AddJavascriptInterface&quot;)</span><br><span class="line">protected void initWebView() &#123;</span><br><span class="line">	super.initWebView();</span><br><span class="line">	String ua = webView.getSettings().getUserAgentString();</span><br><span class="line">	webView.getSettings().setUserAgentString(ua + &quot;;abc&quot;);</span><br><span class="line">       //关键代码</span><br><span class="line">	webView.addJavascriptInterface(new JSInvokeClass(), &quot;Test&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>JSInvokeClass名字是自定义的,随便起名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   private final class JSInvokeClass &#123;</span><br><span class="line">	@JavascriptInterface</span><br><span class="line">	public String getUserInfo() &#123;</span><br><span class="line">		return &quot;字符串&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>js直接在按钮的点击事件里写”Test.getUserInfo()”就可以调用了<br>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">function test()&#123;</span><br><span class="line"> var data = Test.getUserInfo()</span><br><span class="line"> document.getElementById(&apos;content&apos;).innerHTML = data</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;button id=&quot;testBtn&quot; type=&quot;button&quot; onClick=&quot;test()&quot;&gt;getUserInfo&lt;/button&gt;</span><br><span class="line">&lt;div id=&quot;content&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-
-          
+          <p>我用桥接的方式实现的:<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/WebView如何与Js交互/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1895,69 +1788,14 @@ lib类库里的kotlin类有internal可见域的接口和public可见域的接口
 
       
         
-          
-            <a id="more"></a>
-<p>#####1. 相对位置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintLeft_toLeftOf</span><br><span class="line">layout_constraintLeft_toRightOf</span><br><span class="line">layout_constraintRight_toLeftOf</span><br><span class="line">layout_constraintRight_toRightOf</span><br><span class="line">layout_constraintTop_toTopOf</span><br><span class="line">layout_constraintTop_toBottomOf</span><br><span class="line">layout_constraintBottom_toTopOf</span><br><span class="line">layout_constraintBottom_toBottomOf</span><br><span class="line">layout_constraintBaseline_toBaselineOf</span><br><span class="line">layout_constraintStart_toEndOf</span><br><span class="line">layout_constraintStart_toStartOf</span><br><span class="line">layout_constraintEnd_toStartOf</span><br><span class="line">layout_constraintEnd_toEndOf</span><br></pre></td></tr></table></figure></p>
-<p>以layout_constraintLeft<em>toLeftOf 为例，其中 layout</em> 部分是固定格式，主要的信息包含在下面两部分：<br>constraintXXX：指定当前控件需要设置约束的属性部分。如 constraintLeft 表示对当前控件的 左边 进行约束设置。<br>toXXXOf：其指定的内容是作为当前控件设置约束需要依赖的控件或父容器（可以理解为设置约束的参照物）。并通过 XXX 指定被依赖对象用于参考的属性。如 toLeftOf=”parent” ：表示当前控件相对于父容器的左边进行约束设置。</p>
-<p>#####2. 边距</p>
-<ul>
-<li><p>普通边距属性<br>android:layout_marginStart<br>android:layout_marginEnd<br>android:layout_marginLeft<br>android:layout_marginTop<br>android:layout_marginRight<br>android:layout_marginBottom</p>
-</li>
-<li><p>被依赖控件GONE之后的边距属性<br>layout_goneMarginStart<br>layout_goneMarginEnd<br>layout_goneMarginLeft<br>layout_goneMarginTop<br>layout_goneMarginRight<br>layout_goneMarginBottom</p>
-</li>
-</ul>
-<p>#####3. 居中</p>
-<ul>
-<li>水平居中：相对一个控件或者父容器左右对齐<br>app:layout_constraintLeft_toLeftOf=”parent”<br>app:layout_constraintRight_toRightOf=”parent</li>
-<li>垂直居中：相对一个控件或者父容器左右对齐<br>app:layout_constraintTop_toTopOf=”parent”<br>app:layout_constraintBottom_toBottomOf=”parent”</li>
-</ul>
-<p>#####4. 偏移<br>layout_constraintHorizontal_bias // 水平偏移<br>layout_constraintVertical_bias   // 垂直偏移</p>
-<p>#####5. 可见性<br>可见性这个属性大家应该很熟悉，但是约束布局的可见性属性和其它布局相比，存在以下区别：</p>
-<ul>
-<li>当控件设为GONE时，被认为尺寸为0。可以理解为布局上的一个点。</li>
-<li>若GONE的控件对其它控件有约束，则约束保留并生效，但所有的边距（margin）会清零。</li>
-</ul>
-<p>#####6. 尺寸</p>
-<p>几种设置方式：</p>
-<ul>
-<li>设置固定尺寸，如123dp</li>
-<li>使用 wrap_content ，根据内容计算合适大小</li>
-<li>match_parent ，填充满父布局，此时设置的约束都不生效了。（早之前的约束布局版本貌似不允许在其子view中使用match_parent属性，但是我写文章的时候发现也是可以用上去的）</li>
-<li>设置0dp，相当于MATCH_CONSTRAINT属性，基于约束最终确定大小</li>
-</ul>
-<p>MATH_CONSTRAINT</p>
-<ul>
-<li>layout_constraintWidth_min 和 layout_constraintHeight_min ：设置最小值</li>
-<li>layout_constraintWidth_max 和 layout_constraintHeight_max ：设置最大值</li>
-<li>layout_constraintWidth_percent 和 layout_constraintHeight_percent ：设置控件相对于父容器的百分比大小（1.1.0开始支持）。使用之前需要先设置为百分比模式，然后设置设置宽高值为0～1之间。</li>
-</ul>
-<p>设置为百分比模式的属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app:layout_constraintWidth_default=&quot;percent&quot;</span><br><span class="line">app:layout_constraintHeight_default=&quot;percent&quot;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>强制约束<br>当一个控件设为wrap_content时，再添加约束尺寸是不起效果的。如需生效，需要设置如下属性为true:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app:layout_constrainedWidth=”true|false”     </span><br><span class="line">app:layout_constrainedHeight=”true|false”</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>#####7. 比例<br>控件可以定义两个尺寸之间的比例，目前支持宽高比。<br>前提条件是至少有一个尺寸设置为0dp，然后通过 layout_constraintDimentionRatio 属性设置宽高比。设置方式有以下几种：</p>
-<ul>
-<li>直接设置一个float值，表示宽高比</li>
-<li>以” width：height”形式设置</li>
-<li>通过设置前缀W或H，指定一边相对于另一边的尺寸，如”H, 16:9”，高比宽为16:9</li>
-</ul>
-<p>如果宽高都设置为0dp，也可以用ratio设置。这种情况下控件会在满足比例<br>约束的条件下，尽可能填满父布局。</p>
-<p>#####8. 链<br>链这个概念是约束布局新提出的，它提供了在一个维度（水平或者垂直），管理一组控件的方式。</p>
-<p>#####9. Guideline<br>可以理解为布局辅助线，用于布局辅助，不在设备上显示。<br>有垂直和水平两个方向（android:orientation=“vertical/horizontal”）</p>
-<ul>
-<li>垂直：宽度为0，高度等于父容器</li>
-<li>水平：高度为0，宽度等于父容器</li>
-</ul>
-<p>有三种放置Guideline的方式：</p>
-<ul>
-<li>给定距离左边或顶部一个固定距离（layout_constraintGuide_begin）</li>
-<li>给定距离右边或底部一个固定距离（layout_constraintGuide_end）</li>
-<li>给定宽高一个百分比距离（layout_constraintGuide_percent）</li>
-</ul>
-<p>参考:<a href="http://www.qingpingshan.com/rjbc/az/359115.html" target="_blank" rel="noopener">http://www.qingpingshan.com/rjbc/az/359115.html</a></p>
-
-          
+          <p>#####1. 相对位置<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/constraintLayout备忘/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

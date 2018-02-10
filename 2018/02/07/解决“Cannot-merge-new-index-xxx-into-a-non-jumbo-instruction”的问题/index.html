@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。从提上看，是一个non-jumbo，让我想到了Dex的jumbo模式，这是一个用来配置制定该Dex是不是一个巨大的Dex的。报错的日志里显示是一个模块，从这可以推断出基本的问题：该模块需要生成一个Dex放进AAR包里给App使用，现在">
+<meta name="description" content="xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。">
 <meta name="keywords" content="异常">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决“Cannot merge new index xxx into a non-jumbo instruction”的问题">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/解决“Cannot-merge-new-index-xxx-into-a-non-jumbo-instruction”的问题/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。从提上看，是一个non-jumbo，让我想到了Dex的jumbo模式，这是一个用来配置制定该Dex是不是一个巨大的Dex的。报错的日志里显示是一个模块，从这可以推断出基本的问题：该模块需要生成一个Dex放进AAR包里给App使用，现在">
+<meta property="og:description" content="xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-10T03:20:14.030Z">
+<meta property="og:updated_time" content="2018-02-10T03:39:52.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决“Cannot merge new index xxx into a non-jumbo instruction”的问题">
-<meta name="twitter:description" content="xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。从提上看，是一个non-jumbo，让我想到了Dex的jumbo模式，这是一个用来配置制定该Dex是不是一个巨大的Dex的。报错的日志里显示是一个模块，从这可以推断出基本的问题：该模块需要生成一个Dex放进AAR包里给App使用，现在">
+<meta name="twitter:description" content="xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。">
 
 
 
@@ -371,8 +371,7 @@
       
 
       
-        <a id="more"></a>
-<p>xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。<br>从提上看，是一个non-jumbo，让我想到了Dex的jumbo模式，这是一个用来配置制定该Dex是不是一个巨大的Dex的。报错的日志里显示是一个模块，从这可以推断出基本的问题：该模块需要生成一个Dex放进AAR包里给App使用，现在这个Dex生成不了啦，提示太大，这个是根本原因，所以只要解决了这个就可以了。<br>那么以前为什么不会出现这个问题呢，我们从git提交的历史来看，发现昨天的需求新增了一个第三方包，导致该模块的方法变多，超过了限制，所以今天就有了这个错误的提示。。<br>既然知道了原因，那么就很好解决了。<br>使用Gradle构建的，在模块的build.gradle里配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  dexOptions &#123;</span><br><span class="line">    jumboMode true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <p>xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。<br><a id="more"></a><br>从提上看，是一个non-jumbo，让我想到了Dex的jumbo模式，这是一个用来配置制定该Dex是不是一个巨大的Dex的。报错的日志里显示是一个模块，从这可以推断出基本的问题：该模块需要生成一个Dex放进AAR包里给App使用，现在这个Dex生成不了啦，提示太大，这个是根本原因，所以只要解决了这个就可以了。<br>那么以前为什么不会出现这个问题呢，我们从git提交的历史来看，发现昨天的需求新增了一个第三方包，导致该模块的方法变多，超过了限制，所以今天就有了这个错误的提示。。<br>既然知道了原因，那么就很好解决了。<br>使用Gradle构建的，在模块的build.gradle里配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  dexOptions &#123;</span><br><span class="line">    jumboMode true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>如果是使用Eclipse+Ant构建的，在project.properties文件中增加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dex.force.jumbo=true</span><br></pre></td></tr></table></figure></p>
 <p>就可以解决如上问题了。。<br>关于超过64K方法分Dex的解决办法可以参考官方的<a href="https://developer.android.com/studio/build/multidex.html" target="_blank" rel="noopener">Configure Apps with Over 64K Methods</a>这篇文章。</p>
 

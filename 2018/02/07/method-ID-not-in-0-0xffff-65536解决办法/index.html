@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="###配置方法数超过 64K 的应用随着 Android 平台的持续成长，Android 应用的大小也在增加。当您的应用及其引用的库达到特定大小时，您会遇到构建错误，指明您的应用已达到 Android 应用构建架构的极限。早期版本的构建系统按如下方式报告这一错误：12Conversion to Dalvik format failed:Unable to execute dex: method">
+<meta name="description" content="###配置方法数超过 64K 的应用">
 <meta name="keywords" content="异常">
 <meta property="og:type" content="article">
 <meta property="og:title" content="method ID not in [0, 0xffff]: 65536解决办法">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/method-ID-not-in-0-0xffff-65536解决办法/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="###配置方法数超过 64K 的应用随着 Android 平台的持续成长，Android 应用的大小也在增加。当您的应用及其引用的库达到特定大小时，您会遇到构建错误，指明您的应用已达到 Android 应用构建架构的极限。早期版本的构建系统按如下方式报告这一错误：12Conversion to Dalvik format failed:Unable to execute dex: method">
+<meta property="og:description" content="###配置方法数超过 64K 的应用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-10T03:20:29.060Z">
+<meta property="og:updated_time" content="2018-02-10T03:39:22.563Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="method ID not in [0, 0xffff]: 65536解决办法">
-<meta name="twitter:description" content="###配置方法数超过 64K 的应用随着 Android 平台的持续成长，Android 应用的大小也在增加。当您的应用及其引用的库达到特定大小时，您会遇到构建错误，指明您的应用已达到 Android 应用构建架构的极限。早期版本的构建系统按如下方式报告这一错误：12Conversion to Dalvik format failed:Unable to execute dex: method">
+<meta name="twitter:description" content="###配置方法数超过 64K 的应用">
 
 
 
@@ -371,8 +371,7 @@
       
 
       
-        <a id="more"></a>
-<p>###配置方法数超过 64K 的应用<br>随着 Android 平台的持续成长，Android 应用的大小也在增加。当您的应用及其引用的库达到特定大小时，您会遇到构建错误，指明您的应用已达到 Android 应用构建架构的极限。早期版本的构建系统按如下方式报告这一错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Conversion to Dalvik format failed:</span><br><span class="line">Unable to execute dex: method ID not in [0, 0xffff]: 65536</span><br></pre></td></tr></table></figure></p>
+        <p>###配置方法数超过 64K 的应用<br><a id="more"></a><br>随着 Android 平台的持续成长，Android 应用的大小也在增加。当您的应用及其引用的库达到特定大小时，您会遇到构建错误，指明您的应用已达到 Android 应用构建架构的极限。早期版本的构建系统按如下方式报告这一错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Conversion to Dalvik format failed:</span><br><span class="line">Unable to execute dex: method ID not in [0, 0xffff]: 65536</span><br></pre></td></tr></table></figure></p>
 <p>较新版本的 Android 构建系统虽然显示的错误不同，但指示的是同一问题：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trouble writing output:</span><br><span class="line">Too many field references: 131000; max is 65536.</span><br><span class="line">You may try using --multi-dex option.</span><br></pre></td></tr></table></figure></p>
 <p>这些错误状况都会显示下面这个数字：65,536。这个数字很重要，因为它代表的是单个 Dalvik Executable (DEX) 字节码文件内的代码可调用的引用总数。本页介绍如何通过启用被称为 Dalvik 可执行文件分包的应用配置来越过这一限制，使您的应用能够构建并读取 Dalvik 可执行文件分包 DEX 文件。</p>
 <p>###关于 64K 引用限制<br>Android 应用 (APK) 文件包含 <a href="https://source.android.com/devices/tech/dalvik/" target="_blank" rel="noopener">Dalvik</a> Executable (DEX) 文件形式的可执行字节码文件，其中包含用来运行您的应用的已编译代码。Dalvik Executable 规范将可在单个 DEX 文件内可引用的方法总数限制在 65,536，其中包括 Android 框架方法、库方法以及您自己代码中的方法。在计算机科学领域内，术语<a href="https://en.wikipedia.org/wiki/Kilo-" target="_blank" rel="noopener"><em>千（简称 K）</em></a>表示 1024（或 2^10）。由于 65,536 等于 64 X 1024，因此这一限制也称为“64K 引用限制”。</p>

@@ -374,8 +374,7 @@
       
         
           
-            <a id="more"></a>
-<p>adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：<br>adb shell dumpsys meminfo <package_name><br>其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：<br><img src="http://upload-images.jianshu.io/upload_images/545982-75efbde6fda86be3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">重点关注如下几个字段：<br>（1） Native/Dalvik 的 Heap 信息具体在上面的第一行和第二行，它分别给出的是JNI层和Java层的内存分配情况，如果发现这个值一直增长，则代表程序可能出现了内存泄漏。<br>（2） Total 的 PSS 信息这个值就是你的应用真正占据的内存大小，通过这个信息，你可以轻松判别手机中哪些程序占内存比较大了。</package_name></p>
+            <p>adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：<br>adb shell dumpsys meminfo <package_name><br>其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：<br><img src="http://upload-images.jianshu.io/upload_images/545982-75efbde6fda86be3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">重点关注如下几个字段：<br>（1） Native/Dalvik 的 Heap 信息具体在上面的第一行和第二行，它分别给出的是JNI层和Java层的内存分配情况，如果发现这个值一直增长，则代表程序可能出现了内存泄漏。<br>（2） Total 的 PSS 信息这个值就是你的应用真正占据的内存大小，通过这个信息，你可以轻松判别手机中哪些程序占内存比较大了。</package_name></p>
 
           
         
@@ -527,12 +526,14 @@
 
       
         
-          
-            <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 找到进程PID</span><br><span class="line">adb shell ps | grep your.app.package</span><br><span class="line"># 结果类似下面这样:</span><br><span class="line">USER      PID   PPID  VSIZE  RSS     WCHAN    PC         NAME</span><br><span class="line">u0_a198   21997 160   827940 22064 ffffffff 00000000 S your.app.package</span><br><span class="line"># kill掉该进程,如果说没有权限就先执行adb root</span><br><span class="line">adb shell kill -9 21997</span><br><span class="line"># app已经被模拟回收了</span><br></pre></td></tr></table></figure>
-<p>我习惯用下面的方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 找到进程PID</span><br><span class="line">adb shell</span><br><span class="line">ps | grep your.app.package</span><br><span class="line"># 结果类似下面这样:</span><br><span class="line">USER      PID   PPID  VSIZE  RSS     WCHAN    PC         NAME</span><br><span class="line">u0_a198   21997 160   827940 22064 ffffffff 00000000 S your.app.package</span><br><span class="line"># kill掉该进程,如果说没有权限就先执行su</span><br><span class="line">kill -9 21997</span><br><span class="line"># app已经被模拟回收了</span><br></pre></td></tr></table></figure></p>
-
-          
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 找到进程PID</span><br><span class="line">adb shell ps | grep your.app.package</span><br><span class="line"># 结果类似下面这样:</span><br><span class="line">USER      PID   PPID  VSIZE  RSS     WCHAN    PC         NAME</span><br><span class="line">u0_a198   21997 160   827940 22064 ffffffff 00000000 S your.app.package</span><br><span class="line"># kill掉该进程,如果说没有权限就先执行adb root</span><br><span class="line">adb shell kill -9 21997</span><br><span class="line"># app已经被模拟回收了</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/Android模拟app被系统回收掉（需要root权限）/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -682,14 +683,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>点击浏览器中的URL链接，启动特定的App。<br>首先做成HTML的页面，页面内容格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;scheme://host/path?key=value&quot;&gt;启动应用程序&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
-<p>这一句就可以了。path,key,value都可以为空<br>作为测试好好写了一下，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;myapp://test.com/openwith?name=zhangsan&amp;age=26&quot;&gt;启动应用程序&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
-<p>接下来是Android端。<br>如果要启动的Activity不是MainActivity,则需要加上如下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;intent-filter&gt;  </span><br><span class="line">    &lt;action android:name=&quot;android.intent.action.VIEW&quot;/&gt;  </span><br><span class="line">    &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;  </span><br><span class="line">    &lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt;  </span><br><span class="line">    &lt;data android:scheme=&quot;myapp&quot; android:host=&quot;test.com&quot; android:pathPrefix=&quot;/openwith&quot;/&gt;  </span><br><span class="line">&lt;/intent-filter&gt;</span><br></pre></td></tr></table></figure></p>
-<p>本文参考<a href="http://blog.csdn.net/geekpark/article/details/16118457" target="_blank" rel="noopener">http://blog.csdn.net/geekpark/article/details/16118457</a></p>
-
-          
+          <p>点击浏览器中的URL链接，启动特定的App。<br>首先做成HTML的页面，页面内容格式如下：<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/android实现通过浏览器点击链接打开本地应用（APP）并拿到浏览器传递的数据/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -839,12 +840,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。</p>
-<p>在module的gradle.build中加入下面的代码即可在项目中使用lambda表达式了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">apply plugin: &apos;me.tatarka.retrolambda&apos;</span><br><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenCentral()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;me.tatarka:gradle-retrolambda:3.4.0&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">android &#123;</span><br><span class="line">...</span><br><span class="line">    compileOptions &#123;</span><br><span class="line">        targetCompatibility 1.8</span><br><span class="line">        sourceCompatibility 1.8</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">//指定源码编译的级别,使用下列代码,会将代码编译到兼容1.6的字节码格式,android2.3.3-4.4使用的jdk6</span><br><span class="line">retrolambda &#123;</span><br><span class="line">    javaVersion JavaVersion.VERSION_1_6</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
+          <p>在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/使用retrolambda使android支持lambda表达式简化代码/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1152,8 +1155,7 @@
       
         
           
-            <a id="more"></a>
-<p>keytool -list -v -keystore “.keystore签名文件的绝对路径”</p>
+            <p>keytool -list -v -keystore “.keystore签名文件的绝对路径”</p>
 
           
         
@@ -1305,22 +1307,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p><strong>1.当有多个设备online时，命令行窗口通过adb连接指定设备方法</strong></p>
-<ol>
-<li>通过adb devices命令获取所有online设备的serial number。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;adb devices</span><br><span class="line">List of devices </span><br><span class="line">attachedemulator-5554   device</span><br><span class="line">SH0A6PL00243    device</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>上面表示，当前有两个设备online，第一个emulator-5554是模拟器，后一个是真机会SH0A6PL00243。</p>
-<ol>
-<li>通过adb -s <serial number=""> cmd向设备发送adb命令。<br>比如：运行命令shell。<br>C:\Users\Administrator&gt;adb -s SH0A6PL00243 shell<br>比如：down一个应用的[数据库]到本地f:\test目录下面。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;adb -s SH0A6PL00243 pull data/data/com.android.tencent/databases/AgendaDetails.db f:\test</span><br><span class="line">555 KB/s (5120 bytes in 0.009s)</span><br></pre></td></tr></table></figure>
-</serial></li>
-</ol>
-<p>运行其它命令和运行pull命令一样的，只是在adb和cmd之间需要额外添加-s <serial number="">即可。</serial></p>
-<p><strong>2.模拟app被系统回收掉（需要root权限）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># find the process id</span><br><span class="line">adb shell ps</span><br><span class="line"># then find the line with the package name of your app</span><br><span class="line"># Mac/Unix: save some time by using grep:</span><br><span class="line">adb shell ps | grep your.app.package</span><br><span class="line"># The result should look like:</span><br><span class="line"># USER      PID   PPID  VSIZE  RSS     WCHAN    PC         NAME</span><br><span class="line"># u0_a198   21997 160   827940 22064 ffffffff 00000000 S your.app.package</span><br><span class="line"># Kill the app by PID</span><br><span class="line">adb shell kill -9 21997</span><br><span class="line"># the app is now killed</span><br></pre></td></tr></table></figure></p>
-
-          
+          <p><strong>1.当有多个设备online时，命令行窗口通过adb连接指定设备方法</strong><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/adb常用命令/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1470,15 +1464,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>这几天学dagger2,无意中看到Data Binding Library这么个东西,Data Binding 框架如果能够推广开来，也许 <strong>RoboGuice、ButterKnife</strong> 这样的依赖注入框架会慢慢失去市场，因为在 Java 代码中直接使用 View变量的情况会越来越少。网上有很多配置databinding的方法,有些是错误的,所以在此记录一下</p>
-<pre><code>配置databinding
-</code></pre><p>如果直接在xml使用@{}肯定会出错的,网上很多只说了怎么用,直接用@{}肯定会报错,我们首先要配置databinding,方法如下:</p>
-<p><strong>现在只需在 gradle 中加入 databinding 就可以使用了，之前的 plugin 和 classpath 都不需要了，现在的 databinding 作为 support lib 存在，所以使用之前需要去 SDK Manager 中更新 support 包。：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  ...</span><br><span class="line">  dataBinding &#123;</span><br><span class="line">    enabled = true</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后我们就可以使用Data Binding了,具体使用方法网上有很多,我就不再赘述了</p>
-
-          
+          <p>这几天学dagger2,无意中看到Data Binding Library这么个东西,Data Binding 框架如果能够推广开来，也许 <strong>RoboGuice、ButterKnife</strong> 这样的依赖注入框架会慢慢失去市场，因为在 Java 代码中直接使用 View变量的情况会越来越少。网上有很多配置databinding的方法,有些是错误的,所以在此记录一下<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/android-databinding框架开发环境配置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1628,19 +1621,15 @@
 
       
         
-          
-            <a id="more"></a>
-<p>今天做聊天,才知道ListView的2个属性,android:stackFromBottom和android:transcriptMode</p>
-<p>android:stackFromBottom</p>
-<pre><code>true的时候,ListView内容就从底部开始显示,如果只有一条内容这条内容就在列表的最底部,默认是false
-</code></pre><p>android:transcriptMode</p>
-<pre><code>设置列表的transcriptMode模式，该模式指定列表添加新的选项的时候，是否自动滑动到底部，显示新的选项。 
-
-disabled：取消transcriptMode模式，默认的 
-normal：当接受到数据集合改变的通知，并且仅仅当最后一个选项已经显示在屏幕的时候，自动滑动到底部。 
-alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动到底部显示最新的选项。 
-</code></pre>
-          
+          <p>今天做聊天,才知道ListView的2个属性,android:stackFromBottom和android:transcriptMode</p>
+<p>android:stackFromBottom<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/ListView从底部开始绘制和新item自动移动到底部/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1791,8 +1780,7 @@ alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动�
       
         
           
-            <a id="more"></a>
-<p>在这个ChildView的xml属性里加上</p>
+            <p>在这个ChildView的xml属性里加上</p>
 <p>android:focusable=”true”<br>android:focusableInTouchMode=”true”</p>
 <p>就可以解决</p>
 

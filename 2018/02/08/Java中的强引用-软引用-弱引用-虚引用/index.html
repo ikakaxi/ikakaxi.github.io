@@ -77,17 +77,17 @@
 
 
 
-<meta name="description" content="####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和Has">
+<meta name="description" content="####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java中的强引用,软引用,弱引用,虚引用">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/08/Java中的强引用-软引用-弱引用-虚引用/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和Has">
+<meta property="og:description" content="####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-10T03:23:42.807Z">
+<meta property="og:updated_time" content="2018-02-10T03:34:03.603Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中的强引用,软引用,弱引用,虚引用">
-<meta name="twitter:description" content="####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和Has">
+<meta name="twitter:description" content="####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它">
 
 
 
@@ -370,10 +370,9 @@
       
 
       
-        <a id="more"></a>
-<p>####1.强引用<br>这个就不用说了,基本上写程序都是强引用,比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object obj = new Object();</span><br></pre></td></tr></table></figure></p>
+        <p>####1.强引用<br>这个就不用说了,基本上写程序都是强引用,比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object obj = new Object();</span><br></pre></td></tr></table></figure></p>
 <p>####2. 软引用<br>软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象</p>
-<p>####3.弱引用<br>在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它</p>
+<p>####3.弱引用<br>在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它<br><a id="more"></a></p>
 <p>系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。</p>
 <p>由于WeakReference被GC回收的可能性较大，因此，在使用它之前，你需要通过weakObj.get()去判断目的对象引用是否已经被回收.</p>
 <blockquote>
@@ -407,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/08/一些常用类的记录-1/" rel="next" title="一些常用类的记录">
-                <i class="fa fa-chevron-left"></i> 一些常用类的记录
+              <a href="/2018/02/08/Class-isAssignableFrom与-instanceof-区别/" rel="next" title="Class.isAssignableFrom与 instanceof 区别">
+                <i class="fa fa-chevron-left"></i> Class.isAssignableFrom与 instanceof 区别
               </a>
             
           </div>

@@ -373,93 +373,15 @@
 
       
         
-          
-            <a id="more"></a>
-<blockquote>
-<p>前言</p>
-</blockquote>
-<p>Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。</p>
-<p>在应用场景上，由于即时通讯应用（包括IM聊天应用、消息推送服务等）为了保证消息的全时、实时送达能力，必须要实现进程或Service的保活。而就这一看似不起眼的问题，实际处理起来，因为众多Android手机和Android系统版本的差异，让问题的处理充满了不确定性。</p>
-<p>本文基于作者的实践以及相关资料的整理，总结了自已对Android进程和Service保活的理解，希望能为你的应用开发带来启发。</p>
-<blockquote>
-<p>概述</p>
-</blockquote>
-<p>近期做了一个Android项目，涉及到了后台进程和Service保活的问题，网上找了很多资料，基本的保活方法都测试了。结果是：不同的手机，不同的Android版本保活效果各有差异。最难绕过的是个厂商对“后台程序保活”管理。</p>
-<p>本文主要把相应的实践结果和保活方法进行总结。然而，因笔者可用的测试真机有限，可能存有不完整的地方，还请及时提出指正并补充，大家共同进步。</p>
-<blockquote>
-<p>手机QQ、微信这样的大型IM是如何解决保活问题的？</p>
-</blockquote>
-<p>以小米手机为例，MIUI的神隐模式让很多IM和推送开发同行纠结不已：在MIUI深度休眠之后,默认会彻底断开后台应用的socket。但微信、QQ这样的应用，MIUI官方的帖子说了:给这2个应用特殊照顾。好吧，特殊照顾，普通的APP只能继续折腾了。（关于MIUI的神隐模式的讨论，见此贴的回复：<br><a href="http://www.52im.net/thread-354-1-1.html" target="_blank" rel="noopener">http://www.52im.net/thread-354-1-1.html</a>）</p>
-<blockquote>
-<p>本文实践涉及到的真机型号和版本</p>
-</blockquote>
-<p>手机：三星9100-4.1.2，三星9300-4.3，华为G730-4.1.2，华为TL00H-EMUI3.1(android 5.1.1)，魅族MX4-Flyme4.2.8.2c(android 4.4.2)。</p>
-<p>手头能用的测试机就这些了。主要测试的service是一个最基本的service，在相应的生命周期的触发函数上做了输出。测试时都没有添加到后台保护中，注：三星的机子没找到有后台保护设置的地方。</p>
-<blockquote>
-<p>为什么我们的后台进程/Service会被结束掉？</p>
-</blockquote>
-<p>我想到的是有三个方面：</p>
-<ol>
-<li>Android系统内存回收机制；</li>
-<li>各厂商对后台程序的一个管理制度（就是允许程序后台运行那个）；</li>
-<li>第三方软件的清理(360什么的)。</li>
-</ol>
-<p>其中有的后台程序保护把程序结束的同时会把程序弄成停止状态，导致无法接收广播！</p>
-<blockquote>
-<p>我们的保活方案有哪些？</p>
-</blockquote>
-<p>#####1.控制onStartCommand函数的返回值：<br>我对这个函数的理解是：当服务被异常终止时，是否重启服务?有些文章里面在用这个做保活时，修改的是flag，在我实际测试中是无效。有效的做法是直接返回参数。另外默认的flags值为0，是START_STICKY_COMPATIBILITY。</p>
-<p>######具体代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">publicintonStartCommand(Intent intent,intflags,intstartId) &#123;</span><br><span class="line">    // TODO Auto-generated method stub</span><br><span class="line">    return START_STICKY;</span><br><span class="line">    //return super.onStartCommand(intent, flags, startId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>######测试结果：<br>魅族的机子无效，不管默认还是修改参数，在DDMS里面直接结束进程后都不会重启服务。其它三台机子（9100没测）：默认参数的情况下就会重启服务，return START_STICKY 会重启，return START_NOT_STICKY 不会重启。</p>
-<p>另外：用360一键清理，或者360超级ROOT的手机优化，会杀死进程，过会儿还是会重启，只是会慢很多，大概是在排队重启服务。</p>
-<p>#####2.在service 的onDestory里面重启服务：<br>这个在所有能触发onDestory的情况下都是有效的。4台测试机都测试过。直接startService 或者发送广播重启都可以 。</p>
-<p>但能触发onDestory的情况，我不知道内存回收会不会触发。另外两种情况（2，3）是不触发的。我的测试方法是在“设置”-&gt; 应用管理-&gt; 正在运行-&gt; 停止服务。（这个是正常停止服务，会触发onDestory，所以上面的onStartCommand效果不会触发。）</p>
-<p>#####3.提高服务的优先级：<br>这个主要是针对第一种kill服务的情况，内存回收机制。由于这个测试比较难搭建。360清理什么把后台的进程都杀的，体现不出优先级这样的概念。我的建议是能提高就提高，下面几个实验。</p>
-<p>######[1] 前台service：<br>创建一个通知使自己成为前台service<br>测试结果：<br>360一键清理和手机优化，不会把该service结束掉。</p>
-<p>######[2] 对于后台保护：<br>华为G730不结束service，魅族和华为TL00H都会结束service。通知栏的保活效果还是可以的，一般的应用要求基本能满足了。</p>
-<p>######[3] 若有root权限：<br>android:persistent=”true”,并放入system/app中<br>测试结果：<br>效果一般，三星9100上用360等清理工具杀不掉进程，在华为G730上没什么效果.（这个测试跟onStartCommand有点干扰）。</p>
-<p>#####4.守护进程：<br>双服务：360会同时杀掉两个服务，分两个apk也一样。native守护进程：360不会杀掉native的守护进程，但在魅族和华为TL00H中待机一段时间后还是会被杀掉。</p>
-<p><strong>结论和待续：</strong></p>
-<ol>
-<li>一般的应用添加到后台保护进程后，改个onStartCommand返回值，再加个通知。基本上大部分都能保活了。</li>
-<li>双服务我觉得没有native守护进程来的好，虽然360，微信什么的都有几个进程服务，但如果不添加到后台保活的话，效果一样不能保活，也会进入停止状态。</li>
-<li>但是.360手机助手会创建双natice守护进程做相互的看守。存活的效果会高一点点。“没添加到后台保活”一般只会杀一次，（魅族是屏幕关闭后5分钟，华为TL00H是屏幕关闭时）。</li>
-</ol>
-<p>附个native守护进程：利用socket来判断服务是否存在，需要在被保活的服务里创建一个监听socket。调试信息会在SD卡目录下创建一个daemon.log。使用方法：NDKFork port包名/.服务名。具体下载链接：<a href="http://download.csdn.net/detail/pvlking/9412815" target="_blank" rel="noopener">http://download.csdn.net/detail/pvlking/9412815</a></p>
-<blockquote>
-<p>Android应用实现保活的基本原理总结</p>
-</blockquote>
-<p>都是通过双进程互拉以及设置进程的重要性，除非你root后，把自己的进程设置成系统进程。</p>
-<p><strong>互拉的方式有很多种：</strong></p>
-<ol>
-<li>可以通过监听系统广播来把自己拉起来</li>
-<li>可以多个app相互拉</li>
-<li>可以把自己的服务搞成前台服务</li>
-<li>在service的onstart方法里返回 STATR_STICK</li>
-<li>添加Manifest文件属性值为android:persistent=“true”</li>
-<li>覆写Service的onDestroy方法</li>
-<li>服务互相绑定</li>
-<li>设置闹钟，定时唤醒</li>
-<li>自己的app在native层fork一个子进程来与主进程互拉。</li>
-</ol>
-<p>综上所述，总结下来就是，目前实现Android后台保活没有完美实现，只能针对不同的机型综合使用上面列举的方法，同时祈祷自已APP的用户不要遇到奇葩机型的保活问题。</p>
-<blockquote>
-<p>推荐一个开源的解决方案</p>
-</blockquote>
-<p><strong>源码托管地址</strong><br>源码托管地址是：<a href="https://github.com/52im/MarsDaemon" target="_blank" rel="noopener">https://github.com/52im/MarsDaemon</a>。</p>
-<p><strong>实现原理</strong><br><strong>原理：
-</strong>使用Jni,在 c端 fork进程，检测Service是否存活，若Service已被杀死，则进行重启Service.  至于检测方式，可以轮询获取子进程Pid,若为1, 则说明子进程被Init进程所领养,已经成为了孤儿进程.    但是这种方式比较消耗电量，并且由于不同手机系统定制的改变，当应用被强制停止时，父进程并不一定被真正杀死，因此在一些特定机型上是无法通过此方式进行判断. 这里推荐使用liunx socket的方式进行类似心跳包的检测，并且当触发检测Service是否被杀死之前，需要判断应用是否已经被卸载，如果应用已经被卸载，则不再进行检测Service行为，直接调用exit(0)退出子进程，避免浪费系统资源和消耗电量.</p>
-<p><strong>注意:
-</strong> 目前在Android 5.0系统上会把fork出来的进程放到一个进程组里， 当程序主进程挂掉后，也会把整个进程组杀掉,因此用fork的方式也无法在Android5.0及以上系统实现守护进程. 这个是系统层面的限制，当然也是为了优化整个的系统环境,守护进程给手机带来的体验并不好</p>
-<p><strong>具体见源码：
-</strong><a href="http://androidxref.com/5.0.0_r2/xref/frameworks/base/services/core/java/com/android/server/am/ProcessRecord.java" target="_blank" rel="noopener">http://androidxref.com/5.0.0_r2/ … /ProcessRecord.java</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-d765c5e38993d112.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p><strong>好消息：</strong><br>Android5.0 以上目前已在 <a href="https://github.com/52im/MarsDaemon" target="_blank" rel="noopener">https://github.com/52im/MarsDaemon</a> 中被黑科技攻克，部分机型可能无法起到作用，但思路很值得借鉴，代码结构也不错, 具体方案请见源码哦。</p>
-<p>原文:<a href="http://www.52im.net/thread-429-1-1.html" target="_blank" rel="noopener">http://www.52im.net/thread-429-1-1.html</a><br>因为原文已经无法打开,所以将内容复制到了这里</p>
-<hr>
-<p>在android5.0及以上,谷歌出了一个JobService,经测试可以在原生系统里定时执行任务,所以在三星这种机器上,可以用JobService拉起自己的Service</p>
-
-          
+          <blockquote>
+<p>前言<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/Android后台保活实践总结：即时通讯应用无法根治的“顽疾”/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -609,28 +531,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>Android 开发中一般会通过 BuildConfig.DEBUG 判断是否是 Debug 模式，从而做一些在 Debug 模式才开启的特殊操作，比如打印日志。这样好处是不用在发布前去主动修改，因为这个值在 Debug 模式下为 true，Release 模式下为 false。</p>
-<p>#####1. 问题<br>如果应用只有一个 Module 没有问题，Debug 模式下 BuildConfig.DEBUG 会始终为 true。如果现在有两个 Module，分别为 App 和 Lib，且 App 依赖 Lib，在 Lib 内有工具类 LogUtils，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">import android.util.Log;</span><br><span class="line">import cn.trinea.android.lib.util.BuildConfig;</span><br><span class="line"> </span><br><span class="line">public class LogUtils &#123;</span><br><span class="line"> </span><br><span class="line">    public static void d(String log) &#123;</span><br><span class="line">        if (BuildConfig.DEBUG) &#123;</span><br><span class="line">            Log.d(&quot;trinea-debug&quot;, log);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当我们在 App Module 内调用 LogUtils 时我们会发现始终无法打印日志，因为上面的 BuildConfig.DEBUG 会始终为 false。为什么呢？</p>
-<p>#####2. 原因<br>BuildConfig.java 是编译时自动生成的，并且每个 Module 都会生成一份，以该 Module 的 packageName 为 BuildConfig.java 的 packageName。所以如果你的应用有多个 Module 就会有多个 BuildConfig.java 生成，而上面的 Lib Module import 的是自己的 BuildConfig.java，编译时被依赖的 Module 默认会提供 Release 版给其他 Module 或工程使用，这就导致该 BuildConfig.DEBUG 会始终为 false。</p>
-<p>#####3. 解决方案<br>根据上面分析的原因，目前我们有两个思路：<br>(1) 始终调用最终运行的 Module 的 BuildConfig，因为它没有被任何其他 Module 依赖，所以 BuildConfig.DEBUG 值会准确。<br>(2) 让被依赖的 Module 提供除 Release 版以外的其他版本。</p>
-<p>3.1 解决方案一：使用其他的 BuildConfig.java<br>如果 Lib Module 中能够 import 到外层真正运行 App 的 BuildConfig 就 ok 了，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * Utils for App</span><br><span class="line"> * &lt;ul&gt;</span><br><span class="line"> * &lt;li&gt;&#123;@link #syncIsDebug(Context)&#125; Should be called in module Application&lt;/li&gt;</span><br><span class="line"> * &lt;/ul&gt;</span><br><span class="line"> * Created by Trinea on 2017/3/9.</span><br><span class="line"> */</span><br><span class="line">public class AppUtils &#123;</span><br><span class="line"> </span><br><span class="line">    private static Boolean isDebug = null;</span><br><span class="line"> </span><br><span class="line">    public static boolean isDebug() &#123;</span><br><span class="line">        return isDebug == null ? false : isDebug.booleanValue();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    /**</span><br><span class="line">     * Sync lib debug with app&apos;s debug value. Should be called in module Application</span><br><span class="line">     *</span><br><span class="line">     * @param context</span><br><span class="line">     */</span><br><span class="line">    public static void syncIsDebug(Context context) &#123;</span><br><span class="line">        if (isDebug == null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                String packageName = context.getPackageName();</span><br><span class="line">                Class buildConfig = Class.forName(packageName + &quot;.BuildConfig&quot;);</span><br><span class="line">                Field DEBUG = buildConfig.getField(&quot;DEBUG&quot;);</span><br><span class="line">                DEBUG.setAccessible(true);</span><br><span class="line">                isDebug = DEBUG.getBoolean(null);</span><br><span class="line">            &#125; catch (Throwable t) &#123;</span><br><span class="line">                // Do nothing</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>通过反射得到真正执行的 Module 的 BuildConfig，在自己的 Application 内调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AppUtils.syncIsDebug(getApplicationContext());</span><br></pre></td></tr></table></figure></p>
-<p>这样看起来达到目的了。</p>
-<p>但仔细想想会发现这种解决方案还是有问题，因为 BuildConfig.java 的 packageName 是 Module 的 Package Name，即 AndroidManifest.xml 中的 package 属性，而 context.getPackageName() 得到的是应用的 applicationId，这个 applicationId 通过 build.gradle 是可以修改的。所以当 build.gradle 中的 applicationId 与 AndroidManifest.xml 中的 package 属性不一致时，上面的反射查找类路径便会出错。</p>
-<p>PS：这种方案还有个变种就是通过 android.app.ActivityThread.currentPackageName 得到包名，从而省去传递 Context 初始化的步骤，但依然有 applicationId 被修改后类查找不到类似的问题。</p>
-<p>#####3.2 解决方案二：被依赖的 Module 提供其他版本<br>让被依赖的 Module 提供除 Release 版以外的其他版本，这种方案需要将所有被依赖 library 中添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    publishNonDefault true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>表示该 Module 打包时会同时打包其他版本，包括 Debug 版。并且需要在 App Module 中将其依赖的 library 如下逐个添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    releaseCompile project(path: &apos;:library&apos;, configuration: &apos;release&apos;)</span><br><span class="line">    debugCompile project(path: &apos;:library&apos;, configuration: &apos;debug&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>表示依赖不同版本的依赖 Module。<br>然而这种方式所有 Module 配置都需要修改，侵入性太强。</p>
-<p>#####3.3 最终解决方案：使用 ApplicationInfo.FLAG_DEBUGGABLE<br>既然 BuildConfig 的方式行不通，我们反编译 Debug 包和 Release 包对比看看有没有其他的区别，会发现他们 AndroidManifest.xml 中 application 节点的 android:debuggable 值是不同的。Debug 包值为 true，Release 包值为 false，这是编译自动修改的。所以我们考虑通过 ApplicationInfo 的这个属性去判断是否是 Debug 版本，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * Utils for App</span><br><span class="line"> * &lt;ul&gt;</span><br><span class="line"> * &lt;li&gt;&#123;@link #syncIsDebug(Context)&#125; Should be called in module Application&lt;/li&gt;</span><br><span class="line"> * &lt;/ul&gt;</span><br><span class="line"> * Created by Trinea on 2017/3/9.</span><br><span class="line"> */</span><br><span class="line">public class AppUtils &#123;</span><br><span class="line"> </span><br><span class="line">    private static Boolean isDebug = null;</span><br><span class="line"> </span><br><span class="line">    public static boolean isDebug() &#123;</span><br><span class="line">        return isDebug == null ? false : isDebug.booleanValue();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    /**</span><br><span class="line">     * Sync lib debug with app&apos;s debug value. Should be called in module Application</span><br><span class="line">     *</span><br><span class="line">     * @param context</span><br><span class="line">     */</span><br><span class="line">    public static void syncIsDebug(Context context) &#123;</span><br><span class="line">        if (isDebug == null) &#123;</span><br><span class="line">            isDebug = context.getApplicationInfo() != null &amp;&amp;</span><br><span class="line">                    (context.getApplicationInfo().flags &amp; ApplicationInfo.FLAG_DEBUGGABLE) != 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在自己的 Application 内调用进行初始化，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AppUtils.syncIsDebug(getApplicationContext());</span><br></pre></td></tr></table></figure></p>
-<p>这样以后调用 AppUtils.isDebug() 即可判断是否是 Debug 版本，比如在上面的 LogUtils 中。同时适用于 Module 是 Lib 和 applicationId 被修改的情况，比 BuildConfig.DEBUG 靠谱的多。</p>
-<p>这个方案有个注意事项就是自己 App Module 中不能主动设置 android:debuggable，否则无论 Debug 还是 Release 版会始终是设置的值。当然本身就没有自动设置的必要。</p>
-<p>原文地址:<a href="http://www.trinea.cn/android/android-whether-debug-mode-why-buildconfig-debug-always-false/" target="_blank" rel="noopener">http://www.trinea.cn/android/android-whether-debug-mode-why-buildconfig-debug-always-false/</a></p>
-
-          
+          <p>Android 开发中一般会通过 BuildConfig.DEBUG 判断是否是 Debug 模式，从而做一些在 Debug 模式才开启的特殊操作，比如打印日志。这样好处是不用在发布前去主动修改，因为这个值在 Debug 模式下为 true，Release 模式下为 false。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/Android-技巧-——-Debug-判断不再用-BuildConfig/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -781,8 +689,7 @@
       
         
           
-            <a id="more"></a>
-<p>ln /…sdk/…/adb /usr/local/bin</p>
+            <p>ln /…sdk/…/adb /usr/local/bin</p>
 
           
         
@@ -934,13 +841,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。<br>从提上看，是一个non-jumbo，让我想到了Dex的jumbo模式，这是一个用来配置制定该Dex是不是一个巨大的Dex的。报错的日志里显示是一个模块，从这可以推断出基本的问题：该模块需要生成一个Dex放进AAR包里给App使用，现在这个Dex生成不了啦，提示太大，这个是根本原因，所以只要解决了这个就可以了。<br>那么以前为什么不会出现这个问题呢，我们从git提交的历史来看，发现昨天的需求新增了一个第三方包，导致该模块的方法变多，超过了限制，所以今天就有了这个错误的提示。。<br>既然知道了原因，那么就很好解决了。<br>使用Gradle构建的，在模块的build.gradle里配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  dexOptions &#123;</span><br><span class="line">    jumboMode true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果是使用Eclipse+Ant构建的，在project.properties文件中增加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dex.force.jumbo=true</span><br></pre></td></tr></table></figure></p>
-<p>就可以解决如上问题了。。<br>关于超过64K方法分Dex的解决办法可以参考官方的<a href="https://developer.android.com/studio/build/multidex.html" target="_blank" rel="noopener">Configure Apps with Over 64K Methods</a>这篇文章。</p>
-
-          
+          <p>xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/解决“Cannot-merge-new-index-xxx-into-a-non-jumbo-instruction”的问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1090,36 +998,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p><strong>第一部分</strong><br>安卓开发中，在写布局代码的时候，ide可以看到布局的预览效果。<br><img src="http://upload-images.jianshu.io/upload_images/545982-83ed2d3d035faddf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>但是有些效果则必须在运行之后才能看见，比如这种情况：TextView在xml中没有设置任何字符，而是在activity中设置了text。因此为了在ide中预览效果，你必须在xml中为TextView控件设置android:text属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">  android:id=&quot;@+id/text_main&quot;</span><br><span class="line">  android:layout_width=&quot;match_parent&quot;</span><br><span class="line">  android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">  android:textAppearance=&quot;@style/TextAppearance.Title&quot;</span><br><span class="line">  android:layout_margin=&quot;@dimen/main_margin&quot;</span><br><span class="line">  android:text=&quot;I am a title&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>一般我们在这样做的时候都告诉自己，没关系，等写完代码我就把这些东西一并删了。但是你可能会忘，以至于在你的最终产品中也会有这样的代码。</p>
-<p>用tools吧，别做傻事<br>以上的情况是可以避免的，我们使用tools命名空间以及其属性来解决这个问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br></pre></td></tr></table></figure></p>
-<p>tools可以告诉Android Studio，哪些属性在运行的时候是被忽略的，只在设计布局的时候有效。比如我们要让android:text属性只在布局预览中有效可以这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line"> android:id=&quot;@+id/text_main&quot;</span><br><span class="line"> android:layout_width=&quot;match_parent&quot;</span><br><span class="line"> android:layout_height=&quot;wrap_content&quot;</span><br><span class="line"> android:textAppearance=&quot;@style/TextAppearance.Title&quot;</span><br><span class="line"> android:layout_margin=&quot;@dimen/main_margin&quot;</span><br><span class="line"> tools:text=&quot;I am a title&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>tools可以覆盖android的所有标准属性，将android:换成tools:即可。同时在运行的时候就连tools:本身都是被忽略的，不会被带进apk中。<br>tools属性的种类<br>tools属性可以分为两种：一种是影响<strong>Lint</strong>提示的，一种是关于xml布局设计的。以上介绍的是tools的最基本用法：在UI设计的时候覆盖标准的android属性，属于第二种。下面介绍Lint相关的属性。<br><strong>Lint相关的属性</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tools:ignore</span><br><span class="line">tools:targetApi</span><br><span class="line">tools:locale</span><br></pre></td></tr></table></figure></p>
-<p><strong>tools:ignore</strong><br>ignore属性是告诉<strong>Lint</strong>忽略xml中的某些警告。<br>假设我们有这样的一个ImageView<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ImageView</span><br><span class="line">  android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">  android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">  android:layout_marginStart=&quot;@dimen/margin_main&quot;</span><br><span class="line">  android:layout_marginTop=&quot;@dimen/margin_main&quot;</span><br><span class="line">  android:scaleType=&quot;center&quot;</span><br><span class="line">  android:src=&quot;@drawable/divider&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>Lint会提示该ImageView缺少<em>android:contentDescription</em>属性。我们可以使用<strong><em>tools:ignore</em></strong>来忽略这个警告：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;ImageView</span><br><span class="line">  android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">  android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">  android:layout_marginStart=&quot;@dimen/margin_main&quot;</span><br><span class="line">  android:layout_marginTop=&quot;@dimen/margin_main&quot;</span><br><span class="line">  android:scaleType=&quot;center&quot;</span><br><span class="line">  android:src=&quot;@drawable/divider&quot;</span><br><span class="line">  tools:ignore=&quot;contentDescription&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>tools:targetApi</strong><br>假设<em>minSdkLevel 15</em>，而你使用了api21中的控件比如<em>RippleDrawable</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;ripple xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">  android:color=&quot;@color/accent_color&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>则Lint会提示警告。<br>为了不显示这个警告，可以：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;ripple xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">  xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">  android:color=&quot;@color/accent_color&quot;</span><br><span class="line">  tools:targetApi=&quot;LOLLIPOP&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>tools:locale（本地语言）属性</strong><br>默认情况下<strong><em>res/values/strings.xml</em></strong>中的字符串会执行拼写检查，如果不是英语，会提示拼写错误，通过以下代码来告诉studio本地语言不是英语，就不会有提示了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources</span><br><span class="line">  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">  xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">  tools:locale=&quot;it&quot;&gt;</span><br><span class="line"> </span><br><span class="line">  &lt;!-- Your strings go here --&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure></p>
-<p>这篇文章首先介绍了tools的最基本用法-覆盖android的属性，然后介绍了忽略Lint提示的属性。下篇文章中，我们将继续介绍关于UI预览的其他属性（非android标准属性）。<br>ps：关于忽略Lint的属性，如果不想了解的话也没关系，因为并不影响编译，一般我都不会管这些警告。</p>
-<p>第二部分<br>这部分我们将继续介绍关于UI预览的其他属性（非android标准属性）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tools:context</span><br><span class="line">tools:menu</span><br><span class="line">tools:actionBarNavMode</span><br><span class="line">tools:listitem/listheader/listfooter</span><br><span class="line">tools:showIn</span><br><span class="line">tools:layout</span><br></pre></td></tr></table></figure></p>
-<p><strong>tools:context</strong><br>context属性其实正是的称呼是activity属性，有了这个属性，ide就知道在预览布局的时候该采用什么样的主题。同时他还可以在android studio的java代码中帮助找到相关的文件（<strong><em>Go to Related files</em></strong>）<br><img src="http://upload-images.jianshu.io/upload_images/545982-424c8ca38fe5511a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>该属性的值是activity的完整包名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout</span><br><span class="line">  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">  xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">  android:id=&quot;@+id/container&quot;</span><br><span class="line">  android:layout_width=&quot;match_parent&quot;</span><br><span class="line">  android:layout_height=&quot;match_parent&quot;</span><br><span class="line">  android:orientation=&quot;vertical&quot;</span><br><span class="line">  tools:context=&quot;com.android.example.MainActivity&quot;&gt;  &lt;!-- ... --&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>tools:menu</strong><br>告诉IDE 在预览窗口中使用哪个菜单，这个菜单将显示在layout的根节点上（actionbar的位置）。<br><img src="http://upload-images.jianshu.io/upload_images/545982-1f67c35ce9ed7cdc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>其实预览窗口非常智能，如果布局和一个activity关联（指上面所讲的用tools:context关联）它将会自动查询相关activity的<strong><em>onCreateOptionsMenu</em></strong>方法中的代码，以显示菜单。而<strong>menu属性</strong>则可以覆盖这种默认的行为。<br>你还可以为<strong>menu属性</strong>定义多个菜单资源，不同的菜单资源之间用逗号隔开。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tools:menu=&quot;menu_main,menu_edit&quot;</span><br></pre></td></tr></table></figure></p>
-<p>如果你不希望在预览图中显示菜单则：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tools:menu=&quot;&quot;</span><br></pre></td></tr></table></figure></p>
-<p>最后需要注意，当主题为<strong><em>Theme.AppCompat</em></strong>时，这个属性不起作用。</p>
-<p><strong>tools:actionBarNavMode</strong><br>这个属性告诉ide  app bar（Material中对actionbar的称呼）的显示模式，其值可以是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">standard</span><br><span class="line">tabs</span><br><span class="line">list</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    tools:actionBarNavMode=&quot;tabs&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<p>同样的，当主题是<em>Theme.AppCompat</em> (r21+, at least) <em>或者**Theme.Material</em>,或者使用了布局包含Toolbar的方式。  该属性也不起作用，只有holo主题才有效。</p>
-<p><strong>listitem, listheader 和listfooter 属性</strong><br>顾名思义就是在ListView ExpandableListView等的预览效果中添加头部 尾部 以及子item的预览布局。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;GridView</span><br><span class="line"> android:id=&quot;@+id/list&quot;</span><br><span class="line"> android:layout_width=&quot;match_parent&quot;</span><br><span class="line"> android:layout_height=&quot;wrap_content&quot;</span><br><span class="line"> tools:listheader=&quot;@layout/list_header&quot;</span><br><span class="line"> tools:listitem=&quot;@layout/list_item&quot;</span><br><span class="line"> tools:listfooter=&quot;@layout/list_footer&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>layout属性</strong><br>tools:layout告诉ide，Fragment在程序预览的时候该显示成什么样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;fragment xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">    android:id=&quot;@+id/item_list&quot;</span><br><span class="line">    android:name=&quot;com.example.fragmenttwopanel.ItemListFragment&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:layout_marginLeft=&quot;16dp&quot;</span><br><span class="line">    android:layout_marginRight=&quot;16dp&quot;</span><br><span class="line">    tools:layout=&quot;@android:layout/list_content&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-2cfd6d595dad9f99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p><strong>tools:showIn</strong>该属性设置于一个被其他布局<include>的布局的根元素上。这让您可以指向包含此布局的其中一个布局，在设计时这个被包含的布局会带着周围的外部布局被渲染。这将允许您“在上下文中”查看和编辑这个布局。需要 Studio 0.5.8 或更高版本。</include></p>
-<p>关于tools 就介绍完了。<br>注：原文是两篇文章<br><a href="https://medium.com/sebs-top-tips/tools-of-the-trade-part-1-f3c1c73de898" target="_blank" rel="noopener">Tools of the trade — Part 1</a><br><a href="https://medium.com/sebs-top-tips/tools-of-the-trade-part-2-b91271892d10" target="_blank" rel="noopener">Tools of the trade — Part 2</a> 。</p>
-<p>觉得完全可以在一篇文章中讲完，就翻译在了一起，原文有很多和内容无关的gif图，描述也比较啰嗦，都被我去掉了，这篇文章属于意译。</p>
-<p>转载:<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0309/2567.html" target="_blank" rel="noopener">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0309/2567.html</a></p>
-
-          
+          <p><strong>第一部分</strong><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/android中xml-tools属性详解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1269,25 +1155,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>#####原理1——activity-alias<br>在AndroidMainifest中，有两个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 决定应用程序最先启动的Activity</span><br><span class="line">android.intent.action.MAIN </span><br><span class="line">// 决定应用程序是否显示在程序列表里</span><br><span class="line">android.intent.category.LAUNCHER</span><br></pre></td></tr></table></figure></p>
-<p>另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做过系统Setting和Launcher开发的开发者在系统的源码中应该见过很多。</p>
-<p>#####原理2——PM.setComponentEnabledSetting</p>
-<p>PackageManager是一个大统领类，可以管理所有的系统组件，当然，如果Root了，你还可以管理其它App的所有组件，一些系统优化工具就是通过这个方式来禁用一些后台Service的。</p>
-<p>使用方式异常简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private void enableComponent(ComponentName componentName) &#123;</span><br><span class="line">    mPm.setComponentEnabledSetting(componentName,</span><br><span class="line">            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,</span><br><span class="line">            PackageManager.DONT_KILL_APP);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">private void disableComponent(ComponentName componentName) &#123;</span><br><span class="line">    mPm.setComponentEnabledSetting(componentName,</span><br><span class="line">            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,</span><br><span class="line">            PackageManager.DONT_KILL_APP);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>根据PackageManager.COMPONENT_ENABLED_STATE_ENABLED和PackageManager.COMPONENT_ENABLED_STATE_DISABLED这两个标志量和对应的ComponentName，就可以控制一个组件的是否启用。</p>
-<p>#####动态换Icon<br>有了上面的两个原理，来实现动态更换Icon就只剩下思路问题了。</p>
-<p>首先，我们创建一个Activity，作为默认的入口并带着默认的图片，再创建一个双11的activity-alias，指向默认的Activity并带有双11的图片，再创建一个双12的activity-alias，指向默认的Activity并带有双12的图片……等等等。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.MainActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br><span class="line"></span><br><span class="line">&lt;activity-alias</span><br><span class="line">    android:name=&quot;.Test11&quot;</span><br><span class="line">    android:enabled=&quot;false&quot;</span><br><span class="line">    android:icon=&quot;@drawable/s11&quot;</span><br><span class="line">    android:label=&quot;双11&quot;</span><br><span class="line">    android:targetActivity=&quot;.MainActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity-alias&gt;</span><br><span class="line"></span><br><span class="line">&lt;activity-alias</span><br><span class="line">    android:name=&quot;.Test12&quot;</span><br><span class="line">    android:enabled=&quot;false&quot;</span><br><span class="line">    android:icon=&quot;@drawable/s12&quot;</span><br><span class="line">    android:label=&quot;双12&quot;</span><br><span class="line">    android:targetActivity=&quot;.MainActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity-alias&gt;</span><br></pre></td></tr></table></figure></p>
-<p>等等，这样有个问题，那就是这样会在Launcher上显示3个入口，所以，默认我们会把这些activity-alias先禁用，等到要用的时候再启用，养兵千日，用兵一时。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    private ComponentName mDefault;</span><br><span class="line">    private ComponentName mDouble11;</span><br><span class="line">    private ComponentName mDouble12;</span><br><span class="line">    private PackageManager mPm;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        mDefault = getComponentName();</span><br><span class="line">        mDouble11 = new ComponentName(</span><br><span class="line">                getBaseContext(),</span><br><span class="line">                &quot;com.xys.changeicon.Test11&quot;);</span><br><span class="line">        mDouble12 = new ComponentName(</span><br><span class="line">                getBaseContext(),</span><br><span class="line">                &quot;com.xys.changeicon.Test12&quot;);</span><br><span class="line">        mPm = getApplicationContext().getPackageManager();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void changeIcon11(View view) &#123;</span><br><span class="line">        disableComponent(mDefault);</span><br><span class="line">        disableComponent(mDouble12);</span><br><span class="line">        enableComponent(mDouble11);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void changeIcon12(View view) &#123;</span><br><span class="line">        disableComponent(mDefault);</span><br><span class="line">        disableComponent(mDouble11);</span><br><span class="line">        enableComponent(mDouble12);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void enableComponent(ComponentName componentName) &#123;</span><br><span class="line">        mPm.setComponentEnabledSetting(componentName,</span><br><span class="line">                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,</span><br><span class="line">                PackageManager.DONT_KILL_APP);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void disableComponent(ComponentName componentName) &#123;</span><br><span class="line">        mPm.setComponentEnabledSetting(componentName,</span><br><span class="line">                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,</span><br><span class="line">                PackageManager.DONT_KILL_APP);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>OK了，禁用默认的Activity后，启用双11的activity-alias，结果不变还是指向了默认的Activity，但图标已经发生了改变。</p>
-<blockquote>
-<p>根据ROM的不同，在禁用了组件之后，会等一会，Launcher会自动刷新图标。<br>效果参考下图。</p>
-</blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-a557ffb5ea125cf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>转载:<a href="http://android.jobbole.com/85321/" target="_blank" rel="noopener">http://android.jobbole.com/85321/</a></p>
-
-          
+          <p>#####原理1——activity-alias<br>在AndroidMainifest中，有两个属性：<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/动态更换应用Icon/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1437,12 +1312,14 @@
 
       
         
-          
-            <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cal1.add(Calendar.DAY_OF_MONTH,1);  </span><br><span class="line">cal1.add(Calendar.DAY_OF_YEAR,1);  </span><br><span class="line">cal1.add(Calendar.DATE,1);</span><br></pre></td></tr></table></figure>
-<p>就单纯的add操作结果都一样，因为都是将日期+1<br>就没有区别说是在月的日期中加1还是年的日期中加1<br>但是Calendar设置DAY_OF_MONTH和DAY_OF_YEAR的目的不是用来+1<br>将日期加1，这通过cal1.add(Calendar.DATE,1)就可以实现<br>DAY_OF_MONTH的主要作用是cal.get(DAY_OF_MONTH)，用来获得这一天在是这个月的第多少天<br>Calendar.DAY_OF_YEAR的主要作用是cal.get(DAY_OF_YEAR)，用来获得这一天在是这个年的第多少天。<br>同样，还有DAY_OF_WEEK，用来获得当前日期是一周的第几天</p>
-
-          
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cal1.add(Calendar.DAY_OF_MONTH,1);  </span><br><span class="line">cal1.add(Calendar.DAY_OF_YEAR,1);  </span><br><span class="line">cal1.add(Calendar.DATE,1);</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/Calendar的DAY-OF-MONTH-DAY-OF-YEAR-DATE的区别/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1593,8 +1470,7 @@
       
         
           
-            <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取本地IP地址</span><br><span class="line"> *</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static String getLocalIpAddress() &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		String ipv4;</span><br><span class="line">		List&lt;NetworkInterface&gt; nilist = Collections.list(NetworkInterface.getNetworkInterfaces());</span><br><span class="line">		for (NetworkInterface ni : nilist) &#123;</span><br><span class="line">			List&lt;InetAddress&gt; ialist = Collections.list(ni.getInetAddresses());</span><br><span class="line">			for (InetAddress address : ialist) &#123;</span><br><span class="line">				if (!address.isLoopbackAddress() &amp;&amp;</span><br><span class="line">						InetAddressUtils.isIPv4Address(ipv4 = address.getHostAddress())) &#123;</span><br><span class="line">					return ipv4;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; catch (SocketException ex) &#123;</span><br><span class="line">		ex.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取本地IP地址</span><br><span class="line"> *</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static String getLocalIpAddress() &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		String ipv4;</span><br><span class="line">		List&lt;NetworkInterface&gt; nilist = Collections.list(NetworkInterface.getNetworkInterfaces());</span><br><span class="line">		for (NetworkInterface ni : nilist) &#123;</span><br><span class="line">			List&lt;InetAddress&gt; ialist = Collections.list(ni.getInetAddresses());</span><br><span class="line">			for (InetAddress address : ialist) &#123;</span><br><span class="line">				if (!address.isLoopbackAddress() &amp;&amp;</span><br><span class="line">						InetAddressUtils.isIPv4Address(ipv4 = address.getHostAddress())) &#123;</span><br><span class="line">					return ipv4;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; catch (SocketException ex) &#123;</span><br><span class="line">		ex.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1745,23 +1621,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>#jarsigner</p>
-<p>#####使用示例:<br>jarsigner -verbose -keystore ~/Documents/WorkSpace/signkey.keystore -signedjar ./要生成的文件 ./源文件 签名文件的别名</p>
-<p>给apk包签名的方式有很多种，我们推荐您使用JDK自带的jarsigner工具来完成签名。</p>
-<p>#####jarsigner的命令格式</p>
-<p>jarsigner -verbose -keystore [您的私钥存放路径] -signedjar [签名后文件存放路径] [未签名的文件路径] [签名文件的别名]</p>
-<p>#####jarsigner的参数说明</p>
-<p>-keystore 参数指定您的私钥的绝对路径，例如：c:\mykeystore</p>
-<p>-signedjar 参数指定签名后apk文件存放绝对的路径，例如 c:\signed.apk</p>
-<p>[未签名的文件路径] 指定要签名apk文件的绝对路径，也就是您从我们这里下载到的，例如 c:\unsigned.apk</p>
-<p>[您的证书名称] 是指您创建密钥时，您设置的别名,也就是alias</p>
-<p>#zipalign对齐<br>zipalign -v 4 源文件 要生成的文件</p>
-<p>#####检查apk有没有zipalign对齐:<br>zipalign -c -v 4 被检查的apk文件</p>
-<p>#先签名再对齐,否则先对齐再签名会破坏对齐</p>
-
-          
+          <p>#jarsigner<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/apk命令行签名-zipalign对齐/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1911,27 +1778,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>本文主要介绍<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>系统各个版本的新特性，不定时更新ing。<br><strong>- Android1.1</strong> 2008 年9月发布的Android第一版</p>
-<p><strong>- Android1.5 Cupcake （纸杯蛋糕）</strong><br>2009年4月30日，官方1.5版本（Cupcake 纸杯蛋糕）的Android发布。 主要的更新如下：<br>1、拍摄/播放影片，并支持上传到Youtube<br>2、支持立体声蓝牙耳机，同时改善自动配对性能<br>3、最新的采用WebKit技术的浏览器，支持复制/贴上和页面中搜索<br>4、GPS性能大大提高<br>5、提供屏幕虚拟键盘<br>6、主屏幕增加音乐播放器和相框widgets<br>7、应用程序自动随着手机旋转<br>8、短信、Gmail、日暦，浏览器的用户接口大幅改进，如Gmail可以批量删除邮件<br>9、相机启动速度加快，拍摄图片可以直接上传到Picasa<br>10、来电照片显示</p>
-<p><strong>- Android1.6 Donut （甜甜圈）</strong><br>2009年9月15日，1.6（Donut 甜甜圈）版本软件开发工具包发布。 主要的更新如下：<br>1、重新设计的Android Market手势<br>2、支持支持CDMA网络<br>3、文字转语音系统（Text-to-Speech）<br>4、快速搜索框<br>5、全新的拍照接口<br>6、查看应用程序耗电<br>7、支持虚拟私人网络（VPN）<br>8、支持更多的屏幕分辨率。<br>9、支持OpenCore2媒体引擎<br>10、新增面向视觉或听觉困难人群的易用性插件</p>
-<p><strong>- Android2.0/2.0.1/2.1 Eclair （松饼）</strong><br>2009年10月26日，2.0（Eclair 松饼）版本软件开发工具包发布。 主要的更新如下：<br>1、优化硬件速度<br>2、 “Car Home”程序<br>3、支持更多的屏幕分辨率<br>4、改良的用户界面<br>5、新的浏览器的用户接口和支持<a href="http://lib.csdn.net/base/html5" target="_blank" rel="noopener">HTML5</a><br>6、新的联系人名单<br>7、更好的白色/黑色背景比率<br>8、改进Google Maps3.1.2<br>9、支持Microsoft Exchange<br>10、支持内置相机闪光灯<br>11、支持数码变焦<br>12、改进的虚拟键盘<br>13、支持蓝牙2.1<br>14、支持动态桌面的设计</p>
-<p><strong>- Android2.2/2.2.1 Froyo(冻酸奶）</strong><br>2010年5月20日，2.2（Froyo 冻酸奶）版本软件开发工具包发布。 主要的更新如下：<br>1、整体性能大幅度的提升<br>2、3G网络共享功能。<br>3、Flash的支持。<br>4、App2sd功能。<br>5、全新的软件商店。<br>6、更多的Web应用API接口的开发。</p>
-<p><strong>- Android2.3 Gingerbread （姜饼）</strong><br>2011年2月2日， 3.0（Honeycomb 蜂巢）版本 主要更新如下：<br>1、优化针对平板<br>2、全新设计的UI增强网页浏览功能<br>3、·n-app purchases功能</p>
-<p><strong>- Android 3.0 Honeycomb （蜂巢）</strong><br>1、Fragments：较activity粒度小的拥有独自生命周期的模块。可作为acitivity的一部分，activity通过FragmentManager管理独自的fragments back stack。<br>2、Action Bar：activity顶部标题栏的替代品，通常含logo，点击出现原menu菜单项–称作action item。可与tab、Fragments back stack合用。<br>3、粘贴版：系统范围的复制、粘贴。通过系统服务CLIPBOARD_SERVICE。<br>4、Drag and drop：在view中监听drag、drop动作，通过ClipData（与系统粘贴版无关）传递数据。<br>5、App widgets：支持GridView、ListView、StackView及ViewFlipper。<br>6、Content loader：Loader类简化异步数据加载；CursorLoader简化ContentProvider的数据加载。<br>7、动画支持扩展：全新动画框架，更灵活。<br>8、硬件绘制加速： android:hardwareAccelerated=”true” 启用OpenGl硬件绘制加速。支持renderscript脚本语言。</p>
-<p><strong>- Android3.1 Honeycomb （蜂巢）</strong><br>2011年5月11日在Google I/O开发者大会宣布发布，版本 主要更新如下：<br>1、Honeycomb 蜂巢（改进3.0BUG）<br>2、经过优化的Gmail电子邮箱；<br>3、全面支持GoogleMaps<br>4、将Android手机系统跟平板系统再次合并从而方便开发者。<br>5、任务管理器可滚动，支持USB 输入设备（键盘、鼠标等）。<br>6、支持 Google TV、可以支持XBOX 360无线手柄<br>7、widget支持的变化，能更加容易的定制屏幕widget插件。</p>
-<p><strong>- Android3.2 Honeycomb （蜂巢）</strong><br>2011年7月13日发布，版本更新如下：<br>1、支持7英寸设备<br>2、引入了应用显示缩放功能</p>
-<p><strong>- Android4.0 Ice Cream (冰激凌三明治)</strong><br>2011年10月19日 在香港发布，4.0（Ice Cream Sandwich 冰激凌三明治）版本 主要更新如下：<br>1、蓝色主题<br>2、接近于桌面版的Chrome Lite浏览器，有离线阅读，同步Chrome书签，新的标签样式等。<br>3、截图功能<br>4、更强大的图片编辑功能<br>5、自带照片应用堪比Instagram，可以加滤镜、加相框，进行360度全景拍摄，照片还能根据地点来排序<br>6、Gmail加入手势、离线搜索功能，UI更强大。<br>7、新功能People：以联系人照片为核心，界面偏重滑动而非点击，集成了Twitter、Linkedin、Google+等通讯工具。有望支持用户自定义添加第三方服务。<br>8、新增流量管理工具，可具体查看每个应用产生的流量。<br>9、正在运行的程序可以像电脑一样的互相切换<br>10、人脸识别功能<br>11、系统优化、速度更快<br>12、支持虚拟按键，手机可以不再拥有任何按键<br>13、专为3D优化的驱动 14、平板电脑和智能手机通用</p>
-<p><strong>- Android 4.1 Jelly Bean（果冻豆）</strong><br>于北京时间2012年6月28日00：30在Google I/O 2012开发者大会上发布<br>1.更快、更流畅、更灵敏<br>2.增强通知栏<br>3.全新搜索<br>4.桌面插件自动调整大小<br>5.加强无障碍操作<br>6.语言和输入法扩展<br>7.新的输入类型和功能<br>8.新的连接类型<br>9.新的媒体功能<br>10.浏览器增强<br>11.Google服务</p>
-<p><strong>- Android 4.2 Jelly Bean（果冻豆）</strong><br>Android 4.2是谷歌新一代移动<a href="http://lib.csdn.net/base/operatingsystem" target="_blank" rel="noopener">操作系统</a>，它沿用了4.1版“果冻豆”(Jelly Bean)这一名称，与Android 4.1相似性很高，但仍在细节之后做了一些改进与升级，比较重要的包括：Photo Sphere全景拍照；键盘手势输入；Miracast无线显示共享；手势放大缩小屏幕，以及为盲人用户设计的语音输出和手势模式导航功能等。尤其令人关注的是，谷歌在Android 4.2中新加入了新的恶意软件扫描功能。<br>1、完整的Chrome浏览器<br>2、全新的手机风景模式<br>3、全新的文件管理器<br>4、文本输入选项的改进<br>5、一个明确的升级方法<br>6、Android Key Lime Pie精简版<br>7、具有开关切换的用户界面<br>8、全新的电源管理系统<br>9、更为轻便的主题模式<br>10、全新的锁屏页面<br>11、全新的时钟界面</p>
-<p><strong>- Android 4.3 Jelly Bean（果冻豆）</strong><br>北京时间2013年7月25日凌晨,谷歌在美国旧金山的新品发布会上,发布了在<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">安卓</a>4.2版本基础上的升级版本Android 4.3<br>1、用户账户配制<br>2、拨号盘联系人自动补全<br>3、OpenGL 3.0<br>4、蓝牙低耗电技术<br>5、WIFI关闭后保持位置功能 其它特性 新的相机应用UI 新的开发者工具 通过邮件分享截屏时，日期和时间会自动加入进去。</p>
-<p><strong>- Android 4.4 KitKat（奇巧）</strong><br>Android 4.4，是由Google公司制作和研发的代号为KitKat的手机操作系统，于北京时间2013年9月4日凌晨对外公布了该Android新版本的名称，为Android 4.4（代号 KitKat 奇巧）。<br>1、优化了RenderScript计算和图像显示,取代OpenCL<br>2、支持两种编译模式<br>3、Android 4.4 KitKat针对RAM占用进行了优化，甚至可以在一些仅有512MB RAM的老款手机上流畅运行。<br>4、新图标、锁屏、启动动画和配色方案<br>5、新的拨号和智能来电显示<br>6、加强主动式语音功能<br>7、集成Hangouts IM软件<br>8、全屏模式<br>9、支持Emoji键盘<br>10、轻松访问在线存储<br>11、无线打印<br>12、屏幕录像功能<br>13、内置字幕管理功能<br>14、计步器应用<br>15、低功耗音频和定位模式<br>16、新的接触式支付系统<br>17、新的蓝牙配置文件和红外兼容性</p>
-<p><strong>- Android 5.0 Lollipop(棒棒糖)</strong><br>Android L即Android5.0是最新一代的Android操作系统，代号L。北京时间2014年6月26日0时，谷歌I/O 2014开发者大会将在旧金山正式召开。 全新Android l系统从图片上就能看到一些全新的功能。从图片上看，这套概念设计图对Android系统的桌面图标及部件的透明度进行的稍稍的调整，并且各种桌面小部件也可以重叠摆放。虽然调整桌面部件透明度对Android系统来说并不算什么新鲜的功能，但是加入了透明度的改进，除了整体的色调更加清新之外。<br>1、谷歌将为Android的语音服务Google Now加入一个名为OK Google Everywhere的全新功能。<br>2、Android 5.0可能还会加入更多的健身功能，考虑到谷歌在发布了Android Wear，后者与智能手表及谷歌眼镜等可穿戴设备的协作应该会成为下个版本的重点功能。<br>3、整合碎片化<br>4、传言Google将在Android5.0中，禁止厂商进行深度定制。<br>5、数据迁移<br>6、独立平板<br>7、功能按键<br>8、接口风格</p>
-<p><strong>- Android 6.0 Marshmallow(棉花糖)</strong><br>Android 6.0正式版终于随着Nexus 5X/6P一起登场了，并在北京时间10月6日面向Nexus系列产品推送升级<br>1.App Permissions（软件权限管理）。<br>2.Chrome Custom Tabs（网页体验提升）。<br>3.App Links（APP关联）。<br>4.Android Pay（安卓支付）。<br>5.Fingerprint Support（指纹支持）。<br>6.Power &amp; Change（电量管理 ）。</p>
-<p><strong>- Android 7.0 N</strong><br>1、分屏多任务<br>2、“Data Saver”<br>3、号码拦截<br>4、更便捷的通知中心<br>5、夜间模式<br>6、增强的<a href="http://lib.csdn.net/base/java" target="_blank" rel="noopener">Java </a>8语言支持 7、画中画模式</p>
-
-          
+          <p>本文主要介绍<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>系统各个版本的新特性，不定时更新ing。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/Android各个版本代号及其特性/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

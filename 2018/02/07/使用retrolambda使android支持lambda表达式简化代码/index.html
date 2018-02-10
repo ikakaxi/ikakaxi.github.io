@@ -77,17 +77,17 @@
 
 
 
-<meta name="description" content="在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。 在module的gradle.b">
+<meta name="description" content="在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用retrolambda使android支持lambda表达式简化代码">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/使用retrolambda使android支持lambda表达式简化代码/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。 在module的gradle.b">
+<meta property="og:description" content="在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-10T03:19:09.204Z">
+<meta property="og:updated_time" content="2018-02-10T03:42:03.471Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用retrolambda使android支持lambda表达式简化代码">
-<meta name="twitter:description" content="在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。 在module的gradle.b">
+<meta name="twitter:description" content="在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。">
 
 
 
@@ -370,8 +370,7 @@
       
 
       
-        <a id="more"></a>
-<p>在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。</p>
+        <p>在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。<br><a id="more"></a></p>
 <p>在module的gradle.build中加入下面的代码即可在项目中使用lambda表达式了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">apply plugin: &apos;me.tatarka.retrolambda&apos;</span><br><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenCentral()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;me.tatarka:gradle-retrolambda:3.4.0&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">android &#123;</span><br><span class="line">...</span><br><span class="line">    compileOptions &#123;</span><br><span class="line">        targetCompatibility 1.8</span><br><span class="line">        sourceCompatibility 1.8</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">//指定源码编译的级别,使用下列代码,会将代码编译到兼容1.6的字节码格式,android2.3.3-4.4使用的jdk6</span><br><span class="line">retrolambda &#123;</span><br><span class="line">    javaVersion JavaVersion.VERSION_1_6</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       

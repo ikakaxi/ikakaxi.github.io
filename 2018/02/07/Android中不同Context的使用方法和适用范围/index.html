@@ -77,20 +77,20 @@
 
 
 
-<meta name="description" content="###1、Context概念其实一直想写一篇关于Context的文章，但是又怕技术不如而误人子弟，于是参考了些资料，今天准备整理下写出来，如有不足，请指出，参考资料会在醒目地方标明。Context，相信不管是第一天开发Android，还是开发Android的各种老鸟，对于Context的使用一定不陌生~~你在加载资源、启动一个新的Activity、获取系统服务、获取内部文件（夹）路径、创建Vie">
+<meta name="description" content="###1、Context概念">
 <meta name="keywords" content="Context">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android中不同Context的使用方法和适用范围">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/Android中不同Context的使用方法和适用范围/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="###1、Context概念其实一直想写一篇关于Context的文章，但是又怕技术不如而误人子弟，于是参考了些资料，今天准备整理下写出来，如有不足，请指出，参考资料会在醒目地方标明。Context，相信不管是第一天开发Android，还是开发Android的各种老鸟，对于Context的使用一定不陌生~~你在加载资源、启动一个新的Activity、获取系统服务、获取内部文件（夹）路径、创建Vie">
+<meta property="og:description" content="###1、Context概念">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-6001ade83c752537.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-1582935f29bf28c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-02-10T03:19:48.440Z">
+<meta property="og:updated_time" content="2018-02-10T03:40:43.861Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android中不同Context的使用方法和适用范围">
-<meta name="twitter:description" content="###1、Context概念其实一直想写一篇关于Context的文章，但是又怕技术不如而误人子弟，于是参考了些资料，今天准备整理下写出来，如有不足，请指出，参考资料会在醒目地方标明。Context，相信不管是第一天开发Android，还是开发Android的各种老鸟，对于Context的使用一定不陌生~~你在加载资源、启动一个新的Activity、获取系统服务、获取内部文件（夹）路径、创建Vie">
+<meta name="twitter:description" content="###1、Context概念">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/545982-6001ade83c752537.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -374,8 +374,7 @@
       
 
       
-        <a id="more"></a>
-<p>###1、Context概念<br>其实一直想写一篇关于Context的文章，但是又怕技术不如而误人子弟，于是参考了些资料，今天准备整理下写出来，如有不足，请指出，参考资料会在醒目地方标明。<br>Context，相信不管是第一天开发<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>，还是开发Android的各种老鸟，对于Context的使用一定不陌生~~你在加载资源、启动一个新的Activity、获取系统服务、获取内部文件（夹）路径、创建View操作时等都需要Context的参与，可见Context的常见性。大家可能会问到底什么是Context，Context字面意思上下文，或者叫做场景，也就是用户与<a href="http://lib.csdn.net/base/operatingsystem" target="_blank" rel="noopener">操作系统</a>操作的一个过程，比如你打电话，场景包括电话程序对应的界面，以及隐藏在背后的数据；<br> 但是在程序的角度Context又是什么呢？在程序的角度，我们可以有比较权威的答案，Context是个抽象类，我们可以直接通过看其类结构来说明答案：</p>
+        <p>###1、Context概念<br><a id="more"></a><br>其实一直想写一篇关于Context的文章，但是又怕技术不如而误人子弟，于是参考了些资料，今天准备整理下写出来，如有不足，请指出，参考资料会在醒目地方标明。<br>Context，相信不管是第一天开发<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>，还是开发Android的各种老鸟，对于Context的使用一定不陌生~~你在加载资源、启动一个新的Activity、获取系统服务、获取内部文件（夹）路径、创建View操作时等都需要Context的参与，可见Context的常见性。大家可能会问到底什么是Context，Context字面意思上下文，或者叫做场景，也就是用户与<a href="http://lib.csdn.net/base/operatingsystem" target="_blank" rel="noopener">操作系统</a>操作的一个过程，比如你打电话，场景包括电话程序对应的界面，以及隐藏在背后的数据；<br> 但是在程序的角度Context又是什么呢？在程序的角度，我们可以有比较权威的答案，Context是个抽象类，我们可以直接通过看其类结构来说明答案：</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/545982-6001ade83c752537.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p>可以看到Activity、Service、Application都是Context的子类；<br>也就是说，Android系统的角度来理解：Context是一个场景，代表与操作系统的交互的一种过程。从程序的角度上来理解：Context是个抽象类，而Activity、Service、Application等都是该类的一个实现。<br>在仔细看一下上图：Activity、Service、Application都是继承自ContextWrapper，而ContextWrapper内部会包含一个base context，由这个base context去实现了绝大多数的方法。<br>先扯这么多，有能力了会从别的角度去审视Context，加油~</p>
 <p>###2、Context与ApplicationContext<br>看了标题，千万不要被误解，ApplicationContext并没有这个类，其实更应该叫做：Activity与Application在作为Context时的区别。嗯，的确是这样的，大家在需要Context的时候，如果是在Activity中，大多直接传个this，当在匿名内部类的时候，因为this不能用，需要写XXXActivity.this，很多哥们会偷懒，直接就来个getApplicationContext。那么大家有没有想过，XXXActivity.this和getApplicationContext的区别呢？<br>XXXActivity和getApplicationContext返回的肯定不是一个对象，一个是当前Activity的实例，一个是项目的Application的实例。既然区别这么明显，那么各自的使用场景肯定不同，乱使用可能会带来一些问题。<br>下面开始介绍在使用Context时，需要注意的问题。</p>

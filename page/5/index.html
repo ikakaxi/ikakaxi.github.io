@@ -690,8 +690,7 @@
       
         
           
-            <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android.content.ActivityNotFoundException</span><br><span class="line">Unable to find explicit activity class &#123;com.android.browser/com.android.browser.BrowserActivity&#125;; have you declared this activity in your AndroidManifest.xml?</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android.content.ActivityNotFoundException</span><br><span class="line">Unable to find explicit activity class &#123;com.android.browser/com.android.browser.BrowserActivity&#125;; have you declared this activity in your AndroidManifest.xml?</span><br></pre></td></tr></table></figure>
 <p>在三星的一款手机遇到这个问题,后来找到原因是他刷机后没有这个累了,之前的调用方法是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();  </span><br><span class="line">intent.setAction(Intent.ACTION_VIEW);  </span><br><span class="line">Uri content_uri_browsers = Uri.parse(***);  </span><br><span class="line">intent.setData(content_uri_browsers);  </span><br><span class="line">intent.setClassName(&quot;com.android.browser&quot;, &quot;com.android.browser.BrowserActivity&quot;);  </span><br><span class="line">this.startActivity(intent);</span><br></pre></td></tr></table></figure></p>
 <p>解决这个问题需要去掉intent.setClassName(…)<br>改完以后是下面这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();  </span><br><span class="line">intent.setAction(Intent.ACTION_VIEW);  </span><br><span class="line">Uri content_uri_browsers = Uri.parse(***);  </span><br><span class="line">intent.setData(content_uri_browsers);  </span><br><span class="line">this.startActivity(intent);</span><br></pre></td></tr></table></figure></p>
 <p>这样让用户去选择浏览器下载,就解决这个问题了</p>
@@ -846,17 +845,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>######前言<br>今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。<br>以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_pressed=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_selected=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#f88b00&quot;&gt;&lt;/item&gt;</span><br><span class="line"></span><br><span class="line">&lt;/selector&gt;</span><br></pre></td></tr></table></figure></p>
-<p>######坑？<br>在代码里设置颜色seletor，以为在代码里直接调用 button.setTextColor(int colorValue) 就可以了，结果运行效果让我傻眼了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mBtnDownAndOpen.setText(DOWNLOAD_OPEN);  //设置button文字</span><br><span class="line">mBtnDownAndOpen.setTextColor(mContext.getResources().getColor(R.color.networkdata_btn_open_txtcolor_selector));    //设置button文字颜色</span><br><span class="line">mBtnDownAndOpen.setBackground(mContext.getResources().getDrawable(R.drawable.networkdata_btn_open_selector));    //设置button背景</span><br></pre></td></tr></table></figure></p>
-<p>######郁闷的是，只能读取到没获取焦点时的色值，也就是 <item android:color="#f88b00"></item> ，其他状态获取不到。</p>
-<p>######如何填坑？<br>采用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mBtnDownAndOpen.setTextColor(mContext.getResources().getColorStateList(R.color.networkdata_btn_open_txtcolor_selector));</span><br></pre></td></tr></table></figure></p>
-<p>为button设置文字颜色。<br>区别在于：改之前用的是getColor，改之后用的是getColorStateList</p>
-<p>######WHY?<br>文字颜色的seletor在代码里的显示形式是ColorStateList，而res/color放的就是ColorStateList资源XML文件，getColor只能读取单个的color。</p>
-<p>转载:<a href="http://blog.csdn.net/zhangshao45612/article/details/49784997" target="_blank" rel="noopener">http://blog.csdn.net/zhangshao45612/article/details/49784997</a></p>
-
-          
+          <p>######前言<br>今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/Android-代码里动态设置TextView-Button等的文字颜色Seletor/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1006,18 +1002,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>总结备份一下,防止忘记,网上有较多的设置透明状态栏的方法,目前试了很多,个人觉得现在自己使用的这种方式较完美<br>首先我的项目没有用到ToolBar或者ActionBar,后退标题栏是自己做的,这个后退标题栏自己做也很简单,而且按系统后退键我也处理了,下面直接说怎么做透明标题栏</p>
-<p>######首先,要在自己的项目里添加v7扩展包,然后再做下列操作</p>
-<p>1.设置theme<br>在默认的values下,添加下面的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line"></span><br><span class="line">    &lt;style name=&quot;BaseTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;style name=&quot;ImageTranslucentTheme&quot; parent=&quot;BaseTheme&quot;&gt;</span><br><span class="line">        &lt;!--通过设置android:windowIsTranslucent属性，表明该窗口是透明的，这样也不会出现白屏或者黑屏。</span><br><span class="line">        但是，它和MainActivity的显示是同步，如果在MainActivity启动的时候，有过多复杂的操作，就会出现在手机中点击了应用程序的图标之后，</span><br><span class="line">        但过两秒才会打开应用程序不好的卡顿体验效果。--&gt;</span><br><span class="line">        &lt;!--&lt;item name=&quot;android:windowIsTranslucent&quot;&gt;true&lt;/item&gt;--&gt;</span><br><span class="line">        &lt;!--让一张图片作为窗口的背景图，使打开MainActivity第一眼看到的界面是一张图片而不是白屏或者黑屏。</span><br><span class="line">        设置这个属性来显示一张背景图还有一个效果就是启动应用程序会感觉非常快，而且与加载MainActivity的contentView是异步的--&gt;</span><br><span class="line">        &lt;!--&lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/white&lt;/item&gt;--&gt;</span><br><span class="line">        &lt;!-- 打开window预览效果(默认是打开的) --&gt;</span><br><span class="line">        &lt;!--item name=&quot;android:windowDisablePreview&quot;&gt;true&lt;/item--&gt;</span><br><span class="line">        &lt;item name=&quot;colorPrimary&quot;&gt;@color/colorPrimary&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;colorPrimaryDark&quot;&gt;@color/colorPrimaryDark&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;colorAccent&quot;&gt;@color/colorAccent&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/white&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;actionBarStyle&quot;&gt;@style/ThemeOverlay.AppCompat.Dark.ActionBar&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:actionBarStyle&quot;&gt;@style/ThemeOverlay.AppCompat.Dark.ActionBar&lt;/item&gt;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure></p>
-<p>2.然后添加同级文件夹values-v21,添加下面的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--沉浸式状态栏--&gt;</span><br><span class="line">    &lt;style name=&quot;ImageTranslucentTheme&quot; parent=&quot;BaseTheme&quot;&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowDrawsSystemBarBackgrounds&quot;&gt;true&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowContentTransitions&quot;&gt;true&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowAllowEnterTransitionOverlap&quot;&gt;true&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowAllowReturnTransitionOverlap&quot;&gt;true&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowSharedElementEnterTransition&quot;&gt;@android:transition/move&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowSharedElementExitTransition&quot;&gt;@android:transition/move&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:statusBarColor&quot;&gt;@android:color/transparent&lt;/item&gt;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure></p>
-<p>3.在AndroidManifest.xml里,给Application配置上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:theme=&quot;@style/ImageTranslucentTheme&quot;</span><br></pre></td></tr></table></figure></p>
-<p>4.在需要透明状态栏的Activity的onCreate方法里添加方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">	requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">	super.onCreate(savedInstanceState);</span><br><span class="line">	StatusBarCompat.compat(this, getResources().getColor(R.color.back_title_bg));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>back_title_bg是我自己定义的颜色,在color.xml文件里配置的,这么做就可以实现透明状态栏了,这里有一些值应该不需要配置也可以,等以后有时间再研究一下,下面附上StatusBarCompat类的源码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import android.annotation.TargetApi;</span><br><span class="line">import android.app.Activity;</span><br><span class="line">import android.graphics.Color;</span><br><span class="line">import android.os.Build;</span><br><span class="line">import android.support.annotation.ColorInt;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.view.ViewGroup;</span><br><span class="line"></span><br><span class="line">import cn.finalteam.toolsfinal.DeviceUtils;</span><br><span class="line"></span><br><span class="line">public class StatusBarCompat &#123;</span><br><span class="line"></span><br><span class="line">	private static final int INVALID_VAL = -1;</span><br><span class="line">	private static final int COLOR_DEFAULT = Color.parseColor(&quot;#20000000&quot;);</span><br><span class="line"></span><br><span class="line">	@TargetApi(Build.VERSION_CODES.LOLLIPOP)</span><br><span class="line">	public static void compat(Activity activity, @ColorInt int statusColor) &#123;</span><br><span class="line">		ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content);</span><br><span class="line">		View childAt = contentView.getChildAt(0);</span><br><span class="line">		childAt.setFitsSystemWindows(true);</span><br><span class="line">		//当前手机版本为5.0及以上</span><br><span class="line">		if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">			if (statusColor != INVALID_VAL) &#123;</span><br><span class="line">				activity.getWindow().setStatusBarColor(statusColor);</span><br><span class="line">			&#125;</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		//当前手机版本为4.4-5.0</span><br><span class="line">		if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT &amp;&amp; Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">			int color = COLOR_DEFAULT;</span><br><span class="line">			if (statusColor != INVALID_VAL) &#123;</span><br><span class="line">				color = statusColor;</span><br><span class="line">			&#125;</span><br><span class="line">			//根布局添加占位状态栏</span><br><span class="line">			ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();</span><br><span class="line">			View statusBarView = new View(activity);</span><br><span class="line">			ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,</span><br><span class="line">					DeviceUtils.getStatusBarHeight(activity));</span><br><span class="line">			statusBarView.setBackgroundColor(color);</span><br><span class="line">			decorView.addView(statusBarView, lp);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static void compat(Activity activity) &#123;</span><br><span class="line">		compat(activity, INVALID_VAL);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>其中用到一个开源项目的类,附上地址<br><a href="https://github.com/pengjianbo/ToolsFinal" target="_blank" rel="noopener">https://github.com/pengjianbo/ToolsFinal</a><br>只有一个地方用到了,自己找一下替代方法就不用引入这个类库了</p>
-
-          
+          <p>总结备份一下,防止忘记,网上有较多的设置透明状态栏的方法,目前试了很多,个人觉得现在自己使用的这种方式较完美<br>首先我的项目没有用到ToolBar或者ActionBar,后退标题栏是自己做的,这个后退标题栏自己做也很简单,而且按系统后退键我也处理了,下面直接说怎么做透明标题栏<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/透明状态栏/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1167,41 +1159,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>在应用开发中，我们常常会进行日志打印或者debug调试，以此来分析运行时的一些信息，便于发现bug和问题。Android Studio的Debug功能很好用，但是有时候有些情况下，就显得不是那么快捷和便利。</p>
-<p>比如</p>
-<ul>
-<li>我们调试的点在应用一打开的时候，很靠前，例如Application的onCreate方法中，以至于我们不能足够快的设置进程为debug模式</li>
-<li>虽然上面的情况可以通过Android Studio的debug运行来解决，但是如果项目很大的话，运行起来也会比较耽误时间</li>
-</ul>
-<p>那么怎么解决上面的问题呢，其实只需要执行一行命令即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am set-debug-app -w com.example.jishuxiaoheiwu.appdebugsample</span><br></pre></td></tr></table></figure>
-<p>其中</p>
-<ul>
-<li>set-debug-app 用来应用为debug模式</li>
-<li>-w 意思为wait，在进程启动的时候，等待debugger进行连接</li>
-<li><p><code>com.example.jishuxiaoheiwu.appdebugsample</code></p>
-<p>代表想要调试的应用的包名或ApplicationId</p>
-</li>
-</ul>
-<p>执行上面的命令，当我们再次启动目标应用时，会得到这样的画面</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-5548e7da53022dc5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Android Waiting For Debugger Dialog"></p>
-<p>然后，我们就会有足够的时间，来使用Run—&gt; Attach Debugger to Android Process 来绑定进程debug。 绑定后对话框消失，下次启动就是正常的启动（没有上面的对话框了）</p>
-<p>那么一次debug不一定能解决问题，多次调试则在所难免，那么每次都要执行这个命令么？</p>
-<p>答案是可以，但是有更好的方式。即</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am set-debug-app -w --persistent  com.example.jishuxiaoheiwu.appdebugsample</span><br></pre></td></tr></table></figure>
-<p>上面的代码和之前有所不同，表现在一个—persistent</p>
-<ul>
-<li>—persitent意思是持久的，意思是一直设置这个应用为调试模式，即每次开启（进程创建）都会弹出对话框，即使卸载再安装或者更新应用</li>
-</ul>
-<p>如果多次debug完成后，解决了问题，想要恢复正常的启动也很简单</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am clear-debug-app</span><br></pre></td></tr></table></figure>
-<p>这个调试的方法很简单，但是可能会节省我们很多的宝贵时间。希望可以帮助到各位开发同行。</p>
-<p>另外，当你的开发中遇到效率问题时，你需要做出思考，发觉更快捷的工作方式，而不是为了调试Application中onCreate方法中的代码，每次都点击Android Studio的debug按钮。</p>
-<p>转载:<a href="http://droidyue.com/blog/2017/05/14/a-little-but-useful-debug-skill_for_android/" target="_blank" rel="noopener">http://droidyue.com/blog/2017/05/14/a-little-but-useful-debug-skill_for_android/</a></p>
-
-          
+          <p>在应用开发中，我们常常会进行日志打印或者debug调试，以此来分析运行时的一些信息，便于发现bug和问题。Android Studio的Debug功能很好用，但是有时候有些情况下，就显得不是那么快捷和便利。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/如果在程序启动的时候等待debug/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1352,8 +1317,7 @@
       
         
           
-            <a id="more"></a>
-<p>手机root后,执行adb shell然后执行su命令,就可以为所欲为,但是测试机不见得都可以root,这时候做一些操作,可以执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run-as 需要查看内容的应用包名</span><br></pre></td></tr></table></figure></p>
+            <p>手机root后,执行adb shell然后执行su命令,就可以为所欲为,但是测试机不见得都可以root,这时候做一些操作,可以执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run-as 需要查看内容的应用包名</span><br></pre></td></tr></table></figure></p>
 <p>这个命令查看,但是只能在debug下面才能使用,所以,只能看自己开发的app了…</p>
 
           
@@ -1671,8 +1635,7 @@
       
         
           
-            <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClass(this, ReceivePushMessageActivity.class);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">intent.putExtra(&quot;name&quot;, &quot;li&quot;);</span><br><span class="line">intent.putExtra(&quot;age&quot;, 18);</span><br><span class="line">String intentUri = intent.toUri(Intent.URI_INTENT_SCHEME);</span><br><span class="line"></span><br><span class="line">//复制到剪贴板</span><br><span class="line">ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);</span><br><span class="line">cmb.setText(intentUri);</span><br><span class="line">ToastFactory.showTextShortToast(this, &quot;已复制到剪贴板&quot;);</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClass(this, ReceivePushMessageActivity.class);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">intent.putExtra(&quot;name&quot;, &quot;li&quot;);</span><br><span class="line">intent.putExtra(&quot;age&quot;, 18);</span><br><span class="line">String intentUri = intent.toUri(Intent.URI_INTENT_SCHEME);</span><br><span class="line"></span><br><span class="line">//复制到剪贴板</span><br><span class="line">ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);</span><br><span class="line">cmb.setText(intentUri);</span><br><span class="line">ToastFactory.showTextShortToast(this, &quot;已复制到剪贴板&quot;);</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1823,14 +1786,10 @@
 
       
         
-          <p>将MapView改为TextureMapView即可<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/07/百度地图的MapView在Fragment中闪屏的解决办法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>将MapView改为TextureMapView即可</p>
+
+          
         
       
     </div>
