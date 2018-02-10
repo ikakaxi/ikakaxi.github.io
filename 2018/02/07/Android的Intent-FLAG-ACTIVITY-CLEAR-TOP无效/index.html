@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="转载:http://blog.csdn.net/u011361576/article/details/48626237 今天写代码遇到了一个问题：当 B - A - B 跳转的时候，使用Intent的FLAG_ACTIVITY_CLEAR_TOP会让第一个B和第二个A，destory掉，但是当B - A - C跳转的时候不会调用B和A的destory。查看API文档才发现原因，所以这里记录一下避免">
+<meta name="description" content="转载:http://blog.csdn.net/u011361576/article/details/48626237">
 <meta name="keywords" content="intent">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android的Intent.FLAG_ACTIVITY_CLEAR_TOP无效">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/Android的Intent-FLAG-ACTIVITY-CLEAR-TOP无效/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="转载:http://blog.csdn.net/u011361576/article/details/48626237 今天写代码遇到了一个问题：当 B - A - B 跳转的时候，使用Intent的FLAG_ACTIVITY_CLEAR_TOP会让第一个B和第二个A，destory掉，但是当B - A - C跳转的时候不会调用B和A的destory。查看API文档才发现原因，所以这里记录一下避免">
+<meta property="og:description" content="转载:http://blog.csdn.net/u011361576/article/details/48626237">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-07T15:07:15.283Z">
+<meta property="og:updated_time" content="2018-02-10T03:16:34.366Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android的Intent.FLAG_ACTIVITY_CLEAR_TOP无效">
-<meta name="twitter:description" content="转载:http://blog.csdn.net/u011361576/article/details/48626237 今天写代码遇到了一个问题：当 B - A - B 跳转的时候，使用Intent的FLAG_ACTIVITY_CLEAR_TOP会让第一个B和第二个A，destory掉，但是当B - A - C跳转的时候不会调用B和A的destory。查看API文档才发现原因，所以这里记录一下避免">
+<meta name="twitter:description" content="转载:http://blog.csdn.net/u011361576/article/details/48626237">
 
 
 
@@ -372,6 +372,7 @@
 
       
         <p>转载:<a href="http://blog.csdn.net/u011361576/article/details/48626237" target="_blank" rel="noopener">http://blog.csdn.net/u011361576/article/details/48626237</a></p>
+<a id="more"></a>
 <p>今天写代码遇到了一个问题：<br>当 B - A - B 跳转的时候，使用Intent的FLAG_ACTIVITY_CLEAR_TOP会让第一个B和第二个A，destory掉，但是当B - A - C跳转的时候不会调用B和A的destory。<br>查看API文档才发现原因，所以这里记录一下避免下次忘记了：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static final int FLAG_ACTIVITY_CLEAR_TOP</span><br><span class="line">Added in [API level 1](http://developer.android.com/guide/topics/manifest/uses-sdk-element.html#ApiLevels)</span><br><span class="line">If set, and the activity being launched is already running in the current task, then instead of launching a new instance of that activity, all of the other activities on top of it will be closed and this Intent will be delivered to the (now on top) old activity as a new Intent.</span><br></pre></td></tr></table></figure>
 <p>如果设置这个属性，是当要启动的Activity已经存在当前Task中，才会在启动的时候销毁其他的Activity。<br>所以上面当A跳C的时候不满足此条件。</p>

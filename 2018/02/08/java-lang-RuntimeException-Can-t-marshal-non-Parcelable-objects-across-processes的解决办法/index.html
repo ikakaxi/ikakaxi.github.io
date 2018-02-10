@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="必须用Bundle传递常规类型数据，否则会报错： java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes. 因为Binder事务传递的数据被称为包裹(Parcel)，必须实现Parcelable接口，否则无法在两个应用之间进行通信。之所以用Bundle传递是因为该类实现了Parcelable">
+<meta name="description" content="必须用Bundle传递常规类型数据，否则会报错： java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes. 因为Binder事务传递的数据被称为包裹(Parcel)，必须实现Parcelable接口，否则无法在两个应用之间进行通信。之所以用Bundle传递是因为该类实现了Parcelabl">
 <meta name="keywords" content="异常">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java.lang.RuntimeException: Can&#39;t marshal non-Parcelable objects across processes的解决办法">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/08/java-lang-RuntimeException-Can-t-marshal-non-Parcelable-objects-across-processes的解决办法/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="必须用Bundle传递常规类型数据，否则会报错： java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes. 因为Binder事务传递的数据被称为包裹(Parcel)，必须实现Parcelable接口，否则无法在两个应用之间进行通信。之所以用Bundle传递是因为该类实现了Parcelable">
+<meta property="og:description" content="必须用Bundle传递常规类型数据，否则会报错： java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes. 因为Binder事务传递的数据被称为包裹(Parcel)，必须实现Parcelable接口，否则无法在两个应用之间进行通信。之所以用Bundle传递是因为该类实现了Parcelabl">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-08T01:23:33.544Z">
+<meta property="og:updated_time" content="2018-02-10T03:22:06.409Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java.lang.RuntimeException: Can&#39;t marshal non-Parcelable objects across processes的解决办法">
-<meta name="twitter:description" content="必须用Bundle传递常规类型数据，否则会报错： java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes. 因为Binder事务传递的数据被称为包裹(Parcel)，必须实现Parcelable接口，否则无法在两个应用之间进行通信。之所以用Bundle传递是因为该类实现了Parcelable">
+<meta name="twitter:description" content="必须用Bundle传递常规类型数据，否则会报错： java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes. 因为Binder事务传递的数据被称为包裹(Parcel)，必须实现Parcelable接口，否则无法在两个应用之间进行通信。之所以用Bundle传递是因为该类实现了Parcelabl">
 
 
 
@@ -371,7 +371,8 @@
       
 
       
-        <p>必须用Bundle传递常规类型数据，否则会报错：</p>
+        <a id="more"></a>
+<p>必须用Bundle传递常规类型数据，否则会报错：</p>
 <p>java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes.</p>
 <p>因为Binder事务传递的数据被称为包裹(Parcel)，必须实现Parcelable接口，否则无法在两个应用之间进行通信。之所以用Bundle传递是因为该类实现了Parcelable接口。当然如果要传递类也必须实现该接口。</p>
 

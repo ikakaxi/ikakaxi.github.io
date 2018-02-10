@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="######前言今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml12345678&amp;lt;?xml version=&amp;quot;1">
+<meta name="description" content="######前言今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml12345678&amp;lt;?xml version=&amp;quot;">
 <meta name="keywords" content="View">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 代码里动态设置TextView&#x2F;Button等的文字颜色Seletor">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/Android-代码里动态设置TextView-Button等的文字颜色Seletor/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="######前言今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml12345678&amp;lt;?xml version=&amp;quot;1">
+<meta property="og:description" content="######前言今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml12345678&amp;lt;?xml version=&amp;quot;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-07T15:08:41.503Z">
+<meta property="og:updated_time" content="2018-02-10T03:21:35.513Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 代码里动态设置TextView&#x2F;Button等的文字颜色Seletor">
-<meta name="twitter:description" content="######前言今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml12345678&amp;lt;?xml version=&amp;quot;1">
+<meta name="twitter:description" content="######前言今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml12345678&amp;lt;?xml version=&amp;quot;">
 
 
 
@@ -371,7 +371,8 @@
       
 
       
-        <p>######前言<br>今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。<br>以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_pressed=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_selected=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#f88b00&quot;&gt;&lt;/item&gt;</span><br><span class="line"></span><br><span class="line">&lt;/selector&gt;</span><br></pre></td></tr></table></figure></p>
+        <a id="more"></a>
+<p>######前言<br>今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。<br>以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_pressed=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_selected=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#f88b00&quot;&gt;&lt;/item&gt;</span><br><span class="line"></span><br><span class="line">&lt;/selector&gt;</span><br></pre></td></tr></table></figure></p>
 <p>######坑？<br>在代码里设置颜色seletor，以为在代码里直接调用 button.setTextColor(int colorValue) 就可以了，结果运行效果让我傻眼了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mBtnDownAndOpen.setText(DOWNLOAD_OPEN);  //设置button文字</span><br><span class="line">mBtnDownAndOpen.setTextColor(mContext.getResources().getColor(R.color.networkdata_btn_open_txtcolor_selector));    //设置button文字颜色</span><br><span class="line">mBtnDownAndOpen.setBackground(mContext.getResources().getDrawable(R.drawable.networkdata_btn_open_selector));    //设置button背景</span><br></pre></td></tr></table></figure></p>
 <p>######郁闷的是，只能读取到没获取焦点时的色值，也就是 <item android:color="#f88b00"></item> ，其他状态获取不到。</p>
 <p>######如何填坑？<br>采用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mBtnDownAndOpen.setTextColor(mContext.getResources().getColorStateList(R.color.networkdata_btn_open_txtcolor_selector));</span><br></pre></td></tr></table></figure></p>

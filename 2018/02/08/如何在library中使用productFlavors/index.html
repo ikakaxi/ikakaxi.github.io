@@ -77,21 +77,21 @@
 
 
 
-<meta name="description" content="源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是">
+<meta name="description" content="源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何在library中使用productFlavors">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/08/如何在library中使用productFlavors/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是">
+<meta property="og:description" content="源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-e0a9a4ea96a62da6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-65c9816351c171d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-3762056f0f5faf2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-9a7cae994136745b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-02-08T01:51:50.363Z">
+<meta property="og:updated_time" content="2018-02-10T03:23:45.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何在library中使用productFlavors">
-<meta name="twitter:description" content="源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是">
+<meta name="twitter:description" content="源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/545982-e0a9a4ea96a62da6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -375,7 +375,8 @@
       
 
       
-        <p>源地址:<a href="http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao</a></p>
+        <a id="more"></a>
+<p>源地址:<a href="http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao</a></p>
 <p>###前言：<br>前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。<br>一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是不允许的。所以下面我们就来介绍一下如何在library中使用productFlavors。</p>
 <p>###1.基础<br>前面介绍过如何使用productFlavors，不了解的朋友需要先看看这篇文章<br><a href="http://blog.csdn.net/yulyu/article/details/59111697" target="_blank" rel="noopener">活用productFlavors,批量定制化</a><br><a href="http://blog.csdn.net/yulyu/article/details/59111697" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/59111697</a></p>
 <p>###2.场景介绍<br>首先我们引用了一个picmodule，然后picmodule里面有一个正常的产品，两个定制化的产品</p>

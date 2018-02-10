@@ -77,19 +77,19 @@
 
 
 
-<meta name="description" content="####前言对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将">
+<meta name="description" content="####前言对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它">
 <meta name="keywords" content="内存泄漏,优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android性能优化之常见的内存泄漏">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/Android性能优化之常见的内存泄漏/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="####前言对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将">
+<meta property="og:description" content="####前言对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-4081d50705e029f0?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-02-07T14:56:24.748Z">
+<meta property="og:updated_time" content="2018-02-10T03:19:41.329Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android性能优化之常见的内存泄漏">
-<meta name="twitter:description" content="####前言对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将">
+<meta name="twitter:description" content="####前言对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/545982-4081d50705e029f0?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -373,7 +373,8 @@
       
 
       
-        <p>####前言<br>对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。</p>
+        <a id="more"></a>
+<p>####前言<br>对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。</p>
 <p>最近腾讯bugly也推出了三篇关于Android内存泄漏调优的文章：</p>
 <ol>
 <li><a href="http://bugly.qq.com/blog/?p=832" target="_blank" rel="noopener">内存泄露从入门到精通三部曲之基础知识篇</a></li>

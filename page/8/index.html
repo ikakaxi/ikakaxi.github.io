@@ -374,7 +374,8 @@
       
         
           
-            <p>默认debug.keystore的信息如下：<br>Keystore name: “debug.keystore”<br>Keystore password: “android”<br>Key alias: “androiddebugkey”<br>Key password: “android”<br>CN: “CN=Android Debug,O=Android,C=US”</p>
+            <a id="more"></a>
+<p>默认debug.keystore的信息如下：<br>Keystore name: “debug.keystore”<br>Keystore password: “android”<br>Key alias: “androiddebugkey”<br>Key password: “android”<br>CN: “CN=Android Debug,O=Android,C=US”</p>
 
           
         
@@ -527,7 +528,8 @@
       
         
           
-            <p>在使用Android Studio 开发中，如遇到多个项目引用同一个library（源码）的情况时，会遇到在每个项目中都要有一套library的代码，对还在开发和维护中的library需要频繁的修改，这对同步就很麻烦了，下面提出以下方法供选择。当然最后会给出最合理的解决办法。</p>
+            <a id="more"></a>
+<p>在使用Android Studio 开发中，如遇到多个项目引用同一个library（源码）的情况时，会遇到在每个项目中都要有一套library的代码，对还在开发和维护中的library需要频繁的修改，这对同步就很麻烦了，下面提出以下方法供选择。当然最后会给出最合理的解决办法。</p>
 <p><strong>第一种</strong>方法是对library向每个引用的项目建立软连接。这样修改就会对每个引用同步修改.这种方法就是看起来会很臃肿，如果要引用多个library就很痛苦。</p>
 <p><strong>第二种</strong>就是maven 仓库的方式，将所有的library都上传到maven仓库，然后在各个工程中进行引用，当然这种是对稳定的library来说是最好的一种方式，但对于library需要开发和修改的就不太适合了。</p>
 <p><strong>第三种</strong>就是将所有的library作为一个工程使用，然后将所有的library都放入此工程中，然后在其他引用library的工程中，引入新建的工程，这样看起来和eclipse 引用library的结构就很像了，且可以放入多个library都不影响。下面就来看看这种解决方法，该如何实现。</p>
@@ -689,7 +691,8 @@
       
         
           
-            <p>###1、Context概念<br>其实一直想写一篇关于Context的文章，但是又怕技术不如而误人子弟，于是参考了些资料，今天准备整理下写出来，如有不足，请指出，参考资料会在醒目地方标明。<br>Context，相信不管是第一天开发<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>，还是开发Android的各种老鸟，对于Context的使用一定不陌生~~你在加载资源、启动一个新的Activity、获取系统服务、获取内部文件（夹）路径、创建View操作时等都需要Context的参与，可见Context的常见性。大家可能会问到底什么是Context，Context字面意思上下文，或者叫做场景，也就是用户与<a href="http://lib.csdn.net/base/operatingsystem" target="_blank" rel="noopener">操作系统</a>操作的一个过程，比如你打电话，场景包括电话程序对应的界面，以及隐藏在背后的数据；<br> 但是在程序的角度Context又是什么呢？在程序的角度，我们可以有比较权威的答案，Context是个抽象类，我们可以直接通过看其类结构来说明答案：</p>
+            <a id="more"></a>
+<p>###1、Context概念<br>其实一直想写一篇关于Context的文章，但是又怕技术不如而误人子弟，于是参考了些资料，今天准备整理下写出来，如有不足，请指出，参考资料会在醒目地方标明。<br>Context，相信不管是第一天开发<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>，还是开发Android的各种老鸟，对于Context的使用一定不陌生~~你在加载资源、启动一个新的Activity、获取系统服务、获取内部文件（夹）路径、创建View操作时等都需要Context的参与，可见Context的常见性。大家可能会问到底什么是Context，Context字面意思上下文，或者叫做场景，也就是用户与<a href="http://lib.csdn.net/base/operatingsystem" target="_blank" rel="noopener">操作系统</a>操作的一个过程，比如你打电话，场景包括电话程序对应的界面，以及隐藏在背后的数据；<br> 但是在程序的角度Context又是什么呢？在程序的角度，我们可以有比较权威的答案，Context是个抽象类，我们可以直接通过看其类结构来说明答案：</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/545982-6001ade83c752537.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p>可以看到Activity、Service、Application都是Context的子类；<br>也就是说，Android系统的角度来理解：Context是一个场景，代表与操作系统的交互的一种过程。从程序的角度上来理解：Context是个抽象类，而Activity、Service、Application等都是该类的一个实现。<br>在仔细看一下上图：Activity、Service、Application都是继承自ContextWrapper，而ContextWrapper内部会包含一个base context，由这个base context去实现了绝大多数的方法。<br>先扯这么多，有能力了会从别的角度去审视Context，加油~</p>
 <p>###2、Context与ApplicationContext<br>看了标题，千万不要被误解，ApplicationContext并没有这个类，其实更应该叫做：Activity与Application在作为Context时的区别。嗯，的确是这样的，大家在需要Context的时候，如果是在Activity中，大多直接传个this，当在匿名内部类的时候，因为this不能用，需要写XXXActivity.this，很多哥们会偷懒，直接就来个getApplicationContext。那么大家有没有想过，XXXActivity.this和getApplicationContext的区别呢？<br>XXXActivity和getApplicationContext返回的肯定不是一个对象，一个是当前Activity的实例，一个是项目的Application的实例。既然区别这么明显，那么各自的使用场景肯定不同，乱使用可能会带来一些问题。<br>下面开始介绍在使用Context时，需要注意的问题。</p>
@@ -855,7 +858,8 @@
       
         
           
-            <p>在android studio编译apk的时候,经常会出现这个错误,解决这个问题的方法很简单,点击刷新按钮即可解决<br><img src="http://upload-images.jianshu.io/upload_images/545982-5b3c6c5b4a263aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+            <a id="more"></a>
+<p>在android studio编译apk的时候,经常会出现这个错误,解决这个问题的方法很简单,点击刷新按钮即可解决<br><img src="http://upload-images.jianshu.io/upload_images/545982-5b3c6c5b4a263aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 
           
         
@@ -1008,7 +1012,8 @@
       
         
           
-            <p>####前言<br>对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。</p>
+            <a id="more"></a>
+<p>####前言<br>对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。</p>
 <p>最近腾讯bugly也推出了三篇关于Android内存泄漏调优的文章：</p>
 <ol>
 <li><a href="http://bugly.qq.com/blog/?p=832" target="_blank" rel="noopener">内存泄露从入门到精通三部曲之基础知识篇</a></li>
@@ -1210,7 +1215,8 @@
       
         
           
-            <p>一、概述<br>说到<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>进程间通信，大家肯定能想到的是编写aidl文件，然后通过aapt生成的类方便的完成服务端，以及客户端代码的编写。如果你对这个过程不熟悉，可以查看<a href="http://blog.csdn.net/lmj623565791/article/details/38461079" target="_blank" rel="noopener">Android aidl Binder框架浅析</a>；<br>当然今天要说的通信方式肯定不是通过编写aidl文件的方式，那么有请今天的主角：Messenger。ok，这是什么样的一个类呢？我们看下注释</p>
+            <a id="more"></a>
+<p>一、概述<br>说到<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>进程间通信，大家肯定能想到的是编写aidl文件，然后通过aapt生成的类方便的完成服务端，以及客户端代码的编写。如果你对这个过程不熟悉，可以查看<a href="http://blog.csdn.net/lmj623565791/article/details/38461079" target="_blank" rel="noopener">Android aidl Binder框架浅析</a>；<br>当然今天要说的通信方式肯定不是通过编写aidl文件的方式，那么有请今天的主角：Messenger。ok，这是什么样的一个类呢？我们看下注释</p>
 <blockquote>
 <p>This allows for the implementation of message-based communication across processes</p>
 </blockquote>
@@ -1416,7 +1422,8 @@
       
         
           
-            <p>DeathRecipient:用这个的原因是担心客户端异常销毁时,服务器收不到消息,造成资源浪费等异常<br>RemoteCallbackList:同样的,我们在服务端通知客户端消息的时候,也担心 服务端会异常销毁,导致客户端收不到消息</p>
+            <a id="more"></a>
+<p>DeathRecipient:用这个的原因是担心客户端异常销毁时,服务器收不到消息,造成资源浪费等异常<br>RemoteCallbackList:同样的,我们在服务端通知客户端消息的时候,也担心 服务端会异常销毁,导致客户端收不到消息</p>
 <p>这两个类的使用demo在这里:<a href="http://www.cnblogs.com/punkisnotdead/p/5158016.html" target="_blank" rel="noopener">http://www.cnblogs.com/punkisnotdead/p/5158016.html</a></p>
 
           
@@ -1570,7 +1577,8 @@
       
         
           
-            <p>在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进程，在主进程结束后，这个进程还可以独立运行。</p>
+            <a id="more"></a>
+<p>在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进程，在主进程结束后，这个进程还可以独立运行。</p>
 <p>咱们这里不讨论怎么创建进程，咱们先讨论怎么让进程通信。</p>
 <p>Android 里有四个基础组件，Activity，Service，Broastcast，Content Provider。</p>
 <p>####Activity<br>Activity 跨进程通信其实咱们很经常用，但是却忽略了。咱们通过实例化一个 Intent，然后 startActivity ，是不是把一个意图，也就是 Intent 发送出去了？那么最终被 start 的 Activity 完全可能是在另外一个进程里的啊。比如你发送微博，你在你的 APP 里，通过 Intent 把数据发送给了微博客户端，微博客户端发完微博又回到了你的 APP，这个时候你需要 startActivityForResult 和 onActivityResult 就解决了你的进程和微博客户端进程的通信。</p>
@@ -1756,34 +1764,14 @@
 
       
         
-          
-            <p>Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-707a3bbe52ae3c54.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>#####1、生命周期上的区别</p>
-<p>执行startService时，Service会经历onCreate-&gt;onStartCommand。当执行stopService时，直接调用onDestroy方法。调用者如果没有stopService，Service会一直在后台运行，下次调用者再起来仍然可以stopService。</p>
-<p>执行bindService时，Service会经历onCreate-&gt;onBind。这个时候调用者和Service绑定在一起。调用者调用unbindService方法或者调用者Context不存在了（如Activity被finish了），Service就会调用onUnbind-&gt;onDestroy。这里所谓的绑定在一起就是说两者共存亡了。</p>
-<p>多次调用startService，该Service只能被创建一次，即该Service的onCreate方法只会被调用一次。但是每次调用startService，onStartCommand方法都会被调用。Service的onStart方法在API 5时被废弃，替代它的是onStartCommand方法。</p>
-<p>第一次执行bindService时，onCreate和onBind方法会被调用，但是多次执行bindService时，onCreate和onBind方法并不会被多次调用，即并不会多次创建服务和绑定服务。</p>
-<p>#####2、调用者如何获取绑定后的Service的方法</p>
-<p>onBind回调方法将返回给客户端一个IBinder接口实例，IBinder允许客户端回调服务的方法，比如得到Service运行的状态或其他操作。我们需要IBinder对象返回具体的Service对象才能操作，所以说具体的Service对象必须首先实现Binder对象。</p>
-<p>#####3、既使用startService又使用bindService的情况</p>
-<p>如果一个Service又被启动又被绑定，则该Service会一直在后台运行。首先不管如何调用，onCreate始终只会调用一次。对应startService调用多少次，Service的onStart方法便会调用多少次。Service的终止，需要unbindService和stopService同时调用才行。不管startService与bindService的调用顺序，如果先调用unbindService，此时服务不会自动终止，再调用stopService之后，服务才会终止；如果先调用stopService，此时服务也不会终止，而再调用unbindService或者之前调用bindService的Context不存在了（如Activity被finish的时候）之后，服务才会自动停止。</p>
-<p>那么，什么情况下既使用startService，又使用bindService呢？</p>
-<p>如果你只是想要启动一个后台服务长期进行某项任务，那么使用startService便可以了。如果你还想要与正在运行的Service取得联系，那么有两种方法：一种是使用broadcast，另一种是使用bindService。前者的缺点是如果交流较为频繁，容易造成性能上的问题，而后者则没有这些问题。因此，这种情况就需要startService和bindService一起使用了。</p>
-<p>另外，如果你的服务只是公开一个远程接口，供连接上的客户端（Android的Service是C/S架构）远程调用执行方法，这个时候你可以不让服务一开始就运行，而只是bindService，这样在第一次bindService的时候才会创建服务的实例运行它，这会节约很多系统资源，特别是如果你的服务是远程服务，那么效果会越明显（当然在Servcie创建的时候会花去一定时间，这点需要注意）。    </p>
-<p>#####4、本地服务与远程服务</p>
-<p>本地服务依附在主进程上，在一定程度上节约了资源。本地服务因为是在同一进程，因此不需要IPC，也不需要AIDL。相应bindService会方便很多。缺点是主进程被kill后，服务变会终止。</p>
-<p>远程服务是独立的进程，对应进程名格式为所在包名加上你指定的android:process字符串。由于是独立的进程，因此在Activity所在进程被kill的是偶，该服务依然在运行。缺点是该服务是独立的进程，会占用一定资源，并且使用AIDL进行IPC稍微麻烦一点。</p>
-<p>对于startService来说，不管是本地服务还是远程服务，我们需要做的工作都一样简单。</p>
-<p>5、代码实例</p>
-<p>startService启动服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class LocalService1 extends Service &#123;</span><br><span class="line">    /**</span><br><span class="line">    * onBind 是 Service 的虚方法，因此我们不得不实现它。</span><br><span class="line">    * 返回 null，表示客服端不能建立到此服务的连接。</span><br><span class="line">    */</span><br><span class="line">    @Override</span><br><span class="line">    public IBinder onBind(Intent intent) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        super.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    public void onStartCommand(Intent intent, int startId, int flags) &#123;</span><br><span class="line">        super.onStartCommand(intent, startId, flags);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    public void onDestroy() &#123;</span><br><span class="line">        super.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>bindService绑定服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public class LocalService extends Service &#123;</span><br><span class="line"></span><br><span class="line">    public SimpleBinder sBinder;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">    * 在 Local Service 中我们直接继承 Binder 而不是 IBinder,因</span><br><span class="line">    为 Binder 实现了 IBinder 接口，这样我们可以** 少做很多工</span><br><span class="line">    作。</span><br><span class="line">    */</span><br><span class="line">    public class SimpleBinder extends Binder&#123;</span><br><span class="line">        /**</span><br><span class="line">        * 获取 Service 实例</span><br><span class="line">        * @return</span><br><span class="line">        */</span><br><span class="line">        public LocalService getService()&#123;</span><br><span class="line">            return LocalService.this;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int add(int a, int b)&#123;</span><br><span class="line">        return a + b;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        super.onCreate();</span><br><span class="line">        // 创建 SimpleBinder</span><br><span class="line">        sBinder = new SimpleBinder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public IBinder onBind(Intent intent) &#123;</span><br><span class="line">        // 返回 SimpleBinder 对象</span><br><span class="line">        return sBinder;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的代码关键之处，在于 onBind(Intent) 这个方法 返回了一个实现了 IBinder 接口的对象，这个对象将用于绑定Service 的 Activity 与 Local Service 通信。</p>
-<p>下面是 Activity 中的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">public class Main extends Activity &#123;</span><br><span class="line">    private final static String TAG = &quot;SERVICE_TEST&quot;;</span><br><span class="line">    private ServiceConnection sc;</span><br><span class="line">    private boolean isBind;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.main);</span><br><span class="line">        sc = new ServiceConnection() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onServiceDisconnected(ComponentName name) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line">            @Override</span><br><span class="line">            public void onServiceConnected(ComponentName name, IBinder service) &#123;</span><br><span class="line">                LocalService.SimpleBinder sBinder = (LocalService.SimpleBinder)service;</span><br><span class="line">                Log.v(TAG, &quot;3 + 5 = &quot; + sBinder.add(3, 5));</span><br><span class="line">                Log.v(TAG, sBinder.getService().toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        findViewById(R.id.btnBind).setOnClickListener(new OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                bindService(new Intent(Main.this, LocalService.class), sc, Context.BIND_AUTO_CREATE);</span><br><span class="line">                isBind = true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        findViewById(R.id.btnUnbind).setOnClickListener(new OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                if(isBind)&#123;</span><br><span class="line">                    unbindService(sc);</span><br><span class="line">                    isBind = false;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>#####6、在AndroidManifest.xml里Service元素常见选项<br>|属性|作用|<br>|——–|——–|<br>|android:name|服务类名|<br>|android:label|服务的名字，如果此项不设置，那么默认显示的服务名则为类名|<br>|android:icon|服务的图标|<br>|android:permission|申明此服务的权限，这意味着只有提供了该权限的应用才能控制或连接此服务|<br>|android:process|表示该服务是否运行在另外一个进程，如果设置了此项，那么将会在包名后面加上这段字符串表示另一进程的名字|<br>|android:enabled|表示是否能被系统实例化，为true表示可以，为false表示不可以，默认为true|<br>|android:exported|表示该服务是否能够被其他应用程序所控制或连接，不设置默认此项为 false|</p>
-<p>转载:<a href="https://my.oschina.net/tingzi/blog/376545" target="_blank" rel="noopener">https://my.oschina.net/tingzi/blog/376545</a></p>
-
-          
+          <p>Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/Service的startService与bindService的区别/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1934,7 +1922,8 @@
       
         
           
-            <p>语法（SYNTAX）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">        android:enabled=[&quot;true&quot; | &quot;false&quot;]</span><br><span class="line">        android:exported[&quot;true&quot; | &quot;false&quot;]         </span><br><span class="line">        android:icon=&quot;drawable resource&quot;</span><br><span class="line">        android:label=&quot;string resource&quot;</span><br><span class="line">        android:name=&quot;string&quot; </span><br><span class="line">        android:permission=&quot;string&quot;         </span><br><span class="line">        android:process=&quot;string&quot;&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure></p>
+            <a id="more"></a>
+<p>语法（SYNTAX）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">        android:enabled=[&quot;true&quot; | &quot;false&quot;]</span><br><span class="line">        android:exported[&quot;true&quot; | &quot;false&quot;]         </span><br><span class="line">        android:icon=&quot;drawable resource&quot;</span><br><span class="line">        android:label=&quot;string resource&quot;</span><br><span class="line">        android:name=&quot;string&quot; </span><br><span class="line">        android:permission=&quot;string&quot;         </span><br><span class="line">        android:process=&quot;string&quot;&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure></p>
 <p><strong>被包含于（CONTAINED IN）：</strong></p>
 <p><application><br><strong>可能包含的元素（CAN CONTAIN）：</strong></application></p>
 <p><intent-filter></intent-filter></p>

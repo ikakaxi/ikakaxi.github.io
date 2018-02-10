@@ -77,20 +77,20 @@
 
 
 
-<meta name="description" content="转载:https://my.oschina.net/zhangdengjiexuyu/blog/701311 为了使用java8 的lambda表达式特性，特地在项目中添加了 me.tatarka:gradle-retrolambda插件，按照github上的指南，配置好gradle之后，同步项目是没问题的，但是运行打包安装的时候就出了问题，报错： 1No cached version of ne">
+<meta name="description" content="转载:https://my.oschina.net/zhangdengjiexuyu/blog/701311">
 <meta name="keywords" content="异常">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决No cached version of net.orfjackal.retrolambda:retrolambda:x.x.x available for offline mode.">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/解决No-cached-version-of-net-orfjackal-retrolambda-retrolambda-x-x-x-available-for-offline-mode/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="转载:https://my.oschina.net/zhangdengjiexuyu/blog/701311 为了使用java8 的lambda表达式特性，特地在项目中添加了 me.tatarka:gradle-retrolambda插件，按照github上的指南，配置好gradle之后，同步项目是没问题的，但是运行打包安装的时候就出了问题，报错： 1No cached version of ne">
+<meta property="og:description" content="转载:https://my.oschina.net/zhangdengjiexuyu/blog/701311">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-3e6b43967c84d670.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-95a63f20f45ca8ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-02-07T15:18:45.585Z">
+<meta property="og:updated_time" content="2018-02-10T03:19:02.852Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决No cached version of net.orfjackal.retrolambda:retrolambda:x.x.x available for offline mode.">
-<meta name="twitter:description" content="转载:https://my.oschina.net/zhangdengjiexuyu/blog/701311 为了使用java8 的lambda表达式特性，特地在项目中添加了 me.tatarka:gradle-retrolambda插件，按照github上的指南，配置好gradle之后，同步项目是没问题的，但是运行打包安装的时候就出了问题，报错： 1No cached version of ne">
+<meta name="twitter:description" content="转载:https://my.oschina.net/zhangdengjiexuyu/blog/701311">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/545982-3e6b43967c84d670.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -374,7 +374,7 @@
       
 
       
-        <p>转载:<a href="https://my.oschina.net/zhangdengjiexuyu/blog/701311" target="_blank" rel="noopener">https://my.oschina.net/zhangdengjiexuyu/blog/701311</a></p>
+        <p>转载:<a href="https://my.oschina.net/zhangdengjiexuyu/blog/701311" target="_blank" rel="noopener">https://my.oschina.net/zhangdengjiexuyu/blog/701311</a><br><a id="more"></a></p>
 <p>为了使用java8 的lambda表达式特性，特地在项目中添加了 me.tatarka:gradle-retrolambda插件，按照github上的指南，配置好gradle之后，同步项目是没问题的，但是运行打包安装的时候就出了问题，报错：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No cached version of net.orfjackal.retrolambda:retrolambda:x.x.x available for offline mode</span><br></pre></td></tr></table></figure>
 <p>看到offline字眼，果断把Gradle配置项的Global Gradle settings的offline work 取消了，结果还是出现了改错误，实在不行，找不到办法，google了一下，发现了问题的所在：compile部分的运行参数之前加了–offline参数了，去除改参数即可。</p>

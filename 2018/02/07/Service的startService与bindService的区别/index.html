@@ -77,19 +77,19 @@
 
 
 
-<meta name="description" content="Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。  #####1、生命周期上的区别 执行startService时，Service会经历onCreate-&amp;gt;onStartCommand。当执行stopService时，直接调用onDestroy方法。调用者如果没有stopSer">
+<meta name="description" content="Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。">
 <meta name="keywords" content="Service">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Service的startService与bindService的区别">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/Service的startService与bindService的区别/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。  #####1、生命周期上的区别 执行startService时，Service会经历onCreate-&amp;gt;onStartCommand。当执行stopService时，直接调用onDestroy方法。调用者如果没有stopSer">
+<meta property="og:description" content="Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-707a3bbe52ae3c54.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-02-07T14:53:45.725Z">
+<meta property="og:updated_time" content="2018-02-10T03:19:28.881Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Service的startService与bindService的区别">
-<meta name="twitter:description" content="Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。  #####1、生命周期上的区别 执行startService时，Service会经历onCreate-&amp;gt;onStartCommand。当执行stopService时，直接调用onDestroy方法。调用者如果没有stopSer">
+<meta name="twitter:description" content="Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/545982-707a3bbe52ae3c54.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -373,7 +373,7 @@
       
 
       
-        <p>Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。</p>
+        <p>Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。<br><a id="more"></a></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/545982-707a3bbe52ae3c54.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p>#####1、生命周期上的区别</p>
 <p>执行startService时，Service会经历onCreate-&gt;onStartCommand。当执行stopService时，直接调用onDestroy方法。调用者如果没有stopService，Service会一直在后台运行，下次调用者再起来仍然可以stopService。</p>

@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕12android:layout_width=&amp;quot;wrap_content&amp;quot;android:layo">
+<meta name="description" content="GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕12android:layout_width=&amp;quot;wrap_content&amp;quot;android:lay">
 <meta name="keywords" content="View">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GridLayout子控件超出屏幕的解决办法">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/GridLayout子控件超出屏幕的解决办法/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕12android:layout_width=&amp;quot;wrap_content&amp;quot;android:layo">
+<meta property="og:description" content="GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕12android:layout_width=&amp;quot;wrap_content&amp;quot;android:lay">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-07T15:03:39.318Z">
+<meta property="og:updated_time" content="2018-02-10T03:20:24.328Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GridLayout子控件超出屏幕的解决办法">
-<meta name="twitter:description" content="GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕12android:layout_width=&amp;quot;wrap_content&amp;quot;android:layo">
+<meta name="twitter:description" content="GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕12android:layout_width=&amp;quot;wrap_content&amp;quot;android:lay">
 
 
 
@@ -371,7 +371,8 @@
       
 
       
-        <p>GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_gravity=&quot;fill_horizontal&quot;</span><br></pre></td></tr></table></figure></p>
+        <a id="more"></a>
+<p>GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_gravity=&quot;fill_horizontal&quot;</span><br></pre></td></tr></table></figure></p>
 <p>加上这个属性,就可以充满屏幕而不是超出屏幕了<br>例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;GridLayout</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:columnCount=&quot;2&quot;&gt;</span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_gravity=&quot;right&quot;</span><br><span class="line">            android:layout_marginRight=&quot;10dp&quot;</span><br><span class="line">            android:text=&quot;标题1:&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;EditText</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_gravity=&quot;fill_horizontal&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_gravity=&quot;right&quot;</span><br><span class="line">            android:layout_marginRight=&quot;10dp&quot;</span><br><span class="line">            android:text=&quot;标题2:&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;EditText</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_gravity=&quot;fill_horizontal&quot;/&gt;</span><br><span class="line">    &lt;/GridLayout&gt;</span><br></pre></td></tr></table></figure></p>
 
       

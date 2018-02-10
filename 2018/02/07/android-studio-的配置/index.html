@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了 1.gradle问题,下载最新gradle,然后android studio指定gradle目录 2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系 3.a">
+<meta name="description" content="因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了 1.gradle问题,下载最新gradle,然后android studio指定gradle目录 2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系 3.">
 <meta name="keywords" content="IDE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="android studio 的配置">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/android-studio-的配置/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了 1.gradle问题,下载最新gradle,然后android studio指定gradle目录 2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系 3.a">
+<meta property="og:description" content="因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了 1.gradle问题,下载最新gradle,然后android studio指定gradle目录 2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系 3.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-07T14:50:23.046Z">
+<meta property="og:updated_time" content="2018-02-10T03:18:36.242Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android studio 的配置">
-<meta name="twitter:description" content="因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了 1.gradle问题,下载最新gradle,然后android studio指定gradle目录 2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系 3.a">
+<meta name="twitter:description" content="因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了 1.gradle问题,下载最新gradle,然后android studio指定gradle目录 2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系 3.">
 
 
 
@@ -371,7 +371,8 @@
       
 
       
-        <p>因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了</p>
+        <a id="more"></a>
+<p>因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了</p>
 <p>1.gradle问题,下载最新gradle,然后android studio指定gradle目录</p>
 <p>2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系</p>
 <p>3.apply plugin: ‘com.android.application’这句话会报错,需要添加下面的代码到build.gradle,与android同级<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenCentral() // or jcenter()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;com.android.tools.build:gradle:2.1.2&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>

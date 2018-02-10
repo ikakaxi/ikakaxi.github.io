@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="#一:xml配置 ###1.android:launchMode=”standard”这是默认的方式,每次启动一个Activity都会重新创建一个新的实例,不管这个实例是否已经存在.在这种模式下,谁启动了这个Activity,那么这个Activity就运行在启动它的那个Activity所在的栈中当我们用ApplicationContext去启动standard模式的Activity的时候会报错,因">
+<meta name="description" content="#一:xml配置 ###1.android:launchMode=”standard”这是默认的方式,每次启动一个Activity都会重新创建一个新的实例,不管这个实例是否已经存在.在这种模式下,谁启动了这个Activity,那么这个Activity就运行在启动它的那个Activity所在的栈中当我们用ApplicationContext去启动standard模式的Activity的时候会报错,">
 <meta name="keywords" content="activity">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Activity常用的4种载入方式">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/Activity常用的4种载入方式/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="#一:xml配置 ###1.android:launchMode=”standard”这是默认的方式,每次启动一个Activity都会重新创建一个新的实例,不管这个实例是否已经存在.在这种模式下,谁启动了这个Activity,那么这个Activity就运行在启动它的那个Activity所在的栈中当我们用ApplicationContext去启动standard模式的Activity的时候会报错,因">
+<meta property="og:description" content="#一:xml配置 ###1.android:launchMode=”standard”这是默认的方式,每次启动一个Activity都会重新创建一个新的实例,不管这个实例是否已经存在.在这种模式下,谁启动了这个Activity,那么这个Activity就运行在启动它的那个Activity所在的栈中当我们用ApplicationContext去启动standard模式的Activity的时候会报错,">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-07T15:06:08.480Z">
+<meta property="og:updated_time" content="2018-02-10T03:20:52.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activity常用的4种载入方式">
-<meta name="twitter:description" content="#一:xml配置 ###1.android:launchMode=”standard”这是默认的方式,每次启动一个Activity都会重新创建一个新的实例,不管这个实例是否已经存在.在这种模式下,谁启动了这个Activity,那么这个Activity就运行在启动它的那个Activity所在的栈中当我们用ApplicationContext去启动standard模式的Activity的时候会报错,因">
+<meta name="twitter:description" content="#一:xml配置 ###1.android:launchMode=”standard”这是默认的方式,每次启动一个Activity都会重新创建一个新的实例,不管这个实例是否已经存在.在这种模式下,谁启动了这个Activity,那么这个Activity就运行在启动它的那个Activity所在的栈中当我们用ApplicationContext去启动standard模式的Activity的时候会报错,">
 
 
 
@@ -371,7 +371,8 @@
       
 
       
-        <p>#一:xml配置</p>
+        <a id="more"></a>
+<p>#一:xml配置</p>
 <p>###1.android:launchMode=”standard”<br>这是默认的方式,每次启动一个Activity都会重新创建一个新的实例,不管这个实例是否已经存在.在这种模式下,谁启动了这个Activity,那么这个Activity就运行在启动它的那个Activity所在的栈中<br>当我们用ApplicationContext去启动standard模式的Activity的时候会报错,因为standard模式的Activity默认会进入启动它的Activity所属的任务栈中,但是由于非Activity类型的Context(如ApplicationContext)并没有所谓的任务栈,所以这就有问题了.解决这个问题的方法是为待启动的Activity指定FLAG_ACTIVITY_NEW_TASK标记位,这样启动的时候就会为它创建一个新的任务栈</p>
 <p>###2.android:launchMode=”singleTop”<br>栈顶复用模式,在这种模式下,如果新Activity已经位于任务栈的栈顶,那么此Activity不会被重新创建,同时它的onNewIntent方法会被回调,调用此方法的参数我们可以取出当前请求的信息.需要注意的是,这个Activity的onCreate,onStart不会被系统调用,因为它并没有发生改变.如果新Activity的实例已存在但不是位于栈顶,那么新Activity仍然会重新创建</p>
 <p>###3.android:launchMode=”singleTask”<br>栈内复用模式,这是一种单实例模式,在这种模式下,只要Activity在一个栈中存在,那么多次启动此Activity都不会重新创建实例,和singleTop一样,系统也会回调其onNewIntent.如果被启动的Activity不在栈顶,那么就会把它上面的Activity出栈</p>

@@ -77,17 +77,17 @@
 
 
 
-<meta name="description" content="点击浏览器中的URL链接，启动特定的App。首先做成HTML的页面，页面内容格式如下：1&amp;lt;a href=&amp;quot;scheme://host/path?key=value&amp;quot;&amp;gt;启动应用程序&amp;lt;/a&amp;gt; 这一句就可以了。path,key,value都可以为空作为测试好好写了一下，如下：1&amp;lt;a href=&amp;quot;myapp://test.com/openwith">
+<meta name="description" content="点击浏览器中的URL链接，启动特定的App。首先做成HTML的页面，页面内容格式如下：1&amp;lt;a href=&amp;quot;scheme://host/path?key=value&amp;quot;&amp;gt;启动应用程序&amp;lt;/a&amp;gt; 这一句就可以了。path,key,value都可以为空作为测试好好写了一下，如下：1&amp;lt;a href=&amp;quot;myapp://test.com/openwit">
 <meta property="og:type" content="article">
 <meta property="og:title" content="android实现通过浏览器点击链接打开本地应用（APP）并拿到浏览器传递的数据">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/android实现通过浏览器点击链接打开本地应用（APP）并拿到浏览器传递的数据/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="点击浏览器中的URL链接，启动特定的App。首先做成HTML的页面，页面内容格式如下：1&amp;lt;a href=&amp;quot;scheme://host/path?key=value&amp;quot;&amp;gt;启动应用程序&amp;lt;/a&amp;gt; 这一句就可以了。path,key,value都可以为空作为测试好好写了一下，如下：1&amp;lt;a href=&amp;quot;myapp://test.com/openwith">
+<meta property="og:description" content="点击浏览器中的URL链接，启动特定的App。首先做成HTML的页面，页面内容格式如下：1&amp;lt;a href=&amp;quot;scheme://host/path?key=value&amp;quot;&amp;gt;启动应用程序&amp;lt;/a&amp;gt; 这一句就可以了。path,key,value都可以为空作为测试好好写了一下，如下：1&amp;lt;a href=&amp;quot;myapp://test.com/openwit">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-07T14:52:57.427Z">
+<meta property="og:updated_time" content="2018-02-10T03:19:13.175Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android实现通过浏览器点击链接打开本地应用（APP）并拿到浏览器传递的数据">
-<meta name="twitter:description" content="点击浏览器中的URL链接，启动特定的App。首先做成HTML的页面，页面内容格式如下：1&amp;lt;a href=&amp;quot;scheme://host/path?key=value&amp;quot;&amp;gt;启动应用程序&amp;lt;/a&amp;gt; 这一句就可以了。path,key,value都可以为空作为测试好好写了一下，如下：1&amp;lt;a href=&amp;quot;myapp://test.com/openwith">
+<meta name="twitter:description" content="点击浏览器中的URL链接，启动特定的App。首先做成HTML的页面，页面内容格式如下：1&amp;lt;a href=&amp;quot;scheme://host/path?key=value&amp;quot;&amp;gt;启动应用程序&amp;lt;/a&amp;gt; 这一句就可以了。path,key,value都可以为空作为测试好好写了一下，如下：1&amp;lt;a href=&amp;quot;myapp://test.com/openwit">
 
 
 
@@ -370,7 +370,8 @@
       
 
       
-        <p>点击浏览器中的URL链接，启动特定的App。<br>首先做成HTML的页面，页面内容格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;scheme://host/path?key=value&quot;&gt;启动应用程序&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+        <a id="more"></a>
+<p>点击浏览器中的URL链接，启动特定的App。<br>首先做成HTML的页面，页面内容格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;scheme://host/path?key=value&quot;&gt;启动应用程序&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
 <p>这一句就可以了。path,key,value都可以为空<br>作为测试好好写了一下，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;myapp://test.com/openwith?name=zhangsan&amp;age=26&quot;&gt;启动应用程序&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
 <p>接下来是Android端。<br>如果要启动的Activity不是MainActivity,则需要加上如下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;intent-filter&gt;  </span><br><span class="line">    &lt;action android:name=&quot;android.intent.action.VIEW&quot;/&gt;  </span><br><span class="line">    &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;  </span><br><span class="line">    &lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt;  </span><br><span class="line">    &lt;data android:scheme=&quot;myapp&quot; android:host=&quot;test.com&quot; android:pathPrefix=&quot;/openwith&quot;/&gt;  </span><br><span class="line">&lt;/intent-filter&gt;</span><br></pre></td></tr></table></figure></p>
 <p>本文参考<a href="http://blog.csdn.net/geekpark/article/details/16118457" target="_blank" rel="noopener">http://blog.csdn.net/geekpark/article/details/16118457</a></p>

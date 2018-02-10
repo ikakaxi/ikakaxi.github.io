@@ -84,7 +84,7 @@
 <meta property="og:site_name" content="我的技术小屋">
 <meta property="og:description" content="isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。  通常调用格式是        Class1.isAssignableFrom (Class2)  调用者和参数都是   java.lang.Class   类型。      而   instanceof   是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-08T01:50:18.427Z">
+<meta property="og:updated_time" content="2018-02-10T03:23:35.984Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Class.isAssignableFrom与 instanceof 区别">
 <meta name="twitter:description" content="isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。  通常调用格式是        Class1.isAssignableFrom (Class2)  调用者和参数都是   java.lang.Class   类型。      而   instanceof   是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。">
@@ -370,7 +370,8 @@
       
 
       
-        <p>isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。<br>  通常调用格式是<br>        Class1.isAssignableFrom (Class2)<br>  调用者和参数都是   java.lang.Class   类型。   </p>
+        <a id="more"></a>
+<p>isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。<br>  通常调用格式是<br>        Class1.isAssignableFrom (Class2)<br>  调用者和参数都是   java.lang.Class   类型。   </p>
 <p>  而   instanceof   是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。<br>    格式是：   o   instanceof   TypeName<br>    第一个参数是对象实例名，第二个参数是具体的类名或接口名<br>具体例子如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class TestCase &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        TestCase test = new TestCase();  </span><br><span class="line">        test.testIsAssignedFrom1();  </span><br><span class="line">        test.testIsAssignedFrom2();  </span><br><span class="line">        test.testIsAssignedFrom3();  </span><br><span class="line">        test.testInstanceOf1();  </span><br><span class="line">        test.testInstanceOf2();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testIsAssignedFrom1() &#123;  </span><br><span class="line">        System.out.println(String.class.isAssignableFrom(Object.class));  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testIsAssignedFrom2() &#123;  </span><br><span class="line">        System.out.println(Object.class.isAssignableFrom(Object.class));  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testIsAssignedFrom3() &#123;  </span><br><span class="line">        System.out.println(Object.class.isAssignableFrom(String.class));  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testInstanceOf1() &#123;  </span><br><span class="line">        String s = &quot;&quot;;  </span><br><span class="line">        System.out.println(s instanceof Object);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testInstanceOf2() &#123;  </span><br><span class="line">        Object o = new Object();  </span><br><span class="line">        System.out.println(o instanceof Object);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>打印结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">false  </span><br><span class="line">true  </span><br><span class="line">true  </span><br><span class="line">true  </span><br><span class="line">true</span><br></pre></td></tr></table></figure></p>
 
@@ -397,8 +398,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/08/一些常用类的记录-1/" rel="next" title="一些常用类的记录">
-                <i class="fa fa-chevron-left"></i> 一些常用类的记录
+              <a href="/2018/02/08/Linux-操作系统下如何优雅的卸载软件/" rel="next" title="Linux 操作系统下如何优雅的卸载软件">
+                <i class="fa fa-chevron-left"></i> Linux 操作系统下如何优雅的卸载软件
               </a>
             
           </div>
@@ -407,8 +408,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/02/08/Java中的强引用-软引用-弱引用-虚引用/" rel="prev" title="Java中的强引用,软引用,弱引用,虚引用">
-                Java中的强引用,软引用,弱引用,虚引用 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/02/08/一些常用类的记录-1/" rel="prev" title="一些常用类的记录">
+                一些常用类的记录 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

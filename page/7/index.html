@@ -374,7 +374,8 @@
       
         
           
-            <blockquote>
+            <a id="more"></a>
+<blockquote>
 <p>前言</p>
 </blockquote>
 <p>Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。</p>
@@ -609,7 +610,8 @@
       
         
           
-            <p>Android 开发中一般会通过 BuildConfig.DEBUG 判断是否是 Debug 模式，从而做一些在 Debug 模式才开启的特殊操作，比如打印日志。这样好处是不用在发布前去主动修改，因为这个值在 Debug 模式下为 true，Release 模式下为 false。</p>
+            <a id="more"></a>
+<p>Android 开发中一般会通过 BuildConfig.DEBUG 判断是否是 Debug 模式，从而做一些在 Debug 模式才开启的特殊操作，比如打印日志。这样好处是不用在发布前去主动修改，因为这个值在 Debug 模式下为 true，Release 模式下为 false。</p>
 <p>#####1. 问题<br>如果应用只有一个 Module 没有问题，Debug 模式下 BuildConfig.DEBUG 会始终为 true。如果现在有两个 Module，分别为 App 和 Lib，且 App 依赖 Lib，在 Lib 内有工具类 LogUtils，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package cn.trinea.android.lib.util;</span><br><span class="line"> </span><br><span class="line">import android.util.Log;</span><br><span class="line">import cn.trinea.android.lib.util.BuildConfig;</span><br><span class="line"> </span><br><span class="line">public class LogUtils &#123;</span><br><span class="line"> </span><br><span class="line">    public static void d(String log) &#123;</span><br><span class="line">        if (BuildConfig.DEBUG) &#123;</span><br><span class="line">            Log.d(&quot;trinea-debug&quot;, log);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>当我们在 App Module 内调用 LogUtils 时我们会发现始终无法打印日志，因为上面的 BuildConfig.DEBUG 会始终为 false。为什么呢？</p>
 <p>#####2. 原因<br>BuildConfig.java 是编译时自动生成的，并且每个 Module 都会生成一份，以该 Module 的 packageName 为 BuildConfig.java 的 packageName。所以如果你的应用有多个 Module 就会有多个 BuildConfig.java 生成，而上面的 Lib Module import 的是自己的 BuildConfig.java，编译时被依赖的 Module 默认会提供 Release 版给其他 Module 或工程使用，这就导致该 BuildConfig.DEBUG 会始终为 false。</p>
@@ -779,7 +781,8 @@
       
         
           
-            <p>ln /…sdk/…/adb /usr/local/bin</p>
+            <a id="more"></a>
+<p>ln /…sdk/…/adb /usr/local/bin</p>
 
           
         
@@ -932,7 +935,8 @@
       
         
           
-            <p>xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。<br>从提上看，是一个non-jumbo，让我想到了Dex的jumbo模式，这是一个用来配置制定该Dex是不是一个巨大的Dex的。报错的日志里显示是一个模块，从这可以推断出基本的问题：该模块需要生成一个Dex放进AAR包里给App使用，现在这个Dex生成不了啦，提示太大，这个是根本原因，所以只要解决了这个就可以了。<br>那么以前为什么不会出现这个问题呢，我们从git提交的历史来看，发现昨天的需求新增了一个第三方包，导致该模块的方法变多，超过了限制，所以今天就有了这个错误的提示。。<br>既然知道了原因，那么就很好解决了。<br>使用Gradle构建的，在模块的build.gradle里配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  dexOptions &#123;</span><br><span class="line">    jumboMode true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+            <a id="more"></a>
+<p>xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。<br>从提上看，是一个non-jumbo，让我想到了Dex的jumbo模式，这是一个用来配置制定该Dex是不是一个巨大的Dex的。报错的日志里显示是一个模块，从这可以推断出基本的问题：该模块需要生成一个Dex放进AAR包里给App使用，现在这个Dex生成不了啦，提示太大，这个是根本原因，所以只要解决了这个就可以了。<br>那么以前为什么不会出现这个问题呢，我们从git提交的历史来看，发现昨天的需求新增了一个第三方包，导致该模块的方法变多，超过了限制，所以今天就有了这个错误的提示。。<br>既然知道了原因，那么就很好解决了。<br>使用Gradle构建的，在模块的build.gradle里配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  dexOptions &#123;</span><br><span class="line">    jumboMode true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>如果是使用Eclipse+Ant构建的，在project.properties文件中增加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dex.force.jumbo=true</span><br></pre></td></tr></table></figure></p>
 <p>就可以解决如上问题了。。<br>关于超过64K方法分Dex的解决办法可以参考官方的<a href="https://developer.android.com/studio/build/multidex.html" target="_blank" rel="noopener">Configure Apps with Over 64K Methods</a>这篇文章。</p>
 
@@ -1087,7 +1091,8 @@
       
         
           
-            <p><strong>第一部分</strong><br>安卓开发中，在写布局代码的时候，ide可以看到布局的预览效果。<br><img src="http://upload-images.jianshu.io/upload_images/545982-83ed2d3d035faddf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>但是有些效果则必须在运行之后才能看见，比如这种情况：TextView在xml中没有设置任何字符，而是在activity中设置了text。因此为了在ide中预览效果，你必须在xml中为TextView控件设置android:text属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">  android:id=&quot;@+id/text_main&quot;</span><br><span class="line">  android:layout_width=&quot;match_parent&quot;</span><br><span class="line">  android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">  android:textAppearance=&quot;@style/TextAppearance.Title&quot;</span><br><span class="line">  android:layout_margin=&quot;@dimen/main_margin&quot;</span><br><span class="line">  android:text=&quot;I am a title&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+            <a id="more"></a>
+<p><strong>第一部分</strong><br>安卓开发中，在写布局代码的时候，ide可以看到布局的预览效果。<br><img src="http://upload-images.jianshu.io/upload_images/545982-83ed2d3d035faddf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>但是有些效果则必须在运行之后才能看见，比如这种情况：TextView在xml中没有设置任何字符，而是在activity中设置了text。因此为了在ide中预览效果，你必须在xml中为TextView控件设置android:text属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">  android:id=&quot;@+id/text_main&quot;</span><br><span class="line">  android:layout_width=&quot;match_parent&quot;</span><br><span class="line">  android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">  android:textAppearance=&quot;@style/TextAppearance.Title&quot;</span><br><span class="line">  android:layout_margin=&quot;@dimen/main_margin&quot;</span><br><span class="line">  android:text=&quot;I am a title&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
 <p>一般我们在这样做的时候都告诉自己，没关系，等写完代码我就把这些东西一并删了。但是你可能会忘，以至于在你的最终产品中也会有这样的代码。</p>
 <p>用tools吧，别做傻事<br>以上的情况是可以避免的，我们使用tools命名空间以及其属性来解决这个问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br></pre></td></tr></table></figure></p>
 <p>tools可以告诉Android Studio，哪些属性在运行的时候是被忽略的，只在设计布局的时候有效。比如我们要让android:text属性只在布局预览中有效可以这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line"> android:id=&quot;@+id/text_main&quot;</span><br><span class="line"> android:layout_width=&quot;match_parent&quot;</span><br><span class="line"> android:layout_height=&quot;wrap_content&quot;</span><br><span class="line"> android:textAppearance=&quot;@style/TextAppearance.Title&quot;</span><br><span class="line"> android:layout_margin=&quot;@dimen/main_margin&quot;</span><br><span class="line"> tools:text=&quot;I am a title&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
@@ -1265,7 +1270,8 @@
       
         
           
-            <p>#####原理1——activity-alias<br>在AndroidMainifest中，有两个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 决定应用程序最先启动的Activity</span><br><span class="line">android.intent.action.MAIN </span><br><span class="line">// 决定应用程序是否显示在程序列表里</span><br><span class="line">android.intent.category.LAUNCHER</span><br></pre></td></tr></table></figure></p>
+            <a id="more"></a>
+<p>#####原理1——activity-alias<br>在AndroidMainifest中，有两个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 决定应用程序最先启动的Activity</span><br><span class="line">android.intent.action.MAIN </span><br><span class="line">// 决定应用程序是否显示在程序列表里</span><br><span class="line">android.intent.category.LAUNCHER</span><br></pre></td></tr></table></figure></p>
 <p>另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做过系统Setting和Launcher开发的开发者在系统的源码中应该见过很多。</p>
 <p>#####原理2——PM.setComponentEnabledSetting</p>
 <p>PackageManager是一个大统领类，可以管理所有的系统组件，当然，如果Root了，你还可以管理其它App的所有组件，一些系统优化工具就是通过这个方式来禁用一些后台Service的。</p>
@@ -1432,7 +1438,8 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cal1.add(Calendar.DAY_OF_MONTH,1);  </span><br><span class="line">cal1.add(Calendar.DAY_OF_YEAR,1);  </span><br><span class="line">cal1.add(Calendar.DATE,1);</span><br></pre></td></tr></table></figure>
+            <a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cal1.add(Calendar.DAY_OF_MONTH,1);  </span><br><span class="line">cal1.add(Calendar.DAY_OF_YEAR,1);  </span><br><span class="line">cal1.add(Calendar.DATE,1);</span><br></pre></td></tr></table></figure>
 <p>就单纯的add操作结果都一样，因为都是将日期+1<br>就没有区别说是在月的日期中加1还是年的日期中加1<br>但是Calendar设置DAY_OF_MONTH和DAY_OF_YEAR的目的不是用来+1<br>将日期加1，这通过cal1.add(Calendar.DATE,1)就可以实现<br>DAY_OF_MONTH的主要作用是cal.get(DAY_OF_MONTH)，用来获得这一天在是这个月的第多少天<br>Calendar.DAY_OF_YEAR的主要作用是cal.get(DAY_OF_YEAR)，用来获得这一天在是这个年的第多少天。<br>同样，还有DAY_OF_WEEK，用来获得当前日期是一周的第几天</p>
 
           
@@ -1586,7 +1593,8 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取本地IP地址</span><br><span class="line"> *</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static String getLocalIpAddress() &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		String ipv4;</span><br><span class="line">		List&lt;NetworkInterface&gt; nilist = Collections.list(NetworkInterface.getNetworkInterfaces());</span><br><span class="line">		for (NetworkInterface ni : nilist) &#123;</span><br><span class="line">			List&lt;InetAddress&gt; ialist = Collections.list(ni.getInetAddresses());</span><br><span class="line">			for (InetAddress address : ialist) &#123;</span><br><span class="line">				if (!address.isLoopbackAddress() &amp;&amp;</span><br><span class="line">						InetAddressUtils.isIPv4Address(ipv4 = address.getHostAddress())) &#123;</span><br><span class="line">					return ipv4;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; catch (SocketException ex) &#123;</span><br><span class="line">		ex.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 获取本地IP地址</span><br><span class="line"> *</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static String getLocalIpAddress() &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		String ipv4;</span><br><span class="line">		List&lt;NetworkInterface&gt; nilist = Collections.list(NetworkInterface.getNetworkInterfaces());</span><br><span class="line">		for (NetworkInterface ni : nilist) &#123;</span><br><span class="line">			List&lt;InetAddress&gt; ialist = Collections.list(ni.getInetAddresses());</span><br><span class="line">			for (InetAddress address : ialist) &#123;</span><br><span class="line">				if (!address.isLoopbackAddress() &amp;&amp;</span><br><span class="line">						InetAddressUtils.isIPv4Address(ipv4 = address.getHostAddress())) &#123;</span><br><span class="line">					return ipv4;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; catch (SocketException ex) &#123;</span><br><span class="line">		ex.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1738,7 +1746,8 @@
       
         
           
-            <p>#jarsigner</p>
+            <a id="more"></a>
+<p>#jarsigner</p>
 <p>#####使用示例:<br>jarsigner -verbose -keystore ~/Documents/WorkSpace/signkey.keystore -signedjar ./要生成的文件 ./源文件 签名文件的别名</p>
 <p>给apk包签名的方式有很多种，我们推荐您使用JDK自带的jarsigner工具来完成签名。</p>
 <p>#####jarsigner的命令格式</p>
@@ -1903,7 +1912,8 @@
       
         
           
-            <p>本文主要介绍<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>系统各个版本的新特性，不定时更新ing。<br><strong>- Android1.1</strong> 2008 年9月发布的Android第一版</p>
+            <a id="more"></a>
+<p>本文主要介绍<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>系统各个版本的新特性，不定时更新ing。<br><strong>- Android1.1</strong> 2008 年9月发布的Android第一版</p>
 <p><strong>- Android1.5 Cupcake （纸杯蛋糕）</strong><br>2009年4月30日，官方1.5版本（Cupcake 纸杯蛋糕）的Android发布。 主要的更新如下：<br>1、拍摄/播放影片，并支持上传到Youtube<br>2、支持立体声蓝牙耳机，同时改善自动配对性能<br>3、最新的采用WebKit技术的浏览器，支持复制/贴上和页面中搜索<br>4、GPS性能大大提高<br>5、提供屏幕虚拟键盘<br>6、主屏幕增加音乐播放器和相框widgets<br>7、应用程序自动随着手机旋转<br>8、短信、Gmail、日暦，浏览器的用户接口大幅改进，如Gmail可以批量删除邮件<br>9、相机启动速度加快，拍摄图片可以直接上传到Picasa<br>10、来电照片显示</p>
 <p><strong>- Android1.6 Donut （甜甜圈）</strong><br>2009年9月15日，1.6（Donut 甜甜圈）版本软件开发工具包发布。 主要的更新如下：<br>1、重新设计的Android Market手势<br>2、支持支持CDMA网络<br>3、文字转语音系统（Text-to-Speech）<br>4、快速搜索框<br>5、全新的拍照接口<br>6、查看应用程序耗电<br>7、支持虚拟私人网络（VPN）<br>8、支持更多的屏幕分辨率。<br>9、支持OpenCore2媒体引擎<br>10、新增面向视觉或听觉困难人群的易用性插件</p>
 <p><strong>- Android2.0/2.0.1/2.1 Eclair （松饼）</strong><br>2009年10月26日，2.0（Eclair 松饼）版本软件开发工具包发布。 主要的更新如下：<br>1、优化硬件速度<br>2、 “Car Home”程序<br>3、支持更多的屏幕分辨率<br>4、改良的用户界面<br>5、新的浏览器的用户接口和支持<a href="http://lib.csdn.net/base/html5" target="_blank" rel="noopener">HTML5</a><br>6、新的联系人名单<br>7、更好的白色/黑色背景比率<br>8、改进Google Maps3.1.2<br>9、支持Microsoft Exchange<br>10、支持内置相机闪光灯<br>11、支持数码变焦<br>12、改进的虚拟键盘<br>13、支持蓝牙2.1<br>14、支持动态桌面的设计</p>

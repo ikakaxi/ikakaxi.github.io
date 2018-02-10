@@ -270,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-压缩解压命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="superman">
@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="url">linux常用命令-帮助命令man,whatis,apropos,info,help</a></h1>
+                <a class="post-title-link" href="/2018/02/08/linux常用命令-压缩解压命令/" itemprop="url">linux常用命令-压缩解压命令</a></h1>
         
 
         <div class="post-meta">
@@ -342,9 +342,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/08/linux常用命令-压缩解压命令/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/08/linux常用命令-压缩解压命令/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -374,22 +374,10 @@
       
         
           
-            <p>man 命令</p>
-<p>　　man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径</p>
-<p>　　man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页</p>
-<p>　　man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助,</p>
-<p>　　　　所以如果要看配置文件的帮助文档,需要输入man 5 passwd</p>
-<p>whatis 命令</p>
-<p>　　可以查看某命令的简短的帮助信息</p>
-<p>apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径</p>
-<p>　　可以查看某配置文件的简短的帮助信息</p>
-<p>命令 –help</p>
-<p>　　列出该命令的常见选项</p>
-<p>info 命令或者配置文件</p>
-<p>　　类似man,可以显示当前查看文件的进度</p>
-<p>help</p>
-<p>　　可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的</p>
-<p>　　例:help cd</p>
+            <a id="more"></a>
+<p>gzip [文件]<br>　　压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件<br>gunzip [文件] 或者 gzip -d [文件]<br>　　解压缩.gz的压缩文件<br>tar [-zcvf] [压缩后文件名] [目录]<br>　　打包目录<br>　　压缩后文件格式 .tar.gz<br>　　-c 打包<br>　　-x 解压缩<br>　　-v 显示详细信息<br>　　-f 指定文件名<br>　　-z 打包同时压缩<br>tar [-zxvf] [解压缩文件名] [目录]</p>
+<p>zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高<br>　　[-r] [压缩后文件名] [目录]:压缩目录<br>　　压缩后文件格式 .zip<br>　　注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容</p>
+<p>bzip2 [-k] [压缩文件] 压缩比例最高<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的<br>bunzip2 [-k] [压缩文件]<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的</p>
 
           
         
@@ -542,7 +530,8 @@
       
         
           
-            <p>find [目录] [选项] 文件名或者正则表达式</p>
+            <a id="more"></a>
+<p>find [目录] [选项] 文件名或者正则表达式</p>
 <p>　　-name 根据文件名搜索</p>
 <p>　　-iname 搜索文件名的时候忽略大小写</p>
 <p>　　　　例:find /etc -name init</p>
@@ -697,7 +686,8 @@
       
         
           
-            <p>useradd 用户名<br>passwd 用户名:修改该用户的密码<br>groupadd 组名<br>who:<br><img src="http://upload-images.jianshu.io/upload_images/545982-e39eaacca1825e18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>　　who用来查看现在登录了几个用户,得到的信息含义如下</p>
+            <a id="more"></a>
+<p>useradd 用户名<br>passwd 用户名:修改该用户的密码<br>groupadd 组名<br>who:<br><img src="http://upload-images.jianshu.io/upload_images/545982-e39eaacca1825e18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>　　who用来查看现在登录了几个用户,得到的信息含义如下</p>
 <p>　　登录用户名　　登录终端类型　　登录时间　　登录终端的IP地址(如果没有写就是本机登录)</p>
 <table>
 <thead>
@@ -873,7 +863,8 @@
       
         
           
-            <p>chmod  [{ugoa}{+-=}{rwx}] [文件或目录]</p>
+            <a id="more"></a>
+<p>chmod  [{ugoa}{+-=}{rwx}] [文件或目录]</p>
 <p>　　　　[mode=421] [文件或目录]</p>
 <p>　　　　-R 递归修改</p>
 <p>　　　　例:chmod g+w,o-r 文件或目录</p>
@@ -1043,7 +1034,8 @@
       
         
           
-            <p>ls -a -l -d -h -i</p>
+            <a id="more"></a>
+<p>ls -a -l -d -h -i</p>
 <p>mkdir [-p] 创建目录,-p递归创建目录</p>
 <p>rmdir 删除一个空目录</p>
 <p>cp [-r,-p] -r,拷贝目录,-p,保持属性,新文件的修改时间为源文件的修改时间,而不是拷贝时的时间</p>
@@ -1218,7 +1210,8 @@
       
         
           
-            <p><img src="http://upload-images.jianshu.io/upload_images/545982-d1ff3fba9cdb1fc5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="http://upload-images.jianshu.io/upload_images/545982-b7b1f72481badc0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="http://upload-images.jianshu.io/upload_images/545982-5f4b06beb1fcebd0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+            <a id="more"></a>
+<p><img src="http://upload-images.jianshu.io/upload_images/545982-d1ff3fba9cdb1fc5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="http://upload-images.jianshu.io/upload_images/545982-b7b1f72481badc0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="http://upload-images.jianshu.io/upload_images/545982-5f4b06beb1fcebd0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 
           
         
@@ -1371,7 +1364,8 @@
       
         
           
-            <p><strong>1.安装oracle-jdk</strong><br>打开终端，使用下面的命令：<br>java -version<br>如果你看到像下面的输出，这就意味着你并没有安装过Java:</p>
+            <a id="more"></a>
+<p><strong>1.安装oracle-jdk</strong><br>打开终端，使用下面的命令：<br>java -version<br>如果你看到像下面的输出，这就意味着你并没有安装过Java:</p>
 <p>The program ‘java’ can be found in the following packages:<br>* default-jre<br>* gcj-4.6-jre-headless<br>* openjdk-6-jre-headless<br>* gcj-4.5-jre-headless<br>* openjdk-7-jre-headless<br>Try: sudo apt-get install</p>
 <p>使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：<br>sudo add-apt-repository ppa:webupd8team/java<br>sudo apt-get update<br>sudo apt-get install oracle-java8-installer<br>sudo apt-get install oracle-java8-set-default</p>
 <p><strong>2.安装genymotion</strong><br>安装genymotion需要先安装virtualbox，命令如下：<br>sudo apt-get install virtualbox<br>然后下载genymotion，chmod +x geny…..bin 增加权限后执行，会解压缩，然后双击即可打开</p>
@@ -1527,7 +1521,8 @@
       
         
           
-            <p>在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。</p>
+            <a id="more"></a>
+<p>在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。</p>
 <p><strong>解决办法</strong><br>你需要安装一个 VirtualBox 的额外组件到你的 Ubuntu-Guest 中，可运行如下命令：<br>安装完毕需要重启虚拟机就可以。</p>
 
           
@@ -1681,7 +1676,8 @@
       
         
           
-            <p>sudo apt-get install python-pip<br>sudo pip install distribute<br>sudo pip install nose<br>sudo pip install virtualenv<br>sudo pip install lpthw.web<br>windows下面去掉sudo即可</p>
+            <a id="more"></a>
+<p>sudo apt-get install python-pip<br>sudo pip install distribute<br>sudo pip install nose<br>sudo pip install virtualenv<br>sudo pip install lpthw.web<br>windows下面去掉sudo即可</p>
 <p><strong>windows安装pip</strong><br>　　pip 是一个安装和管理 Python 包的工具 , 是 easy_install 的一个替换品，使用 pip 使安装、更新和卸载 python 包变得简单。<br>　　第一步：<a href="https://pypi.python.org/pypi/pip" target="_blank" rel="noopener">https://pypi.python.org/pypi/pip</a>下载，运行python setup.py install即完成安装<br>　　第二步：设windows环境变量，将C:\Python27\Scripts添加至path，重启cmd窗口<br>　　第三步：pip使用，如最基本的pip install MODELNAME</p>
 <p><strong>windows安装pyQt4</strong><br><a href="http://www.riverbankcomputing.com/software/pyqt/download" target="_blank" rel="noopener">http://www.riverbankcomputing.com/software/pyqt/download</a></p>
 <p><strong>Qt开发IDE</strong><br><a href="https://www.qt.io/zh-hans/download-open-source/" target="_blank" rel="noopener">https://www.qt.io/zh-hans/download-open-source/</a></p>
@@ -1818,7 +1814,8 @@
       
         
           
-            <p>看到AS中External Libraries有好几个同名但是版本不一样的lib的时候，真的逼死强迫症患者。 这些多个重复的lib出现的原因就是多个module各自compile了同名但是不同版本的lib（即依赖没有统一），所以统一性的确认这些依赖就好了。<br><strong>Step1:</strong><br>在根目录新建一个config.gradle文件，里面键入要统一的依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">ext &#123;</span><br><span class="line">  android = [</span><br><span class="line">          compileSdkVersion: 23,</span><br><span class="line">          buildToolsVersion: &quot;23.0.3&quot;,</span><br><span class="line">          minSdkVersion    : 15,</span><br><span class="line">          targetSdkVersion : 22,</span><br><span class="line">          versionCode      : 1,</span><br><span class="line">          versionName      : &quot;1.0&quot;</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">  dependencies = [</span><br><span class="line">          &quot;gson&quot;               : &quot;com.google.code.gson:gson:2.6.2&quot;,</span><br><span class="line">          &quot;eventbus&quot;           : &apos;org.greenrobot:eventbus:3.0.0&apos;,</span><br><span class="line">          &quot;butterknife&quot;        : &apos;com.jakewharton:butterknife:7.0.1&apos;,</span><br><span class="line">          &quot;support-design&quot;     : &apos;com.android.support:design:24.1.1&apos;,</span><br><span class="line">          &quot;support-appcompatV7&quot;: &apos;com.android.support:appcompat-v7:24.1.1&apos;,</span><br><span class="line">          &quot;support-percent&quot;    : &apos;com.android.support:percent:24.1.1&apos;,</span><br><span class="line">          &quot;support-multidex&quot;   : &apos;com.android.support:multidex:1.0.1&apos;,</span><br><span class="line">          &quot;glide&quot;              : &apos;com.github.bumptech.glide:glide:3.7.0&apos;,</span><br><span class="line">          &quot;support-v4&quot;         : &apos;com.android.support:support-v4:24.1.1&apos;,</span><br><span class="line">          &quot;okhttp3&quot;            : &apos;com.squareup.okhttp3:okhttp:3.3.1&apos;,</span><br><span class="line">          &quot;nineoldandroids&quot;    : &apos;com.nineoldandroids:library:2.4.0&apos;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+            <a id="more"></a>
+<p>看到AS中External Libraries有好几个同名但是版本不一样的lib的时候，真的逼死强迫症患者。 这些多个重复的lib出现的原因就是多个module各自compile了同名但是不同版本的lib（即依赖没有统一），所以统一性的确认这些依赖就好了。<br><strong>Step1:</strong><br>在根目录新建一个config.gradle文件，里面键入要统一的依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">ext &#123;</span><br><span class="line">  android = [</span><br><span class="line">          compileSdkVersion: 23,</span><br><span class="line">          buildToolsVersion: &quot;23.0.3&quot;,</span><br><span class="line">          minSdkVersion    : 15,</span><br><span class="line">          targetSdkVersion : 22,</span><br><span class="line">          versionCode      : 1,</span><br><span class="line">          versionName      : &quot;1.0&quot;</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">  dependencies = [</span><br><span class="line">          &quot;gson&quot;               : &quot;com.google.code.gson:gson:2.6.2&quot;,</span><br><span class="line">          &quot;eventbus&quot;           : &apos;org.greenrobot:eventbus:3.0.0&apos;,</span><br><span class="line">          &quot;butterknife&quot;        : &apos;com.jakewharton:butterknife:7.0.1&apos;,</span><br><span class="line">          &quot;support-design&quot;     : &apos;com.android.support:design:24.1.1&apos;,</span><br><span class="line">          &quot;support-appcompatV7&quot;: &apos;com.android.support:appcompat-v7:24.1.1&apos;,</span><br><span class="line">          &quot;support-percent&quot;    : &apos;com.android.support:percent:24.1.1&apos;,</span><br><span class="line">          &quot;support-multidex&quot;   : &apos;com.android.support:multidex:1.0.1&apos;,</span><br><span class="line">          &quot;glide&quot;              : &apos;com.github.bumptech.glide:glide:3.7.0&apos;,</span><br><span class="line">          &quot;support-v4&quot;         : &apos;com.android.support:support-v4:24.1.1&apos;,</span><br><span class="line">          &quot;okhttp3&quot;            : &apos;com.squareup.okhttp3:okhttp:3.3.1&apos;,</span><br><span class="line">          &quot;nineoldandroids&quot;    : &apos;com.nineoldandroids:library:2.4.0&apos;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><strong>Step2:</strong><br>在根目录的build.gradle文件里面头部增加一句引用 apply from: “config.gradle”</p>
 <p><strong>Step3:</strong><br>在module里面开始应用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">compileSdkVersion rootProject.ext.android.compileSdkVersion //android&#123;&#125;节点</span><br><span class="line">compile rootProject.ext.dependencies[&quot;support-appcompatV7&quot;] //dependencies&#123;&#125;节点</span><br></pre></td></tr></table></figure></p>
 <p><strong>The end</strong><br>clean一下去External Libraries看看，是不是还有重复的，如果还有，说明前面config里面的依赖其他地方还有遗漏的，全局搜索一下在同样方式替换一下就好了。</p>

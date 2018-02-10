@@ -374,7 +374,8 @@
       
         
           
-            <p>源地址:<a href="http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao</a></p>
+            <a id="more"></a>
+<p>源地址:<a href="http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao</a></p>
 <p>###前言：<br>前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。<br>一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是不允许的。所以下面我们就来介绍一下如何在library中使用productFlavors。</p>
 <p>###1.基础<br>前面介绍过如何使用productFlavors，不了解的朋友需要先看看这篇文章<br><a href="http://blog.csdn.net/yulyu/article/details/59111697" target="_blank" rel="noopener">活用productFlavors,批量定制化</a><br><a href="http://blog.csdn.net/yulyu/article/details/59111697" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/59111697</a></p>
 <p>###2.场景介绍<br>首先我们引用了一个picmodule，然后picmodule里面有一个正常的产品，两个定制化的产品</p>
@@ -543,7 +544,8 @@
       
         
           
-            <p>####1.强引用<br>这个就不用说了,基本上写程序都是强引用,比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object obj = new Object();</span><br></pre></td></tr></table></figure></p>
+            <a id="more"></a>
+<p>####1.强引用<br>这个就不用说了,基本上写程序都是强引用,比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object obj = new Object();</span><br></pre></td></tr></table></figure></p>
 <p>####2. 软引用<br>软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象</p>
 <p>####3.弱引用<br>在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它</p>
 <p>系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。</p>
@@ -555,161 +557,6 @@
 <p>####4.虚引用<br>和soft，weak Reference区别较大，它的get()方法总是返回null。这意味着你只能用PhantomReference本身，而得不到它指向的对象。当WeakReference指向的对象变得弱可达(weakly reachable）时会立即被放到ReferenceQueue中，这在finalization、garbage collection之前发生。理论上，你可以在finalize()方法中使对象“复活”（使一个强引用指向它就行了，gc不会回收它）。但没法复活PhantomReference指向的对象。而PhantomReference是在garbage collection之后被放到ReferenceQueue中的，没法复活。<br>虚引用适合用来查看对象什么时候被回收,优化内存的时候使用</p>
 <hr>
 <p>以上是个人在网上学习的时候总结的东西,有错误的地方请指正</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Class-isAssignableFrom与-instanceof-区别/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/Class-isAssignableFrom与-instanceof-区别/" itemprop="url">Class.isAssignableFrom与 instanceof 区别</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:50:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/Class-isAssignableFrom与-instanceof-区别/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/Class-isAssignableFrom与-instanceof-区别/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。<br>  通常调用格式是<br>        Class1.isAssignableFrom (Class2)<br>  调用者和参数都是   java.lang.Class   类型。   </p>
-<p>  而   instanceof   是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。<br>    格式是：   o   instanceof   TypeName<br>    第一个参数是对象实例名，第二个参数是具体的类名或接口名<br>具体例子如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class TestCase &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        TestCase test = new TestCase();  </span><br><span class="line">        test.testIsAssignedFrom1();  </span><br><span class="line">        test.testIsAssignedFrom2();  </span><br><span class="line">        test.testIsAssignedFrom3();  </span><br><span class="line">        test.testInstanceOf1();  </span><br><span class="line">        test.testInstanceOf2();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testIsAssignedFrom1() &#123;  </span><br><span class="line">        System.out.println(String.class.isAssignableFrom(Object.class));  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testIsAssignedFrom2() &#123;  </span><br><span class="line">        System.out.println(Object.class.isAssignableFrom(Object.class));  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testIsAssignedFrom3() &#123;  </span><br><span class="line">        System.out.println(Object.class.isAssignableFrom(String.class));  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testInstanceOf1() &#123;  </span><br><span class="line">        String s = &quot;&quot;;  </span><br><span class="line">        System.out.println(s instanceof Object);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testInstanceOf2() &#123;  </span><br><span class="line">        Object o = new Object();  </span><br><span class="line">        System.out.println(o instanceof Object);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>打印结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">false  </span><br><span class="line">true  </span><br><span class="line">true  </span><br><span class="line">true  </span><br><span class="line">true</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -862,10 +709,167 @@
       
         
           
-            <p>CountDownLatch:这个类适合一个任务需要另一个任务完成后才能继续的场景<br>CyclicBarrier:与CountDownLatch类似</p>
+            <a id="more"></a>
+<p>CountDownLatch:这个类适合一个任务需要另一个任务完成后才能继续的场景<br>CyclicBarrier:与CountDownLatch类似</p>
 <blockquote>
 <p>CountDownLatch和CyclicBarrier的区别<br>(01) CountDownLatch的作用是允许1或N个线程等待其他线程完成执行；而CyclicBarrier则是允许N个线程相互等待。<br>(02) CountDownLatch的计数器无法被重置；CyclicBarrier的计数器可以被重置后使用，因此它被称为是循环的barrier。</p>
 </blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Class-isAssignableFrom与-instanceof-区别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/Class-isAssignableFrom与-instanceof-区别/" itemprop="url">Class.isAssignableFrom与 instanceof 区别</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:50:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/Class-isAssignableFrom与-instanceof-区别/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/Class-isAssignableFrom与-instanceof-区别/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。<br>  通常调用格式是<br>        Class1.isAssignableFrom (Class2)<br>  调用者和参数都是   java.lang.Class   类型。   </p>
+<p>  而   instanceof   是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。<br>    格式是：   o   instanceof   TypeName<br>    第一个参数是对象实例名，第二个参数是具体的类名或接口名<br>具体例子如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class TestCase &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        TestCase test = new TestCase();  </span><br><span class="line">        test.testIsAssignedFrom1();  </span><br><span class="line">        test.testIsAssignedFrom2();  </span><br><span class="line">        test.testIsAssignedFrom3();  </span><br><span class="line">        test.testInstanceOf1();  </span><br><span class="line">        test.testInstanceOf2();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testIsAssignedFrom1() &#123;  </span><br><span class="line">        System.out.println(String.class.isAssignableFrom(Object.class));  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testIsAssignedFrom2() &#123;  </span><br><span class="line">        System.out.println(Object.class.isAssignableFrom(Object.class));  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testIsAssignedFrom3() &#123;  </span><br><span class="line">        System.out.println(Object.class.isAssignableFrom(String.class));  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testInstanceOf1() &#123;  </span><br><span class="line">        String s = &quot;&quot;;  </span><br><span class="line">        System.out.println(s instanceof Object);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    public void testInstanceOf2() &#123;  </span><br><span class="line">        Object o = new Object();  </span><br><span class="line">        System.out.println(o instanceof Object);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>打印结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">false  </span><br><span class="line">true  </span><br><span class="line">true  </span><br><span class="line">true  </span><br><span class="line">true</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1018,7 +1022,8 @@
       
         
           
-            <p>输入如下命令：</p>
+            <a id="more"></a>
+<p>输入如下命令：</p>
 <p>sudo apt-get autoremove –purge 要卸载的软件名字</p>
 <p>我们来讲解一下这个命令</p>
 <p>sudo ———— 获取 root 权限</p>
@@ -1026,159 +1031,6 @@
 <p>autoremove — 告诉 apt-get 我们所要做的操作是移除软件</p>
 <p>–purge ——— 注意这前面是两个短划线，这个参数是告诉他们要完整的干净的彻底的移除</p>
 <p>此方法 Ubuntu系、Debian系 系统可用</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Joda-Time-简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/Joda-Time-简介/" itemprop="url">Joda-Time 简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:49:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/Joda-Time-简介/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/Joda-Time-简介/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转载ibm:<a href="https://www.ibm.com/developerworks/cn/java/j-jodatime.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-jodatime.html</a></p>
 
           
         
@@ -1331,7 +1183,8 @@
       
         
           
-            <p>####1.netstat常用命令<br>-a：查看所有端口的占用<br>-t：只列出 TCP 或 UDP 协议的连接<br>-u：列出 UDP 协议的连接<br>-n：禁用反向域名解析，加快查询速度<br>-l：只列出监听中的连接<br>-p：获取进程名、进程号以及用户 ID<br>-ep：可以同时查看进程名和用户名</p>
+            <a id="more"></a>
+<p>####1.netstat常用命令<br>-a：查看所有端口的占用<br>-t：只列出 TCP 或 UDP 协议的连接<br>-u：列出 UDP 协议的连接<br>-n：禁用反向域名解析，加快查询速度<br>-l：只列出监听中的连接<br>-p：获取进程名、进程号以及用户 ID<br>-ep：可以同时查看进程名和用户名</p>
 <p>####2.kill -9 pid<br>杀死pid这个进程</p>
 <p>####3.刷新dns<br>sudo /etc/init.d/networking restart </p>
 
@@ -1382,7 +1235,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-压缩解压命令/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Joda-Time-简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="superman">
@@ -1401,7 +1254,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/08/linux常用命令-压缩解压命令/" itemprop="url">linux常用命令-压缩解压命令</a></h1>
+                <a class="post-title-link" href="/2018/02/08/Joda-Time-简介/" itemprop="url">Joda-Time 简介</a></h1>
         
 
         <div class="post-meta">
@@ -1413,7 +1266,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:48:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:49:00+08:00">
                 2018-02-08
               </time>
             
@@ -1436,8 +1289,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -1454,9 +1307,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/08/linux常用命令-压缩解压命令/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/08/Joda-Time-简介/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/linux常用命令-压缩解压命令/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/08/Joda-Time-简介/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1486,9 +1339,8 @@
       
         
           
-            <p>gzip [文件]<br>　　压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件<br>gunzip [文件] 或者 gzip -d [文件]<br>　　解压缩.gz的压缩文件<br>tar [-zcvf] [压缩后文件名] [目录]<br>　　打包目录<br>　　压缩后文件格式 .tar.gz<br>　　-c 打包<br>　　-x 解压缩<br>　　-v 显示详细信息<br>　　-f 指定文件名<br>　　-z 打包同时压缩<br>tar [-zxvf] [解压缩文件名] [目录]</p>
-<p>zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高<br>　　[-r] [压缩后文件名] [目录]:压缩目录<br>　　压缩后文件格式 .zip<br>　　注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容</p>
-<p>bzip2 [-k] [压缩文件] 压缩比例最高<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的<br>bunzip2 [-k] [压缩文件]<br>　　-k 压缩后保留源文件<br>　　配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的</p>
+            <a id="more"></a>
+<p>转载ibm:<a href="https://www.ibm.com/developerworks/cn/java/j-jodatime.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-jodatime.html</a></p>
 
           
         
@@ -1641,7 +1493,8 @@
       
         
           
-            <p>locate 目录或文件名<br>　　-i 查找的时候不区分大小写<br>这个类似everything,速度比find快很多,因为这个命令搜索的是它维护的文件资料库,文件资料库是var/lib/mlocate/mlocate.db,如果文件没有包含在它的文件资料库,那么是找不到这个文件的,这个时候需要用updatedb命令来更新文件资料库,但是,/tmp这个目录,是不会被文件资料库收录的,即使执行了updatedb也找不到tmp下面的文件</p>
+            <a id="more"></a>
+<p>locate 目录或文件名<br>　　-i 查找的时候不区分大小写<br>这个类似everything,速度比find快很多,因为这个命令搜索的是它维护的文件资料库,文件资料库是var/lib/mlocate/mlocate.db,如果文件没有包含在它的文件资料库,那么是找不到这个文件的,这个时候需要用updatedb命令来更新文件资料库,但是,/tmp这个目录,是不会被文件资料库收录的,即使执行了updatedb也找不到tmp下面的文件</p>
 <p>which 搜索命令所在目录及别名<br>　　例:which ls<br>whereis 搜索命令所在目录及帮助文档路径<br>　　例:whereis ls<br>　　注意,这个命令查到的帮助文档的路径中,1代表命令的帮助,5代表文档的帮助,例如whereis passwd中就有man1和man5这两种帮助文档<br>grep 在文件内容中搜寻子串匹配的行为并输出<br>　　-i 不区分大小写<br>　　-v 排除指定字串<br>　　例:grep mysql /root/install.log<br>　　　 grep -v ^# /etc/inittab　　把#开头的行排除</p>
 
           
@@ -1795,11 +1648,181 @@
       
         
           
-            <p>####1.mongodb的conf文件<br>port=27017 #【代表端口号，如果不指定则默认为   27017   】<br>dbpath= /home/username/Soft/mongoDBFiles  #【数据库路径】<br>logpath= /home/username/Soft/mongoDBFiles/mongodb.log  #【日志路径】<br>logappend=true  #【日志文件自动累加，而不是覆盖】<br>推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件]</p>
+            <a id="more"></a>
+<p>####1.mongodb的conf文件<br>port=27017 #【代表端口号，如果不指定则默认为   27017   】<br>dbpath= /home/username/Soft/mongoDBFiles  #【数据库路径】<br>logpath= /home/username/Soft/mongoDBFiles/mongodb.log  #【日志路径】<br>logappend=true  #【日志文件自动累加，而不是覆盖】<br>推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件]</p>
 <p>####2.nodejs<br>官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下</p>
 <p>####3.md文件转html<br>要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。<br>$ sudo apt-get install discount</p>
 <p>用discount提供的markdown工具转换：<br>$ markdown -o Release-Notes.html Release-Notes.md</p>
 <p>python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="url">linux常用命令-帮助命令man,whatis,apropos,info,help</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:48:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>man 命令</p>
+<p>　　man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径</p>
+<p>　　man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页</p>
+<p>　　man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助,</p>
+<p>　　　　所以如果要看配置文件的帮助文档,需要输入man 5 passwd</p>
+<p>whatis 命令</p>
+<p>　　可以查看某命令的简短的帮助信息</p>
+<p>apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径</p>
+<p>　　可以查看某配置文件的简短的帮助信息</p>
+<p>命令 –help</p>
+<p>　　列出该命令的常见选项</p>
+<p>info 命令或者配置文件</p>
+<p>　　类似man,可以显示当前查看文件的进度</p>
+<p>help</p>
+<p>　　可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的</p>
+<p>　　例:help cd</p>
 
           
         

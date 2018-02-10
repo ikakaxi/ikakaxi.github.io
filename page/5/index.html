@@ -532,19 +532,14 @@
 
       
         
-          
-            <p>原文:<a href="http://blog.csdn.net/zhangjg_blog/article/details/17142395" target="_blank" rel="noopener">http://blog.csdn.net/zhangjg_blog/article/details/17142395</a></p>
-<p>个人总结一下:</p>
-<ol>
-<li><p>build target:<br>一般情况下，应该使用最新的API level作为build target。这也是eclipse生成项目时的默认行为。<br>如果使用没有在build target里存在的API就会报错</p>
-</li>
-<li><p>minSdkVersion:<br>指明应用程序运行所需的最小API level。如果不指明的话，默认是1。也就是说该应用兼容所有的android版本。我们应该总是声明这个属性。否则基本上所有的API都没办法调用,因为API等级为1的时候没有什么现在可以用的API<br><strong>如果系统的API level低于android:minSdkVersion设定的值，那么android系统会阻止用户安装这个应用。<br>如果指明了这个属性，并且在项目中使用了高于这个API level的API， 那么会在编译时报错。</strong></p>
-</li>
-<li><p>targetSdkVersion:<br>标明应用程序目标API Level的一个整数。如果不设置，默认值和minSdkVersion相同。<br>这个属性通知系统，你已经针对这个指定的目标版本测试过你的程序，系统不必再使用兼容模式来让你的应用程序向前兼容这个目标版本。应用程序仍然能在低于targetSdkVersion的系统上运行。<br>根据你设置的targetSdkVersion 的值，系统会执行很多兼容行为。一些行为在对应平台版本的Build.VERSION_CODES中有讨论。<br><strong>targetSdkVersion这个属性是在程序运行时期起作用的，系统根据这个属性决定要不要以兼容模式运行这个程序。</strong><br>一般情况下，应该将这个属性的值设置为最新的API level 值，这样的话可以利用新版本系统上的新特性。eclipse在生成项目时，默认将该值设置为最高，如果设置一个较低的值，会给出一个警告</p>
-</li>
-</ol>
-
-          
+          <p>原文:<a href="http://blog.csdn.net/zhangjg_blog/article/details/17142395" target="_blank" rel="noopener">http://blog.csdn.net/zhangjg_blog/article/details/17142395</a><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/Android中build-target，minSdkVersion，targetSdkVersion，maxSdkVersion概念区分/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -695,7 +690,8 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android.content.ActivityNotFoundException</span><br><span class="line">Unable to find explicit activity class &#123;com.android.browser/com.android.browser.BrowserActivity&#125;; have you declared this activity in your AndroidManifest.xml?</span><br></pre></td></tr></table></figure>
+            <a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android.content.ActivityNotFoundException</span><br><span class="line">Unable to find explicit activity class &#123;com.android.browser/com.android.browser.BrowserActivity&#125;; have you declared this activity in your AndroidManifest.xml?</span><br></pre></td></tr></table></figure>
 <p>在三星的一款手机遇到这个问题,后来找到原因是他刷机后没有这个累了,之前的调用方法是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();  </span><br><span class="line">intent.setAction(Intent.ACTION_VIEW);  </span><br><span class="line">Uri content_uri_browsers = Uri.parse(***);  </span><br><span class="line">intent.setData(content_uri_browsers);  </span><br><span class="line">intent.setClassName(&quot;com.android.browser&quot;, &quot;com.android.browser.BrowserActivity&quot;);  </span><br><span class="line">this.startActivity(intent);</span><br></pre></td></tr></table></figure></p>
 <p>解决这个问题需要去掉intent.setClassName(…)<br>改完以后是下面这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();  </span><br><span class="line">intent.setAction(Intent.ACTION_VIEW);  </span><br><span class="line">Uri content_uri_browsers = Uri.parse(***);  </span><br><span class="line">intent.setData(content_uri_browsers);  </span><br><span class="line">this.startActivity(intent);</span><br></pre></td></tr></table></figure></p>
 <p>这样让用户去选择浏览器下载,就解决这个问题了</p>
@@ -851,7 +847,8 @@
       
         
           
-            <p>######前言<br>今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。<br>以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_pressed=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_selected=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#f88b00&quot;&gt;&lt;/item&gt;</span><br><span class="line"></span><br><span class="line">&lt;/selector&gt;</span><br></pre></td></tr></table></figure></p>
+            <a id="more"></a>
+<p>######前言<br>今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。<br>以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_pressed=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#ffffff&quot; android:state_selected=&quot;true&quot;&gt;&lt;/item&gt;</span><br><span class="line">    &lt;item android:color=&quot;#f88b00&quot;&gt;&lt;/item&gt;</span><br><span class="line"></span><br><span class="line">&lt;/selector&gt;</span><br></pre></td></tr></table></figure></p>
 <p>######坑？<br>在代码里设置颜色seletor，以为在代码里直接调用 button.setTextColor(int colorValue) 就可以了，结果运行效果让我傻眼了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mBtnDownAndOpen.setText(DOWNLOAD_OPEN);  //设置button文字</span><br><span class="line">mBtnDownAndOpen.setTextColor(mContext.getResources().getColor(R.color.networkdata_btn_open_txtcolor_selector));    //设置button文字颜色</span><br><span class="line">mBtnDownAndOpen.setBackground(mContext.getResources().getDrawable(R.drawable.networkdata_btn_open_selector));    //设置button背景</span><br></pre></td></tr></table></figure></p>
 <p>######郁闷的是，只能读取到没获取焦点时的色值，也就是 <item android:color="#f88b00"></item> ，其他状态获取不到。</p>
 <p>######如何填坑？<br>采用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mBtnDownAndOpen.setTextColor(mContext.getResources().getColorStateList(R.color.networkdata_btn_open_txtcolor_selector));</span><br></pre></td></tr></table></figure></p>
@@ -1010,7 +1007,8 @@
       
         
           
-            <p>总结备份一下,防止忘记,网上有较多的设置透明状态栏的方法,目前试了很多,个人觉得现在自己使用的这种方式较完美<br>首先我的项目没有用到ToolBar或者ActionBar,后退标题栏是自己做的,这个后退标题栏自己做也很简单,而且按系统后退键我也处理了,下面直接说怎么做透明标题栏</p>
+            <a id="more"></a>
+<p>总结备份一下,防止忘记,网上有较多的设置透明状态栏的方法,目前试了很多,个人觉得现在自己使用的这种方式较完美<br>首先我的项目没有用到ToolBar或者ActionBar,后退标题栏是自己做的,这个后退标题栏自己做也很简单,而且按系统后退键我也处理了,下面直接说怎么做透明标题栏</p>
 <p>######首先,要在自己的项目里添加v7扩展包,然后再做下列操作</p>
 <p>1.设置theme<br>在默认的values下,添加下面的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line"></span><br><span class="line">    &lt;style name=&quot;BaseTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;style name=&quot;ImageTranslucentTheme&quot; parent=&quot;BaseTheme&quot;&gt;</span><br><span class="line">        &lt;!--通过设置android:windowIsTranslucent属性，表明该窗口是透明的，这样也不会出现白屏或者黑屏。</span><br><span class="line">        但是，它和MainActivity的显示是同步，如果在MainActivity启动的时候，有过多复杂的操作，就会出现在手机中点击了应用程序的图标之后，</span><br><span class="line">        但过两秒才会打开应用程序不好的卡顿体验效果。--&gt;</span><br><span class="line">        &lt;!--&lt;item name=&quot;android:windowIsTranslucent&quot;&gt;true&lt;/item&gt;--&gt;</span><br><span class="line">        &lt;!--让一张图片作为窗口的背景图，使打开MainActivity第一眼看到的界面是一张图片而不是白屏或者黑屏。</span><br><span class="line">        设置这个属性来显示一张背景图还有一个效果就是启动应用程序会感觉非常快，而且与加载MainActivity的contentView是异步的--&gt;</span><br><span class="line">        &lt;!--&lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/white&lt;/item&gt;--&gt;</span><br><span class="line">        &lt;!-- 打开window预览效果(默认是打开的) --&gt;</span><br><span class="line">        &lt;!--item name=&quot;android:windowDisablePreview&quot;&gt;true&lt;/item--&gt;</span><br><span class="line">        &lt;item name=&quot;colorPrimary&quot;&gt;@color/colorPrimary&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;colorPrimaryDark&quot;&gt;@color/colorPrimaryDark&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;colorAccent&quot;&gt;@color/colorAccent&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/white&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;actionBarStyle&quot;&gt;@style/ThemeOverlay.AppCompat.Dark.ActionBar&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:actionBarStyle&quot;&gt;@style/ThemeOverlay.AppCompat.Dark.ActionBar&lt;/item&gt;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure></p>
 <p>2.然后添加同级文件夹values-v21,添加下面的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--沉浸式状态栏--&gt;</span><br><span class="line">    &lt;style name=&quot;ImageTranslucentTheme&quot; parent=&quot;BaseTheme&quot;&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowDrawsSystemBarBackgrounds&quot;&gt;true&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowContentTransitions&quot;&gt;true&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowAllowEnterTransitionOverlap&quot;&gt;true&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowAllowReturnTransitionOverlap&quot;&gt;true&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowSharedElementEnterTransition&quot;&gt;@android:transition/move&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowSharedElementExitTransition&quot;&gt;@android:transition/move&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:statusBarColor&quot;&gt;@android:color/transparent&lt;/item&gt;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure></p>
@@ -1170,7 +1168,8 @@
       
         
           
-            <p>在应用开发中，我们常常会进行日志打印或者debug调试，以此来分析运行时的一些信息，便于发现bug和问题。Android Studio的Debug功能很好用，但是有时候有些情况下，就显得不是那么快捷和便利。</p>
+            <a id="more"></a>
+<p>在应用开发中，我们常常会进行日志打印或者debug调试，以此来分析运行时的一些信息，便于发现bug和问题。Android Studio的Debug功能很好用，但是有时候有些情况下，就显得不是那么快捷和便利。</p>
 <p>比如</p>
 <ul>
 <li>我们调试的点在应用一打开的时候，很靠前，例如Application的onCreate方法中，以至于我们不能足够快的设置进程为debug模式</li>
@@ -1353,7 +1352,8 @@
       
         
           
-            <p>手机root后,执行adb shell然后执行su命令,就可以为所欲为,但是测试机不见得都可以root,这时候做一些操作,可以执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run-as 需要查看内容的应用包名</span><br></pre></td></tr></table></figure></p>
+            <a id="more"></a>
+<p>手机root后,执行adb shell然后执行su命令,就可以为所欲为,但是测试机不见得都可以root,这时候做一些操作,可以执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run-as 需要查看内容的应用包名</span><br></pre></td></tr></table></figure></p>
 <p>这个命令查看,但是只能在debug下面才能使用,所以,只能看自己开发的app了…</p>
 
           
@@ -1506,8 +1506,7 @@
 
       
         
-          
-            <p>###关键知识点</p>
+          <p>###关键知识点</p>
 <ul>
 <li>Handler</li>
 <li>MessageQueue</li>
@@ -1515,30 +1514,13 @@
 <li>Loop</li>
 <li>ActivityThread</li>
 </ul>
-<p>#####先来看关键部分的代码,不关键的部分我删掉了</p>
-<ul>
-<li>Handler</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public Handler() &#123;</span><br><span class="line">    this(null, false);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public Handler(Callback callback, boolean async) &#123;</span><br><span class="line">    mLooper = Looper.myLooper();</span><br><span class="line">    if (mLooper == null) &#123;</span><br><span class="line">        throw new RuntimeException(</span><br><span class="line">            &quot;Can&apos;t create handler inside thread that has not called Looper.prepare()&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    mQueue = mLooper.mQueue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Looper</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">private Looper(boolean quitAllowed) &#123;</span><br><span class="line">    mQueue = new MessageQueue(quitAllowed);</span><br><span class="line">    mThread = Thread.currentThread();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void prepare() &#123;</span><br><span class="line">    prepare(true);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static void prepare(boolean quitAllowed) &#123;</span><br><span class="line">    if (sThreadLocal.get() != null) &#123;</span><br><span class="line">        throw new RuntimeException(&quot;Only one Looper may be created per thread&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    sThreadLocal.set(new Looper(quitAllowed));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static Looper myLooper() &#123;</span><br><span class="line">    return sThreadLocal.get();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void prepareMainLooper() &#123;</span><br><span class="line">    prepare(false);</span><br><span class="line">    synchronized (Looper.class) &#123;</span><br><span class="line">        if (sMainLooper != null) &#123;</span><br><span class="line">            throw new IllegalStateException(&quot;The main Looper has already been prepared.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        sMainLooper = myLooper();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void loop() &#123;</span><br><span class="line">    final Looper me = myLooper();</span><br><span class="line">    if (me == null) &#123;</span><br><span class="line">        throw new RuntimeException(&quot;No Looper; Looper.prepare() wasn&apos;t called on this thread.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    final MessageQueue queue = me.mQueue;</span><br><span class="line"></span><br><span class="line">    for (;;) &#123;</span><br><span class="line">        Message msg = queue.next(); // might block</span><br><span class="line">        if (msg == null) &#123;</span><br><span class="line">            // No message indicates that the message queue is quitting.</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        msg.target.dispatchMessage(msg);</span><br><span class="line">        msg.recycleUnchecked();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>ActivityThread<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;  </span><br><span class="line">     SamplingProfilerIntegration.start();  </span><br><span class="line">     CloseGuard.setEnabled(false);  </span><br><span class="line">  </span><br><span class="line">     Environment.initForCurrentUser();  </span><br><span class="line">  </span><br><span class="line">     // Set the reporter for event logging in libcore  </span><br><span class="line">     EventLogger.setReporter(new EventLoggingReporter());  </span><br><span class="line">  </span><br><span class="line">     Process.setArgV0(&quot;&lt;pre-initialized&gt;&quot;);  </span><br><span class="line">  </span><br><span class="line">     Looper.prepareMainLooper();// 1、创建消息循环Looper  </span><br><span class="line">  </span><br><span class="line">     ActivityThread thread = new ActivityThread();  </span><br><span class="line">     thread.attach(false);  </span><br><span class="line">  </span><br><span class="line">     if (sMainThreadHandler == null) &#123;  </span><br><span class="line">         sMainThreadHandler = thread.getHandler(); // UI线程的Handler  </span><br><span class="line">     &#125;  </span><br><span class="line">  </span><br><span class="line">     AsyncTask.init();  </span><br><span class="line">  </span><br><span class="line">     if (false) &#123;  </span><br><span class="line">         Looper.myLooper().setMessageLogging(new  </span><br><span class="line">                 LogPrinter(Log.DEBUG, &quot;ActivityThread&quot;));  </span><br><span class="line">     &#125;  </span><br><span class="line">  </span><br><span class="line">     Looper.loop();   // 2、执行消息循环  </span><br><span class="line">  </span><br><span class="line">     throw new RuntimeException(&quot;Main thread loop unexpectedly exited&quot;);  </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>我们从下面的代码开始分析<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">   @Override</span><br><span class="line">   protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">	super.onCreate(savedInstanceState);</span><br><span class="line">	setContentView(R.layout.activity_main);</span><br><span class="line">	new Thread()&#123;</span><br><span class="line">		@Override</span><br><span class="line">		public void run() &#123;</span><br><span class="line">			Looper.prepare();</span><br><span class="line">			Handler handler = new Handler(new Handler.Callback() &#123;</span><br><span class="line">				@Override</span><br><span class="line">				public boolean handleMessage(Message msg) &#123;</span><br><span class="line">					Log.d(&quot;tag&quot;,&quot;已收到消息&quot;);</span><br><span class="line">					return false;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">			handler.sendMessage(...);</span><br><span class="line">			Looper.loop();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>####1.Looper.prepare()<br>在这个方法里,sThreadLocal.get()获取之前保存的当前线程的Looper,如果不存在就创建一个Looper然后保存到当前线程,关于ThreadLocal请谷歌张孝祥老师的多线程部分,有讲解ThreadLocal,在这里sThreadLocal能保证每个线程只有一个Looper</p>
-<p>####2.Handler handler = new Handler<br>这个方法,会创建一个Handler,在创建的时候会调用Looper.myLooper()方法,在Looper.myLooper()方法里会调用<br>sThreadLocal.get()方法获取当前线程保存过的Looper,而我们在创建Handler之前调用了Looper.prepare(),所以这里不为空,如果没有调用Looper.prepare()这里就会抛出异常.在这个方法里会保存一份Looper里的MessageQueue引用</p>
-<p>####3.handler.sendMessage(…)<br>看源码会发现,最终该方法会调用下面的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private boolean enqueueMessage(MessageQueue queue, Message msg, long uptimeMillis) &#123;</span><br><span class="line">  msg.target = this;</span><br><span class="line">  if (mAsynchronous) &#123;</span><br><span class="line">    msg.setAsynchronous(true);</span><br><span class="line">  &#125;</span><br><span class="line">  return queue.enqueueMessage(msg, uptimeMillis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>其中queue是在Handler创建的时候,从Looper获取的Looper中的MessageQueue的引用,在enqueueMessage这个方法里,会把Message的target设置为自己,然后把这条Message放到queue里,后面的uptimeMillis参数会根据时间调整消息发送的顺序,这里不多讲,有兴趣可以自己研究一下</p>
-<p>####4.Looper.loop()<br>这个方法的实现请看上面Looper类的源码,在这个方法里会有一个死循环一直从MessageQueue里获取Message,取到以后就调用Message所属的Handler的dispatchMessage方法</p>
-<p>下面我用一张图总结一下上面<code>onCreate</code>方法里的调用流程</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-312adac6c7eec3b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>在我们平时写代码的时候,并不会去执行Looper的prepare方法和loop方法,这是因为系统帮我们做了这件事情,Android应用程序的入口为ActivityThread.main方法,在上面的ActivityThread.main方法里我们可以看到有调用Looper.prepareMainLooper()和Looper.loop()方法</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/彻底理解Handler机制/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1689,7 +1671,8 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClass(this, ReceivePushMessageActivity.class);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">intent.putExtra(&quot;name&quot;, &quot;li&quot;);</span><br><span class="line">intent.putExtra(&quot;age&quot;, 18);</span><br><span class="line">String intentUri = intent.toUri(Intent.URI_INTENT_SCHEME);</span><br><span class="line"></span><br><span class="line">//复制到剪贴板</span><br><span class="line">ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);</span><br><span class="line">cmb.setText(intentUri);</span><br><span class="line">ToastFactory.showTextShortToast(this, &quot;已复制到剪贴板&quot;);</span><br></pre></td></tr></table></figure>
+            <a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClass(this, ReceivePushMessageActivity.class);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">intent.putExtra(&quot;name&quot;, &quot;li&quot;);</span><br><span class="line">intent.putExtra(&quot;age&quot;, 18);</span><br><span class="line">String intentUri = intent.toUri(Intent.URI_INTENT_SCHEME);</span><br><span class="line"></span><br><span class="line">//复制到剪贴板</span><br><span class="line">ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);</span><br><span class="line">cmb.setText(intentUri);</span><br><span class="line">ToastFactory.showTextShortToast(this, &quot;已复制到剪贴板&quot;);</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1840,10 +1823,14 @@
 
       
         
-          
-            <p>将MapView改为TextureMapView即可</p>
-
-          
+          <p>将MapView改为TextureMapView即可<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/百度地图的MapView在Fragment中闪屏的解决办法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

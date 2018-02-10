@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="前言  Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。 在应用场景上">
+<meta name="description" content="前言  Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。 在应用场景">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android后台保活实践总结：即时通讯应用无法根治的“顽疾”">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/Android后台保活实践总结：即时通讯应用无法根治的“顽疾”/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="前言  Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。 在应用场景上">
+<meta property="og:description" content="前言  Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。 在应用场景">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-d765c5e38993d112.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-02-07T15:03:30.646Z">
+<meta property="og:updated_time" content="2018-02-10T03:20:21.988Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android后台保活实践总结：即时通讯应用无法根治的“顽疾”">
-<meta name="twitter:description" content="前言  Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。 在应用场景上">
+<meta name="twitter:description" content="前言  Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。 在应用场景">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/545982-d765c5e38993d112.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -372,7 +372,8 @@
       
 
       
-        <blockquote>
+        <a id="more"></a>
+<blockquote>
 <p>前言</p>
 </blockquote>
 <p>Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。</p>

@@ -77,19 +77,19 @@
 
 
 
-<meta name="description" content="adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：adb shell dumpsys meminfo 其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：重点关注如下几个字段：（1） Native/Dalvik 的 Heap 信息">
+<meta name="description" content="adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：adb shell dumpsys meminfo 其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：重点关注如下几个字段：（1） Native/Dalvik 的 Heap 信">
 <meta name="keywords" content="debug">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用adb dumpsys 命令查看app占用内存">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/使用adb-dumpsys-命令查看app占用内存/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：adb shell dumpsys meminfo 其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：重点关注如下几个字段：（1） Native/Dalvik 的 Heap 信息">
+<meta property="og:description" content="adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：adb shell dumpsys meminfo 其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：重点关注如下几个字段：（1） Native/Dalvik 的 Heap 信">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-75efbde6fda86be3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-02-07T14:53:26.592Z">
+<meta property="og:updated_time" content="2018-02-10T03:19:21.093Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用adb dumpsys 命令查看app占用内存">
-<meta name="twitter:description" content="adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：adb shell dumpsys meminfo 其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：重点关注如下几个字段：（1） Native/Dalvik 的 Heap 信息">
+<meta name="twitter:description" content="adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：adb shell dumpsys meminfo 其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：重点关注如下几个字段：（1） Native/Dalvik 的 Heap 信">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/545982-75efbde6fda86be3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -373,7 +373,8 @@
       
 
       
-        <p>adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：<br>adb shell dumpsys meminfo <package_name><br>其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：<br><img src="http://upload-images.jianshu.io/upload_images/545982-75efbde6fda86be3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">重点关注如下几个字段：<br>（1） Native/Dalvik 的 Heap 信息具体在上面的第一行和第二行，它分别给出的是JNI层和Java层的内存分配情况，如果发现这个值一直增长，则代表程序可能出现了内存泄漏。<br>（2） Total 的 PSS 信息这个值就是你的应用真正占据的内存大小，通过这个信息，你可以轻松判别手机中哪些程序占内存比较大了。</package_name></p>
+        <a id="more"></a>
+<p>adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：<br>adb shell dumpsys meminfo <package_name><br>其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：<br><img src="http://upload-images.jianshu.io/upload_images/545982-75efbde6fda86be3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">重点关注如下几个字段：<br>（1） Native/Dalvik 的 Heap 信息具体在上面的第一行和第二行，它分别给出的是JNI层和Java层的内存分配情况，如果发现这个值一直增长，则代表程序可能出现了内存泄漏。<br>（2） Total 的 PSS 信息这个值就是你的应用真正占据的内存大小，通过这个信息，你可以轻松判别手机中哪些程序占内存比较大了。</package_name></p>
 
       
     </div>

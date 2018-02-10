@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="#####原理1——activity-alias在AndroidMainifest中，有两个属性：1234// 决定应用程序最先启动的Activityandroid.intent.action.MAIN // 决定应用程序是否显示在程序列表里android.intent.category.LAUNCHER 另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做过">
+<meta name="description" content="#####原理1——activity-alias在AndroidMainifest中，有两个属性：1234// 决定应用程序最先启动的Activityandroid.intent.action.MAIN // 决定应用程序是否显示在程序列表里android.intent.category.LAUNCHER 另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做">
 <meta property="og:type" content="article">
 <meta property="og:title" content="动态更换应用Icon">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/动态更换应用Icon/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="#####原理1——activity-alias在AndroidMainifest中，有两个属性：1234// 决定应用程序最先启动的Activityandroid.intent.action.MAIN // 决定应用程序是否显示在程序列表里android.intent.category.LAUNCHER 另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做过">
+<meta property="og:description" content="#####原理1——activity-alias在AndroidMainifest中，有两个属性：1234// 决定应用程序最先启动的Activityandroid.intent.action.MAIN // 决定应用程序是否显示在程序列表里android.intent.category.LAUNCHER 另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/545982-a557ffb5ea125cf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-02-07T15:02:54.353Z">
+<meta property="og:updated_time" content="2018-02-10T03:20:10.656Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="动态更换应用Icon">
-<meta name="twitter:description" content="#####原理1——activity-alias在AndroidMainifest中，有两个属性：1234// 决定应用程序最先启动的Activityandroid.intent.action.MAIN // 决定应用程序是否显示在程序列表里android.intent.category.LAUNCHER 另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做过">
+<meta name="twitter:description" content="#####原理1——activity-alias在AndroidMainifest中，有两个属性：1234// 决定应用程序最先启动的Activityandroid.intent.action.MAIN // 决定应用程序是否显示在程序列表里android.intent.category.LAUNCHER 另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/545982-a557ffb5ea125cf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -372,7 +372,8 @@
       
 
       
-        <p>#####原理1——activity-alias<br>在AndroidMainifest中，有两个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 决定应用程序最先启动的Activity</span><br><span class="line">android.intent.action.MAIN </span><br><span class="line">// 决定应用程序是否显示在程序列表里</span><br><span class="line">android.intent.category.LAUNCHER</span><br></pre></td></tr></table></figure></p>
+        <a id="more"></a>
+<p>#####原理1——activity-alias<br>在AndroidMainifest中，有两个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 决定应用程序最先启动的Activity</span><br><span class="line">android.intent.action.MAIN </span><br><span class="line">// 决定应用程序是否显示在程序列表里</span><br><span class="line">android.intent.category.LAUNCHER</span><br></pre></td></tr></table></figure></p>
 <p>另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做过系统Setting和Launcher开发的开发者在系统的源码中应该见过很多。</p>
 <p>#####原理2——PM.setComponentEnabledSetting</p>
 <p>PackageManager是一个大统领类，可以管理所有的系统组件，当然，如果Root了，你还可以管理其它App的所有组件，一些系统优化工具就是通过这个方式来禁用一些后台Service的。</p>
