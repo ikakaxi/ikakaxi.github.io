@@ -270,6 +270,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用软件安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="superman">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/linux常用软件安装/" itemprop="url">linux常用软件安装</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:48:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/linux常用软件安装/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/linux常用软件安装/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####1.mongodb的conf文件<br>port=27017 #【代表端口号，如果不指定则默认为   27017   】<br>dbpath= /home/username/Soft/mongoDBFiles  #【数据库路径】<br>logpath= /home/username/Soft/mongoDBFiles/mongodb.log  #【日志路径】<br>logappend=true  #【日志文件自动累加，而不是覆盖】<br>推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件]</p>
+<p>####2.nodejs<br>官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下</p>
+<p>####3.md文件转html<br>要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。<br>$ sudo apt-get install discount</p>
+<p>用discount提供的markdown工具转换：<br>$ markdown -o Release-Notes.html Release-Notes.md</p>
+<p>python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-文件搜索命令-find/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1690,184 +1847,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Android-Studio-2-2-问题汇总/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="superman">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/Android-Studio-2-2-问题汇总/" itemprop="url">Android Studio 2.2 问题汇总</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:41:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android-studio/" itemprop="url" rel="index">
-                    <span itemprop="name">android studio</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/Android-Studio-2-2-问题汇总/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/Android-Studio-2-2-问题汇总/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>Gradle 2.2 使用<br>出现下面的警告，编译的时候出现更多。。。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning:The `android.dexOptions.incremental` property is deprecated and it has no effect on the build process.</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>解决：</strong> 项目build.gradle 中删除下面配置 ，新的貌似不需要dex配置了！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//655xxx的方法限制分包处理 </span><br><span class="line">dexOptions &#123; </span><br><span class="line">  javaMaxHeapSize &quot;4g&quot; </span><br><span class="line">  //加快编译速度 </span><br><span class="line">  incremental true </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>java8 与 jack工具链问题<br>出现下面错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error:Could not get unknown property &apos;classpath&apos; for task&apos;:app:transformJackWithJackForInstantrunconfigDebug&apos; of type com.android.build.gradle.internal.pipeline</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>解决：</strong> 项目build.gradle 中删除下面配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.apply plugin: &apos;android-apt&apos;</span><br><span class="line">2.把apt替换成annotationProcessor</span><br><span class="line">3.删除根目录的classpath &apos;com.neenbedankt.gradle.plugins:android-apt:1.8&apos;</span><br><span class="line">4.这个不用Java8也可以这么写的，现在AS自带了注解插件</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>intant Run 与 shrinkResources 问题<br>当你进行运行时，出现下面错误：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app/build/intermediates/res/resources-debug-stripped.ap_&apos; specified for property &apos;resourceFile&apos; does not exist.</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>解决：</strong><br>项目build.gradle 中的 buildTypes 中的 shrinkResoutces设置为false<br>具体可以看下：<a href="https://developer.android.com/studio/build/shrink-code.html" target="_blank" rel="noopener">https://developer.android.com/studio/build/shrink-code.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">       debug &#123;</span><br><span class="line">           buildConfigField &quot;boolean&quot;, &quot;LOG_DEBUG&quot;, &quot;true&quot;</span><br><span class="line">           debuggable true</span><br><span class="line">           zipAlignEnabled true</span><br><span class="line">           minifyEnabled false</span><br><span class="line">           shrinkResources false //android studio 2.2 设置为false </span><br><span class="line">           signingConfig signingConfigs.config</span><br><span class="line">           proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;</span><br><span class="line">       &#125;</span><br><span class="line">       release &#123;</span><br><span class="line">           buildConfigField &quot;boolean&quot;, &quot;LOG_DEBUG&quot;, &quot;false&quot;</span><br><span class="line">           debuggable false</span><br><span class="line">           zipAlignEnabled true</span><br><span class="line">           minifyEnabled false</span><br><span class="line">           shrinkResources false //android 2.2 设置为false</span><br><span class="line">           signingConfig signingConfigs.config</span><br><span class="line">           proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>Instant Run 与 C++ Debugger<br>出现下面三个问题：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Instant Run requires that the platform corresponding to your target device </span><br><span class="line">Instant Run requires that the platform corresponding to your target device (Android 5.0 (Lollipop)) is installed. </span><br><span class="line">C++ debugger package is missing or incompatible - do you want to fix it</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>一样的解决方案：</strong><br>打开SDK管理，下载 5.0.1 , 5.1.1 的 SDK Platform 即可 ！可以试试，我只下载 5.1.1不行，下载了5.0.1才可以！</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/545982-f1428a18553044e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>5.Android Studio Gradle Plugin 版本<br>Gradle Plugin 插件地址：配置已有的版本即可<br><a href="https://jcenter.bintray.com/com/android/tools/build/gradle/" target="_blank" rel="noopener">https://jcenter.bintray.com/com/android/tools/build/gradle/</a><br><strong>举个例子：</strong><br>目前最新版是 2.2 ，如果你在跟目录下的build.gradle配置 3.0 就会出现下面错误<br>下面配置会出错，截止今日最新版为2.2！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;com.android.tools.build:gradle:3.0&apos;</span><br><span class="line"></span><br><span class="line">        // NOTE: Do not place your application dependencies here; they belong</span><br><span class="line">        // in the individual module build.gradle files</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>报错如下！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Error:Could not find com.android.tools.build:gradle:3.0.</span><br><span class="line">Searched in the following locations:</span><br><span class="line">    file:/C:/Program Files/Android/Android Studio/gradle/m2repository/com/android/tools/build/gradle/3.0/gradle-3.0.pom</span><br><span class="line">    file:/C:/Program Files/Android/Android Studio/gradle/m2repository/com/android/tools/build/gradle/3.0/gradle-3.0.jar</span><br><span class="line">    https://jcenter.bintray.com/com/android/tools/build/gradle/3.0/gradle-3.0.pom</span><br><span class="line">    https://jcenter.bintray.com/com/android/tools/build/gradle/3.0/gradle-3.0.jar</span><br><span class="line">    http://maven.bughd.com/public/com/android/tools/build/gradle/3.0/gradle-3.0.pom</span><br><span class="line">    http://maven.bughd.com/public/com/android/tools/build/gradle/3.0/gradle-3.0.jar</span><br></pre></td></tr></table></figure></p>
-<p>============ 上面是Android Studio Gradle Plugin 版本 ==================</p>
-<p>============ 下面是Android Studio Gradle 编译进行编译的版本 ==================<br>在gradle-wrapper.properties 中进行配置 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#Mon Sep 19 15:29:17 CST 2016</span><br><span class="line">distributionBase=GRADLE_USER_HOME</span><br><span class="line">distributionPath=wrapper/dists</span><br><span class="line">zipStoreBase=GRADLE_USER_HOME</span><br><span class="line">zipStorePath=wrapper/dists</span><br><span class="line">distributionUrl=https\://services.gradle.org/distributions/gradle-3.0-all.zip</span><br></pre></td></tr></table></figure></p>
-<p>Gradle 下载地址 ： 使用3.0编译，速度更快！ <a href="http://services.gradle.org/distributions" target="_blank" rel="noopener">http://services.gradle.org/distributions</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1918,7 +1897,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">105</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
