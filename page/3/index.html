@@ -461,7 +461,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/linux常用软件安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuhc">
@@ -480,7 +480,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="url">linux常用命令-帮助命令man,whatis,apropos,info,help</a></h1>
+                <a class="post-title-link" href="/2018/02/08/linux常用软件安装/" itemprop="url">linux常用软件安装</a></h1>
         
 
         <div class="post-meta">
@@ -533,9 +533,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/08/linux常用软件安装/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/08/linux常用软件安装/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -564,14 +564,14 @@
 
       
         
-          <p>man 命令</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/08/linux常用命令-帮助命令man-whatis-apropos-info-help/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>####1.mongodb的conf文件<br>port=27017 #【代表端口号，如果不指定则默认为   27017   】<br>dbpath= /home/username/Soft/mongoDBFiles  #【数据库路径】<br>logpath= /home/username/Soft/mongoDBFiles/mongodb.log  #【日志路径】<br>logappend=true  #【日志文件自动累加，而不是覆盖】<br>推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件]</p>
+<p>####2.nodejs<br>官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下</p>
+<p>####3.md文件转html<br>要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。<br>$ sudo apt-get install discount</p>
+<p>用discount提供的markdown工具转换：<br>$ markdown -o Release-Notes.html Release-Notes.md</p>
+<p>python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式</p>
+
+          
         
       
     </div>

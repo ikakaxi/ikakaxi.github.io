@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="刚才给自己的博客增加了搜索功能，不然文章多了以后不好找到。我使用的是Local Search，现记录如下：  我用的是淘宝的cnpm，不然国内的速度太慢了，如何安装cnpm请看这里：淘宝cnpm  在Hexo根目录执行如下命令  npm install hexo-generator-searchdb --save```123. 编辑站点配置文件,在站点配置文件(Hexo根目录的配置文件)_conf">
+<meta name="description" content="刚才给自己的博客增加了搜索功能，不然文章多了以后不好找到。我使用的是Local Search，现记录如下：  我用的是淘宝的cnpm，不然国内的速度太慢了，如何安装cnpm请看这里：淘宝cnpm  在Hexo根目录执行如下命令 1$ npm install hexo-generator-searchdb --save  编辑站点配置文件,在站点配置文件(Hexo根目录的配置文件)_config.y">
 <meta name="keywords" content="hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="给Hexo增加搜索功能">
 <meta property="og:url" content="https://ikakaxi.github.io/2018/03/12/给Hexo增加搜索功能/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="刚才给自己的博客增加了搜索功能，不然文章多了以后不好找到。我使用的是Local Search，现记录如下：  我用的是淘宝的cnpm，不然国内的速度太慢了，如何安装cnpm请看这里：淘宝cnpm  在Hexo根目录执行如下命令  npm install hexo-generator-searchdb --save```123. 编辑站点配置文件,在站点配置文件(Hexo根目录的配置文件)_conf">
+<meta property="og:description" content="刚才给自己的博客增加了搜索功能，不然文章多了以后不好找到。我使用的是Local Search，现记录如下：  我用的是淘宝的cnpm，不然国内的速度太慢了，如何安装cnpm请看这里：淘宝cnpm  在Hexo根目录执行如下命令 1$ npm install hexo-generator-searchdb --save  编辑站点配置文件,在站点配置文件(Hexo根目录的配置文件)_config.y">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-12T14:21:33.318Z">
+<meta property="og:updated_time" content="2018-03-12T14:36:15.007Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="给Hexo增加搜索功能">
-<meta name="twitter:description" content="刚才给自己的博客增加了搜索功能，不然文章多了以后不好找到。我使用的是Local Search，现记录如下：  我用的是淘宝的cnpm，不然国内的速度太慢了，如何安装cnpm请看这里：淘宝cnpm  在Hexo根目录执行如下命令  npm install hexo-generator-searchdb --save```123. 编辑站点配置文件,在站点配置文件(Hexo根目录的配置文件)_conf">
+<meta name="twitter:description" content="刚才给自己的博客增加了搜索功能，不然文章多了以后不好找到。我使用的是Local Search，现记录如下：  我用的是淘宝的cnpm，不然国内的速度太慢了，如何安装cnpm请看这里：淘宝cnpm  在Hexo根目录执行如下命令 1$ npm install hexo-generator-searchdb --save  编辑站点配置文件,在站点配置文件(Hexo根目录的配置文件)_config.y">
 
 
 
@@ -410,11 +410,13 @@
 <li><p>我用的是淘宝的cnpm，不然国内的速度太慢了，如何安装cnpm请看这里：<a href="https://npm.taobao.org/" target="_blank" rel="noopener">淘宝cnpm</a></p>
 </li>
 <li><p>在Hexo根目录执行如下命令</p>
- <figure class="highlight plain"><figcaption><span>npm install hexo-generator-searchdb --save```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. 编辑站点配置文件,在站点配置文件(Hexo根目录的配置文件)_config.yml中添加</span><br></pre></td></tr></table></figure>
-<p>search:<br> path: search.xml<br> field: post<br> format: html<br> limit: 10000</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">4. 编辑主题配置文件,启用本地搜索,在主题配置文件(Next主题根目录的配置文件)_config.yml中启用</span><br></pre></td></tr></table></figure>
-<p> local_search:<br>   enable: true<br> ```</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>编辑站点配置文件,在站点配置文件(Hexo根目录的配置文件)_config.yml中添加</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编辑主题配置文件,启用本地搜索,在主题配置文件(Next主题根目录的配置文件)_config.yml中启用</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">local_search:</span><br><span class="line"> enable: true</span><br></pre></td></tr></table></figure></li>
 </ol>
 
       
