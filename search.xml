@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[常量池、栈、堆的比较]]></title>
+    <url>%2F2018%2F03%2F03%2F%E5%B8%B8%E9%87%8F%E6%B1%A0%E3%80%81%E6%A0%88%E3%80%81%E5%A0%86%E7%9A%84%E6%AF%94%E8%BE%83%2F</url>
+    <content type="text"><![CDATA[看到一篇文章写的很清晰,源地址: https://www.cnblogs.com/Eason-S/p/5658230.html JAVA中，有六个不同的地方可以存储数据： 1.寄存器：最快的存储区，位于不同于其他存储区的地方——处理器内部。寄存器的数量极其有限，所以寄存器由编译器根据需求进行分配。你不能直接控制，也不能在程序中感觉到寄存器存在的任何迹象。 2. 栈：存放基本类型的变量数据和对象的引用。位于通用RAM中，但通过它的“堆栈指针”可以从处理器哪里获得支持。堆栈指针若向下移动，则分配新的内存；若向上移动，则释放那些内存。这是一种快速有效的分配存储方法，仅次于寄存器。创建程序时候，JAVA编译器必须知道存储在堆栈内所有数据的确切大小和生命周期，因为它必须生成 相应的代码，以便上下移动堆栈指针。这一约束限制了程序的灵活性。 3. 堆：一种通用性的内存池（也存在于RAM中），用于存放所以的JAVA对象。堆不同于堆栈的好处是：编译器不需要知道要从堆里分配多少存储区域，也不必知道存储的数据在堆里存活多长时间。因此，在堆里分配存储有很大的灵活性。当你需要创建一个对象的时候，只需要new写一行简单的代码，当执行这行代码时，会自动在堆里进行存储分配。当然，为这种灵活性必须要付出相应的代码。用堆进行存储分配比用堆栈进行存储存储需要更多的时间。 4. 静态域：存放静态成员（static定义的） 。 5. 常量池：存放字符串常量和基本类型常量（public static final）。 常量值通常直接存放在程序代码内部，这样做是安全的，因为它们永远不会被改变。 6. 非RAM存储：硬盘等永久存储空间。如果数据完全存活于程序之外，那么它可以不受程序的任何控制，在程序没有运行时也可以存在。 这里我们主要关心栈，堆和常量池，对于栈和常量池中的对象可以共享，对于堆中的对象不可以共享。 栈中的数据大小和生命周期是可以确定的，当没有引用指向数据时，这个数据就会消失。堆中的对象的由垃圾回收器负责回收，因此大小和生命周期不需要确定，具有很大的灵活性。 (1)对于字符串：其对象的引用都是存储在栈中的，如果是编译期已经创建好(直接用双引号定义的)的就存储在常量池中，如果是运行期（new出来的）才能确定的就存储在堆中。对于equals相等的字符串，在常量池中永远只有一份，在堆中有多份。 例如： 123456String s1 = &quot;china&quot;;String s2 = &quot;china&quot;;String s3 = &quot;china&quot;;String ss1 = new String(&quot;china&quot;);String ss2 = new String(&quot;china&quot;);String ss3 = new String(&quot;china&quot;); 对于通过new产生一个字符串（假设为”china”）时，会先去常量池中查找是否已经有了”china”对象，如果没有则在常量池中创建一个此字符串对象，然后堆中再创建一个常量池中此”china”对象的拷贝对象。 这也就是有道面试题：String s = new String(“xyz”);产生几个对象？答：一个或两个，如果常量池中原来没有”xyz”,就是两个。 (2)对于基础类型的变量和常量：变量和引用存储在栈中，常量存储在常量池中。 例如： 123456int i1 = 9;int i2 = 9;int i3 = 9; public static final int INT1 = 9;public static final int INT2 = 9;public static final int INT3 = 9; 对于成员变量和局部变量：成员变量就是方法外部，类的内部定义的变量；局部变量就是方法或语句块内部定义的变量。局部变量必须初始化。 形式参数是局部变量，局部变量的数据存在于栈内存中。栈内存中的局部变量随着方法的消失而消失。 成员变量存储在堆中的对象里面，由垃圾回收器负责回收。 下面给出一个实例： 123456789101112131415161718192021222324class BirthDate &#123; private int day; private int month; private int year; public BirthDate(int d, int m, int y) &#123; day = d; month = m; year = y; &#125; 省略get,set方法………&#125;public class Test&#123; public static void main(String args[])&#123; int date = 9; Test test = new Test(); test.change(date); BirthDate d1= new BirthDate(7,7,1970); &#125; public void change(int i)&#123; i = 1234; &#125;&#125; 对于以上这段代码，date为局部变量，i,d,m,y都是形参为局部变量，day，month，year为成员变量。下面分析一下代码执行时候的变化： 1. main方法开始执行：int date = 9; date局部变量，基础类型，引用和值都存在栈中。 2. Test test = new Test(); test为对象引用，存在栈中，对象(new Test())存在堆中。 3. test.change(date); i为局部变量，引用和值存在栈中。当方法change执行完成后，i就会从栈中消失。 4. BirthDate d1= new BirthDate(7,7,1970); d1为对象引用，存在栈中，对象(new BirthDate())存在堆中，其中d，m，y为局部变量存储在栈中，且它们的类型为基础类型，因此它们的数据也存储在栈中。day,month,year为成员变量，它们存储在堆中(new BirthDate()里面)。当BirthDate构造方法执行完之后，d,m,y将从栈中消失。 5.main方法执行完之后，date变量，test，d1引用将从栈中消失，new Test(),new BirthDate()将等待垃圾回收。 参考：http://www.iteye.com/topic/634530http://www.cnblogs.com/xiohao/p/4296088.html《深入理解java虚拟机———jvm高级特性与最佳实践》]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[保存代码到githubPages]]></title>
+    <url>%2F2018%2F02%2F10%2F%E4%BF%9D%E5%AD%98%E4%BB%A3%E7%A0%81%E5%88%B0githubPages%2F</url>
+    <content type="text"><![CDATA[我的githubPages放到了master分支,所以我新建了一个source分支(名字随意),然后把本地的hexo的文件们都提交到了这个分支,需要注意的是themes下面的文件夹,都是git clone下来的,所以在刚才的source分支里并不存在这些文件,我自己暂时没有更新这些theme的需求,所以我把我自己用的themes/next下面的.git文件夹和.gitignore文件夹删除了,然后再提交,在source分之下就有这些文件夹了,以后换机器直接切换到这个分支就可以继续写文章了]]></content>
+      <categories>
+        <category>建站</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[从DNS到github pages自定义域名 -- 漫谈域名那些事]]></title>
+    <url>%2F2018%2F02%2F09%2F%E4%BB%8EDNS%E5%88%B0github-pages%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D-%E6%BC%AB%E8%B0%88%E5%9F%9F%E5%90%8D%E9%82%A3%E4%BA%9B%E4%BA%8B%2F</url>
+    <content type="text"><![CDATA[转载:http://winterttr.me/2015/10/23/from-dns-to-github-custom-domain/当我们在github申请一个pages之后，很多人会选择自定义域名，给自己的github pages一个属于自己的名字。那么，从申请到域名到最后的github自定义域名设置，中间究竟发生了什么，本文就来说说域名那些事。 域名域名就是一段文字，更具体地说，是一段人类容易识别的文字，它的作用很简单，就是用来给一个ip起一个人们能够记得住的名字。域名是一种资源，很多时候甚至是地位财富和身份的象征，所以越来越多的geek们都趋之若鹜的申请自己的域名，我也不例外。 根域我们通常知道的域名，例如winterttr.me，其实是完整域名的缩写。 真正的全称为winterttr.me.，请注意最后的.，这个就是根域。 它的现实体现为全球13台固定ip的根域服务器。 从a.root-servers.net到m.root.servers.net。 当我们在进行dns查询的时候，如果一个全新的域名从来没有进行查询，那么，最终会向这13台根域服务器进行请求。 不过，现在的浏览器已经基本上默认不再添加这个”多余”的点了，已然成为一种默认习惯。 当然，事实上，并不是真正的13台，而是13组，每一台在全球都有很多的镜像节点，所以你不用担心其中一台挂了会引起全球混乱~ 顶级域名(Top Level Domain - TLD)常用的顶级域名分为几种：1 国家顶级域名，例如.cn,.jp2 机构顶级域名，例如.com,.edu3 还有其他分类 二级域名这个就是我们常常能够申请到的域名，在顶级域名的左侧加上的一个自定义的文字段。据个例子： winterTTr.me。所以，我们通常所说的域名，往往指的是这个二级域名。 子域名(sbudomain name)相对于上文所提到的“我们通常所说的域名”（二级域名）的基础上，又加入了子域名的概念，就是在一个域名的前面，加上新的字段，代表这个域名下的某个特定的主机或者协议。最常用的就是WWW协议，所以，我的子域名www.winterttr.me就是winterttr.me的WWW子域名。 有关DNS的那些事咱们谈完了域名，那么就不得不说到DNS（Domain Name System)，DNS所承担的主要任务，就是所谓的域名解析。这些由DNS系统中的DNS服务器负责。那么，DNS服务器解析一个域名得到了什么？ – IP地址 所以，域名解析的过程，说白了就是把一个人类记得住的域名变成ip网络中机器认识的ip地址。 那么，DNS服务器上都存了些啥？最主要的就是能够完成域名解析的一些记录 A记录（A record)A记录在DNS中的意义就是，域名到ip地址的转换。所以，当我们在DNS服务器中添加一个A记录时，是告诉服务器，将某个特定的域名映射到一个ip地址。这个算是最简单直白的转换规则了。 CNAME记录（CNAME record)CNAME的意义，简单说就是别名，即将一个域名射到另一个域名（区别于A记录的ip）。所以，CNAME通常有两种用法： 不同顶级域名之间的跳转例如：我的域名是 winterTTr.me(顶级域名为me)。如果我希望，当我访问这个域名的时候，实际上是访问我的winterTTr.github.io（顶级域名为io）的主页时，虽然他们在不同的顶级域名，但是我可以用CNAME记录映射。 将一个子域名映射到域名例如，你想当访问者输入www.winterTTr.me（一个WWW子域名）的时候，仍旧访问winterTTr.me这个域名所指向的内容时，可以将www.winterTTr.me利用CNAME记录映射到winterTTr.me。 NS记录（Name Server）简单来说，就是声明谁来负责解析我这个域名，指定了负责解析我这个域名的服务器的地址。这条记录赋予我们一个特殊的能力，就是，我可以让自己指定的一个DNS解析服务器，而不一定是域名提供商自带的域名解析服务器。简单来说，就是在godaddy买的域名，默认是使用godaddy的域名服务器来进行域名解析的，但是如果我想让别的server解析（例如NDSPod），而不受godaddy服务器的限制呢？那就是更改这个NS记录的内容。一般来讲，是两条记录，一条主服务器，一条副服务器。 现实中的一些例子这个就是我的域名在DNSPod中的设置。 可以看到，NS记录为dnspod的服务器域名，dnspod提供了一种非常方便的服务。就是可以根据不同的线路类型，进行不同的解析。图中可以看到，国内的使用gitcafe，国外的使用github，同时，baidu抓取国内线路gitcafe的内容，躲避了github封闭baidu spider的问题。 在godaddy花钱的时候买到了什么这不是废话么，买到了域名！当然，除了这一串字符串之外，是什么让我们真正拥有了这些字符串使用权呢？ 在godaddy中配置域名的能力话说花了钱，买了域名，为啥这个域名就是你的呢？这是因为，godaddy将这个域名中的各种记录的配置权力分配了给你，于是，你可以定义域名的ip（A记录），或者将这个域名指向另一个别名（CNAME记录）。 除了这些我还能做啥默认的域名，是在godaddy自带的域名解析服务器中进行的。godaddy是提供更改NS记录的权利的，所以，我们可以将这个域名解析的能力交给godaddy之外的人，这就是我如何做到使用DNSPod来进行域名解析的。 github中的自定义域名那么，经过上面一堆讲解，最终还是回到最实际的问题，github中的自定义域名。 github中的域名支持github的域名是支持A记录的，这个意思就是，github的服务器域名是个固定ip。所以，当我们需要将申请的域名给予一个自己的github.io的地址的时候，我们可以在DNS服务器的配置中添加一条A记录，指向github的服务器地址。现在github的服务器地址为： 192.30.252.153 192.30.252.154 如果你做了上面的操作，那意思就是，我希望把我的主域名winterTTr.me完全指向github.io的主页。 不过，如果你的只是想将一个子域名，例如www.winterTTr.me，而不是主域名winterTTr.me分配给你的github主页，那么，A记录会完全绑定你的主域名，所以这个场景A记录不适合。你需要在DNS服务器中添加一条CNAME记录，将子域名指向winterTTr.github.io，这样，当用户访问WWW子域名的时候，会跳转到github.io的主页上。 告诉github你的域名在项目下建立一个CNAME文件，在其中写上给你的主页分配的域名地址。这个操作的作用在哪里？ 当直接访问github.io主页的时候github知道redirect到哪里也就是说，当你指定了CNAME之后，我们再次访问一个github.io的网站时，我们会发现，域名自动变成了我们制定的自定义域名。这是因为CNAME中指出了自定义域名是什么，所以，当我们访问github.io的时候，会触发http 301。 azureuser@ubuntu-jpe:~$ curl -I winterttr.github.ioHTTP/1.1 301 Moved PermanentlyServer: GitHub.comContent-Type: text/htmlLocation: http://winterttr.me/X-GitHub-Request-Id: 2BF9481E:370C:8930CF:562B48F6Content-Length: 178Accept-Ranges: bytesDate: Sat, 24 Oct 2015 09:02:36 GMTVia: 1.1 varnishAge: 54Connection: keep-aliveX-Served-By: cache-nrt6130-NRTX-Cache: HITX-Cache-Hits: 1X-Timer: S1445677356.846925,VS0,VE0Vary: Accept-Encoding 我们可以看到，github的服务器知道，我们需要访问的io网站已经有了别的域名，并且返回301让浏览器跳转到自定义域名。 当用你的域名访问的时候github知道我去那个io里面找当然，当我们直接使用自定义域名访问的时候，由于DNS服务器的配置，最终我们会访问github.io的主机，当主机收到我们的请求的时候，会拿我们http请求中的host和repository中的CNAME文件比较，从而知道，当前的域名应该访问那个具体的xxx.github.io的内容。 这基本上就是从一个从申请域名到到github.io配置后的完整故事]]></content>
+      <categories>
+        <category>建站</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Win7 无法启动dhcp client服务的解决方法！]]></title>
+    <url>%2F2018%2F02%2F08%2FWin7-%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8dhcp-client%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%81%2F</url>
+    <content type="text"><![CDATA[http://www.w10zj.com/jc/Win7jc_4471.htmlhttp://www.gscholar.cn/2014/04/dhcp-client-error5.html]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[source tree 配置 外部差异比对工具为beyond compare]]></title>
+    <url>%2F2018%2F02%2F08%2Fsource-tree-%E9%85%8D%E7%BD%AE-%E5%A4%96%E9%83%A8%E5%B7%AE%E5%BC%82%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%B8%BAbeyond-compare%2F</url>
+    <content type="text"><![CDATA[1、首先，安装好beyond compare后，创建一个快捷方式1ln -s /Applications/Beyond\ Compare.app/Contents/MacOS/bcomp /usr/local/bin/ 2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：123456Visual Diff Tool: OtherDiff Command:/usr/local/bin/bcompParameters:-ro $LOCAL $REMOTEMerge Tool: OtherMerge Command:/usr/local/bin/bcompParameters:$LOCAL $REMOTE $BASE $MERGED]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[windows下android studio在git push时失败的解决方法]]></title>
+    <url>%2F2018%2F02%2F08%2Fwindows%E4%B8%8Bandroid-studio%E5%9C%A8git-push%E6%97%B6%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行然后生成ssh就可以了]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[gradle类重复的问题解决方法]]></title>
+    <url>%2F2018%2F02%2F08%2Fgradle%E7%B1%BB%E9%87%8D%E5%A4%8D%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[今天遇到一个gradle的类重复问题,学习到一个命令 gradle -q dependencies ,可以查看项目里包的依赖关系,发生这个错误是因为我用了一个相册的项目,这个项目里用到了v4包,我自己的项目也用到了v4包, 然后我把这个项目1compile &apos;cn.finalteam:galleryfinal:1.4.8.7&apos; 改为123compile(&apos;cn.finalteam:galleryfinal:1.4.8.7&apos;) &#123; exclude module: &apos;support-v4&apos;&#125; 就解决了 如果是本地的项目,可以用下面的代码123compile (project(&apos;:yourAndroidLibrary&apos;))&#123; exclude module: &apos;support-v4&apos;&#125;]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[gradle中compile，provided，compile files，compile project有何区别？]]></title>
+    <url>%2F2018%2F02%2F08%2Fgradle%E4%B8%ADcompile%EF%BC%8Cprovided%EF%BC%8Ccompile-files%EF%BC%8Ccompile-project%E6%9C%89%E4%BD%95%E5%8C%BA%E5%88%AB%EF%BC%9F%2F</url>
+    <content type="text"><![CDATA[在一个Android项目的build.gradle中，dependencies闭包中有以下四种形式的声明： 1234compile &apos;com.android.support:appcompat-v7:22.2.1&apos;provided &apos;com.squareup.dagger:dagger-compiler:1.2.1&apos;compile files(&apos;libs/picasso-2.4.0.jar&apos;)compile project(&apos;:androidPullToRefresh&apos;) 1，3，4本质上是一样的，区别在于： 1 是从repository（默认是jCenter())里下载一个依赖包进行编译并打包3 是从本地的libs目录下寻找picasso-2.4.0.jar这个文件进行编译并打包。类似的命令有compile fileTree(dir: &#39;libs&#39;, include: &#39;*.jar&#39;)——将libs目录下所有jar文件进行编译并打包。4 是将另一个module（等同eclipse中的library)进行编译并打包至于provided，是提供给那些只编译不打包场景的命令。就是，我在编译的时候对某一个jar文件有依赖，但是最终打包apk文件时，我不想把这个jar文件放进去，可以用这个命令。生成jar文件的时候,也不会打包provided的模块。 推荐一本书 《gradle for android》https://segmentfault.com/a/1190000004229002]]></content>
+      <categories>
+        <category>gradle</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[解决 release-stripped.ap_' specified for property 'resourceFile' does not exist.]]></title>
+    <url>%2F2018%2F02%2F08%2F%E8%A7%A3%E5%86%B3-release-stripped-ap-specified-for-property-resourceFile-does-not-exist%2F</url>
+    <content type="text"><![CDATA[设置buildTypes里的release的shrinkResources为false即可,如果是 release-stripped.ap_’ specified for property ‘resourceFile’ does not exist.则设置buildTypes里的debug的shrinkResources为false]]></content>
+      <categories>
+        <category>gradle</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[解决Gradle下载太慢的问题]]></title>
+    <url>%2F2018%2F02%2F08%2F%E8%A7%A3%E5%86%B3Gradle%E4%B8%8B%E8%BD%BD%E5%A4%AA%E6%85%A2%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[因为GFW的原因,国内用android studio的时候,在gradle这步一定会卡住,所以需要以下步骤自己去下载gradle ###1.在gradle-wrapper.properties中查看gradle下载地址和版本 ###2.去查看所有分发的gradle版本地址:https://services.gradle.org/distributions/ ###3.下载完成后放到什么地方? 1.windows在 C:\Users\yourname.gradle\wrapper\dists\gradle-版本\随机字符串\ 2.mac在 /Users/用户名/.gradle/wrapper/dists/gradle-版本/随机字符串/ 3.linux ###4.将gradle-版本.zip.part移除，把自己下载的gradle-gradle-版本.zip复制到这个目录。然后再次启动Andriod Studio，会自动读取gradle并解压 #完成]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[如何在library中使用productFlavors]]></title>
+    <url>%2F2018%2F02%2F08%2F%E5%A6%82%E4%BD%95%E5%9C%A8library%E4%B8%AD%E4%BD%BF%E7%94%A8productFlavors%2F</url>
+    <content type="text"><![CDATA[源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是不允许的。所以下面我们就来介绍一下如何在library中使用productFlavors。 ###1.基础前面介绍过如何使用productFlavors，不了解的朋友需要先看看这篇文章活用productFlavors,批量定制化http://blog.csdn.net/yulyu/article/details/59111697 ###2.场景介绍首先我们引用了一个picmodule，然后picmodule里面有一个正常的产品，两个定制化的产品 main是普通产品，red和blue是定制化产品（这里只是里面使用的图片不一样） ###3.解决方法于是我们就在picmodule的gradle配置productFlavors，但是picmodule是属于一个library，所以这样做是不允许的，项目将找不到引入的picmodule 那么如何解决呢？首先我们需要在picmodule的gradle里面加入一句话（记住不要漏了）1publishNonDefault true 接着我们在application下的build.gradle里面加入一些配置在Android模块内加入1234567productFlavors&#123; common&#123;&#125; red&#123;&#125; blue&#123;&#125;&#125; 在gradle最外层加入12345configurations &#123; commonCompile redCompile blueCompile&#125; 接着修改一下引入picmodule的方法平时引入module是这样的1compile project(&apos;:picmodule&apos;) 我们改成下面这样123commonCompile project(path: &apos;:picmodule&apos;, configuration: &apos;commonRelease&apos;)redCompile project(path: &apos;:picmodule&apos;, configuration: &apos;redRelease&apos;)blueCompile project(path: &apos;:picmodule&apos;, configuration: &apos;blueRelease&apos;) 这里library我是用的Release包，如果要用debug版的library也可以改成下面这样123commonCompile project(path: &apos;:picmodule&apos;, configuration: &apos;commonDebug&apos;)redCompile project(path: &apos;:picmodule&apos;, configuration: &apos;redDebug&apos;)blueCompile project(path: &apos;:picmodule&apos;, configuration: &apos;blueDebug&apos;) 然后同步一下就可以了这个时候如果找不到R文件，那么clean一下或者重启一下as都可以]]></content>
+      <categories>
+        <category>gradle</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Android Studio中的六种依赖]]></title>
+    <url>%2F2018%2F02%2F08%2FAndroid-Studio%E4%B8%AD%E7%9A%84%E5%85%AD%E7%A7%8D%E4%BE%9D%E8%B5%96%2F</url>
+    <content type="text"><![CDATA[####Compilecompile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。 ####ProvidedProvided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。 ####APK只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错 ####Test compileTest compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。 ####Debug compileDebug compile 仅仅针对debug模式的编译和最终的debug apk打包。 ####Release compileRelease compile 仅仅针对Release 模式的编译和最终的Release apk打包。]]></content>
+      <categories>
+        <category>gradle</category>
+      </categories>
+      <tags>
+        <tag>IDE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java中的强引用,软引用,弱引用,虚引用]]></title>
+    <url>%2F2018%2F02%2F08%2FJava%E4%B8%AD%E7%9A%84%E5%BC%BA%E5%BC%95%E7%94%A8-%E8%BD%AF%E5%BC%95%E7%94%A8-%E5%BC%B1%E5%BC%95%E7%94%A8-%E8%99%9A%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。 由于WeakReference被GC回收的可能性较大，因此，在使用它之前，你需要通过weakObj.get()去判断目的对象引用是否已经被回收. Reference queque 一旦WeakReference.get()返回null，它指向的对象就会被垃圾回收，那么WeakReference对象就没有用了，意味着你应该进行一些清理。比如在WeakHashMap中要把回收过的key从Map中删除掉，避免无用的的weakReference不断增长。ReferenceQueue可以让你很容易地跟踪dead references。WeakReference类的构造函数有一个ReferenceQueue参数，当指向的对象被垃圾回收时，会把WeakReference对象放到ReferenceQueue中。这样，遍历ReferenceQueue可以得到所有回收过的WeakReference。 ####4.虚引用和soft，weak Reference区别较大，它的get()方法总是返回null。这意味着你只能用PhantomReference本身，而得不到它指向的对象。当WeakReference指向的对象变得弱可达(weakly reachable）时会立即被放到ReferenceQueue中，这在finalization、garbage collection之前发生。理论上，你可以在finalize()方法中使对象“复活”（使一个强引用指向它就行了，gc不会回收它）。但没法复活PhantomReference指向的对象。而PhantomReference是在garbage collection之后被放到ReferenceQueue中的，没法复活。虚引用适合用来查看对象什么时候被回收,优化内存的时候使用 以上是个人在网上学习的时候总结的东西,有错误的地方请指正]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[一些常用类的记录]]></title>
+    <url>%2F2018%2F02%2F08%2F%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%B1%BB%E7%9A%84%E8%AE%B0%E5%BD%95-1%2F</url>
+    <content type="text"><![CDATA[CountDownLatch:这个类适合一个任务需要另一个任务完成后才能继续的场景CyclicBarrier:与CountDownLatch类似 CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或N个线程等待其他线程完成执行；而CyclicBarrier则是允许N个线程相互等待。(02) CountDownLatch的计数器无法被重置；CyclicBarrier的计数器可以被重置后使用，因此它被称为是循环的barrier。]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Class.isAssignableFrom与 instanceof 区别]]></title>
+    <url>%2F2018%2F02%2F08%2FClass-isAssignableFrom%E4%B8%8E-instanceof-%E5%8C%BA%E5%88%AB%2F</url>
+    <content type="text"><![CDATA[isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。 通常调用格式是 Class1.isAssignableFrom (Class2) 调用者和参数都是 java.lang.Class 类型。 而 instanceof 是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。 格式是： o instanceof TypeName 第一个参数是对象实例名，第二个参数是具体的类名或接口名具体例子如下：123456789101112131415161718192021222324252627282930313233public class TestCase &#123; public static void main(String[] args) &#123; TestCase test = new TestCase(); test.testIsAssignedFrom1(); test.testIsAssignedFrom2(); test.testIsAssignedFrom3(); test.testInstanceOf1(); test.testInstanceOf2(); &#125; public void testIsAssignedFrom1() &#123; System.out.println(String.class.isAssignableFrom(Object.class)); &#125; public void testIsAssignedFrom2() &#123; System.out.println(Object.class.isAssignableFrom(Object.class)); &#125; public void testIsAssignedFrom3() &#123; System.out.println(Object.class.isAssignableFrom(String.class)); &#125; public void testInstanceOf1() &#123; String s = &quot;&quot;; System.out.println(s instanceof Object); &#125; public void testInstanceOf2() &#123; Object o = new Object(); System.out.println(o instanceof Object); &#125; &#125; 打印结果：12345false true true true true]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Joda-Time 简介]]></title>
+    <url>%2F2018%2F02%2F08%2FJoda-Time-%E7%AE%80%E4%BB%8B%2F</url>
+    <content type="text"><![CDATA[转载ibm:https://www.ibm.com/developerworks/cn/java/j-jodatime.html]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux命令备忘录]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[####1.netstat常用命令-a：查看所有端口的占用-t：只列出 TCP 或 UDP 协议的连接-u：列出 UDP 协议的连接-n：禁用反向域名解析，加快查询速度-l：只列出监听中的连接-p：获取进程名、进程号以及用户 ID-ep：可以同时查看进程名和用户名 ####2.kill -9 pid杀死pid这个进程 ####3.刷新dnssudo /etc/init.d/networking restart]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Linux 操作系统下如何优雅的卸载软件]]></title>
+    <url>%2F2018%2F02%2F08%2FLinux-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6%2F</url>
+    <content type="text"><![CDATA[输入如下命令： sudo apt-get autoremove –purge 要卸载的软件名字 我们来讲解一下这个命令 sudo ———— 获取 root 权限 apt-get ——— 执行安装卸载功能的软件 autoremove — 告诉 apt-get 我们所要做的操作是移除软件 –purge ——— 注意这前面是两个短划线，这个参数是告诉他们要完整的干净的彻底的移除 此方法 Ubuntu系、Debian系 系统可用]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-压缩解压命令]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[gzip [文件] 压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件gunzip [文件] 或者 gzip -d [文件] 解压缩.gz的压缩文件tar [-zcvf] [压缩后文件名] [目录] 打包目录 压缩后文件格式 .tar.gz -c 打包 -x 解压缩 -v 显示详细信息 -f 指定文件名 -z 打包同时压缩tar [-zxvf] [解压缩文件名] [目录] zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高 [-r] [压缩后文件名] [目录]:压缩目录 压缩后文件格式 .zip 注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容 bzip2 [-k] [压缩文件] 压缩比例最高 -k 压缩后保留源文件 配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的bunzip2 [-k] [压缩文件] -k 压缩后保留源文件 配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用软件安装]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%2F</url>
+    <content type="text"><![CDATA[####1.mongodb的conf文件port=27017 #【代表端口号，如果不指定则默认为 27017 】dbpath= /home/username/Soft/mongoDBFiles #【数据库路径】logpath= /home/username/Soft/mongoDBFiles/mongodb.log #【日志路径】logappend=true #【日志文件自动累加，而不是覆盖】推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件] ####2.nodejs官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下 ####3.md文件转html要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。$ sudo apt-get install discount 用discount提供的markdown工具转换：$ markdown -o Release-Notes.html Release-Notes.md python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-文件搜索命令-locate,which,whereis,grep]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4-locate-which-whereis-grep%2F</url>
+    <content type="text"><![CDATA[locate 目录或文件名 -i 查找的时候不区分大小写这个类似everything,速度比find快很多,因为这个命令搜索的是它维护的文件资料库,文件资料库是var/lib/mlocate/mlocate.db,如果文件没有包含在它的文件资料库,那么是找不到这个文件的,这个时候需要用updatedb命令来更新文件资料库,但是,/tmp这个目录,是不会被文件资料库收录的,即使执行了updatedb也找不到tmp下面的文件 which 搜索命令所在目录及别名 例:which lswhereis 搜索命令所在目录及帮助文档路径 例:whereis ls 注意,这个命令查到的帮助文档的路径中,1代表命令的帮助,5代表文档的帮助,例如whereis passwd中就有man1和man5这两种帮助文档grep 在文件内容中搜寻子串匹配的行为并输出 -i 不区分大小写 -v 排除指定字串 例:grep mysql /root/install.log grep -v ^# /etc/inittab 把#开头的行排除]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-帮助命令man,whatis,apropos,info,help]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4man-whatis-apropos-info-help%2F</url>
+    <content type="text"><![CDATA[man 命令 man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径 man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页 man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助, 所以如果要看配置文件的帮助文档,需要输入man 5 passwd whatis 命令 可以查看某命令的简短的帮助信息 apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径 可以查看某配置文件的简短的帮助信息 命令 –help 列出该命令的常见选项 info 命令或者配置文件 类似man,可以显示当前查看文件的进度 help 可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的 例:help cd]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-文件搜索命令-find]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4-find%2F</url>
+    <content type="text"><![CDATA[find [目录] [选项] 文件名或者正则表达式 -name 根据文件名搜索 -iname 搜索文件名的时候忽略大小写 例:find /etc -name init find /etc -iname init* -size +n:大于n数据块 -n:小于n数据块 n:等于n数据块 1个数据块等于512字节,也就是0.5k,换算的时候,需要当前kb乘以2就是n的大小 例: find / -size +204800 搜索大于100M的文件,100M=102400kb=204800数据块 -user 查找所有者为user的文件 例:find /home -user superman -group 查找所有者为group组的文件 例:find /home -group work -amin 根据访问时间查找 -cmin 根据文件属性查找 例:find /etc -cmin -5 在etc下查找5分钟内被修改过属性的文件和目录 -n:n分钟之内 +n:超过n分钟 -mmin 根据文件内容查找 -a 两个条件同时满足 -o 两个条件满足一个即可 -type f 文件 d 目录 l 软链接文件 -inum 根据i节点查找 -exec或者/ok 命令 {} \; 对搜索结果执行某命令,区别是exec不会询问,而ok会每个都询问,用y或者n确认. {} \;是固定的格式 例:find /etc -name inittab -exec ls -l {} \;]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-用户管理命令]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[useradd 用户名passwd 用户名:修改该用户的密码groupadd 组名who: who用来查看现在登录了几个用户,得到的信息含义如下 登录用户名 登录终端类型 登录时间 登录终端的IP地址(如果没有写就是本机登录) 登录终端类型 登录终端含义 tty 本地终端 pts 远程终端,后面的 /数字 代表不同的远程终端号 w:查看更详细的已登录用户信息 信息含义如下: 当前时间 系统已运行时间(uptime命令可以得到相同信息) 当前有几个用户登录 负载信息,分别是过去1,5,15分钟的负载情况 IDLE 空闲运行时间 PCPU 当前用户登录以后当前执行的操作占用CPU的时间 WHAT 当前执行了什么操作 JCPU 当前用户登录以后累计执行的所有操作占用CPU的时间]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-权限管理命令]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4-1%2F</url>
+    <content type="text"><![CDATA[chmod [{ugoa}{+-=}{rwx}] [文件或目录] [mode=421] [文件或目录] -R 递归修改 例:chmod g+w,o-r 文件或目录 但是一般用数字配置权限,例:chmod 766 文件或目录 chown 用户 文件或目录:改变文件或目录的所有者,只有root才可以用该命令 chgrp 用户 文件或目录:改变文件活目录的所属组,只有root才可以用该命令 umask [-S] 查看当前创建目录或文件的默认权限,注意,文件默认是没有x权限的 如果不加S,则出现的是掩码,第一个0是特殊权限,后面的3个数字,用777减去,得到的才是实际的默认权限 如果加S,则出现的是每个组对应的权限 umask配置权限,后面跟的是掩码,需要用777减去实际的默认权限,然后设置 例,想要默认权限是rwxr-xr-x,对应的数字是755,777-755是022,所以配置默认新目录或文件的权限命令就是umask 022 rwx的含义 文件:r 可以查看 w 可以修改内容 x 可以执行 目录:r 可以列出目录下的内容 w 可以在该目录下添加删除文件 x 可以进入该目录]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-文件处理命令]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[ls -a -l -d -h -i mkdir [-p] 创建目录,-p递归创建目录 rmdir 删除一个空目录 cp [-r,-p] -r,拷贝目录,-p,保持属性,新文件的修改时间为源文件的修改时间,而不是拷贝时的时间 拷贝的时候可以修改文件(目录)名称,如果目标文件(目录)名称不存在,则拷贝到目标文件(目录)然后修改目标文件(目录)名称 mv 剪切文件或者给文件改名 rm [-r,-f] -r,删除目录,-f,强制删除 cat [-n] -n,显示行号 tac 类似cat,倒着显示数据,不过没有-n参数 more [-f或空格,回车,q或者Q] 如果数据较多,用这个命令可以翻页 -f或空格,翻页 回车,显示下一行 q或者Q,退出 less 这个比more功能强大,可以向上翻页,用page up翻页或者上箭头翻一行,还可以输入/来查找内容,然后按n键来继续查找下面的该内容 head [-n 数字] 可以查看某文件的指定前n行(包括n)内容,如果不指定数字,那么默认为10行,例 head -n 7 /etc/services tail [-n 数字,-f] 可以查看某文件的指定末尾n行(包括n)内容,如果不指定数字,那么默认为10行,例 tail -n 7 /etc/services -f,可以实时查看该文件的末尾的改动 ln [-s] 不带s默认创建的硬链接,带s创建的软连接,软链接类似windows的快捷方式 硬链接特征: 1.拷贝cp -p 加同步更新 2.通过i节点识别 3.不能跨分区 4.不能针对目录使用]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux各目录的作用]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%90%84%E7%9B%AE%E5%BD%95%E7%9A%84%E4%BD%9C%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu安装android开发环境]]></title>
+    <url>%2F2018%2F02%2F08%2Fubuntu%E5%AE%89%E8%A3%85android%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%2F</url>
+    <content type="text"><![CDATA[1.安装oracle-jdk打开终端，使用下面的命令：java -version如果你看到像下面的输出，这就意味着你并没有安装过Java: The program ‘java’ can be found in the following packages:* default-jre* gcj-4.6-jre-headless* openjdk-6-jre-headless* gcj-4.5-jre-headless* openjdk-7-jre-headlessTry: sudo apt-get install 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：sudo add-apt-repository ppa:webupd8team/javasudo apt-get updatesudo apt-get install oracle-java8-installersudo apt-get install oracle-java8-set-default 2.安装genymotion安装genymotion需要先安装virtualbox，命令如下：sudo apt-get install virtualbox然后下载genymotion，chmod +x geny…..bin 增加权限后执行，会解压缩，然后双击即可打开]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu安装python一些安装包]]></title>
+    <url>%2F2018%2F02%2F08%2Fubuntu%E5%AE%89%E8%A3%85python%E4%B8%80%E4%BA%9B%E5%AE%89%E8%A3%85%E5%8C%85%2F</url>
+    <content type="text"><![CDATA[sudo apt-get install python-pipsudo pip install distributesudo pip install nosesudo pip install virtualenvsudo pip install lpthw.webwindows下面去掉sudo即可 windows安装pip pip 是一个安装和管理 Python 包的工具 , 是 easy_install 的一个替换品，使用 pip 使安装、更新和卸载 python 包变得简单。 第一步：https://pypi.python.org/pypi/pip下载，运行python setup.py install即完成安装 第二步：设windows环境变量，将C:\Python27\Scripts添加至path，重启cmd窗口 第三步：pip使用，如最基本的pip install MODELNAME windows安装pyQt4http://www.riverbankcomputing.com/software/pyqt/download Qt开发IDEhttps://www.qt.io/zh-hans/download-open-source/ windows安装wxPython界面开发工具http://boa-constructor.sourceforge.net/Download.html windows安装Qt设计师安装完pyQt自动安装了好像 把python文件做成exe文件 安装py2exe:在这里下载安装程序安装:http://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/ 或者cx-freeze: http://sourceforge.net/projects/cx-freeze/files/4.3.2/poster包可以上传文件到服务器 pip install poster]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[修复 VirtualBox 下 Ubuntu 14.10 屏幕分辨率问题]]></title>
+    <url>%2F2018%2F02%2F08%2F%E4%BF%AE%E5%A4%8D-VirtualBox-%E4%B8%8B-Ubuntu-14-10-%E5%B1%8F%E5%B9%95%E5%88%86%E8%BE%A8%E7%8E%87%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。 解决办法你需要安装一个 VirtualBox 的额外组件到你的 Ubuntu-Guest 中，可运行如下命令：安装完毕需要重启虚拟机就可以。]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[AndroidStudio 多个module统一gradle文件配置]]></title>
+    <url>%2F2018%2F02%2F08%2FAndroidStudio-%E5%A4%9A%E4%B8%AAmodule%E7%BB%9F%E4%B8%80gradle%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[看到AS中External Libraries有好几个同名但是版本不一样的lib的时候，真的逼死强迫症患者。 这些多个重复的lib出现的原因就是多个module各自compile了同名但是不同版本的lib（即依赖没有统一），所以统一性的确认这些依赖就好了。Step1:在根目录新建一个config.gradle文件，里面键入要统一的依赖：123456789101112131415161718192021222324ext &#123; android = [ compileSdkVersion: 23, buildToolsVersion: &quot;23.0.3&quot;, minSdkVersion : 15, targetSdkVersion : 22, versionCode : 1, versionName : &quot;1.0&quot; ] dependencies = [ &quot;gson&quot; : &quot;com.google.code.gson:gson:2.6.2&quot;, &quot;eventbus&quot; : &apos;org.greenrobot:eventbus:3.0.0&apos;, &quot;butterknife&quot; : &apos;com.jakewharton:butterknife:7.0.1&apos;, &quot;support-design&quot; : &apos;com.android.support:design:24.1.1&apos;, &quot;support-appcompatV7&quot;: &apos;com.android.support:appcompat-v7:24.1.1&apos;, &quot;support-percent&quot; : &apos;com.android.support:percent:24.1.1&apos;, &quot;support-multidex&quot; : &apos;com.android.support:multidex:1.0.1&apos;, &quot;glide&quot; : &apos;com.github.bumptech.glide:glide:3.7.0&apos;, &quot;support-v4&quot; : &apos;com.android.support:support-v4:24.1.1&apos;, &quot;okhttp3&quot; : &apos;com.squareup.okhttp3:okhttp:3.3.1&apos;, &quot;nineoldandroids&quot; : &apos;com.nineoldandroids:library:2.4.0&apos; ]&#125; Step2:在根目录的build.gradle文件里面头部增加一句引用 apply from: “config.gradle” Step3:在module里面开始应用：12compileSdkVersion rootProject.ext.android.compileSdkVersion //android&#123;&#125;节点compile rootProject.ext.dependencies[&quot;support-appcompatV7&quot;] //dependencies&#123;&#125;节点 The endclean一下去External Libraries看看，是不是还有重复的，如果还有，说明前面config里面的依赖其他地方还有遗漏的，全局搜索一下在同样方式替换一下就好了。 转载:https://jackl-e-e.github.io/android/2016/08/26/多module统一gradle配置.html]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Android Studio 2.2 问题汇总]]></title>
+    <url>%2F2018%2F02%2F08%2FAndroid-Studio-2-2-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%2F</url>
+    <content type="text"><![CDATA[Gradle 2.2 使用出现下面的警告，编译的时候出现更多。。。 1Warning:The `android.dexOptions.incremental` property is deprecated and it has no effect on the build process. 解决： 项目build.gradle 中删除下面配置 ，新的貌似不需要dex配置了！123456//655xxx的方法限制分包处理 dexOptions &#123; javaMaxHeapSize &quot;4g&quot; //加快编译速度 incremental true &#125; java8 与 jack工具链问题出现下面错误1Error:Could not get unknown property &apos;classpath&apos; for task&apos;:app:transformJackWithJackForInstantrunconfigDebug&apos; of type com.android.build.gradle.internal.pipeline 解决： 项目build.gradle 中删除下面配置12341.apply plugin: &apos;android-apt&apos;2.把apt替换成annotationProcessor3.删除根目录的classpath &apos;com.neenbedankt.gradle.plugins:android-apt:1.8&apos;4.这个不用Java8也可以这么写的，现在AS自带了注解插件 intant Run 与 shrinkResources 问题当你进行运行时，出现下面错误：1app/build/intermediates/res/resources-debug-stripped.ap_&apos; specified for property &apos;resourceFile&apos; does not exist. 解决：项目build.gradle 中的 buildTypes 中的 shrinkResoutces设置为false具体可以看下：https://developer.android.com/studio/build/shrink-code.html1234567891011121314151617181920buildTypes &#123; debug &#123; buildConfigField &quot;boolean&quot;, &quot;LOG_DEBUG&quot;, &quot;true&quot; debuggable true zipAlignEnabled true minifyEnabled false shrinkResources false //android studio 2.2 设置为false signingConfig signingConfigs.config proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos; &#125; release &#123; buildConfigField &quot;boolean&quot;, &quot;LOG_DEBUG&quot;, &quot;false&quot; debuggable false zipAlignEnabled true minifyEnabled false shrinkResources false //android 2.2 设置为false signingConfig signingConfigs.config proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos; &#125; &#125; Instant Run 与 C++ Debugger出现下面三个问题：123Instant Run requires that the platform corresponding to your target device Instant Run requires that the platform corresponding to your target device (Android 5.0 (Lollipop)) is installed. C++ debugger package is missing or incompatible - do you want to fix it 一样的解决方案：打开SDK管理，下载 5.0.1 , 5.1.1 的 SDK Platform 即可 ！可以试试，我只下载 5.1.1不行，下载了5.0.1才可以！ 5.Android Studio Gradle Plugin 版本Gradle Plugin 插件地址：配置已有的版本即可https://jcenter.bintray.com/com/android/tools/build/gradle/举个例子：目前最新版是 2.2 ，如果你在跟目录下的build.gradle配置 3.0 就会出现下面错误下面配置会出错，截止今日最新版为2.2！1234567891011buildscript &#123; repositories &#123; jcenter() &#125; dependencies &#123; classpath &apos;com.android.tools.build:gradle:3.0&apos; // NOTE: Do not place your application dependencies here; they belong // in the individual module build.gradle files &#125;&#125; 报错如下！12345678Error:Could not find com.android.tools.build:gradle:3.0.Searched in the following locations: file:/C:/Program Files/Android/Android Studio/gradle/m2repository/com/android/tools/build/gradle/3.0/gradle-3.0.pom file:/C:/Program Files/Android/Android Studio/gradle/m2repository/com/android/tools/build/gradle/3.0/gradle-3.0.jar https://jcenter.bintray.com/com/android/tools/build/gradle/3.0/gradle-3.0.pom https://jcenter.bintray.com/com/android/tools/build/gradle/3.0/gradle-3.0.jar http://maven.bughd.com/public/com/android/tools/build/gradle/3.0/gradle-3.0.pom http://maven.bughd.com/public/com/android/tools/build/gradle/3.0/gradle-3.0.jar ============ 上面是Android Studio Gradle Plugin 版本 ================== ============ 下面是Android Studio Gradle 编译进行编译的版本 ==================在gradle-wrapper.properties 中进行配置 ：123456#Mon Sep 19 15:29:17 CST 2016distributionBase=GRADLE_USER_HOMEdistributionPath=wrapper/distszipStoreBase=GRADLE_USER_HOMEzipStorePath=wrapper/distsdistributionUrl=https\://services.gradle.org/distributions/gradle-3.0-all.zip Gradle 下载地址 ： 使用3.0编译，速度更快！ http://services.gradle.org/distributions]]></content>
+      <categories>
+        <category>android studio</category>
+      </categories>
+      <tags>
+        <tag>IDE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[kotlin中的lambda表达式知识整理]]></title>
+    <url>%2F2018%2F02%2F08%2Fkotlin%E4%B8%AD%E7%9A%84lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%2F</url>
+    <content type="text"><![CDATA[#####如何定义lambda表达式(将表达式赋值给一个常量或变量): ######如果有小括号 如果需要参数(没有参数可以写()),就在小括号里写明参数类型,参数名可以省略,然后小括号后面加上-&gt;{}, -&gt;后面如果没有返回值就写Unit, 然后在大括号{}里面写上具体的方法实现 1. 在大括号{}的方法实现里,如果只有一个参数,可以用it指定而不需要再写x-&gt;...这种代码,例如 val add1: (Int) -&gt; Int = { it + 1 } 2. 如果方法实现里有多个参数,则需要x:Int,y:Int-&gt;...这种方式指明-&gt;后面的自定义参数名,例如 val add: (Int,Int) -&gt; Int = { x:Int,y:Int-&gt;x+y } x,y的参数类型可以不写,因为在前面的小括号()里面定义了,所以可以写成x,y-&gt;...这种方式,改进后 val add: (Int,Int) -&gt; Int = { x,y-&gt;x+y } 这里有个参数顺序问题,lambda表达式的参数顺序,是按照大括号{}方法体里面的参数顺序传参的, 而不是按照定义函数时小括号()里的顺序传参的,如下面的代码 val f:(x:Int, y:Int) -&gt; Int = {y: Int, x: Int -&gt; x - y} 如果调用f(2,1),则参数会按照大括号里的顺序传参,所以上面的y==2,x==1.而不是按照小括号里的(x:Int, y:Int)的顺序传参的 ######如果没有小括号,可以直接写大括号里的方法体 写方法体的时候,因为前面没有在小括号()里定义参数类型,就需要在方法体里指明参数类型,例如下面需要指明x的参数类型 1val add1 = &#123; x:Int-&gt;x + 1 &#125; #####如何定义lambda表达式(直接给方法传参,读者可以联想view.setOnClickListener(new OnClickListener…)): 作为参数传递给高阶函数的时候,只需要写大括号{}方法体 因为是作为参数传递给高阶函数,而在高阶函数里已经定义了方法类型和返回值,所以大括号{}方法体里的参数类型可以省略 这时候不可以再写小括号()去定义函数了,只需要写大括号{}里的方法实现,因为在高阶函数里已经定义好了函数的参数类型和返回值,这就好像android用java代码给View设置OnClickListener点击监听,这时候只需要给View传递一个匿名类即可,例如OnClickListener(View view)&#123;...&#125;);```12而不再需要```view.setOnClickListener(OnClickListener onClickListener = new OnClickListener(View view)&#123;...&#125;); 否则上面的方式会报错 //举个例子: //定义高阶函数 fun invoke(add:(x:Int,y:Int)-&gt;Int):Int{ return add(1,2) } //调用高阶函数 invoke { x, y -&gt; x+y }]]></content>
+      <categories>
+        <category>kotlin</category>
+      </categories>
+      <tags>
+        <tag>lambda</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[一个讨论Kotlin和Java可见域的demo]]></title>
+    <url>%2F2018%2F02%2F08%2F%E4%B8%80%E4%B8%AA%E8%AE%A8%E8%AE%BAKotlin%E5%92%8CJava%E5%8F%AF%E8%A7%81%E5%9F%9F%E7%9A%84demo%2F</url>
+    <content type="text"><![CDATA[VisibleDomainDemo 一个讨论Kotlin和Java可见域的demo 因本群一个小伙伴的问题,在解决的过程中发现了这些东西…kotlin的internal模块级私有和java的默认包级私有,在互相调用的过程中,会有哪些问题呢?看完本demo你就了解了,如有错误请纠正 测试前提: lib类库里的Java类有默认可见域的接口(包级私有)和public可见域的接口实现类 lib类库里的kotlin类有internal可见域的接口和public可见域的接口实现类 测试内容一: 测试lib类库里的java类 假设lib类库里包级私有接口名为IA,里面有包级私有的内部接口IAInner 假设IA的public可见域的实现类名为AImpl,里面有包级私有的内部接口AImplInner 测试步骤一: 1.app类中的Java类能否引用lib类库里AImpl继承下来的IAInner和AImpl自己的AImplInner 2.app类中的Kotlin类能否引用lib类库里AImpl继承下来的IAInner和AImpl自己的AImplInner 3.app类中的Java类能否改变lib类库里IA和IAInner的可见域和AImpl自己的AImplInner可见域 4.app类中的Kotlin类能否改变lib类库里IA和IAInner的可见域和AImpl自己的AImplInner可见域 测试内容二: 测试lib类库里的kotlin类 假设lib类库里模块级私有接口名为IA,里面有模块级私有的内部接口IAInner 假设IA的public可见域(kotlin默认)的实现类名为AImpl,里面有模块级私有的内部接口AImplInner 测试步骤二: 5.app类中的Java类能否引用lib类库里的IA和IAInner和AImpl自己的AImplInner 6.app类中的Kotlin类能否引用lib类库里AImpl继承下来的IAInner和AImpl自己的AImplInner 7.app类中的Java类能否改变lib类库里IA和IAInner的可见域和AImpl自己的AImplInner可见域 8.app类中的Kotlin类能否改变lib类库里IA和IAInner的可见域和AImpl自己的AImplInner可见域 测试结果: 详见各个测试类 测试总结: 1.java的app调用java的lib类库,即使java的lib类库有类(或者接口)有内部类(或者有内部接口)为包级私有,只要这些类(或者接口)有子类(或者实现类),并且这些子类(或者实现类)是public的,那么这些子类(或者实现类)是能暴露父类(或者父接口)的包级私有内部类(或者包级私有内部接口)的可见性的(这是错误的,不应该暴露) 2.java的app调用java的lib类库,即使java的lib类库有类(或者接口)有内部类(或者有内部接口)为包级私有,只要在app层创建这些包级私有类(或者接口)的同包名类(或者接口),就可以访问lib类库里的这些包级私有类(或者接口) 3.java的app调用kotlin的lib类库,即使kotlin的lib类库有类(或接口)为internal模块级私有权限,但是对java来说就和public一样可见要解决这个问题可以参考这篇文章(http://ice1000.org/2017/11/12/InternalFucksJava/#%E6%96%B9%E6%B3%95%E4%B8%80)不过,kotlin函数可以用这篇文章的办法解决,但是类却不可以,因为@file:JvmName只能将这个kt文件命名为该类,却不能改变指定类的名字 4.kotlin的app调用java的lib类库,会严格遵守可见性,不会因为继承(或者实现)了父类(或父接口)而把父类(或者副接口)的内部包级私有类(或者内部包级私有接口)暴露,所以也不会像java的app那样能调用父类(或副接口)的内部包级私有类(或内部包级私有接口) 5.kotlin的app调用kotlin的lib类库,如果kotlin的lib类库有类(或接口)为internal模块级私有权限,那么kotlin是无法调用的 github地址:https://github.com/ikakaxi/VisibleDomainDemo]]></content>
+      <categories>
+        <category>kotlin</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[kotlin的幕后字段(backing field)的个人理解]]></title>
+    <url>%2F2018%2F02%2F08%2Fkotlin%E7%9A%84%E5%B9%95%E5%90%8E%E5%AD%97%E6%AE%B5-backing-field-%E7%9A%84%E4%B8%AA%E4%BA%BA%E7%90%86%E8%A7%A3%2F</url>
+    <content type="text"><![CDATA[有关kotlin的幕后字段,在 https://zhuanlan.zhihu.com/p/27493630 这里讲得很好,我总结了一下,如果让一个kotlin的类属性有幕后字段,需要满足以下条件 不管是var或者val字段,只要有默认的setter/getter方法,就有幕后字段 如果没有默认的setter/getter方法,只要在setter/getter方法里使用了field,也会生成幕后字段 接口不能有幕后字段 类的幕后字段必须初始化,或者显式声明需要延迟初始化,如果该字段没有默认的setter/getter方法说明它并不是幕后字段]]></content>
+      <categories>
+        <category>kotlin</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[IDEA的一个bug]]></title>
+    <url>%2F2018%2F02%2F08%2FIDEA%E7%9A%84%E4%B8%80%E4%B8%AAbug%2F</url>
+    <content type="text"><![CDATA[今天测试一段代码,代码如下12345678910class Person14(var age: Int)fun main(args: Array&lt;String&gt;) &#123; val p1 = Person14(1) val p2 = Person14(2) val p14age = p1::age val p14Age = Person14::age//TODO 这句话有异常,是kotlin的问题? println(p14age) println(p14Age)&#125; 发现会报1Exception in thread &quot;main&quot; java.lang.NoClassDefFoundError: Kt14Kt$main$p14age$1 (wrong name: Kt14Kt$main$p14Age$1) 异常经测试发现是IDEA的问题,因为在https://glot.io/ 输入以上代码却没有问题]]></content>
+      <categories>
+        <category>kotlin</category>
+      </categories>
+      <tags>
+        <tag>IDE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[java.lang.RuntimeException: Can't marshal non-Parcelable objects across processes的解决办法]]></title>
+    <url>%2F2018%2F02%2F08%2Fjava-lang-RuntimeException-Can-t-marshal-non-Parcelable-objects-across-processes%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[必须用Bundle传递常规类型数据，否则会报错： java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes. 因为Binder事务传递的数据被称为包裹(Parcel)，必须实现Parcelable接口，否则无法在两个应用之间进行通信。之所以用Bundle传递是因为该类实现了Parcelable接口。当然如果要传递类也必须实现该接口。]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>异常</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[WebView如何与Js交互]]></title>
+    <url>%2F2018%2F02%2F07%2FWebView%E5%A6%82%E4%BD%95%E4%B8%8EJs%E4%BA%A4%E4%BA%92%2F</url>
+    <content type="text"><![CDATA[我用桥接的方式实现的:12345678@SuppressLint(&quot;AddJavascriptInterface&quot;)protected void initWebView() &#123; super.initWebView(); String ua = webView.getSettings().getUserAgentString(); webView.getSettings().setUserAgentString(ua + &quot;;abc&quot;); //关键代码 webView.addJavascriptInterface(new JSInvokeClass(), &quot;Test&quot;);&#125; JSInvokeClass名字是自定义的,随便起名123456 private final class JSInvokeClass &#123; @JavascriptInterface public String getUserInfo() &#123; return &quot;字符串&quot;; &#125;&#125; js直接在按钮的点击事件里写”Test.getUserInfo()”就可以调用了例如12345678910111213141516&lt;html&gt;&lt;body&gt;&lt;script&gt;function test()&#123; var data = Test.getUserInfo() document.getElementById(&apos;content&apos;).innerHTML = data&#125;&lt;/script&gt;&lt;button id=&quot;testBtn&quot; type=&quot;button&quot; onClick=&quot;test()&quot;&gt;getUserInfo&lt;/button&gt;&lt;div id=&quot;content&quot;/&gt;&lt;/body&gt;&lt;/html&gt;]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>WebView</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ObjectBox的使用方法]]></title>
+    <url>%2F2018%2F02%2F07%2FObjectBox%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[官网:http://objectbox.io/ ObjectBox目前是Android上速度最快的数据库,有关ObjectBox和GreenDAO,Room,Real的对比在官网就有 gradle配置 root project下面的gradle.build文件配置 12345678910111213141516171819// In your root build.gradle file:buildscript &#123; ext.objectboxVersion = &apos;1.3.3&apos; repositories &#123; jcenter() maven &#123; url &quot;http://objectbox.net/beta-repo/&quot; &#125; &#125; dependencies &#123; classpath &apos;com.android.tools.build:gradle:2.3.3&apos; classpath &quot;io.objectbox:objectbox-gradle-plugin:$objectboxVersion&quot; &#125;&#125; allprojects &#123; repositories &#123; jcenter() maven &#123; url &quot;http://objectbox.net/beta-repo/&quot; &#125; &#125;&#125; module下面的gradle.build文件配置 123// In your (app) module build.gradle file:apply plugin: &apos;com.android.application&apos;apply plugin: &apos;io.objectbox&apos; 注意要将io.objectbox写到application下面,不止这个ObjectBox,只要是第三方都要写到application下面 在module的dependencies里配置123456789101112dependencies &#123; // 如果只是用java开发 // compile &quot;io.objectbox:objectbox-android:$objectboxVersion&quot; // apt // annotationProcessor &quot;io.objectbox:objectbox-processor:$objectboxVersion&quot; // 如果支持kotlin开发 // objectbox-kotlin包含objectbox-android compile &quot;io.objectbox:objectbox-kotlin:$objectboxVersion&quot; // 当使用Kotlin时使用kapt(kapt包含apt功能): kapt &quot;io.objectbox:objectbox-processor:$objectboxVersion&quot;&#125; 这样配置就完成了,然后在Application里初始化MyObjectBox 这里有个需要注意的地方MyObjectBox这个类是编译生成的,所以必须先定义一个数据表,然后执行android studio的rebuild project,才会出现这个类,所以第一次使用的时候,先不要写1234567```//java代码@Entityclass A &#123; @Id public Long name = 0L;&#125; 或者12//kotlin代码@Entity data class B(@Id var age:Long = 0) 然后执行rebuild project,这时候在build/generated/source/katp下面就生成了MyObjectBox类和你刚才定义的表,然后就可以在Application里去初始化了]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>第三方框架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Toolbar使用方法]]></title>
+    <url>%2F2018%2F02%2F07%2FToolbar%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[Toolbar作为ActionBar的替代品,功能更加强大,使用更加方便,在这里根据自己在网上学习到的资料总结一下 #####一. 配置 theme配置 layout配置 代码配置 #####二.自定义 状态栏背景颜色自定义 Toolbar背景颜色,文字颜色与大小自定义 导航条背景颜色自定义(仅能在 API v21 也就是 Android 5 以后的版本中使用， 因此要将之设定在 res/values-v21/theme.xml 里面) 页面背景颜色设置 溢出菜单背景,文字颜色自定义 一. 配置 theme配置theme要调整的地方有两处一在 res/values/theme.xml中二在 res/values-v21/theme.xml中为了之后设定方便，我们先在 res/values/theme.xml 里增加一个名为 AppTheme.Base 的风格,因为此范例只使用 Toolbar，所以我们要将让原本的 ActionBar 隐藏起来 这里我修改过,之前parent=”Theme.AppCompat”,但是这样的话在Toolbar弹出菜单里的item没有水波纹点击效果,后来设置成下面的形式才有了点击效果 1234567891011&lt;resources&gt; &lt;style name=&quot;AppTheme.Base&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;&gt; &lt;item name=&quot;android:windowNoTitle&quot;&gt;true&lt;/item&gt; &lt;!-- 使用 API Level 22 编译的话，要拿掉前缀字 --&gt; &lt;item name=&quot;windowNoTitle&quot;&gt;true&lt;/item&gt; &lt;/style&gt; &lt;!-- Base application theme. --&gt; &lt;style name=&quot;UI.AppTheme&quot; parent=&quot;AppTheme.Base&quot;&gt; &lt;/style&gt;&lt;/resources&gt; 然后将需要在manifest.xml中配置的 UI.AppTheme 的 parent 属性改为上面的AppTheme.Base 再来调整Android 5.0的style： /res/values-v21/theme.xml，也将其 parent 属性改为 AppTheme.Base：12345&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;resources&gt; &lt;style name=&quot;UI.AppTheme&quot; parent=&quot;AppTheme.Base&quot;&gt; &lt;/style&gt;&lt;/resources&gt; layout配置在 activity_main.xml 里面添加 Toolbar 控件:1234&lt;android.support.v7.widget.Toolbar android:id=&quot;@+id/toolbar&quot; android:layout_height=&quot;?attr/actionBarSize&quot; android:layout_width=&quot;match_parent&quot;/&gt; 请记得用 support v7 里的 toolbar，不然只有 API Level 21 也就是 Android 5.0 以上的版本才能使用,?attr/actionBarSize意思是使用系统的值 3.代码配置12Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);setSupportActionBar(toolbar); 二.自定义先看一个图片 我就不分开写了,直接写我配置好的代码 在 res/values/theme.xml中 12345678910111213141516171819202122232425&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;resources&gt; &lt;style name=&quot;AppTheme.Base&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;&gt; &lt;item name=&quot;android:windowNoTitle&quot;&gt;true&lt;/item&gt; &lt;!-- 使用 API Level 22 编译的话,要去掉前缀字 --&gt; &lt;item name=&quot;windowNoTitle&quot;&gt;true&lt;/item&gt; &lt;!--Toolbar高度,暂时不知道怎么配置到上层使用Toolbar的地方--&gt; &lt;!--&lt;item name=&quot;actionBarSize&quot;&gt;?android:attr/actionBarSize&lt;/item&gt;--&gt; &lt;!--Toolbar颜色等自定义--&gt; &lt;item name=&quot;colorPrimary&quot;&gt;@color/colorPrimary&lt;/item&gt; &lt;item name=&quot;colorPrimaryDark&quot;&gt;@color/colorPrimaryDark&lt;/item&gt; &lt;item name=&quot;colorAccent&quot;&gt;@color/colorAccent&lt;/item&gt; &lt;item name=&quot;colorControlNormal&quot;&gt;@color/colorControlNormal&lt;/item&gt; &lt;item name=&quot;android:textColorPrimary&quot;&gt;@color/textColorPrimary&lt;/item&gt; &lt;!--页面背景颜色--&gt; &lt;item name=&quot;android:windowBackground&quot;&gt;@color/windowBackground&lt;/item&gt; &lt;!--该属性无效,需要在使用Toolbar的xml那设置--&gt; &lt;!--&lt;item name=&quot;actionBarPopupTheme&quot;&gt;@style/ToolbarPopupTheme&lt;/item&gt;--&gt; &lt;item name=&quot;android:actionBarStyle&quot;&gt;@style/CustomActionBarStyle&lt;/item&gt; &lt;/style&gt; &lt;!-- Base application theme. --&gt; &lt;style name=&quot;UI.AppTheme&quot; parent=&quot;AppTheme.Base&quot;&gt; &lt;/style&gt;&lt;/resources&gt; 同时增加res/values/styles.xml文件,内容如下 12345678910111213141516171819202122232425&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;resources&gt; &lt;!--溢出弹出菜单样式--&gt; &lt;style name=&quot;ToolbarPopupTheme&quot;&gt; &lt;!--新增一个item，用于控制menu--&gt; &lt;item name=&quot;actionOverflowMenuStyle&quot;&gt;@style/OverflowMenuStyle&lt;/item&gt; &lt;!-- 弹出层背景颜色 --&gt; &lt;item name=&quot;android:colorBackground&quot;&gt;@color/popupBackground&lt;/item&gt; &lt;!-- 设置弹出菜单文字颜色 --&gt; &lt;item name=&quot;android:textColor&quot;&gt;@color/popupTextColor&lt;/item&gt; &lt;/style&gt; &lt;style name=&quot;OverflowMenuStyle&quot; parent=&quot;Widget.AppCompat.Light.PopupMenu.Overflow&quot;&gt; &lt;!--把该属性改为false即可使menu位置位于toolbar之下,该值默认为true--&gt; &lt;item name=&quot;overlapAnchor&quot;&gt;false&lt;/item&gt; &lt;/style&gt; &lt;!--http://blog.csdn.net/afei__/article/details/51476096--&gt; &lt;style name=&quot;CustomActionBarStyle&quot; parent=&quot;Widget.AppCompat.Light.ActionBar&quot;&gt; &lt;item name=&quot;contentInsetStart&quot;&gt;0dp&lt;/item&gt; &lt;item name=&quot;contentInsetEnd&quot;&gt;0dp&lt;/item&gt; &lt;item name=&quot;contentInsetLeft&quot;&gt;0dp&lt;/item&gt; &lt;item name=&quot;contentInsetRight&quot;&gt;0dp&lt;/item&gt; &lt;/style&gt;&lt;/resources&gt; 因为我是把这些做到了一个UILib库里,所以在res/values下还增加了2个文件 res/values/abstract_id.xml 1234&lt;!--这些都是需要上层App设置的值--&gt;&lt;resources&gt; &lt;item name=&quot;toolbar&quot; type=&quot;id&quot;/&gt;&lt;/resources&gt; res/values/abstract_color.xml 1234567891011121314151617181920212223242526272829303132333435363738394041&lt;!--这些都是需要上层App设置的值--&gt;&lt;!--属性参考http://yifeng.studio/2017/04/18/android-theme-appcompat-color-attrs/ --&gt;&lt;resources&gt; &lt;!--Toolbar背景颜色,通常也是一个App的主题色调, 如果是ActionBar直接在这里设置即可, 而Toolbar需要在xml设置background, 我把xml里的Toolbar的背景颜色设置为下面这个值了--&gt; &lt;item name=&quot;colorPrimary&quot; type=&quot;color&quot;/&gt; &lt;!--状态栏颜色--&gt; &lt;item name=&quot;colorPrimaryDark&quot; type=&quot;color&quot;/&gt; &lt;!-- 许多控件在选中状态或获取焦点状态下使用这个颜色，常见有： CheckBox：checked 状态 RadioButton：checked 状态 SwitchCompat：checked 状态 EditText：获取焦点时的 underline 和 cursor 颜色 TextInputLayout：悬浮 label 字体颜色 等等 --&gt; &lt;item name=&quot;colorAccent&quot; type=&quot;color&quot;/&gt; &lt;!--页面背景颜色--&gt; &lt;item name=&quot;windowBackground&quot; type=&quot;color&quot;/&gt; &lt;!--标题栏文字和弹出的菜单文字颜色--&gt; &lt;item name=&quot;textColorPrimary&quot; type=&quot;color&quot;/&gt; &lt;!--某些 Views “normal” 状态下的颜色， 常见如： unselected CheckBox 和 RadioButton， 失去焦点时的 EditText，Toolbar 溢出按钮(更多)颜色，等等。--&gt; &lt;item name=&quot;colorControlNormal&quot; type=&quot;color&quot;/&gt; &lt;!-- Toolbar弹出层背景颜色 --&gt; &lt;item name=&quot;popupBackground&quot; type=&quot;color&quot;/&gt; &lt;!-- Toolbar弹出层文字颜色 --&gt; &lt;item name=&quot;popupTextColor&quot; type=&quot;color&quot;/&gt;&lt;/resources&gt; 这些只是在这里定义一下名称,并没有实际的数值,上面说了我这些都写在UILib里,所以这些值到时候需要在上层App配置 5.在res/values-v21/theme.xml中12345678&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;resources&gt; &lt;style name=&quot;UI.AppTheme&quot; parent=&quot;AppTheme.Base&quot;&gt; &lt;!--底部导航栏颜色,仅能在API v21也就是Android 5以后的版本中使用 因此要将之设定在 res/values-v21/styles.xml 里面--&gt; &lt;item name=&quot;android:navigationBarColor&quot;&gt;@color/colorPrimary&lt;/item&gt; &lt;/style&gt;&lt;/resources&gt; 因为我自定义了Toolbar的溢出菜单背景和文字颜色等值(在res/values/styles.xml文件中配置的,名字叫OverflowMenuStyle),所以我需要在使用Toolbar的地方配置上这个style才会生效 例如上面使用Toolbar的地方是activity_main.xml,所以这里需要改为12345&lt;android.support.v7.widget.Toolbar android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:background=&quot;@color/colorPrimary&quot; app:popupTheme=&quot;@style/ToolbarPopupTheme&quot;/&gt; 参考文章:http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1118/2006.htmlhttp://blog.mosil.biz/2014/10/android-toolbar/http://yifeng.studio/2017/04/18/android-theme-appcompat-color-attrs/]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>View</tag>
+        <tag>Toolbar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[constraintLayout备忘]]></title>
+    <url>%2F2018%2F02%2F07%2FconstraintLayout%E5%A4%87%E5%BF%98%2F</url>
+    <content type="text"><![CDATA[#####1. 相对位置12345678910111213layout_constraintLeft_toLeftOflayout_constraintLeft_toRightOflayout_constraintRight_toLeftOflayout_constraintRight_toRightOflayout_constraintTop_toTopOflayout_constraintTop_toBottomOflayout_constraintBottom_toTopOflayout_constraintBottom_toBottomOflayout_constraintBaseline_toBaselineOflayout_constraintStart_toEndOflayout_constraintStart_toStartOflayout_constraintEnd_toStartOflayout_constraintEnd_toEndOf 以layout_constraintLefttoLeftOf 为例，其中 layout 部分是固定格式，主要的信息包含在下面两部分：constraintXXX：指定当前控件需要设置约束的属性部分。如 constraintLeft 表示对当前控件的 左边 进行约束设置。toXXXOf：其指定的内容是作为当前控件设置约束需要依赖的控件或父容器（可以理解为设置约束的参照物）。并通过 XXX 指定被依赖对象用于参考的属性。如 toLeftOf=”parent” ：表示当前控件相对于父容器的左边进行约束设置。 #####2. 边距 普通边距属性android:layout_marginStartandroid:layout_marginEndandroid:layout_marginLeftandroid:layout_marginTopandroid:layout_marginRightandroid:layout_marginBottom 被依赖控件GONE之后的边距属性layout_goneMarginStartlayout_goneMarginEndlayout_goneMarginLeftlayout_goneMarginToplayout_goneMarginRightlayout_goneMarginBottom #####3. 居中 水平居中：相对一个控件或者父容器左右对齐app:layout_constraintLeft_toLeftOf=”parent”app:layout_constraintRight_toRightOf=”parent 垂直居中：相对一个控件或者父容器左右对齐app:layout_constraintTop_toTopOf=”parent”app:layout_constraintBottom_toBottomOf=”parent” #####4. 偏移layout_constraintHorizontal_bias // 水平偏移layout_constraintVertical_bias // 垂直偏移 #####5. 可见性可见性这个属性大家应该很熟悉，但是约束布局的可见性属性和其它布局相比，存在以下区别： 当控件设为GONE时，被认为尺寸为0。可以理解为布局上的一个点。 若GONE的控件对其它控件有约束，则约束保留并生效，但所有的边距（margin）会清零。 #####6. 尺寸 几种设置方式： 设置固定尺寸，如123dp 使用 wrap_content ，根据内容计算合适大小 match_parent ，填充满父布局，此时设置的约束都不生效了。（早之前的约束布局版本貌似不允许在其子view中使用match_parent属性，但是我写文章的时候发现也是可以用上去的） 设置0dp，相当于MATCH_CONSTRAINT属性，基于约束最终确定大小 MATH_CONSTRAINT layout_constraintWidth_min 和 layout_constraintHeight_min ：设置最小值 layout_constraintWidth_max 和 layout_constraintHeight_max ：设置最大值 layout_constraintWidth_percent 和 layout_constraintHeight_percent ：设置控件相对于父容器的百分比大小（1.1.0开始支持）。使用之前需要先设置为百分比模式，然后设置设置宽高值为0～1之间。 设置为百分比模式的属性：12app:layout_constraintWidth_default=&quot;percent&quot;app:layout_constraintHeight_default=&quot;percent&quot; 强制约束当一个控件设为wrap_content时，再添加约束尺寸是不起效果的。如需生效，需要设置如下属性为true:12app:layout_constrainedWidth=”true|false” app:layout_constrainedHeight=”true|false” #####7. 比例控件可以定义两个尺寸之间的比例，目前支持宽高比。前提条件是至少有一个尺寸设置为0dp，然后通过 layout_constraintDimentionRatio 属性设置宽高比。设置方式有以下几种： 直接设置一个float值，表示宽高比 以” width：height”形式设置 通过设置前缀W或H，指定一边相对于另一边的尺寸，如”H, 16:9”，高比宽为16:9 如果宽高都设置为0dp，也可以用ratio设置。这种情况下控件会在满足比例约束的条件下，尽可能填满父布局。 #####8. 链链这个概念是约束布局新提出的，它提供了在一个维度（水平或者垂直），管理一组控件的方式。 #####9. Guideline可以理解为布局辅助线，用于布局辅助，不在设备上显示。有垂直和水平两个方向（android:orientation=“vertical/horizontal”） 垂直：宽度为0，高度等于父容器 水平：高度为0，宽度等于父容器 有三种放置Guideline的方式： 给定距离左边或顶部一个固定距离（layout_constraintGuide_begin） 给定距离右边或底部一个固定距离（layout_constraintGuide_end） 给定宽高一个百分比距离（layout_constraintGuide_percent） 参考:http://www.qingpingshan.com/rjbc/az/359115.html]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>View</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[TargeApi的使用方法]]></title>
+    <url>%2F2018%2F02%2F07%2FTargeApi%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[直接记录总结: 在使用高于 minSdkVersion API level 的方法需要: 用@TargeApi($API_LEVEL)使可以编译通过,不建议使用@SuppressLint(“NewApi”)。 运行时判断 API level;仅在足够高,有此方法的API level系统中,调用此方法。 保证低API版本通过其他方法提供功能实现。]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Android中build target，minSdkVersion，targetSdkVersion，maxSdkVersion概念区分]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E4%B8%ADbuild-target%EF%BC%8CminSdkVersion%EF%BC%8CtargetSdkVersion%EF%BC%8CmaxSdkVersion%E6%A6%82%E5%BF%B5%E5%8C%BA%E5%88%86%2F</url>
+    <content type="text"><![CDATA[原文:http://blog.csdn.net/zhangjg_blog/article/details/17142395 个人总结一下: build target:一般情况下，应该使用最新的API level作为build target。这也是eclipse生成项目时的默认行为。如果使用没有在build target里存在的API就会报错 minSdkVersion:指明应用程序运行所需的最小API level。如果不指明的话，默认是1。也就是说该应用兼容所有的android版本。我们应该总是声明这个属性。否则基本上所有的API都没办法调用,因为API等级为1的时候没有什么现在可以用的API如果系统的API level低于android:minSdkVersion设定的值，那么android系统会阻止用户安装这个应用。如果指明了这个属性，并且在项目中使用了高于这个API level的API， 那么会在编译时报错。 targetSdkVersion:标明应用程序目标API Level的一个整数。如果不设置，默认值和minSdkVersion相同。这个属性通知系统，你已经针对这个指定的目标版本测试过你的程序，系统不必再使用兼容模式来让你的应用程序向前兼容这个目标版本。应用程序仍然能在低于targetSdkVersion的系统上运行。根据你设置的targetSdkVersion 的值，系统会执行很多兼容行为。一些行为在对应平台版本的Build.VERSION_CODES中有讨论。targetSdkVersion这个属性是在程序运行时期起作用的，系统根据这个属性决定要不要以兼容模式运行这个程序。一般情况下，应该将这个属性的值设置为最新的API level 值，这样的话可以利用新版本系统上的新特性。eclipse在生成项目时，默认将该值设置为最高，如果设置一个较低的值，会给出一个警告]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>gradle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[com.android.browser/com.android.browser.BrowserActivity找不到]]></title>
+    <url>%2F2018%2F02%2F07%2Fcom-android-browser-com-android-browser-BrowserActivity%E6%89%BE%E4%B8%8D%E5%88%B0%2F</url>
+    <content type="text"><![CDATA[12android.content.ActivityNotFoundExceptionUnable to find explicit activity class &#123;com.android.browser/com.android.browser.BrowserActivity&#125;; have you declared this activity in your AndroidManifest.xml? 在三星的一款手机遇到这个问题,后来找到原因是他刷机后没有这个累了,之前的调用方法是123456Intent intent = new Intent(); intent.setAction(Intent.ACTION_VIEW); Uri content_uri_browsers = Uri.parse(***); intent.setData(content_uri_browsers); intent.setClassName(&quot;com.android.browser&quot;, &quot;com.android.browser.BrowserActivity&quot;); this.startActivity(intent); 解决这个问题需要去掉intent.setClassName(…)改完以后是下面这样12345Intent intent = new Intent(); intent.setAction(Intent.ACTION_VIEW); Uri content_uri_browsers = Uri.parse(***); intent.setData(content_uri_browsers); this.startActivity(intent); 这样让用户去选择浏览器下载,就解决这个问题了]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>异常</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android 代码里动态设置TextView/Button等的文字颜色Seletor]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid-%E4%BB%A3%E7%A0%81%E9%87%8C%E5%8A%A8%E6%80%81%E8%AE%BE%E7%BD%AETextView-Button%E7%AD%89%E7%9A%84%E6%96%87%E5%AD%97%E9%A2%9C%E8%89%B2Seletor%2F</url>
+    <content type="text"><![CDATA[######前言今天遇到个很蛋疼的问题，下载时，多个按钮共用一个button，也就是不同下载状态下，button的背景以及字体颜色都不一样，结果自己挖了坑把自己埋进去了。以下是我在/res/color文件夹里给button设置的文字颜色seletor：networkdata_btn_open_txtcolor_selector.xml12345678&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt; &lt;item android:color=&quot;#ffffff&quot; android:state_pressed=&quot;true&quot;&gt;&lt;/item&gt; &lt;item android:color=&quot;#ffffff&quot; android:state_selected=&quot;true&quot;&gt;&lt;/item&gt; &lt;item android:color=&quot;#f88b00&quot;&gt;&lt;/item&gt;&lt;/selector&gt; ######坑？在代码里设置颜色seletor，以为在代码里直接调用 button.setTextColor(int colorValue) 就可以了，结果运行效果让我傻眼了。123mBtnDownAndOpen.setText(DOWNLOAD_OPEN); //设置button文字mBtnDownAndOpen.setTextColor(mContext.getResources().getColor(R.color.networkdata_btn_open_txtcolor_selector)); //设置button文字颜色mBtnDownAndOpen.setBackground(mContext.getResources().getDrawable(R.drawable.networkdata_btn_open_selector)); //设置button背景 ######郁闷的是，只能读取到没获取焦点时的色值，也就是 ，其他状态获取不到。 ######如何填坑？采用1mBtnDownAndOpen.setTextColor(mContext.getResources().getColorStateList(R.color.networkdata_btn_open_txtcolor_selector)); 为button设置文字颜色。区别在于：改之前用的是getColor，改之后用的是getColorStateList ######WHY?文字颜色的seletor在代码里的显示形式是ColorStateList，而res/color放的就是ColorStateList资源XML文件，getColor只能读取单个的color。 转载:http://blog.csdn.net/zhangshao45612/article/details/49784997]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>View</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[透明状态栏]]></title>
+    <url>%2F2018%2F02%2F07%2F%E9%80%8F%E6%98%8E%E7%8A%B6%E6%80%81%E6%A0%8F%2F</url>
+    <content type="text"><![CDATA[总结备份一下,防止忘记,网上有较多的设置透明状态栏的方法,目前试了很多,个人觉得现在自己使用的这种方式较完美首先我的项目没有用到ToolBar或者ActionBar,后退标题栏是自己做的,这个后退标题栏自己做也很简单,而且按系统后退键我也处理了,下面直接说怎么做透明标题栏 ######首先,要在自己的项目里添加v7扩展包,然后再做下列操作 1.设置theme在默认的values下,添加下面的代码1234567891011121314151617181920212223&lt;resources&gt; &lt;style name=&quot;BaseTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;/&gt; &lt;style name=&quot;ImageTranslucentTheme&quot; parent=&quot;BaseTheme&quot;&gt; &lt;!--通过设置android:windowIsTranslucent属性，表明该窗口是透明的，这样也不会出现白屏或者黑屏。 但是，它和MainActivity的显示是同步，如果在MainActivity启动的时候，有过多复杂的操作，就会出现在手机中点击了应用程序的图标之后， 但过两秒才会打开应用程序不好的卡顿体验效果。--&gt; &lt;!--&lt;item name=&quot;android:windowIsTranslucent&quot;&gt;true&lt;/item&gt;--&gt; &lt;!--让一张图片作为窗口的背景图，使打开MainActivity第一眼看到的界面是一张图片而不是白屏或者黑屏。 设置这个属性来显示一张背景图还有一个效果就是启动应用程序会感觉非常快，而且与加载MainActivity的contentView是异步的--&gt; &lt;!--&lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/white&lt;/item&gt;--&gt; &lt;!-- 打开window预览效果(默认是打开的) --&gt; &lt;!--item name=&quot;android:windowDisablePreview&quot;&gt;true&lt;/item--&gt; &lt;item name=&quot;colorPrimary&quot;&gt;@color/colorPrimary&lt;/item&gt; &lt;item name=&quot;colorPrimaryDark&quot;&gt;@color/colorPrimaryDark&lt;/item&gt; &lt;item name=&quot;colorAccent&quot;&gt;@color/colorAccent&lt;/item&gt; &lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/white&lt;/item&gt; &lt;item name=&quot;actionBarStyle&quot;&gt;@style/ThemeOverlay.AppCompat.Dark.ActionBar&lt;/item&gt; &lt;item name=&quot;android:actionBarStyle&quot;&gt;@style/ThemeOverlay.AppCompat.Dark.ActionBar&lt;/item&gt; &lt;/style&gt;&lt;/resources&gt; 2.然后添加同级文件夹values-v21,添加下面的代码1234567891011121314&lt;resources xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt; &lt;!--沉浸式状态栏--&gt; &lt;style name=&quot;ImageTranslucentTheme&quot; parent=&quot;BaseTheme&quot;&gt; &lt;item name=&quot;android:windowDrawsSystemBarBackgrounds&quot;&gt;true&lt;/item&gt; &lt;item name=&quot;android:windowContentTransitions&quot;&gt;true&lt;/item&gt; &lt;item name=&quot;android:windowAllowEnterTransitionOverlap&quot;&gt;true&lt;/item&gt; &lt;item name=&quot;android:windowAllowReturnTransitionOverlap&quot;&gt;true&lt;/item&gt; &lt;item name=&quot;android:windowSharedElementEnterTransition&quot;&gt;@android:transition/move&lt;/item&gt; &lt;item name=&quot;android:windowSharedElementExitTransition&quot;&gt;@android:transition/move&lt;/item&gt; &lt;item name=&quot;android:statusBarColor&quot;&gt;@android:color/transparent&lt;/item&gt; &lt;/style&gt;&lt;/resources&gt; 3.在AndroidManifest.xml里,给Application配置上1android:theme=&quot;@style/ImageTranslucentTheme&quot; 4.在需要透明状态栏的Activity的onCreate方法里添加方法123456@Overrideprotected void onCreate(Bundle savedInstanceState) &#123; requestWindowFeature(Window.FEATURE_NO_TITLE); super.onCreate(savedInstanceState); StatusBarCompat.compat(this, getResources().getColor(R.color.back_title_bg));&#125; back_title_bg是我自己定义的颜色,在color.xml文件里配置的,这么做就可以实现透明状态栏了,这里有一些值应该不需要配置也可以,等以后有时间再研究一下,下面附上StatusBarCompat类的源码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950import android.annotation.TargetApi;import android.app.Activity;import android.graphics.Color;import android.os.Build;import android.support.annotation.ColorInt;import android.view.View;import android.view.ViewGroup;import cn.finalteam.toolsfinal.DeviceUtils;public class StatusBarCompat &#123; private static final int INVALID_VAL = -1; private static final int COLOR_DEFAULT = Color.parseColor(&quot;#20000000&quot;); @TargetApi(Build.VERSION_CODES.LOLLIPOP) public static void compat(Activity activity, @ColorInt int statusColor) &#123; ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content); View childAt = contentView.getChildAt(0); childAt.setFitsSystemWindows(true); //当前手机版本为5.0及以上 if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123; if (statusColor != INVALID_VAL) &#123; activity.getWindow().setStatusBarColor(statusColor); &#125; return; &#125; //当前手机版本为4.4-5.0 if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT &amp;&amp; Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.LOLLIPOP) &#123; int color = COLOR_DEFAULT; if (statusColor != INVALID_VAL) &#123; color = statusColor; &#125; //根布局添加占位状态栏 ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView(); View statusBarView = new View(activity); ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DeviceUtils.getStatusBarHeight(activity)); statusBarView.setBackgroundColor(color); decorView.addView(statusBarView, lp); &#125; &#125; public static void compat(Activity activity) &#123; compat(activity, INVALID_VAL); &#125;&#125; 其中用到一个开源项目的类,附上地址https://github.com/pengjianbo/ToolsFinal只有一个地方用到了,自己找一下替代方法就不用引入这个类库了]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>状态栏</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如果在程序启动的时候等待debug]]></title>
+    <url>%2F2018%2F02%2F07%2F%E5%A6%82%E6%9E%9C%E5%9C%A8%E7%A8%8B%E5%BA%8F%E5%90%AF%E5%8A%A8%E7%9A%84%E6%97%B6%E5%80%99%E7%AD%89%E5%BE%85debug%2F</url>
+    <content type="text"><![CDATA[在应用开发中，我们常常会进行日志打印或者debug调试，以此来分析运行时的一些信息，便于发现bug和问题。Android Studio的Debug功能很好用，但是有时候有些情况下，就显得不是那么快捷和便利。 比如 我们调试的点在应用一打开的时候，很靠前，例如Application的onCreate方法中，以至于我们不能足够快的设置进程为debug模式 虽然上面的情况可以通过Android Studio的debug运行来解决，但是如果项目很大的话，运行起来也会比较耽误时间 那么怎么解决上面的问题呢，其实只需要执行一行命令即可 1adb shell am set-debug-app -w com.example.jishuxiaoheiwu.appdebugsample 其中 set-debug-app 用来应用为debug模式 -w 意思为wait，在进程启动的时候，等待debugger进行连接 com.example.jishuxiaoheiwu.appdebugsample 代表想要调试的应用的包名或ApplicationId 执行上面的命令，当我们再次启动目标应用时，会得到这样的画面 然后，我们就会有足够的时间，来使用Run—&gt; Attach Debugger to Android Process 来绑定进程debug。 绑定后对话框消失，下次启动就是正常的启动（没有上面的对话框了） 那么一次debug不一定能解决问题，多次调试则在所难免，那么每次都要执行这个命令么？ 答案是可以，但是有更好的方式。即 1adb shell am set-debug-app -w --persistent com.example.jishuxiaoheiwu.appdebugsample 上面的代码和之前有所不同，表现在一个—persistent —persitent意思是持久的，意思是一直设置这个应用为调试模式，即每次开启（进程创建）都会弹出对话框，即使卸载再安装或者更新应用 如果多次debug完成后，解决了问题，想要恢复正常的启动也很简单 1adb shell am clear-debug-app 这个调试的方法很简单，但是可能会节省我们很多的宝贵时间。希望可以帮助到各位开发同行。 另外，当你的开发中遇到效率问题时，你需要做出思考，发觉更快捷的工作方式，而不是为了调试Application中onCreate方法中的代码，每次都点击Android Studio的debug按钮。 转载:http://droidyue.com/blog/2017/05/14/a-little-but-useful-debug-skill_for_android/]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[不Root也可以app的/data/data/目录]]></title>
+    <url>%2F2018%2F02%2F07%2F%E4%B8%8DRoot%E4%B9%9F%E5%8F%AF%E4%BB%A5app%E7%9A%84-data-data-%E7%9B%AE%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[手机root后,执行adb shell然后执行su命令,就可以为所欲为,但是测试机不见得都可以root,这时候做一些操作,可以执行1run-as 需要查看内容的应用包名 这个命令查看,但是只能在debug下面才能使用,所以,只能看自己开发的app了…]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[彻底理解Handler机制]]></title>
+    <url>%2F2018%2F02%2F07%2F%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3Handler%E6%9C%BA%E5%88%B6%2F</url>
+    <content type="text"><![CDATA[###关键知识点 Handler MessageQueue ThreadLocal Loop ActivityThread #####先来看关键部分的代码,不关键的部分我删掉了 Handler 123456789101112public Handler() &#123; this(null, false);&#125;public Handler(Callback callback, boolean async) &#123; mLooper = Looper.myLooper(); if (mLooper == null) &#123; throw new RuntimeException( &quot;Can&apos;t create handler inside thread that has not called Looper.prepare()&quot;); &#125; mQueue = mLooper.mQueue;&#125; Looper 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647private Looper(boolean quitAllowed) &#123; mQueue = new MessageQueue(quitAllowed); mThread = Thread.currentThread();&#125;public static void prepare() &#123; prepare(true);&#125;private static void prepare(boolean quitAllowed) &#123; if (sThreadLocal.get() != null) &#123; throw new RuntimeException(&quot;Only one Looper may be created per thread&quot;); &#125; sThreadLocal.set(new Looper(quitAllowed));&#125;public static Looper myLooper() &#123; return sThreadLocal.get();&#125;public static void prepareMainLooper() &#123; prepare(false); synchronized (Looper.class) &#123; if (sMainLooper != null) &#123; throw new IllegalStateException(&quot;The main Looper has already been prepared.&quot;); &#125; sMainLooper = myLooper(); &#125;&#125;public static void loop() &#123; final Looper me = myLooper(); if (me == null) &#123; throw new RuntimeException(&quot;No Looper; Looper.prepare() wasn&apos;t called on this thread.&quot;); &#125; final MessageQueue queue = me.mQueue; for (;;) &#123; Message msg = queue.next(); // might block if (msg == null) &#123; // No message indicates that the message queue is quitting. return; &#125; msg.target.dispatchMessage(msg); msg.recycleUnchecked(); &#125;&#125; ActivityThread12345678910111213141516171819202122232425262728293031public static void main(String[] args) &#123; SamplingProfilerIntegration.start(); CloseGuard.setEnabled(false); Environment.initForCurrentUser(); // Set the reporter for event logging in libcore EventLogger.setReporter(new EventLoggingReporter()); Process.setArgV0(&quot;&lt;pre-initialized&gt;&quot;); Looper.prepareMainLooper();// 1、创建消息循环Looper ActivityThread thread = new ActivityThread(); thread.attach(false); if (sMainThreadHandler == null) &#123; sMainThreadHandler = thread.getHandler(); // UI线程的Handler &#125; AsyncTask.init(); if (false) &#123; Looper.myLooper().setMessageLogging(new LogPrinter(Log.DEBUG, &quot;ActivityThread&quot;)); &#125; Looper.loop(); // 2、执行消息循环 throw new RuntimeException(&quot;Main thread loop unexpectedly exited&quot;); &#125; 我们从下面的代码开始分析1234567891011121314151617181920 @Override protected void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); new Thread()&#123; @Override public void run() &#123; Looper.prepare(); Handler handler = new Handler(new Handler.Callback() &#123; @Override public boolean handleMessage(Message msg) &#123; Log.d(&quot;tag&quot;,&quot;已收到消息&quot;); return false; &#125; &#125;); handler.sendMessage(...); Looper.loop(); &#125; &#125;.start();&#125; ####1.Looper.prepare()在这个方法里,sThreadLocal.get()获取之前保存的当前线程的Looper,如果不存在就创建一个Looper然后保存到当前线程,关于ThreadLocal请谷歌张孝祥老师的多线程部分,有讲解ThreadLocal,在这里sThreadLocal能保证每个线程只有一个Looper ####2.Handler handler = new Handler这个方法,会创建一个Handler,在创建的时候会调用Looper.myLooper()方法,在Looper.myLooper()方法里会调用sThreadLocal.get()方法获取当前线程保存过的Looper,而我们在创建Handler之前调用了Looper.prepare(),所以这里不为空,如果没有调用Looper.prepare()这里就会抛出异常.在这个方法里会保存一份Looper里的MessageQueue引用 ####3.handler.sendMessage(…)看源码会发现,最终该方法会调用下面的代码1234567private boolean enqueueMessage(MessageQueue queue, Message msg, long uptimeMillis) &#123; msg.target = this; if (mAsynchronous) &#123; msg.setAsynchronous(true); &#125; return queue.enqueueMessage(msg, uptimeMillis);&#125; 其中queue是在Handler创建的时候,从Looper获取的Looper中的MessageQueue的引用,在enqueueMessage这个方法里,会把Message的target设置为自己,然后把这条Message放到queue里,后面的uptimeMillis参数会根据时间调整消息发送的顺序,这里不多讲,有兴趣可以自己研究一下 ####4.Looper.loop()这个方法的实现请看上面Looper类的源码,在这个方法里会有一个死循环一直从MessageQueue里获取Message,取到以后就调用Message所属的Handler的dispatchMessage方法 下面我用一张图总结一下上面onCreate方法里的调用流程 在我们平时写代码的时候,并不会去执行Looper的prepare方法和loop方法,这是因为系统帮我们做了这件事情,Android应用程序的入口为ActivityThread.main方法,在上面的ActivityThread.main方法里我们可以看到有调用Looper.prepareMainLooper()和Looper.loop()方法]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>handler</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[生成启动Activity的uri字符串]]></title>
+    <url>%2F2018%2F02%2F07%2F%E7%94%9F%E6%88%90%E5%90%AF%E5%8A%A8Activity%E7%9A%84uri%E5%AD%97%E7%AC%A6%E4%B8%B2%2F</url>
+    <content type="text"><![CDATA[1234567891011Intent intent = new Intent();intent.setClass(this, ReceivePushMessageActivity.class);intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);intent.putExtra(&quot;name&quot;, &quot;li&quot;);intent.putExtra(&quot;age&quot;, 18);String intentUri = intent.toUri(Intent.URI_INTENT_SCHEME);//复制到剪贴板ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);cmb.setText(intentUri);ToastFactory.showTextShortToast(this, &quot;已复制到剪贴板&quot;);]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>activity</tag>
+        <tag>Intent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[百度地图的MapView在Fragment中闪屏的解决办法]]></title>
+    <url>%2F2018%2F02%2F07%2F%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E7%9A%84MapView%E5%9C%A8Fragment%E4%B8%AD%E9%97%AA%E5%B1%8F%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[将MapView改为TextureMapView即可]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>地图</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[activity设置为不可见]]></title>
+    <url>%2F2018%2F02%2F07%2Factivity%E8%AE%BE%E7%BD%AE%E4%B8%BA%E4%B8%8D%E5%8F%AF%E8%A7%81%2F</url>
+    <content type="text"><![CDATA[android:theme=”@android:style/Theme.NoDisplay”]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>activity</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[android自定义权限可能出现的问题]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9D%83%E9%99%90%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[为了方便描述,这里先定义两个app的名字:调用方:A被调用方:BA调用B的Activity名字:AActivity被调用方的Activity名字:BActivity一个很可能出现的异常:1java.lang.SecurityException: Permission Denial: starting Intent &#123; act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=xxx/.xxx.BActivity &#125; from null (pid=3202, uid=2000) requires xxx.permission 在B的manifest.xml的manifest标签里定义自定义权限(signature代表同样签名的app才可以调用)12345&lt;permission android:name=&quot;xxx.permission&quot; android:label=&quot;权限描述&quot; android:permissionGroup=&quot;权限组名,随便写&quot; android:protectionLevel=&quot;signature&quot;/&gt; 还需要在B的manifest.xml里写上类似下面的代码,注意最好添加android:exported=”true”,虽然如果intent-filter下面有action会默认android:exported为true,但是最好还是写上,因为即使有action也可以将android:exported设置为false的(例如这里叫BActivity)(如果需要隐藏这个app的图标,就添加类似下面的data属性)1234567891011&lt;activity android:name=&quot;.BActivity&quot; android:exported=&quot;true&quot;&gt; &lt;intent-filter&gt; &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt; &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt; &lt;data android:host=&quot;随便写&quot; android:scheme=&quot;随便写&quot; /&gt; &lt;/intent-filter&gt;&lt;/activity&gt; 然后在A的manifest.xml的manifest标签里写上,否则如果先安装A再安装B会出现上面说的授权错误1&lt;uses-permission android:name=&quot;xxx.permission&quot;/&gt;]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>权限</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Activity常用的4种载入方式]]></title>
+    <url>%2F2018%2F02%2F07%2FActivity%E5%B8%B8%E7%94%A8%E7%9A%844%E7%A7%8D%E8%BD%BD%E5%85%A5%E6%96%B9%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[#一:xml配置 ###1.android:launchMode=”standard”这是默认的方式,每次启动一个Activity都会重新创建一个新的实例,不管这个实例是否已经存在.在这种模式下,谁启动了这个Activity,那么这个Activity就运行在启动它的那个Activity所在的栈中当我们用ApplicationContext去启动standard模式的Activity的时候会报错,因为standard模式的Activity默认会进入启动它的Activity所属的任务栈中,但是由于非Activity类型的Context(如ApplicationContext)并没有所谓的任务栈,所以这就有问题了.解决这个问题的方法是为待启动的Activity指定FLAG_ACTIVITY_NEW_TASK标记位,这样启动的时候就会为它创建一个新的任务栈 ###2.android:launchMode=”singleTop”栈顶复用模式,在这种模式下,如果新Activity已经位于任务栈的栈顶,那么此Activity不会被重新创建,同时它的onNewIntent方法会被回调,调用此方法的参数我们可以取出当前请求的信息.需要注意的是,这个Activity的onCreate,onStart不会被系统调用,因为它并没有发生改变.如果新Activity的实例已存在但不是位于栈顶,那么新Activity仍然会重新创建 ###3.android:launchMode=”singleTask”栈内复用模式,这是一种单实例模式,在这种模式下,只要Activity在一个栈中存在,那么多次启动此Activity都不会重新创建实例,和singleTop一样,系统也会回调其onNewIntent.如果被启动的Activity不在栈顶,那么就会把它上面的Activity出栈 ###4.android:launchMode=”singleInstance”加强的栈内复用模式,它除了具有singleTask模式的所有特性外,还加强了一点,那就是具有此种模式的Activity只能单独的位于一个任务栈中,换句话说,比如Activity A是singleInstance模式,当A启动后,系统会为它创建一个新的任务栈,然后A独自在这个新的任务栈中,由于栈内复用的特性,后续的请求均不会创建新的Activity,除非这个独特的任务栈被系统销毁了 #二.设置Intent的Flag标志 ###1.FLAG_ACTIVITY_NEW_TASK如果当前app还没有任务栈会创建一个任务栈然后把Activity放进去如果已经有了就用已存在的任务栈如果启动Activity的Context没有任务栈并且没有指定此标记位会报错,例如用ApplicationContext启动Activity ###2.FLAG_ACTIVITY_CLEAR_TOP或者FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP和singleTask效果是一样的 设被启动的Activity的名字为A: 当A已存在栈中的时候 1.当A的启动模式是standard的时候,A和它之上的Activity都会出栈然后创建新的A并放入栈中 2.当A的启动模式是其它3种的时候(singleTask,singleInstance,singleTop),A之上的Activity都会出栈然后调用已存在的A的onNewIntent方法 当A不存在栈中的时候用FLAG_ACTIVITY_NEW_TASK |FLAG_ACTIVITY_CLEAR_TOP会创建一个A,如果不加FLAG_ACTIVITY_NEW_TASK会报错 ###3.FLAG_ACTIVITY_SIGNLE_TOP和singleTop效果是一样的 ###4.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS具有这个标记的Activity不会出现在历史Activity的列表中,当某些情况下我们不希望用户通过历史列表回到我们的Activity的时候这个标记比较有用.它等同于在XML中指定Activity的属性android:excludeFromRecents=”true”]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>activity</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[微信支付中的坑及解决办法]]></title>
+    <url>%2F2018%2F02%2F07%2F%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E4%B8%AD%E7%9A%84%E5%9D%91%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[这几天做微信支付遇到很多坑,官方的demo跑不起来,首先这个demo隐藏的很深…很难找到那个支付的demo,而且你找到以后还有错误,因为代码里引入的包都是sdk什么什么,但是他自己带的jar包实际的包名是opensdk什么什么,你改过来之后就算运行起来也调不起微信,因为这个demo里的url已经无法访问了…然后网上查资料,用网上的各种办法终于解决了,现在总结一下,你用我的办法肯定能解决微信支付的问题 #####坑1:调不起微信首先,你要保证服务器返回的参数都正确,如果参数不正确的话肯定调用不起来,这里假设参数是正确的.支付的appid可以在客户端保存也可以在服务器返回,这里我用服务器返回的做示例,步骤如下:1.调用支付的Activity中,实例化IWXAPI12345678910111213141516171819202122232425262728public class MainActivity extends Activity &#123; private IWXAPI api; @Override protected void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); //在这里可以不传AppId传null就可以 api = WXAPIFactory.createWXAPI(this, null); &#125; //payParamResponse是我封装的服务器返回的参数 private void startPay(PayParamResponse payParamResponse)&#123; PayReq req = new PayReq(); req.appId = payParamResponse.getAppid(); req.nonceStr = payParamResponse.getNoncestr(); req.packageValue = &quot;Sign=WXPay&quot;; req.partnerId = payParamResponse.getPartnerid(); req.prepayId = payParamResponse.getPrepayid(); req.timeStamp = payParamResponse.getTimestamp(); req.sign = payParamResponse.getSign(); //在sendReq方法发起支付之前需要注册你的AppId api.registerApp(payParamResponse.getAppid()); api.sendReq(req); &#125; &#125; 2.从服务器获取到支付参数后调用startPay即可调起微信来支付 #####坑2:找不到WXPayEntryActivity类因为现在都是用android studio开发了,而且大部分都用到了多渠道打包,所以你们是不是遇到了回调找不到WXPayEntryActivity类的bug?不得不说微信支付sdk太傻比,这里有这几种情况假设manifest的package为A,build.gradle的applicationId为B 1:WXPayEntryActivity的activity:name的包名为”.wxapi.WXPayEntryActivity”(注意最前面有个”.”)2:WXPayEntryActivity的activity:name的包名为”A.wxapi.WXPayEntryActivity”(这次是”A.”)3:WXPayEntryActivity的activity:name的包名为”B.wxapi.WXPayEntryActivity”(这次是”B.”)(建议写为”${applicationId}.wxapi.WXPayEntryActivity”) 第一种情况下还有2种情况:(.wxapi.WXPayEntryActivity)1.A为微信平台注册的包名,这时候支付后(不管成功与否),可以跳转到WXPayEntryActivity页面1.B为微信平台注册的包名,这时候支付后(不管成功与否),只会回到支付前的页面,无法跳转到WXPayEntryActivity页面(反编译apk会发现WXPayEntryActivity的路径为A.wxapi.WXPayEntryActivity,而A并不是微信平台注册的包名) 第二种情况下也是还有2种情况:(A.wxapi.WXPayEntryActivity)1.A为微信平台注册的包名,这时候支付后(不管成功与否),可以跳转到WXPayEntryActivity页面1.B为微信平台注册的包名,这时候支付后(不管成功与否),只会回到支付前的页面,无法跳转到WXPayEntryActivity页面(因为这时候WXPayEntryActivity的路径为A.wxapi.WXPayEntryActivity,而A并不是微信平台注册的包名) 第三种情况下也是还有2种情况:(B.wxapi.WXPayEntryActivity)1.A为微信平台注册的包名,这时候支付后(不管成功与否),无法跳转到WXPayEntryActivity页面(因为这时候WXPayEntryActivity的路径为B.wxapi.WXPayEntryActivity,而B并不是微信平台注册的包名)1.B为微信平台注册的包名,这时候支付后(不管成功与否),可以跳转到WXPayEntryActivity页面 上面说的比较详细,其实我估计微信是通过你的AppId能在微信平台查到你的包名,然后startActivity的时候传递的是”包名.wxapi.WXPayEntryActivity”,如果路径错了他就查不到这个类所以就跳转失败 #####所以现在我的解决办法是,有几个productFlavors(我的每个productFlavors都有一个applicationId),就对应建立applicationId.wxapi包名的文件夹然后放入WXPayEntryActivity,建议可以写个类去实现IWXAPIEventHandler接口,比如这个实现IWXAPIEventHandler接口的类名叫AClass,然后你的几个wxapi包下建立WXPayEntryActivity继承AClass就可以了,AClass的实现直接拷贝之前的WXPayEntryActivity里面的代码就行,继承AClass的子类里面不需要任何代码 #####然后我再贴一下WXPayEntryActivity类123456789101112131415161718192021222324252627282930313233343536373839404142434445464748public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler &#123; private static final String TAG = &quot;MicroMsg.SDKSample.WXPayEntryActivity&quot;; private IWXAPI api; @Override public void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.pay_result); api = WXAPIFactory.createWXAPI(this, null); //这里可以不注册appId api.handleIntent(getIntent(), this); &#125; @Override protected void onNewIntent(Intent intent) &#123; super.onNewIntent(intent); setIntent(intent); api.handleIntent(intent, this); &#125; @Override public void onReq(BaseReq req) &#123; Log.e(&quot;onReq:&quot;, &quot;req=&quot; + req); &#125; @Override public void onResp(final BaseResp resp) &#123; Log.d(&quot;resp:&quot;, &quot;code=&quot; + resp.errCode + &quot;,str=&quot; + resp.errStr); if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) &#123; switch (resp.errCode) &#123; case 0: &#123; Toast.makeText(WXPayEntryActivity.this, &quot;支付成功&quot;, Toast.LENGTH_SHORT).show(); break; &#125; case -1: &#123; Toast.makeText(WXPayEntryActivity.this, &quot;发生错误\t可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。&quot;, Toast.LENGTH_SHORT).show(); break; &#125; case -2: &#123; Toast.makeText(WXPayEntryActivity.this, &quot;用户取消支付&quot;, Toast.LENGTH_SHORT).show(); break; &#125; &#125; &#125; &#125;&#125;]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>支付</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android 自定义 DialogFragment 宽度问题]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid-%E8%87%AA%E5%AE%9A%E4%B9%89-DialogFragment-%E5%AE%BD%E5%BA%A6%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[转载:http://blog.csdn.net/zhyh1986/article/details/48655885]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>fragment</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[360插件框架RePlugin的坑]]></title>
+    <url>%2F2018%2F02%2F07%2F360%E6%8F%92%E4%BB%B6%E6%A1%86%E6%9E%B6RePlugin%E7%9A%84%E5%9D%91%2F</url>
+    <content type="text"><![CDATA[6月30号360新开源了一个插件开发框架RePlugin,然而文档不全,根据360的文档你做出来的项目一编译就是一大堆错误,因为很多需要配置的东西在360的插件开发文档里根本就没有,我在这里记录一下给需要的人 ####1.https://github.com/Qihoo360/RePlugin/wiki/主程序接入指南在这里的第一步 [添加 RePlugin Host Gradle 依赖]之前还有一步,文档并没有写,就是在项目根目录的 build.gradle中的buildscript和allprojects的下面添加123maven &#123; url &quot;https://dl.bintray.com/qihoo360/replugin&quot;&#125; 否则框架所需要的资源根本找不到,完整配置类似如下代码: 12345678910111213141516171819202122232425buildscript &#123; repositories &#123; jcenter() maven &#123; url &quot;https://dl.bintray.com/qihoo360/replugin&quot; &#125; &#125; dependencies &#123; classpath &apos;com.android.tools.build:gradle:2.1.3&apos; classpath &apos;com.qihoo360.replugin:replugin-host-gradle:2.1.0&apos; &#125;&#125;allprojects &#123; repositories &#123; jcenter() maven &#123; url &quot;https://dl.bintray.com/qihoo360/replugin&quot; &#125; &#125;&#125;task clean(type: Delete) &#123; delete rootProject.buildDir&#125; ####2.还是在https://github.com/Qihoo360/RePlugin/wiki/主程序接入指南 还有一步也没有写,必须在你的宿主Module的assets下面增加plugins文件夹,即使里面没有插件文件也要创建该文件夹,否则会出现以下错误12Error:Execution failed for task &apos;:app:processDebugResources&apos;.&gt; /Users/xxx/Documents/WorkSpace/WorkSpaceAndroid/TestRePlugin/app/src/main/assets/plugins 添加了这个文件夹后编译会自动出现plugins-builtin.json文件 ####3.LocalBroadcastManager类找不到的错误你的程序需要添加v4包,因为插件框架内部使用到了v4包的LocalBroadcastManager类 ####4.Failed to apply plugin [id ‘replugin-plugin-gradle’]在https://github.com/Qihoo360/RePlugin/wiki/插件接入指南 这里需要注意这几个地方: ######4.1.1 gradle版本必须是gradle-2.14.1-all,如果编译出现下图这样的错误那么你需要修改你的工程中的gradle-&gt;warpper-&gt;gradle-wrapper.properties文件的distributionUrl为https\://services.gradle.org/distributions/gradle-2.14.1-all.zip比如下面这样的配置123456#Sun Jul 02 15:33:02 CST 2017distributionBase=GRADLE_USER_HOMEdistributionPath=wrapper/distszipStoreBase=GRADLE_USER_HOMEzipStorePath=wrapper/distsdistributionUrl=https\://services.gradle.org/distributions/gradle-2.14.1-all.zip ######4.1.2 apply plugin: ‘replugin-plugin-gradle’这句话要放在build.gradle文件的末尾处例如下面这样 1234567891011121314151617181920212223242526apply plugin: &apos;com.android.application&apos;android &#123; compileSdkVersion 25 buildToolsVersion &quot;26.0.0&quot; defaultConfig &#123; applicationId &quot;com.test.replugin.plugin&quot; minSdkVersion 15 targetSdkVersion 25 versionCode 1 versionName &quot;1.0&quot; testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot; &#125; buildTypes &#123; release &#123; minifyEnabled false proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos; &#125; &#125;&#125;dependencies &#123; compile &apos;com.android.support:support-v4:25.3.0&apos; compile &apos;com.qihoo360.replugin:replugin-plugin-lib:2.1.0&apos;&#125;apply plugin: &apos;replugin-plugin-gradle&apos; 参考问题:https://github.com/Qihoo360/RePlugin/issues/53 #####4.2 在https://github.com/Qihoo360/RePlugin/issues/43 这个问题中,作者说宿主和插件不能在同一个工程,否则编译不通过,会报上面的Failed to apply plugin [id ‘replugin-plugin-gradle’]错误,即使你的gradle配置全部正确也无法通过编译,本人测试发现确实是这样的,作者建议将插件和宿主放到同一个工程目录下（本质上仍然是两个工程），这样只需打开一个根目录，就能打开主程序 + 插件工程了。]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>第三方框架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Retrofit2的一些坑]]></title>
+    <url>%2F2018%2F02%2F07%2FRetrofit2%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91%2F</url>
+    <content type="text"><![CDATA[现在都在说Retrofit2和RxJava2,作为一个程序猿自然不能落伍,然后就试用了一下,遇到一些坑,在这里记录一下 #####1.closed```12和```Caused by: java.lang.IllegalStateException: closed 这两个异常今天研究了好几个小时… 网上都是说Response.body().string()方法不能调用2次,但是在我的代码里这个方法并没有调用2次,一个Response的ResponseBody属性我只调用了1次string()方法,后来终于发现,在我的判断里有不同的流程,其中一个流程就没有问题,然后发现流程A的Response我直接return了,但是流程B的Response我调用了它的body().string()方法,我判断了里面的返回结果字符串,发现如果没有错误就把这个流程B的Response对象return了,但是!!! 因为我return的这个Response已经被我调用过body().string()方法了,Retrofit2把结果返回上层应用的时候,在convert的时候(因为retrofit调用了addConverterFactory方法)就出错了,因为这个Response的ResponseBody属性已经close了,所以在返回的时候,需要一个新的Response,并设置其中的body为新的body,代码如下:1234Response response = chain.proceed(newRequest);//执行新请求String responseString = response.body().string();//对responseString...执行一些判断之类的操作return response.newBuilder().body(ResponseBody.create(response.body().contentType(), responseString)).build(); ###注意: 1.上面的这个问题,如果你添加了自己的log拦截器,在你的log拦截器里如果调用了Response的body属性的string()方法,那么返回的response对象你也要这么处理,否则在其他类里时候的时候,虽然response不是一个对象,但是里面的body是同一个对象(不信的可以debug查看log拦截器里面你返回的response的body属性内存地址和其他拦截器里同请求的这个response的body属性的内存地址),然后其他类调用response.body().string()的时候会报close错误,所以只要用到了response.body().string()方法,在返回这个response的时候就要像上面那样返回才可以避免close问题 2.如果不是string()方法,你用的是response.body().bytes()方法再转字符串是一样的,在方法内部都close了,所以仍然需要像上面那样处理 #####2.by: java.lang.IllegalStateException: network interceptor xxx must call proceed() exactly once```12和```io.reactivex.exceptions.OnErrorNotImplementedException: network interceptor xxx must call proceed() exactly once 这是因为你的OkHttpClient.Builder调用的addNetworkInterceptor方法添加的拦截器,这种方式添加的拦截器里面的Chain只能调用一次proceed方法,如果想调用多次,你的拦截器就要用addInterceptor方法添加,就没问题了]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>第三方框架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[method ID not in [0, 0xffff]: 65536解决办法]]></title>
+    <url>%2F2018%2F02%2F07%2Fmethod-ID-not-in-0-0xffff-65536%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[###配置方法数超过 64K 的应用随着 Android 平台的持续成长，Android 应用的大小也在增加。当您的应用及其引用的库达到特定大小时，您会遇到构建错误，指明您的应用已达到 Android 应用构建架构的极限。早期版本的构建系统按如下方式报告这一错误：12Conversion to Dalvik format failed:Unable to execute dex: method ID not in [0, 0xffff]: 65536 较新版本的 Android 构建系统虽然显示的错误不同，但指示的是同一问题：123trouble writing output:Too many field references: 131000; max is 65536.You may try using --multi-dex option. 这些错误状况都会显示下面这个数字：65,536。这个数字很重要，因为它代表的是单个 Dalvik Executable (DEX) 字节码文件内的代码可调用的引用总数。本页介绍如何通过启用被称为 Dalvik 可执行文件分包的应用配置来越过这一限制，使您的应用能够构建并读取 Dalvik 可执行文件分包 DEX 文件。 ###关于 64K 引用限制Android 应用 (APK) 文件包含 Dalvik Executable (DEX) 文件形式的可执行字节码文件，其中包含用来运行您的应用的已编译代码。Dalvik Executable 规范将可在单个 DEX 文件内可引用的方法总数限制在 65,536，其中包括 Android 框架方法、库方法以及您自己代码中的方法。在计算机科学领域内，术语千（简称 K）表示 1024（或 2^10）。由于 65,536 等于 64 X 1024，因此这一限制也称为“64K 引用限制”。 ###Android 5.0 之前版本的 Dalvik 可执行文件分包支持Android 5.0（API 级别 21）之前的平台版本使用 Dalvik 运行时来执行应用代码。默认情况下，Dalvik 限制应用的每个 APK 只能使用单个 classes.dex字节码文件。要想绕过这一限制，您可以使用 Dalvik 可执行文件分包支持库，它会成为您的应用主要 DEX 文件的一部分，然后管理对其他 DEX 文件及其所包含代码的访问。 注：如果您的项目配置时所面向的 Dalvik 可执行文件分包使用的是 minSdkVersion 20或更低版本，并且您将其部署到运行 Android 4.4（API 级别 20）或更低版本的目标设备上，则 Android Studio 会停用 Instant Run。 ###Android 5.0 及更高版本的 Dalvik 可执行文件分包支持Android 5.0（API 级别 21）及更高版本使用名为 ART 的运行时，后者原生支持从 APK 文件加载多个 DEX 文件。ART 在应用安装时执行预编译，扫描 classesN.dex 文件，并将它们编译成单个 .oat 文件，供 Android 设备执行。因此，如果您的 minSdkVersion 为 21 或更高值，则不需要 Dalvik 可执行文件分包支持库。如需了解有关 Android 5.0 运行时的详细信息，请参阅 ART 和 Dalvik。 注：如果将应用的 minSdkVersion 设置为 21 或更高值，使用 Instant Run 时，Android Studio 会自动将应用配置为进行 Dalvik 可执行文件分包。由于 Instant Run 仅适用于调试版本的应用，您仍需配置发布构建进行 Dalvik 可执行文件分包，以规避 64K 限制。 ###规避 64K 限制在将您的应用配置为支持使用 64K 或更多方法引用之前，您应该采取措施减少应用代码调用的引用总数，包括由您的应用代码或包含的库定义的方法。下列策略可帮助您避免达到 DEX 引用限制：检查您的应用的直接和传递依赖项 - 确保您在应用中使用任何庞大依赖库所带来的好处大于为应用添加大量代码所带来的弊端。一种常见的反面模式是，仅仅为了使用几个实用方法就在应用中加入非常庞大的库。减少您的应用代码依赖项往往能够帮助您规避 dex 引用限制。通过 ProGuard 移除未使用的代码 - 为您的版本构建启用代码压缩以运行 ProGuard。启用压缩可确保您交付的 APK 不含有未使用的代码。 使用这些技巧使您不必在应用中启用 Dalvik 可执行文件分包，同时还会减小 APK 的总体大小。 ###配置您的应用进行 Dalvik 可执行文件分包将您的应用项目设置为使用 Dalvik 可执行文件分包配置需要对您的应用项目进行以下修改，具体取决于应用支持的最低 Android 版本。 如果您的 minSdkVersion 设置为 21 或更高值，您只需在模块级 build.gradle 文件中将 multiDexEnabled 设置为 true，如此处所示： 123456789android &#123; defaultConfig &#123; ... minSdkVersion 21 targetSdkVersion 25 multiDexEnabled true &#125; ...&#125; 但是，如果您的 minSdkVersion 设置为 20 或更低值，则您必须按如下方式使用 Dalvik 可执行文件分包支持库：修改模块级 build.gradle 文件以启用 Dalvik 可执行文件分包，并将 Dalvik 可执行文件分包库添加为依赖项，如此处所示：12345678910111213android &#123; defaultConfig &#123; ... minSdkVersion 15 targetSdkVersion 25 multiDexEnabled true &#125; ...&#125;dependencies &#123; compile &apos;com.android.support:multidex:1.0.1&apos;&#125; 根据是否要替换 Application 类，执行以下操作之一：如果您没有替换 Application 类，请编辑清单文件，按如下方式设置 标记中的 android:name：12345678&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; package=&quot;com.example.myapp&quot;&gt; &lt;application android:name=&quot;android.support.multidex.MultiDexApplication&quot; &gt; ... &lt;/application&gt;&lt;/manifest&gt; 如果您替换了 Application 类，请按如下方式对其进行更改以扩展 MultiDexApplication（如果可能）：1public class MyApplication extends MultiDexApplication &#123; ... &#125; 或者，如果您替换了 Application 类，但无法更改基本类，则可以改为替换 attachBaseContext() ) 方法并调用 MultiDex.install(this) ) 来启用 Dalvik 可执行文件分包：1234567public class MyApplication extends SomeOtherApplication &#123; @Override protected void attachBaseContext(Context base) &#123; super.attachBaseContext(context); Multidex.install(this); &#125;&#125; 构建应用后，Android 构建工具会根据需要构建主 DEX 文件 (classes.dex) 和辅助 DEX 文件（classes2.dex 和 classes3.dex 等）。然后，构建系统会将所有 DEX 文件打包到您的 APK 中。 运行时，Dalvik 可执行文件分包 API 使用特殊的类加载器来搜索适用于您的方法的所有 DEX 文件（而不是仅在主 classes.dex 文件中搜索）。 原文:https://developer.android.com/studio/build/multidex.html#keep]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>异常</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[android中判断服务或者进程是否存在]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid%E4%B8%AD%E5%88%A4%E6%96%AD%E6%9C%8D%E5%8A%A1%E6%88%96%E8%80%85%E8%BF%9B%E7%A8%8B%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%2F</url>
+    <content type="text"><![CDATA[1.判断进程是否存在1234567891011121314151617/** * 判断是否在主进程,这个方法判断进程名或者pid都可以,如果进程名一样那pid肯定也一样 * * @return true:当前进程是主进程 false:当前进程不是主进程 */public boolean isUIProcess() &#123; ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE)); List&lt;ActivityManager.RunningAppProcessInfo&gt; processInfos = am.getRunningAppProcesses(); String mainProcessName = getPackageName(); int myPid = android.os.Process.myPid(); for (ActivityManager.RunningAppProcessInfo info : processInfos) &#123; if (info.pid == myPid &amp;&amp; mainProcessName.equals(info.processName)) &#123; return true; &#125; &#125; return false;&#125; 2.判断服务是否存在1234567891011121314151617181920/** * 判断service是否已经运行 * 必须判断uid,因为可能有重名的Service,所以要找自己程序的Service,不同进程只要是同一个程序就是同一个uid,个人理解android系统中一个程序就是一个用户 * 用pid替换uid进行判断强烈不建议,因为如果是远程Service的话,主进程的pid和远程Service的pid不是一个值,在主进程调用该方法会导致Service即使已经运行也会认为没有运行 * 如果Service和主进程是一个进程的话,用pid不会出错,但是这种方法强烈不建议,如果你后来把Service改成了远程Service,这时候判断就出错了 * * @param className Service的全名,例如PushService.class.getName() * @return true:Service已运行 false:Service未运行 */public boolean isServiceExisted(String className) &#123; ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE); List&lt;ActivityManager.RunningServiceInfo&gt; serviceList = am.getRunningServices(Integer.MAX_VALUE); int myUid = android.os.Process.myUid(); for (ActivityManager.RunningServiceInfo runningServiceInfo : serviceList) &#123; if (runningServiceInfo.uid == myUid &amp;&amp; runningServiceInfo.service.getClassName().equals(className)) &#123; return true; &#125; &#125; return false;&#125; #注意:上面判断Service是否存在,用的uid和Service的类全名,网上我查到的资料,全部是用的pid,在Service和主进程是一个进程的时候,pid没有问题,但是如果Service是远程Service,和主进程就不是一个进程了,这时候用pid和Service的类全名进行判断就会判断错误]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>API</tag>
+        <tag>Service</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[GridLayout子控件超出屏幕的解决办法]]></title>
+    <url>%2F2018%2F02%2F07%2FGridLayout%E5%AD%90%E6%8E%A7%E4%BB%B6%E8%B6%85%E5%87%BA%E5%B1%8F%E5%B9%95%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[GridLayout的具体使用方法不赘述,这里主要解决子控件超出屏幕的解决办法,在项目用使用GridLayout的时候,发现EditText超出屏幕,解决办法是这一列的EditText都加上下面的属性,如果这一列某一个没有加上下面的属性,那么这一列所有的EditText仍然超出屏幕12android:layout_width=&quot;wrap_content&quot;android:layout_gravity=&quot;fill_horizontal&quot; 加上这个属性,就可以充满屏幕而不是超出屏幕了例如:12345678910111213141516171819202122&lt;GridLayout android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:columnCount=&quot;2&quot;&gt; &lt;TextView android:layout_gravity=&quot;right&quot; android:layout_marginRight=&quot;10dp&quot; android:text=&quot;标题1:&quot;/&gt; &lt;EditText android:layout_width=&quot;wrap_content&quot; android:layout_gravity=&quot;fill_horizontal&quot;/&gt; &lt;TextView android:layout_gravity=&quot;right&quot; android:layout_marginRight=&quot;10dp&quot; android:text=&quot;标题2:&quot;/&gt; &lt;EditText android:layout_width=&quot;wrap_content&quot; android:layout_gravity=&quot;fill_horizontal&quot;/&gt; &lt;/GridLayout&gt;]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>View</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android后台保活实践总结：即时通讯应用无法根治的“顽疾”]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E5%90%8E%E5%8F%B0%E4%BF%9D%E6%B4%BB%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93%EF%BC%9A%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF%E5%BA%94%E7%94%A8%E6%97%A0%E6%B3%95%E6%A0%B9%E6%B2%BB%E7%9A%84%E2%80%9C%E9%A1%BD%E7%96%BE%E2%80%9D%2F</url>
+    <content type="text"><![CDATA[前言 Android进程和Service的保活，是困扰Android开发人员的一大顽疾。因涉及到省电和内存管理策略，各厂商基于自家的理解，在自已ROOM发布于都对标准Android发行版作为或多或少的改动，使得应用层程序在处理进程和Service保活问题上变的异常复杂，且很难兼容，因为说不定哪款手机或者哪个版本的省电策略发生改变，那么随之而来的就是进程和Service保活的差异。 在应用场景上，由于即时通讯应用（包括IM聊天应用、消息推送服务等）为了保证消息的全时、实时送达能力，必须要实现进程或Service的保活。而就这一看似不起眼的问题，实际处理起来，因为众多Android手机和Android系统版本的差异，让问题的处理充满了不确定性。 本文基于作者的实践以及相关资料的整理，总结了自已对Android进程和Service保活的理解，希望能为你的应用开发带来启发。 概述 近期做了一个Android项目，涉及到了后台进程和Service保活的问题，网上找了很多资料，基本的保活方法都测试了。结果是：不同的手机，不同的Android版本保活效果各有差异。最难绕过的是个厂商对“后台程序保活”管理。 本文主要把相应的实践结果和保活方法进行总结。然而，因笔者可用的测试真机有限，可能存有不完整的地方，还请及时提出指正并补充，大家共同进步。 手机QQ、微信这样的大型IM是如何解决保活问题的？ 以小米手机为例，MIUI的神隐模式让很多IM和推送开发同行纠结不已：在MIUI深度休眠之后,默认会彻底断开后台应用的socket。但微信、QQ这样的应用，MIUI官方的帖子说了:给这2个应用特殊照顾。好吧，特殊照顾，普通的APP只能继续折腾了。（关于MIUI的神隐模式的讨论，见此贴的回复：http://www.52im.net/thread-354-1-1.html） 本文实践涉及到的真机型号和版本 手机：三星9100-4.1.2，三星9300-4.3，华为G730-4.1.2，华为TL00H-EMUI3.1(android 5.1.1)，魅族MX4-Flyme4.2.8.2c(android 4.4.2)。 手头能用的测试机就这些了。主要测试的service是一个最基本的service，在相应的生命周期的触发函数上做了输出。测试时都没有添加到后台保护中，注：三星的机子没找到有后台保护设置的地方。 为什么我们的后台进程/Service会被结束掉？ 我想到的是有三个方面： Android系统内存回收机制； 各厂商对后台程序的一个管理制度（就是允许程序后台运行那个）； 第三方软件的清理(360什么的)。 其中有的后台程序保护把程序结束的同时会把程序弄成停止状态，导致无法接收广播！ 我们的保活方案有哪些？ #####1.控制onStartCommand函数的返回值：我对这个函数的理解是：当服务被异常终止时，是否重启服务?有些文章里面在用这个做保活时，修改的是flag，在我实际测试中是无效。有效的做法是直接返回参数。另外默认的flags值为0，是START_STICKY_COMPATIBILITY。 ######具体代码如下：123456@OverridepublicintonStartCommand(Intent intent,intflags,intstartId) &#123; // TODO Auto-generated method stub return START_STICKY; //return super.onStartCommand(intent, flags, startId);&#125; ######测试结果：魅族的机子无效，不管默认还是修改参数，在DDMS里面直接结束进程后都不会重启服务。其它三台机子（9100没测）：默认参数的情况下就会重启服务，return START_STICKY 会重启，return START_NOT_STICKY 不会重启。 另外：用360一键清理，或者360超级ROOT的手机优化，会杀死进程，过会儿还是会重启，只是会慢很多，大概是在排队重启服务。 #####2.在service 的onDestory里面重启服务：这个在所有能触发onDestory的情况下都是有效的。4台测试机都测试过。直接startService 或者发送广播重启都可以 。 但能触发onDestory的情况，我不知道内存回收会不会触发。另外两种情况（2，3）是不触发的。我的测试方法是在“设置”-&gt; 应用管理-&gt; 正在运行-&gt; 停止服务。（这个是正常停止服务，会触发onDestory，所以上面的onStartCommand效果不会触发。） #####3.提高服务的优先级：这个主要是针对第一种kill服务的情况，内存回收机制。由于这个测试比较难搭建。360清理什么把后台的进程都杀的，体现不出优先级这样的概念。我的建议是能提高就提高，下面几个实验。 ######[1] 前台service：创建一个通知使自己成为前台service测试结果：360一键清理和手机优化，不会把该service结束掉。 ######[2] 对于后台保护：华为G730不结束service，魅族和华为TL00H都会结束service。通知栏的保活效果还是可以的，一般的应用要求基本能满足了。 ######[3] 若有root权限：android:persistent=”true”,并放入system/app中测试结果：效果一般，三星9100上用360等清理工具杀不掉进程，在华为G730上没什么效果.（这个测试跟onStartCommand有点干扰）。 #####4.守护进程：双服务：360会同时杀掉两个服务，分两个apk也一样。native守护进程：360不会杀掉native的守护进程，但在魅族和华为TL00H中待机一段时间后还是会被杀掉。 结论和待续： 一般的应用添加到后台保护进程后，改个onStartCommand返回值，再加个通知。基本上大部分都能保活了。 双服务我觉得没有native守护进程来的好，虽然360，微信什么的都有几个进程服务，但如果不添加到后台保活的话，效果一样不能保活，也会进入停止状态。 但是.360手机助手会创建双natice守护进程做相互的看守。存活的效果会高一点点。“没添加到后台保活”一般只会杀一次，（魅族是屏幕关闭后5分钟，华为TL00H是屏幕关闭时）。 附个native守护进程：利用socket来判断服务是否存在，需要在被保活的服务里创建一个监听socket。调试信息会在SD卡目录下创建一个daemon.log。使用方法：NDKFork port包名/.服务名。具体下载链接：http://download.csdn.net/detail/pvlking/9412815 Android应用实现保活的基本原理总结 都是通过双进程互拉以及设置进程的重要性，除非你root后，把自己的进程设置成系统进程。 互拉的方式有很多种： 可以通过监听系统广播来把自己拉起来 可以多个app相互拉 可以把自己的服务搞成前台服务 在service的onstart方法里返回 STATR_STICK 添加Manifest文件属性值为android:persistent=“true” 覆写Service的onDestroy方法 服务互相绑定 设置闹钟，定时唤醒 自己的app在native层fork一个子进程来与主进程互拉。 综上所述，总结下来就是，目前实现Android后台保活没有完美实现，只能针对不同的机型综合使用上面列举的方法，同时祈祷自已APP的用户不要遇到奇葩机型的保活问题。 推荐一个开源的解决方案 源码托管地址源码托管地址是：https://github.com/52im/MarsDaemon。 实现原理原理： 使用Jni,在 c端 fork进程，检测Service是否存活，若Service已被杀死，则进行重启Service. 至于检测方式，可以轮询获取子进程Pid,若为1, 则说明子进程被Init进程所领养,已经成为了孤儿进程. 但是这种方式比较消耗电量，并且由于不同手机系统定制的改变，当应用被强制停止时，父进程并不一定被真正杀死，因此在一些特定机型上是无法通过此方式进行判断. 这里推荐使用liunx socket的方式进行类似心跳包的检测，并且当触发检测Service是否被杀死之前，需要判断应用是否已经被卸载，如果应用已经被卸载，则不再进行检测Service行为，直接调用exit(0)退出子进程，避免浪费系统资源和消耗电量. 注意: 目前在Android 5.0系统上会把fork出来的进程放到一个进程组里， 当程序主进程挂掉后，也会把整个进程组杀掉,因此用fork的方式也无法在Android5.0及以上系统实现守护进程. 这个是系统层面的限制，当然也是为了优化整个的系统环境,守护进程给手机带来的体验并不好 具体见源码： http://androidxref.com/5.0.0_r2/ … /ProcessRecord.java 好消息：Android5.0 以上目前已在 https://github.com/52im/MarsDaemon 中被黑科技攻克，部分机型可能无法起到作用，但思路很值得借鉴，代码结构也不错, 具体方案请见源码哦。 原文:http://www.52im.net/thread-429-1-1.html因为原文已经无法打开,所以将内容复制到了这里 在android5.0及以上,谷歌出了一个JobService,经测试可以在原生系统里定时执行任务,所以在三星这种机器上,可以用JobService拉起自己的Service]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Android 技巧 —— Debug 判断不再用 BuildConfig]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid-%E6%8A%80%E5%B7%A7-%E2%80%94%E2%80%94-Debug-%E5%88%A4%E6%96%AD%E4%B8%8D%E5%86%8D%E7%94%A8-BuildConfig%2F</url>
+    <content type="text"><![CDATA[Android 开发中一般会通过 BuildConfig.DEBUG 判断是否是 Debug 模式，从而做一些在 Debug 模式才开启的特殊操作，比如打印日志。这样好处是不用在发布前去主动修改，因为这个值在 Debug 模式下为 true，Release 模式下为 false。 #####1. 问题如果应用只有一个 Module 没有问题，Debug 模式下 BuildConfig.DEBUG 会始终为 true。如果现在有两个 Module，分别为 App 和 Lib，且 App 依赖 Lib，在 Lib 内有工具类 LogUtils，代码如下：1234567891011121314package cn.trinea.android.lib.util; import android.util.Log;import cn.trinea.android.lib.util.BuildConfig; public class LogUtils &#123; public static void d(String log) &#123; if (BuildConfig.DEBUG) &#123; Log.d(&quot;trinea-debug&quot;, log); &#125; &#125; ……&#125; 当我们在 App Module 内调用 LogUtils 时我们会发现始终无法打印日志，因为上面的 BuildConfig.DEBUG 会始终为 false。为什么呢？ #####2. 原因BuildConfig.java 是编译时自动生成的，并且每个 Module 都会生成一份，以该 Module 的 packageName 为 BuildConfig.java 的 packageName。所以如果你的应用有多个 Module 就会有多个 BuildConfig.java 生成，而上面的 Lib Module import 的是自己的 BuildConfig.java，编译时被依赖的 Module 默认会提供 Release 版给其他 Module 或工程使用，这就导致该 BuildConfig.DEBUG 会始终为 false。 #####3. 解决方案根据上面分析的原因，目前我们有两个思路：(1) 始终调用最终运行的 Module 的 BuildConfig，因为它没有被任何其他 Module 依赖，所以 BuildConfig.DEBUG 值会准确。(2) 让被依赖的 Module 提供除 Release 版以外的其他版本。 3.1 解决方案一：使用其他的 BuildConfig.java如果 Lib Module 中能够 import 到外层真正运行 App 的 BuildConfig 就 ok 了，如下：123456789101112131415161718192021222324252627282930313233343536package cn.trinea.android.lib.util; /** * Utils for App * &lt;ul&gt; * &lt;li&gt;&#123;@link #syncIsDebug(Context)&#125; Should be called in module Application&lt;/li&gt; * &lt;/ul&gt; * Created by Trinea on 2017/3/9. */public class AppUtils &#123; private static Boolean isDebug = null; public static boolean isDebug() &#123; return isDebug == null ? false : isDebug.booleanValue(); &#125; /** * Sync lib debug with app&apos;s debug value. Should be called in module Application * * @param context */ public static void syncIsDebug(Context context) &#123; if (isDebug == null) &#123; try &#123; String packageName = context.getPackageName(); Class buildConfig = Class.forName(packageName + &quot;.BuildConfig&quot;); Field DEBUG = buildConfig.getField(&quot;DEBUG&quot;); DEBUG.setAccessible(true); isDebug = DEBUG.getBoolean(null); &#125; catch (Throwable t) &#123; // Do nothing &#125; &#125; &#125;&#125; 通过反射得到真正执行的 Module 的 BuildConfig，在自己的 Application 内调用：1AppUtils.syncIsDebug(getApplicationContext()); 这样看起来达到目的了。 但仔细想想会发现这种解决方案还是有问题，因为 BuildConfig.java 的 packageName 是 Module 的 Package Name，即 AndroidManifest.xml 中的 package 属性，而 context.getPackageName() 得到的是应用的 applicationId，这个 applicationId 通过 build.gradle 是可以修改的。所以当 build.gradle 中的 applicationId 与 AndroidManifest.xml 中的 package 属性不一致时，上面的反射查找类路径便会出错。 PS：这种方案还有个变种就是通过 android.app.ActivityThread.currentPackageName 得到包名，从而省去传递 Context 初始化的步骤，但依然有 applicationId 被修改后类查找不到类似的问题。 #####3.2 解决方案二：被依赖的 Module 提供其他版本让被依赖的 Module 提供除 Release 版以外的其他版本，这种方案需要将所有被依赖 library 中添加：123android &#123; publishNonDefault true&#125; 表示该 Module 打包时会同时打包其他版本，包括 Debug 版。并且需要在 App Module 中将其依赖的 library 如下逐个添加：1234dependencies &#123; releaseCompile project(path: &apos;:library&apos;, configuration: &apos;release&apos;) debugCompile project(path: &apos;:library&apos;, configuration: &apos;debug&apos;)&#125; 表示依赖不同版本的依赖 Module。然而这种方式所有 Module 配置都需要修改，侵入性太强。 #####3.3 最终解决方案：使用 ApplicationInfo.FLAG_DEBUGGABLE既然 BuildConfig 的方式行不通，我们反编译 Debug 包和 Release 包对比看看有没有其他的区别，会发现他们 AndroidManifest.xml 中 application 节点的 android:debuggable 值是不同的。Debug 包值为 true，Release 包值为 false，这是编译自动修改的。所以我们考虑通过 ApplicationInfo 的这个属性去判断是否是 Debug 版本，如下：1234567891011121314151617181920212223242526272829package cn.trinea.android.lib.util; /** * Utils for App * &lt;ul&gt; * &lt;li&gt;&#123;@link #syncIsDebug(Context)&#125; Should be called in module Application&lt;/li&gt; * &lt;/ul&gt; * Created by Trinea on 2017/3/9. */public class AppUtils &#123; private static Boolean isDebug = null; public static boolean isDebug() &#123; return isDebug == null ? false : isDebug.booleanValue(); &#125; /** * Sync lib debug with app&apos;s debug value. Should be called in module Application * * @param context */ public static void syncIsDebug(Context context) &#123; if (isDebug == null) &#123; isDebug = context.getApplicationInfo() != null &amp;&amp; (context.getApplicationInfo().flags &amp; ApplicationInfo.FLAG_DEBUGGABLE) != 0; &#125; &#125;&#125; 在自己的 Application 内调用进行初始化，1AppUtils.syncIsDebug(getApplicationContext()); 这样以后调用 AppUtils.isDebug() 即可判断是否是 Debug 版本，比如在上面的 LogUtils 中。同时适用于 Module 是 Lib 和 applicationId 被修改的情况，比 BuildConfig.DEBUG 靠谱的多。 这个方案有个注意事项就是自己 App Module 中不能主动设置 android:debuggable，否则无论 Debug 还是 Release 版会始终是设置的值。当然本身就没有自动设置的必要。 原文地址:http://www.trinea.cn/android/android-whether-debug-mode-why-buildconfig-debug-always-false/]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mac下创建adb命令]]></title>
+    <url>%2F2018%2F02%2F07%2Fmac%E4%B8%8B%E5%88%9B%E5%BB%BAadb%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[ln /…sdk/…/adb /usr/local/bin]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>adb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[解决“Cannot merge new index xxx into a non-jumbo instruction”的问题]]></title>
+    <url>%2F2018%2F02%2F07%2F%E8%A7%A3%E5%86%B3%E2%80%9CCannot-merge-new-index-xxx-into-a-non-jumbo-instruction%E2%80%9D%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[xxx一般是一个整数，比如66345等，从这个提示看，和Dex方法超过64K的限制一样，应该是同一个问题。不过App已经解决了这个64K方法的问题，怎么还会提示呢。从提上看，是一个non-jumbo，让我想到了Dex的jumbo模式，这是一个用来配置制定该Dex是不是一个巨大的Dex的。报错的日志里显示是一个模块，从这可以推断出基本的问题：该模块需要生成一个Dex放进AAR包里给App使用，现在这个Dex生成不了啦，提示太大，这个是根本原因，所以只要解决了这个就可以了。那么以前为什么不会出现这个问题呢，我们从git提交的历史来看，发现昨天的需求新增了一个第三方包，导致该模块的方法变多，超过了限制，所以今天就有了这个错误的提示。。既然知道了原因，那么就很好解决了。使用Gradle构建的，在模块的build.gradle里配置：12345android &#123; dexOptions &#123; jumboMode true &#125;&#125; 如果是使用Eclipse+Ant构建的，在project.properties文件中增加如下配置：1dex.force.jumbo=true 就可以解决如上问题了。。关于超过64K方法分Dex的解决办法可以参考官方的Configure Apps with Over 64K Methods这篇文章。]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>异常</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[android中xml tools属性详解]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid%E4%B8%ADxml-tools%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3%2F</url>
+    <content type="text"><![CDATA[第一部分安卓开发中，在写布局代码的时候，ide可以看到布局的预览效果。但是有些效果则必须在运行之后才能看见，比如这种情况：TextView在xml中没有设置任何字符，而是在activity中设置了text。因此为了在ide中预览效果，你必须在xml中为TextView控件设置android:text属性1234567&lt;TextView android:id=&quot;@+id/text_main&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:textAppearance=&quot;@style/TextAppearance.Title&quot; android:layout_margin=&quot;@dimen/main_margin&quot; android:text=&quot;I am a title&quot; /&gt; 一般我们在这样做的时候都告诉自己，没关系，等写完代码我就把这些东西一并删了。但是你可能会忘，以至于在你的最终产品中也会有这样的代码。 用tools吧，别做傻事以上的情况是可以避免的，我们使用tools命名空间以及其属性来解决这个问题。1xmlns:tools=&quot;http://schemas.android.com/tools&quot; tools可以告诉Android Studio，哪些属性在运行的时候是被忽略的，只在设计布局的时候有效。比如我们要让android:text属性只在布局预览中有效可以这样1234567&lt;TextView android:id=&quot;@+id/text_main&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:textAppearance=&quot;@style/TextAppearance.Title&quot; android:layout_margin=&quot;@dimen/main_margin&quot; tools:text=&quot;I am a title&quot; /&gt; tools可以覆盖android的所有标准属性，将android:换成tools:即可。同时在运行的时候就连tools:本身都是被忽略的，不会被带进apk中。tools属性的种类tools属性可以分为两种：一种是影响Lint提示的，一种是关于xml布局设计的。以上介绍的是tools的最基本用法：在UI设计的时候覆盖标准的android属性，属于第二种。下面介绍Lint相关的属性。Lint相关的属性123tools:ignoretools:targetApitools:locale tools:ignoreignore属性是告诉Lint忽略xml中的某些警告。假设我们有这样的一个ImageView1234567&lt;ImageView android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot; android:layout_marginStart=&quot;@dimen/margin_main&quot; android:layout_marginTop=&quot;@dimen/margin_main&quot; android:scaleType=&quot;center&quot; android:src=&quot;@drawable/divider&quot; /&gt; Lint会提示该ImageView缺少android:contentDescription属性。我们可以使用tools:ignore来忽略这个警告：12345678&lt;ImageView android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot; android:layout_marginStart=&quot;@dimen/margin_main&quot; android:layout_marginTop=&quot;@dimen/margin_main&quot; android:scaleType=&quot;center&quot; android:src=&quot;@drawable/divider&quot; tools:ignore=&quot;contentDescription&quot; /&gt; tools:targetApi假设minSdkLevel 15，而你使用了api21中的控件比如RippleDrawable12&lt;ripple xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:color=&quot;@color/accent_color&quot; /&gt; 则Lint会提示警告。为了不显示这个警告，可以：1234&lt;ripple xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; xmlns:tools=&quot;http://schemas.android.com/tools&quot; android:color=&quot;@color/accent_color&quot; tools:targetApi=&quot;LOLLIPOP&quot; /&gt; tools:locale（本地语言）属性默认情况下res/values/strings.xml中的字符串会执行拼写检查，如果不是英语，会提示拼写错误，通过以下代码来告诉studio本地语言不是英语，就不会有提示了。12345678&lt;resources xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; xmlns:tools=&quot;http://schemas.android.com/tools&quot; tools:locale=&quot;it&quot;&gt; &lt;!-- Your strings go here --&gt; &lt;/resources&gt; 这篇文章首先介绍了tools的最基本用法-覆盖android的属性，然后介绍了忽略Lint提示的属性。下篇文章中，我们将继续介绍关于UI预览的其他属性（非android标准属性）。ps：关于忽略Lint的属性，如果不想了解的话也没关系，因为并不影响编译，一般我都不会管这些警告。 第二部分这部分我们将继续介绍关于UI预览的其他属性（非android标准属性）。123456tools:contexttools:menutools:actionBarNavModetools:listitem/listheader/listfootertools:showIntools:layout tools:contextcontext属性其实正是的称呼是activity属性，有了这个属性，ide就知道在预览布局的时候该采用什么样的主题。同时他还可以在android studio的java代码中帮助找到相关的文件（Go to Related files）该属性的值是activity的完整包名123456789&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; xmlns:tools=&quot;http://schemas.android.com/tools&quot; android:id=&quot;@+id/container&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot; android:orientation=&quot;vertical&quot; tools:context=&quot;com.android.example.MainActivity&quot;&gt; &lt;!-- ... --&gt;&lt;/LinearLayout&gt; tools:menu告诉IDE 在预览窗口中使用哪个菜单，这个菜单将显示在layout的根节点上（actionbar的位置）。其实预览窗口非常智能，如果布局和一个activity关联（指上面所讲的用tools:context关联）它将会自动查询相关activity的onCreateOptionsMenu方法中的代码，以显示菜单。而menu属性则可以覆盖这种默认的行为。你还可以为menu属性定义多个菜单资源，不同的菜单资源之间用逗号隔开。1tools:menu=&quot;menu_main,menu_edit&quot; 如果你不希望在预览图中显示菜单则：1tools:menu=&quot;&quot; 最后需要注意，当主题为Theme.AppCompat时，这个属性不起作用。 tools:actionBarNavMode这个属性告诉ide app bar（Material中对actionbar的称呼）的显示模式，其值可以是123standardtabslist 123456&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; xmlns:tools=&quot;http://schemas.android.com/tools&quot; android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot; tools:actionBarNavMode=&quot;tabs&quot; /&gt; 同样的，当主题是Theme.AppCompat (r21+, at least) 或者**Theme.Material,或者使用了布局包含Toolbar的方式。 该属性也不起作用，只有holo主题才有效。 listitem, listheader 和listfooter 属性顾名思义就是在ListView ExpandableListView等的预览效果中添加头部 尾部 以及子item的预览布局。1234567&lt;GridView android:id=&quot;@+id/list&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; tools:listheader=&quot;@layout/list_header&quot; tools:listitem=&quot;@layout/list_item&quot; tools:listfooter=&quot;@layout/list_footer&quot; /&gt; layout属性tools:layout告诉ide，Fragment在程序预览的时候该显示成什么样123456789&lt;fragment xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; xmlns:tools=&quot;http://schemas.android.com/tools&quot; android:id=&quot;@+id/item_list&quot; android:name=&quot;com.example.fragmenttwopanel.ItemListFragment&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot; android:layout_marginLeft=&quot;16dp&quot; android:layout_marginRight=&quot;16dp&quot; tools:layout=&quot;@android:layout/list_content&quot; /&gt; tools:showIn该属性设置于一个被其他布局的布局的根元素上。这让您可以指向包含此布局的其中一个布局，在设计时这个被包含的布局会带着周围的外部布局被渲染。这将允许您“在上下文中”查看和编辑这个布局。需要 Studio 0.5.8 或更高版本。 关于tools 就介绍完了。注：原文是两篇文章Tools of the trade — Part 1Tools of the trade — Part 2 。 觉得完全可以在一篇文章中讲完，就翻译在了一起，原文有很多和内容无关的gif图，描述也比较啰嗦，都被我去掉了，这篇文章属于意译。 转载:http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0309/2567.html]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>AndroidManifest</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[动态更换应用Icon]]></title>
+    <url>%2F2018%2F02%2F07%2F%E5%8A%A8%E6%80%81%E6%9B%B4%E6%8D%A2%E5%BA%94%E7%94%A8Icon%2F</url>
+    <content type="text"><![CDATA[#####原理1——activity-alias在AndroidMainifest中，有两个属性：1234// 决定应用程序最先启动的Activityandroid.intent.action.MAIN // 决定应用程序是否显示在程序列表里android.intent.category.LAUNCHER 另外，还有一个activity-alias属性，这个属性可以用于创建多个不同的入口，相信做过系统Setting和Launcher开发的开发者在系统的源码中应该见过很多。 #####原理2——PM.setComponentEnabledSetting PackageManager是一个大统领类，可以管理所有的系统组件，当然，如果Root了，你还可以管理其它App的所有组件，一些系统优化工具就是通过这个方式来禁用一些后台Service的。 使用方式异常简单：1234567891011private void enableComponent(ComponentName componentName) &#123; mPm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);&#125; private void disableComponent(ComponentName componentName) &#123; mPm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);&#125; 根据PackageManager.COMPONENT_ENABLED_STATE_ENABLED和PackageManager.COMPONENT_ENABLED_STATE_DISABLED这两个标志量和对应的ComponentName，就可以控制一个组件的是否启用。 #####动态换Icon有了上面的两个原理，来实现动态更换Icon就只剩下思路问题了。 首先，我们创建一个Activity，作为默认的入口并带着默认的图片，再创建一个双11的activity-alias，指向默认的Activity并带有双11的图片，再创建一个双12的activity-alias，指向默认的Activity并带有双12的图片……等等等。123456789101112131415161718192021222324252627282930313233&lt;activity android:name=&quot;.MainActivity&quot;&gt; &lt;intent-filter&gt; &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt; &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt; &lt;/intent-filter&gt;&lt;/activity&gt;&lt;activity-alias android:name=&quot;.Test11&quot; android:enabled=&quot;false&quot; android:icon=&quot;@drawable/s11&quot; android:label=&quot;双11&quot; android:targetActivity=&quot;.MainActivity&quot;&gt; &lt;intent-filter&gt; &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt; &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt; &lt;/intent-filter&gt;&lt;/activity-alias&gt;&lt;activity-alias android:name=&quot;.Test12&quot; android:enabled=&quot;false&quot; android:icon=&quot;@drawable/s12&quot; android:label=&quot;双12&quot; android:targetActivity=&quot;.MainActivity&quot;&gt; &lt;intent-filter&gt; &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt; &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt; &lt;/intent-filter&gt;&lt;/activity-alias&gt; 等等，这样有个问题，那就是这样会在Launcher上显示3个入口，所以，默认我们会把这些activity-alias先禁用，等到要用的时候再启用，养兵千日，用兵一时。123456789101112131415161718192021222324252627282930313233343536373839404142434445public class MainActivity extends AppCompatActivity &#123; private ComponentName mDefault; private ComponentName mDouble11; private ComponentName mDouble12; private PackageManager mPm; @Override protected void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); mDefault = getComponentName(); mDouble11 = new ComponentName( getBaseContext(), &quot;com.xys.changeicon.Test11&quot;); mDouble12 = new ComponentName( getBaseContext(), &quot;com.xys.changeicon.Test12&quot;); mPm = getApplicationContext().getPackageManager(); &#125; public void changeIcon11(View view) &#123; disableComponent(mDefault); disableComponent(mDouble12); enableComponent(mDouble11); &#125; public void changeIcon12(View view) &#123; disableComponent(mDefault); disableComponent(mDouble11); enableComponent(mDouble12); &#125; private void enableComponent(ComponentName componentName) &#123; mPm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP); &#125; private void disableComponent(ComponentName componentName) &#123; mPm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP); &#125;&#125; OK了，禁用默认的Activity后，启用双11的activity-alias，结果不变还是指向了默认的Activity，但图标已经发生了改变。 根据ROM的不同，在禁用了组件之后，会等一会，Launcher会自动刷新图标。效果参考下图。 转载:http://android.jobbole.com/85321/]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Calendar的DAY_OF_MONTH, DAY_OF_YEAR, DATE的区别]]></title>
+    <url>%2F2018%2F02%2F07%2FCalendar%E7%9A%84DAY-OF-MONTH-DAY-OF-YEAR-DATE%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+    <content type="text"><![CDATA[123cal1.add(Calendar.DAY_OF_MONTH,1); cal1.add(Calendar.DAY_OF_YEAR,1); cal1.add(Calendar.DATE,1); 就单纯的add操作结果都一样，因为都是将日期+1就没有区别说是在月的日期中加1还是年的日期中加1但是Calendar设置DAY_OF_MONTH和DAY_OF_YEAR的目的不是用来+1将日期加1，这通过cal1.add(Calendar.DATE,1)就可以实现DAY_OF_MONTH的主要作用是cal.get(DAY_OF_MONTH)，用来获得这一天在是这个月的第多少天Calendar.DAY_OF_YEAR的主要作用是cal.get(DAY_OF_YEAR)，用来获得这一天在是这个年的第多少天。同样，还有DAY_OF_WEEK，用来获得当前日期是一周的第几天]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android系统下获取本地IP地址的方法]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E7%B3%BB%E7%BB%9F%E4%B8%8B%E8%8E%B7%E5%8F%96%E6%9C%AC%E5%9C%B0IP%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[1234567891011121314151617181920212223/** * 获取本地IP地址 * * @return */public static String getLocalIpAddress() &#123; try &#123; String ipv4; List&lt;NetworkInterface&gt; nilist = Collections.list(NetworkInterface.getNetworkInterfaces()); for (NetworkInterface ni : nilist) &#123; List&lt;InetAddress&gt; ialist = Collections.list(ni.getInetAddresses()); for (InetAddress address : ialist) &#123; if (!address.isLoopbackAddress() &amp;&amp; InetAddressUtils.isIPv4Address(ipv4 = address.getHostAddress())) &#123; return ipv4; &#125; &#125; &#125; &#125; catch (SocketException ex) &#123; ex.printStackTrace(); &#125; return null;&#125;]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[apk命令行签名,zipalign对齐]]></title>
+    <url>%2F2018%2F02%2F07%2Fapk%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AD%BE%E5%90%8D-zipalign%E5%AF%B9%E9%BD%90%2F</url>
+    <content type="text"><![CDATA[#jarsigner #####使用示例:jarsigner -verbose -keystore ~/Documents/WorkSpace/signkey.keystore -signedjar ./要生成的文件 ./源文件 签名文件的别名 给apk包签名的方式有很多种，我们推荐您使用JDK自带的jarsigner工具来完成签名。 #####jarsigner的命令格式 jarsigner -verbose -keystore [您的私钥存放路径] -signedjar [签名后文件存放路径] [未签名的文件路径] [签名文件的别名] #####jarsigner的参数说明 -keystore 参数指定您的私钥的绝对路径，例如：c:\mykeystore -signedjar 参数指定签名后apk文件存放绝对的路径，例如 c:\signed.apk [未签名的文件路径] 指定要签名apk文件的绝对路径，也就是您从我们这里下载到的，例如 c:\unsigned.apk [您的证书名称] 是指您创建密钥时，您设置的别名,也就是alias #zipalign对齐zipalign -v 4 源文件 要生成的文件 #####检查apk有没有zipalign对齐:zipalign -c -v 4 被检查的apk文件 #先签名再对齐,否则先对齐再签名会破坏对齐]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>签名</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android各个版本代号及其特性]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E5%90%84%E4%B8%AA%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E5%8F%8A%E5%85%B6%E7%89%B9%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[本文主要介绍Android系统各个版本的新特性，不定时更新ing。- Android1.1 2008 年9月发布的Android第一版 - Android1.5 Cupcake （纸杯蛋糕）2009年4月30日，官方1.5版本（Cupcake 纸杯蛋糕）的Android发布。 主要的更新如下：1、拍摄/播放影片，并支持上传到Youtube2、支持立体声蓝牙耳机，同时改善自动配对性能3、最新的采用WebKit技术的浏览器，支持复制/贴上和页面中搜索4、GPS性能大大提高5、提供屏幕虚拟键盘6、主屏幕增加音乐播放器和相框widgets7、应用程序自动随着手机旋转8、短信、Gmail、日暦，浏览器的用户接口大幅改进，如Gmail可以批量删除邮件9、相机启动速度加快，拍摄图片可以直接上传到Picasa10、来电照片显示 - Android1.6 Donut （甜甜圈）2009年9月15日，1.6（Donut 甜甜圈）版本软件开发工具包发布。 主要的更新如下：1、重新设计的Android Market手势2、支持支持CDMA网络3、文字转语音系统（Text-to-Speech）4、快速搜索框5、全新的拍照接口6、查看应用程序耗电7、支持虚拟私人网络（VPN）8、支持更多的屏幕分辨率。9、支持OpenCore2媒体引擎10、新增面向视觉或听觉困难人群的易用性插件 - Android2.0/2.0.1/2.1 Eclair （松饼）2009年10月26日，2.0（Eclair 松饼）版本软件开发工具包发布。 主要的更新如下：1、优化硬件速度2、 “Car Home”程序3、支持更多的屏幕分辨率4、改良的用户界面5、新的浏览器的用户接口和支持HTML56、新的联系人名单7、更好的白色/黑色背景比率8、改进Google Maps3.1.29、支持Microsoft Exchange10、支持内置相机闪光灯11、支持数码变焦12、改进的虚拟键盘13、支持蓝牙2.114、支持动态桌面的设计 - Android2.2/2.2.1 Froyo(冻酸奶）2010年5月20日，2.2（Froyo 冻酸奶）版本软件开发工具包发布。 主要的更新如下：1、整体性能大幅度的提升2、3G网络共享功能。3、Flash的支持。4、App2sd功能。5、全新的软件商店。6、更多的Web应用API接口的开发。 - Android2.3 Gingerbread （姜饼）2011年2月2日， 3.0（Honeycomb 蜂巢）版本 主要更新如下：1、优化针对平板2、全新设计的UI增强网页浏览功能3、·n-app purchases功能 - Android 3.0 Honeycomb （蜂巢）1、Fragments：较activity粒度小的拥有独自生命周期的模块。可作为acitivity的一部分，activity通过FragmentManager管理独自的fragments back stack。2、Action Bar：activity顶部标题栏的替代品，通常含logo，点击出现原menu菜单项–称作action item。可与tab、Fragments back stack合用。3、粘贴版：系统范围的复制、粘贴。通过系统服务CLIPBOARD_SERVICE。4、Drag and drop：在view中监听drag、drop动作，通过ClipData（与系统粘贴版无关）传递数据。5、App widgets：支持GridView、ListView、StackView及ViewFlipper。6、Content loader：Loader类简化异步数据加载；CursorLoader简化ContentProvider的数据加载。7、动画支持扩展：全新动画框架，更灵活。8、硬件绘制加速： android:hardwareAccelerated=”true” 启用OpenGl硬件绘制加速。支持renderscript脚本语言。 - Android3.1 Honeycomb （蜂巢）2011年5月11日在Google I/O开发者大会宣布发布，版本 主要更新如下：1、Honeycomb 蜂巢（改进3.0BUG）2、经过优化的Gmail电子邮箱；3、全面支持GoogleMaps4、将Android手机系统跟平板系统再次合并从而方便开发者。5、任务管理器可滚动，支持USB 输入设备（键盘、鼠标等）。6、支持 Google TV、可以支持XBOX 360无线手柄7、widget支持的变化，能更加容易的定制屏幕widget插件。 - Android3.2 Honeycomb （蜂巢）2011年7月13日发布，版本更新如下：1、支持7英寸设备2、引入了应用显示缩放功能 - Android4.0 Ice Cream (冰激凌三明治)2011年10月19日 在香港发布，4.0（Ice Cream Sandwich 冰激凌三明治）版本 主要更新如下：1、蓝色主题2、接近于桌面版的Chrome Lite浏览器，有离线阅读，同步Chrome书签，新的标签样式等。3、截图功能4、更强大的图片编辑功能5、自带照片应用堪比Instagram，可以加滤镜、加相框，进行360度全景拍摄，照片还能根据地点来排序6、Gmail加入手势、离线搜索功能，UI更强大。7、新功能People：以联系人照片为核心，界面偏重滑动而非点击，集成了Twitter、Linkedin、Google+等通讯工具。有望支持用户自定义添加第三方服务。8、新增流量管理工具，可具体查看每个应用产生的流量。9、正在运行的程序可以像电脑一样的互相切换10、人脸识别功能11、系统优化、速度更快12、支持虚拟按键，手机可以不再拥有任何按键13、专为3D优化的驱动 14、平板电脑和智能手机通用 - Android 4.1 Jelly Bean（果冻豆）于北京时间2012年6月28日00：30在Google I/O 2012开发者大会上发布1.更快、更流畅、更灵敏2.增强通知栏3.全新搜索4.桌面插件自动调整大小5.加强无障碍操作6.语言和输入法扩展7.新的输入类型和功能8.新的连接类型9.新的媒体功能10.浏览器增强11.Google服务 - Android 4.2 Jelly Bean（果冻豆）Android 4.2是谷歌新一代移动操作系统，它沿用了4.1版“果冻豆”(Jelly Bean)这一名称，与Android 4.1相似性很高，但仍在细节之后做了一些改进与升级，比较重要的包括：Photo Sphere全景拍照；键盘手势输入；Miracast无线显示共享；手势放大缩小屏幕，以及为盲人用户设计的语音输出和手势模式导航功能等。尤其令人关注的是，谷歌在Android 4.2中新加入了新的恶意软件扫描功能。1、完整的Chrome浏览器2、全新的手机风景模式3、全新的文件管理器4、文本输入选项的改进5、一个明确的升级方法6、Android Key Lime Pie精简版7、具有开关切换的用户界面8、全新的电源管理系统9、更为轻便的主题模式10、全新的锁屏页面11、全新的时钟界面 - Android 4.3 Jelly Bean（果冻豆）北京时间2013年7月25日凌晨,谷歌在美国旧金山的新品发布会上,发布了在安卓4.2版本基础上的升级版本Android 4.31、用户账户配制2、拨号盘联系人自动补全3、OpenGL 3.04、蓝牙低耗电技术5、WIFI关闭后保持位置功能 其它特性 新的相机应用UI 新的开发者工具 通过邮件分享截屏时，日期和时间会自动加入进去。 - Android 4.4 KitKat（奇巧）Android 4.4，是由Google公司制作和研发的代号为KitKat的手机操作系统，于北京时间2013年9月4日凌晨对外公布了该Android新版本的名称，为Android 4.4（代号 KitKat 奇巧）。1、优化了RenderScript计算和图像显示,取代OpenCL2、支持两种编译模式3、Android 4.4 KitKat针对RAM占用进行了优化，甚至可以在一些仅有512MB RAM的老款手机上流畅运行。4、新图标、锁屏、启动动画和配色方案5、新的拨号和智能来电显示6、加强主动式语音功能7、集成Hangouts IM软件8、全屏模式9、支持Emoji键盘10、轻松访问在线存储11、无线打印12、屏幕录像功能13、内置字幕管理功能14、计步器应用15、低功耗音频和定位模式16、新的接触式支付系统17、新的蓝牙配置文件和红外兼容性 - Android 5.0 Lollipop(棒棒糖)Android L即Android5.0是最新一代的Android操作系统，代号L。北京时间2014年6月26日0时，谷歌I/O 2014开发者大会将在旧金山正式召开。 全新Android l系统从图片上就能看到一些全新的功能。从图片上看，这套概念设计图对Android系统的桌面图标及部件的透明度进行的稍稍的调整，并且各种桌面小部件也可以重叠摆放。虽然调整桌面部件透明度对Android系统来说并不算什么新鲜的功能，但是加入了透明度的改进，除了整体的色调更加清新之外。1、谷歌将为Android的语音服务Google Now加入一个名为OK Google Everywhere的全新功能。2、Android 5.0可能还会加入更多的健身功能，考虑到谷歌在发布了Android Wear，后者与智能手表及谷歌眼镜等可穿戴设备的协作应该会成为下个版本的重点功能。3、整合碎片化4、传言Google将在Android5.0中，禁止厂商进行深度定制。5、数据迁移6、独立平板7、功能按键8、接口风格 - Android 6.0 Marshmallow(棉花糖)Android 6.0正式版终于随着Nexus 5X/6P一起登场了，并在北京时间10月6日面向Nexus系列产品推送升级1.App Permissions（软件权限管理）。2.Chrome Custom Tabs（网页体验提升）。3.App Links（APP关联）。4.Android Pay（安卓支付）。5.Fingerprint Support（指纹支持）。6.Power &amp; Change（电量管理 ）。 - Android 7.0 N1、分屏多任务2、“Data Saver”3、号码拦截4、更便捷的通知中心5、夜间模式6、增强的Java 8语言支持 7、画中画模式]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[android debug.keystore 的默认密码]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid-debug-keystore-%E7%9A%84%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81%2F</url>
+    <content type="text"><![CDATA[默认debug.keystore的信息如下：Keystore name: “debug.keystore”Keystore password: “android”Key alias: “androiddebugkey”Key password: “android”CN: “CN=Android Debug,O=Android,C=US”]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>签名</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android Studio多工程引用同一个library项目配置方法]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid-Studio%E5%A4%9A%E5%B7%A5%E7%A8%8B%E5%BC%95%E7%94%A8%E5%90%8C%E4%B8%80%E4%B8%AAlibrary%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[在使用Android Studio 开发中，如遇到多个项目引用同一个library（源码）的情况时，会遇到在每个项目中都要有一套library的代码，对还在开发和维护中的library需要频繁的修改，这对同步就很麻烦了，下面提出以下方法供选择。当然最后会给出最合理的解决办法。 第一种方法是对library向每个引用的项目建立软连接。这样修改就会对每个引用同步修改.这种方法就是看起来会很臃肿，如果要引用多个library就很痛苦。 第二种就是maven 仓库的方式，将所有的library都上传到maven仓库，然后在各个工程中进行引用，当然这种是对稳定的library来说是最好的一种方式，但对于library需要开发和修改的就不太适合了。 第三种就是将所有的library作为一个工程使用，然后将所有的library都放入此工程中，然后在其他引用library的工程中，引入新建的工程，这样看起来和eclipse 引用library的结构就很像了，且可以放入多个library都不影响。下面就来看看这种解决方法，该如何实现。 首先新建一个工程，注意是工程，不是Stuio里面的Module，起一个容易理解的工程名称CommonLibrary。 将需添加的library添加进CommonLibrary中，记得每个library也是需要有build.gradle文件的，且配置项正确。在需要引用的的工程中，需要在settings.gradle文件中添加引用代码如下：1234include &apos;:CommonLibrary&apos;project (&apos;:CommonLibrary&apos;).projectDir = new File(&apos;../CommonLibrary/&apos;)include &apos;:CommonLibrary:CommonsA&apos;include &apos;:CommonLibrary:CommonsB&apos; 其中CommonsA为项目要使用的公共library名称然后在我们项目实际的model中修改build.gradle文件，需要在dependencies中添加下面的代码。CommonsA和CommonsB都是要要引用的项目。 12compile project (&apos;:CommonLibrary:CommonsA&apos;)compile project (&apos;:CommonLibrary:CommonsB&apos;) 至此多个工程引用同一个lib的方法就基本完成，配置玩后sync下，然后build，看是否成功。 转载:http://wxtlife.com/2015/12/17/Android-studio-quote-same-lib/?utm_source=tuicool&amp;utm_medium=referral]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>IDE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android中不同Context的使用方法和适用范围]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E4%B8%AD%E4%B8%8D%E5%90%8CContext%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%E5%92%8C%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%2F</url>
+    <content type="text"><![CDATA[###1、Context概念其实一直想写一篇关于Context的文章，但是又怕技术不如而误人子弟，于是参考了些资料，今天准备整理下写出来，如有不足，请指出，参考资料会在醒目地方标明。Context，相信不管是第一天开发Android，还是开发Android的各种老鸟，对于Context的使用一定不陌生~~你在加载资源、启动一个新的Activity、获取系统服务、获取内部文件（夹）路径、创建View操作时等都需要Context的参与，可见Context的常见性。大家可能会问到底什么是Context，Context字面意思上下文，或者叫做场景，也就是用户与操作系统操作的一个过程，比如你打电话，场景包括电话程序对应的界面，以及隐藏在背后的数据； 但是在程序的角度Context又是什么呢？在程序的角度，我们可以有比较权威的答案，Context是个抽象类，我们可以直接通过看其类结构来说明答案： 可以看到Activity、Service、Application都是Context的子类；也就是说，Android系统的角度来理解：Context是一个场景，代表与操作系统的交互的一种过程。从程序的角度上来理解：Context是个抽象类，而Activity、Service、Application等都是该类的一个实现。在仔细看一下上图：Activity、Service、Application都是继承自ContextWrapper，而ContextWrapper内部会包含一个base context，由这个base context去实现了绝大多数的方法。先扯这么多，有能力了会从别的角度去审视Context，加油~ ###2、Context与ApplicationContext看了标题，千万不要被误解，ApplicationContext并没有这个类，其实更应该叫做：Activity与Application在作为Context时的区别。嗯，的确是这样的，大家在需要Context的时候，如果是在Activity中，大多直接传个this，当在匿名内部类的时候，因为this不能用，需要写XXXActivity.this，很多哥们会偷懒，直接就来个getApplicationContext。那么大家有没有想过，XXXActivity.this和getApplicationContext的区别呢？XXXActivity和getApplicationContext返回的肯定不是一个对象，一个是当前Activity的实例，一个是项目的Application的实例。既然区别这么明显，那么各自的使用场景肯定不同，乱使用可能会带来一些问题。下面开始介绍在使用Context时，需要注意的问题。 ###3、引用的保持 大家在编写一些类时，例如工具类，可能会编写成单例的方式，这些工具类大多需要去访问资源，也就说需要Context的参与。在这样的情况下，就需要注意Context的引用问题。例如以下的写法：1234567891011121314151617181920212223242526272829package com.mooc.shader.roundimageview; import android.content.Context; public class CustomManager &#123; private static CustomManager sInstance; private Context mContext; private CustomManager(Context context) &#123; this.mContext = context; &#125; public static synchronized CustomManager getInstance(Context context) &#123; if (sInstance == null) &#123; sInstance = new CustomManager(context); &#125; return sInstance; &#125; //some methods private void someOtherMethodNeedContext() &#123; &#125; &#125; 对于上述的单例，大家应该都不陌生（请别计较getInstance的效率问题），内部保持了一个Context的引用；这么写是没有问题的，问题在于，这个Context哪来的我们不能确定，很大的可能性，你在某个Activity里面为了方便，直接传了个this;这样问题就来了，我们的这个类中的sInstance是一个static且强引用的，在其内部引用了一个Activity作为Context，也就是说，我们的这个Activity只要我们的项目活着，就没有办法进行内存回收。而我们的Activity的生命周期肯定没这么长，所以造成了内存泄漏。那么，我们如何才能避免这样的问题呢？有人会说，我们可以软引用，嗯，软引用，假如被回收了，你不怕NullPointException么。把上述代码做下修改：12345678public static synchronized CustomManager getInstance(Context context) &#123; if (sInstance == null) &#123; sInstance = new CustomManager(context.getApplicationContext()); &#125; return sInstance; &#125; 这样，我们就解决了内存泄漏的问题，因为我们引用的是一个ApplicationContext，它的生命周期和我们的单例对象一致。这样的话，可能有人会说，早说嘛，那我们以后都这么用不就行了，很遗憾的说，不行。上面我们已经说过，Context和Application Context的区别是很大的，也就是说，他们的应用场景（你也可以认为是能力）是不同的，并非所有Activity为Context的场景，Application Context都能搞定。下面就开始介绍各种Context的应用场景。 ###4、Context的应用场景 大家注意看到有一些NO上添加了一些数字，其实这些从能力上来说是YES，但是为什么说是NO呢？下面一个一个解释：数字1：启动Activity在这些类中是可以的，但是需要创建一个新的task。一般情况不推荐。数字2：在这些类中去layout inflate是合法的，但是会使用系统默认的主题样式，如果你自定义了某些样式可能不会被使用。数字3：在receiver为null时允许，在4.2或以上的版本中，用于获取黏性广播的当前值。（可以无视）注：ContentProvider、BroadcastReceiver之所以在上述表格中，是因为在其内部方法中都有一个context用于使用。 好了，这里我们看下表格，重点看Activity和Application，可以看到，和UI相关的方法基本都不建议或者不可使用Application，并且，前三个操作基本不可能在Application中出现。实际上，只要把握住一点，凡是跟UI相关的，都应该使用Activity做为Context来处理；其他的一些操作，Service,Activity,Application等实例都可以，当然了，注意Context引用的持有，防止内存泄漏。 ###5、总结好了，到此，Context的分析基本完成了，希望大家在以后的使用过程中，能够稍微考虑下，这里使用Activity合适吗？会不会造成内存泄漏？这里传入Application work吗？由于参考内容过多，本文改为译文咯~~ 转载:http://blog.csdn.net/lmj623565791/article/details/40481055]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>Context</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[The APK file does not exist on disk的解决办法]]></title>
+    <url>%2F2018%2F02%2F07%2FThe-APK-file-does-not-exist-on-disk%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[在android studio编译apk的时候,经常会出现这个错误,解决这个问题的方法很简单,点击刷新按钮即可解决]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>异常</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android性能优化之常见的内存泄漏]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%2F</url>
+    <content type="text"><![CDATA[####前言对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。 最近腾讯bugly也推出了三篇关于Android内存泄漏调优的文章： 内存泄露从入门到精通三部曲之基础知识篇 内存泄露从入门到精通三部曲之排查方法篇 内存泄露从入门到精通三部曲之常见原因与用户实践 Realm同样给出了性能优化文章： 10条提升Android性能的建议 ####内存泄漏 #####为什么会产生内存泄漏？当一个对象已经不需要再使用了，本该被回收时，而有另外一个正在使用的对象持有它的引用从而导致它不能被回收，这导致本该被回收的对象不能被回收而停留在堆内存中，这就产生了内存泄漏。 #####内存泄漏对程序的影响？内存泄漏是造成应用程序OOM的主要原因之一！我们知道Android系统为每个应用程序分配的内存有限，而当一个应用中产生的内存泄漏比较多时，这就难免会导致应用所需要的内存超过这个系统分配的内存限额，这就造成了内存溢出而导致应用Crash。 ####Android中常见的内存泄漏汇总 #####单例造成的内存泄漏单例模式非常受开发者的喜爱，不过使用的不恰当的话也会造成内存泄漏，由于单例的静态特性使得单例的生命周期和应用的生命周期一样长，这就说明了如果一个对象已经不需要使用了，而单例对象还持有该对象的引用，那么这个对象将不能被正常回收，这就导致了内存泄漏。如下这个典例：12345678910111213public class AppManager &#123; private static AppManager instance; private Context context; private AppManager(Context context) &#123; this.context = context; &#125; public static AppManager getInstance(Context context) &#123; if (instance != null) &#123; instance = new AppManager(context); &#125; return instance; &#125;&#125; 这是一个普通的单例模式，当创建这个单例的时候，由于需要传入一个Context，所以这个Context的生命周期的长短至关重要： 传入的是Application的Context：这将没有任何问题，因为单例的生命周期和Application的一样长 传入的是Activity的Context：当这个Context所对应的Activity退出时，由于该Context和Activity的生命周期一样长（Activity间接继承于Context），所以当前Activity退出时它的内存并不会被回收，因为单例对象持有该Activity的引用。 所以正确的单例应该修改为下面这种方式：12345678910111213public class AppManager &#123; private static AppManager instance; private Context context; private AppManager(Context context) &#123; this.context = context.getApplicationContext(); &#125; public static AppManager getInstance(Context context) &#123; if (instance != null) &#123; instance = new AppManager(context); &#125; return instance; &#125;&#125; 这样不管传入什么Context最终将使用Application的Context，而单例的生命周期和应用的一样长，这样就防止了内存泄漏 #####非静态内部类创建静态实例造成的内存泄漏有的时候我们可能会在启动频繁的Activity中，为了避免重复创建相同的数据资源，可能会出现这种写法：123456789101112131415public class MainActivity extends AppCompatActivity &#123; private static TestResource mResource = null; @Override protected void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); if(mResource == null)&#123; mResource = new TestResource(); &#125; //... &#125; class TestResource &#123; //... &#125;&#125; 这样就在Activity内部创建了一个非静态内部类的单例，每次启动Activity时都会使用该单例的数据，这样虽然避免了资源的重复创建，不过这种写法却会造成内存泄漏，因为非静态内部类默认会持有外部类的引用，而又使用了该非静态内部类创建了一个静态的实例，该实例的生命周期和应用的一样长，这就导致了该静态实例一直会持有该Activity的引用，导致Activity的内存资源不能正常回收。正确的做法为：将该内部类设为静态内部类或将该内部类抽取出来封装成一个单例，如果需要使用Context，请使用ApplicationContext #####Handler造成的内存泄漏Handler的使用造成的内存泄漏问题应该说最为常见了，平时在处理网络任务或者封装一些请求回调等api都应该会借助Handler来处理，对于Handler的使用代码编写一不规范即有可能造成内存泄漏，如下示例：12345678910111213141516171819public class MainActivity extends AppCompatActivity &#123; private Handler mHandler = new Handler() &#123; @Override public void handleMessage(Message msg) &#123; //... &#125; &#125;; @Override protected void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); loadData(); &#125; private void loadData()&#123; //...request Message message = Message.obtain(); mHandler.sendMessage(message); &#125;&#125; 这种创建Handler的方式会造成内存泄漏，由于mHandler是Handler的非静态匿名内部类的实例，所以它持有外部类Activity的引用，我们知道消息队列是在一个Looper线程中不断轮询处理消息，那么当这个Activity退出时消息队列中还有未处理的消息或者正在处理消息，而消息队列中的Message持有mHandler实例的引用，mHandler又持有Activity的引用，所以导致该Activity的内存资源无法及时回收，引发内存泄漏，所以另外一种做法为：12345678910111213141516171819202122232425262728293031public class MainActivity extends AppCompatActivity &#123; private MyHandler mHandler = new MyHandler(this); private TextView mTextView ; private static class MyHandler extends Handler &#123; private WeakReference&lt;Context&gt; reference; public MyHandler(Context context) &#123; reference = new WeakReference&lt;&gt;(context); &#125; @Override public void handleMessage(Message msg) &#123; MainActivity activity = (MainActivity) reference.get(); if(activity != null)&#123; activity.mTextView.setText(&quot;&quot;); &#125; &#125; &#125; @Override protected void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); mTextView = (TextView)findViewById(R.id.textview); loadData(); &#125; private void loadData() &#123; //...request Message message = Message.obtain(); mHandler.sendMessage(message); &#125;&#125; 简书作者注:非static的inner class里面都会有一个this$0的字段保存它的父对象。在Java中，非静态(匿名)内部类会默认隐性引用外部类对象。而静态内部类不会引用外部类对象。一个编译后的inner class 很可能是这样的：1234567class parent$inner &#123; synthetic parent this$0; parent$inner(parent this$0) &#123; this.this$0 = this$0; this$0.foo(); &#125;&#125; 创建一个静态Handler内部类，然后对Handler持有的对象使用弱引用，这样在回收时也可以回收Handler持有的对象，这样虽然避免了Activity泄漏，不过Looper线程的消息队列中还是可能会有待处理的消息，所以我们在Activity的Destroy时或者Stop时应该移除消息队列中的消息，更准确的做法如下：12345678910111213141516171819202122232425262728293031323334353637public class MainActivity extends AppCompatActivity &#123; private MyHandler mHandler = new MyHandler(this); private TextView mTextView ; private static class MyHandler extends Handler &#123; private WeakReference&lt;Context&gt; reference; public MyHandler(Context context) &#123; reference = new WeakReference&lt;&gt;(context); &#125; @Override public void handleMessage(Message msg) &#123; MainActivity activity = (MainActivity) reference.get(); if(activity != null)&#123; activity.mTextView.setText(&quot;&quot;); &#125; &#125; &#125; @Override protected void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); mTextView = (TextView)findViewById(R.id.textview); loadData(); &#125; private void loadData() &#123; //...request Message message = Message.obtain(); mHandler.sendMessage(message); &#125; @Override protected void onDestroy() &#123; super.onDestroy(); mHandler.removeCallbacksAndMessages(null); &#125;&#125; 使用mHandler.removeCallbacksAndMessages(null);是移除消息队列中所有消息和所有的Runnable。当然也可以使用mHandler.removeCallbacks();或mHandler.removeMessages();来移除指定的Runnable和Message。 #####线程造成的内存泄漏对于线程造成的内存泄漏，也是平时比较常见的，异步任务和Runnable都是一个匿名内部类，因此它们对当前Activity都有一个隐式引用。如果Activity在销毁之前，任务还未完成，那么将导致Activity的内存资源无法回收，造成内存泄漏。正确的做法还是使用静态内部类的方式，如下：12345678910111213141516171819202122232425262728293031static class MyAsyncTask extends AsyncTask&lt;Void, Void, Void&gt; &#123; private WeakReference&lt;Context&gt; weakReference; public MyAsyncTask(Context context) &#123; weakReference = new WeakReference&lt;&gt;(context); &#125; @Override protected Void doInBackground(Void... params) &#123; SystemClock.sleep(10000); return null; &#125; @Override protected void onPostExecute(Void aVoid) &#123; super.onPostExecute(aVoid); MainActivity activity = (MainActivity) weakReference.get(); if (activity != null) &#123; //... &#125; &#125;&#125;static class MyRunnable implements Runnable&#123; @Override public void run() &#123; SystemClock.sleep(10000); &#125;&#125;//——————new Thread(new MyRunnable()).start();new MyAsyncTask(this).execute(); 这样就避免了Activity的内存资源泄漏，当然在Activity销毁时候也应该取消相应的任务AsyncTask::cancel()，避免任务在后台执行浪费资源。 #####资源未关闭造成的内存泄漏对于使用了BraodcastReceiver，ContentObserver，File，Cursor，Stream，Bitmap等资源的使用，应该在Activity销毁时及时关闭或者注销，否则这些资源将不会被回收，造成内存泄漏。 #####一些建议 对于生命周期比Activity长的对象如果需要应该使用ApplicationContext 对于需要在静态内部类中使用非静态外部成员变量（如：Context、View )，可以在静态内部类中使用弱引用来引用外部类的变量来避免内存泄漏 对于不再需要使用的对象，显示的将其赋值为null，比如使用完Bitmap后先调用recycle()，再赋为null 保持对对象生命周期的敏感，特别注意单例、静态对象、全局性集合等的生命周期 对于生命周期比Activity长的内部类对象，并且内部类中使用了外部类的成员变量，可以这样做避免内存泄漏： 将内部类改为静态内部类 静态内部类中使用弱引用来引用外部类的成员变量 在涉及到Context时先考虑ApplicationContext，当然它并不是万能的，对于有些地方则必须使用Activity的Context，对于Application，Service，Activity三者的Context的应用场景如下： 其中：NO1表示Application和Service可以启动一个Activity，不过需要创建一个新的task任务队列。而对于Dialog而言，只有在Activity中才能创建 转载:http://hanhailong.com/2015/12/27/Android性能优化之常见的内存泄漏]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>内存泄漏</tag>
+        <tag>优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android 基于Message的进程间通信 Messenger完全解析]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid-%E5%9F%BA%E4%BA%8EMessage%E7%9A%84%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1-Messenger%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90%2F</url>
+    <content type="text"><![CDATA[一、概述说到Android进程间通信，大家肯定能想到的是编写aidl文件，然后通过aapt生成的类方便的完成服务端，以及客户端代码的编写。如果你对这个过程不熟悉，可以查看Android aidl Binder框架浅析；当然今天要说的通信方式肯定不是通过编写aidl文件的方式，那么有请今天的主角：Messenger。ok，这是什么样的一个类呢？我们看下注释 This allows for the implementation of message-based communication across processes 允许实现基于消息的进程间通信的方式。那么，什么叫基于消息的进程间通信方式呢？看个图理解下： 可以看到，我们可以在客户端发送一个Message给服务端，在服务端的handler中会接收到客户端的消息，然后进行对应的处理，处理完成后，再将结果等数据封装成Message，发送给客户端，客户端的handler中会接收到处理的结果。 这样的进程间通信是不是很爽呢？ 基于Message，相信大家都很熟悉 支持回调的方式，也就是服务端处理完成长任务可以和客户端交互 不需要编写aidl文件此外，还支持，记录客户端对象的Messenger，然后可以实现一对多的通信；甚至作为一个转接处，任意两个进程都能通过服务端进行通信，这个后面再说。 看到这，有没有一些的小激动，我们可以不写aidl文件，方便的实现进程间通信了，是不是又可以装一下了。哈，下面看个简单的例子。 二、通信实例这个例子，通过两个apk演示，一个apk是Server端，一个是Client端；（1） Server端1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253package com.imooc.messenger_server;import android.app.Service;import android.content.Intent;import android.os.Handler;import android.os.IBinder;import android.os.Message;import android.os.Messenger;import android.os.RemoteException;public class MessengerService extends Service&#123; private static final int MSG_SUM = 0x110; //最好换成HandlerThread的形式 private Messenger mMessenger = new Messenger(new Handler() &#123; @Override public void handleMessage(Message msgfromClient) &#123; Message msgToClient = Message.obtain(msgfromClient);//返回给客户端的消息 switch (msgfromClient.what) &#123; //msg 客户端传来的消息 case MSG_SUM: msgToClient.what = MSG_SUM; try &#123; //模拟耗时 Thread.sleep(2000); msgToClient.arg2 = msgfromClient.arg1 + msgfromClient.arg2; msgfromClient.replyTo.send(msgToClient); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; catch (RemoteException e) &#123; e.printStackTrace(); &#125; break; &#125; super.handleMessage(msgfromClient); &#125; &#125;); @Override public IBinder onBind(Intent intent) &#123; return mMessenger.getBinder(); &#125;&#125; 服务端就一个Service，可以看到代码相当的简单，只需要去声明一个Messenger对象，然后onBind方法返回mMessenger.getBinder()； 然后坐等客户端将消息发送到handleMessage想法，根据message.what去判断进行什么操作，然后做对应的操作，最终将结果通过 msgfromClient.replyTo.send(msgToClient);返回。 可以看到我们这里主要是取出客户端传来的两个数字，然后求和返回，这里我有意添加了sleep(2000)模拟耗时,注意在实际使用过程中，可以换成在独立开辟的线程中完成耗时操作，比如和HandlerThread结合使用。 #####注册文件123456789&lt;service android:name=&quot;.MessengerService&quot; android:enabled=&quot;true&quot; android:exported=&quot;true&quot;&gt; &lt;intent-filter&gt; &lt;action android:name=&quot;com.zhy.aidl.calc&quot;&gt;&lt;/action&gt; &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt; &lt;/intent-filter&gt; &lt;/service&gt; 别忘了注册service，写完以后直接安装。（二）客户端Activity123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133package com.imooc.messenger_client;import android.content.ComponentName;import android.content.Context;import android.content.Intent;import android.content.ServiceConnection;import android.os.Bundle;import android.os.Handler;import android.os.IBinder;import android.os.Message;import android.os.Messenger;import android.os.RemoteException;import android.support.v7.app.AppCompatActivity;import android.util.Log;import android.view.View;import android.widget.Button;import android.widget.LinearLayout;import android.widget.TextView;public class MainActivity extends AppCompatActivity&#123; private static final String TAG = &quot;MainActivity&quot;; private static final int MSG_SUM = 0x110; private Button mBtnAdd; private LinearLayout mLyContainer; //显示连接状态 private TextView mTvState; private Messenger mService; private boolean isConn; private Messenger mMessenger = new Messenger(new Handler() &#123; @Override public void handleMessage(Message msgFromServer) &#123; switch (msgFromServer.what) &#123; case MSG_SUM: TextView tv = (TextView) mLyContainer.findViewById(msgFromServer.arg1); tv.setText(tv.getText() + &quot;=&gt;&quot; + msgFromServer.arg2); break; &#125; super.handleMessage(msgFromServer); &#125; &#125;); private ServiceConnection mConn = new ServiceConnection() &#123; @Override public void onServiceConnected(ComponentName name, IBinder service) &#123; mService = new Messenger(service); isConn = true; mTvState.setText(&quot;connected!&quot;); &#125; @Override public void onServiceDisconnected(ComponentName name) &#123; mService = null; isConn = false; mTvState.setText(&quot;disconnected!&quot;); &#125; &#125;; private int mA; @Override protected void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); //开始绑定服务 bindServiceInvoked(); mTvState = (TextView) findViewById(R.id.id_tv_callback); mBtnAdd = (Button) findViewById(R.id.id_btn_add); mLyContainer = (LinearLayout) findViewById(R.id.id_ll_container); mBtnAdd.setOnClickListener(new View.OnClickListener() &#123; @Override public void onClick(View v) &#123; try &#123; int a = mA++; int b = (int) (Math.random() * 100); //创建一个tv,添加到LinearLayout中 TextView tv = new TextView(MainActivity.this); tv.setText(a + &quot; + &quot; + b + &quot; = caculating ...&quot;); tv.setId(a); mLyContainer.addView(tv); Message msgFromClient = Message.obtain(null, MSG_SUM, a, b); msgFromClient.replyTo = mMessenger; if (isConn) &#123; //往服务端发送消息 mService.send(msgFromClient); &#125; &#125; catch (RemoteException e) &#123; e.printStackTrace(); &#125; &#125; &#125;); &#125; private void bindServiceInvoked() &#123; Intent intent = new Intent(); intent.setAction(&quot;com.zhy.aidl.calc&quot;); bindService(intent, mConn, Context.BIND_AUTO_CREATE); Log.e(TAG, &quot;bindService invoked !&quot;); &#125; @Override protected void onDestroy() &#123; super.onDestroy(); unbindService(mConn); &#125;&#125; 代码也不复杂，首先bindService，然后在onServiceConnected中拿到回调的service（IBinder）对象，通过service对象去构造一个mService =new Messenger(service);然后就可以使用mService.send(msg)给服务端了。 我们消息的发送在Btn.onclick里面:1234567Message msgFromClient = Message.obtain(null, MSG_SUM, a, b);msgFromClient.replyTo = mMessenger;if (isConn)&#123; //往服务端发送消息 mService.send(msgFromClient);&#125; 那么服务端会收到消息，处理完成会将结果返回，传到Client端的mMessenger中的Handler的handleMessage方法中。 布局文件123456789101112131415161718192021222324&lt;LinearLayout android:id=&quot;@+id/id_ll_container&quot; xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; xmlns:tools=&quot;http://schemas.android.com/tools&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot; android:orientation=&quot;vertical&quot; android:paddingBottom=&quot;@dimen/activity_vertical_margin&quot; android:paddingLeft=&quot;@dimen/activity_horizontal_margin&quot; android:paddingRight=&quot;@dimen/activity_horizontal_margin&quot; android:paddingTop=&quot;@dimen/activity_vertical_margin&quot; tools:context=&quot;.MainActivity&quot;&gt; &lt;TextView android:id=&quot;@+id/id_tv_callback&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:text=&quot;Messenger Test!&quot;/&gt; &lt;Button android:id=&quot;@+id/id_btn_add&quot; android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot; android:text=&quot;add&quot;/&gt;&lt;/LinearLayout&gt; 效果图 可以看到，我们每点击一次按钮，就往服务器发送个消息，服务器拿到消息执行完成后，将结果返回。整个通信的代码看起来还是相当的清爽的，那么大家有没有对其内部的原理有一丝的好奇呢？下面我们就来看下其内部是如何实现的。对了，源码分析前，这里插一句，大家通过代码可以看到服务端往客户端传递数据是通过msg.replyTo这个对象的。那么服务端完全可以做到，使用一个List甚至Map去存储所有绑定的客户端的msg.replyTo对象，然后想给谁发消息都可以。甚至可以把A进程发来的消息，通过B进程的msg.replyTo发到B进程那里去。相关代码呢，可以参考官方的文档：service，注意下拉找：Remote Messenger Service Sample。 三、源码分析其实Messenger的内部实现的，实际上也是依赖于aidl文件实现的。（一）首先我们看客户端向服务端通信服务端服务端的onBind是这么写的：1234public IBinder onBind(Intent intent) &#123; return mMessenger.getBinder(); &#125; 那么点进去：123public IBinder getBinder() &#123; return mTarget.asBinder(); &#125; 可以看到返回的是mTarget.asBinder(); mTarget是哪来的呢？ 别忘了我们前面去构造mMessenger对象的代码：new Messenger(new Handler())；123public Messenger(Handler target) &#123; mTarget = target.getIMessenger(); &#125; 原来是Handler返回的，我们继续跟进去12345678910111213141516final IMessenger getIMessenger() &#123; synchronized (mQueue) &#123; if (mMessenger != null) &#123; return mMessenger; &#125; mMessenger = new MessengerImpl(); return mMessenger; &#125;&#125; private final class MessengerImpl extends IMessenger.Stub &#123; public void send(Message msg) &#123; msg.sendingUid = Binder.getCallingUid(); Handler.this.sendMessage(msg); &#125;&#125; mTarget是一个MessengerImpl对象，那么asBinder实际上是返回this，也就是MessengerImpl对象；这是个内部类，可以看到继承自IMessenger.Stub，然后实现了一个send方法，该方法就是将接收到的消息通过 Handler.this.sendMessage(msg);发送到handleMessage方法。看到这，大家有没有想到什么，难道不觉得extends IMessenger.Stub这种写法异常的熟悉么？我们传统写aidl文件，aapt给我们生成什么，生成IXXX.Stub类，然后我们服务端继承IXXX.Stub实现接口中的方法。没错，其实这里内部其实也是依赖一个aidl生成的类，这个aidl位于：frameworks/base/core/Java/android/os/IMessenger.aidl12345678package android.os; import android.os.Message; /** @hide */ oneway interface IMessenger &#123; void send(in Message msg); &#125; 看到这，你应该明白了，Messenger并没有什么神奇之处，实际上，就是依赖该aidl文件生成的类，继承了IMessenger.Stub类，实现了send方法，send方法中参数会通过客户端传递过来，最终发送给handler进行处理。这里不理解，请详细看下Android aidl Binder框架浅析； 客户端客户端首先通过onServiceConnected拿到sevice（Ibinder）对象，这里没什么特殊的，我们平时的写法也是这样的，只不过我们平时会这么写： IMessenger.Stub.asInterface(service)拿到接口对象进行调用； 而，我们的代码中是mService = new Messenger(service);跟进去，你会发现：123public Messenger(IBinder target) &#123; mTarget = IMessenger.Stub.asInterface(target); &#125; soga，和我们平时的写法一模一样！到这里就可以明白，客户端与服务端通信，实际上和我们平时的写法没有任何区别，通过编写aidl文件，服务端onBind利用Stub编写接口实现返回；客户端利用回调得到的IBinder对象，使用IMessenger.Stub.asInterface(target)拿到接口实例进行调用（内部实现，参考Android aidl Binder框架浅析）。（2）服务端与客户端通信那么，客户端与服务端通信的确没什么特殊的地方，我们完全也可以编写个类似的aidl文件实现；那么服务端是如何与客户端通信的呢？还记得，客户端send方法发送的是一个Message，这个Message.replyTo指向的是一个mMessenger，我们在Activity中初始化的。那么将消息发送到服务端，肯定是通过序列化与反序列化拿到Message对象，我们看下Message的反序列化的代码：1234567891011121314# Messageprivate void readFromParcel(Parcel source) &#123; what = source.readInt(); arg1 = source.readInt(); arg2 = source.readInt(); if (source.readInt() != 0) &#123; obj = source.readParcelable(getClass().getClassLoader()); &#125; when = source.readLong(); data = source.readBundle(); replyTo = Messenger.readMessengerOrNullFromParcel(source); sendingUid = source.readInt(); &#125; 主要看replyTo，调用的是Messenger.readMessengerOrNullFromParcel12345678910public static Messenger readMessengerOrNullFromParcel(Parcel in) &#123; IBinder b = in.readStrongBinder(); return b != null ? new Messenger(b) : null; &#125; public static void writeMessengerOrNullToParcel(Messenger messenger, Parcel out) &#123; out.writeStrongBinder(messenger != null ? messenger.mTarget.asBinder() : null); &#125; 通过上面的writeMessengerOrNullToParcel可以看到，它将客户端的messenger.mTarget.asBinder()对象进行了恢复，客户端的message.mTarget.asBinder()是什么？ 客户端也是通过Handler创建的Messenger，于是asBinder返回的是：1234567891011121314151617181920212223public Messenger(Handler target) &#123; mTarget = target.getIMessenger(); &#125; final IMessenger getIMessenger() &#123; synchronized (mQueue) &#123; if (mMessenger != null) &#123; return mMessenger; &#125; mMessenger = new MessengerImpl(); return mMessenger; &#125; &#125; private final class MessengerImpl extends IMessenger.Stub &#123; public void send(Message msg) &#123; msg.sendingUid = Binder.getCallingUid(); Handler.this.sendMessage(msg); &#125; &#125; public IBinder getBinder() &#123; return mTarget.asBinder(); &#125; 那么asBinder，实际上就是MessengerImpl extends IMessenger.Stub中的asBinder了。1234567#IMessenger.Stub@Override public android.os.IBinder asBinder()&#123;return this;&#125; 那么其实返回的就是MessengerImpl对象自己。到这里可以看到message.mTarget.asBinder()其实返回的是客户端的MessengerImpl对象。 最终，发送给客户端的代码是这么写的：12345msgfromClient.replyTo.send(msgToClient);public void send(Message message) throws RemoteException &#123; mTarget.send(message); &#125; 这个mTarget实际上就是对客户端的MessengerImpl对象的封装，那么send(message)（屏蔽了transact/onTransact的细节），这个message最终肯定传到客户端的handler的handleMessage方法中。 好了，到此我们的源码分析就结束了~~ 总结下： 客户端与服务端通信，利用的aidl文件，没什么特殊的 服务端与客户端通信，主要是在传输的消息上做了处理，让Messager.replyTo指向的客户端的Messenger,而Messenger又持有客户端的一个Binder对象（MessengerImpl）。服务端正是利用这个Binder对象做的与客户端的通信。 可以考虑自己编写aidl文件，实现下服务端对客户端的回调。 转载:http://blog.csdn.net/lmj623565791/article/details/47017485]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>跨进程</tag>
+        <tag>Messenger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[远程Service中的DeathRecipient和RemoteCallbackList]]></title>
+    <url>%2F2018%2F02%2F07%2F%E8%BF%9C%E7%A8%8BService%E4%B8%AD%E7%9A%84DeathRecipient%E5%92%8CRemoteCallbackList-1%2F</url>
+    <content type="text"><![CDATA[DeathRecipient:用这个的原因是担心客户端异常销毁时,服务器收不到消息,造成资源浪费等异常RemoteCallbackList:同样的,我们在服务端通知客户端消息的时候,也担心 服务端会异常销毁,导致客户端收不到消息 这两个类的使用demo在这里:http://www.cnblogs.com/punkisnotdead/p/5158016.html]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>Service</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android 进程间的通信]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid-%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1%2F</url>
+    <content type="text"><![CDATA[在 Android 世界里，默认的每个 APP 是一个单独的进程。其实这样的描述是不严格的，因为咱们要研究 Android 的进程间通信，肯定除了和其他的 APP 通信外，还可能和同一个 APP 下的其他进程通信。在 Java 里，每一个虚拟机是一个进程，Android 也是虚拟机的机制，你每启动一个 APP，默认会启动一个虚拟机上，一个虚拟机就是一个进程。在 APP 里，有还被运行创建另外的进程，在主进程结束后，这个进程还可以独立运行。 咱们这里不讨论怎么创建进程，咱们先讨论怎么让进程通信。 Android 里有四个基础组件，Activity，Service，Broastcast，Content Provider。 ####ActivityActivity 跨进程通信其实咱们很经常用，但是却忽略了。咱们通过实例化一个 Intent，然后 startActivity ，是不是把一个意图，也就是 Intent 发送出去了？那么最终被 start 的 Activity 完全可能是在另外一个进程里的啊。比如你发送微博，你在你的 APP 里，通过 Intent 把数据发送给了微博客户端，微博客户端发完微博又回到了你的 APP，这个时候你需要 startActivityForResult 和 onActivityResult 就解决了你的进程和微博客户端进程的通信。 ####ServiceService 是最复杂的。一般情况下，Service 和应用同在一个进程下，并且是主线程的。所以，一般 Service 也叫本地Service。既然有本地的，就有外地的，叫做远程 Service，remote service。如果一个 Service 是 remote service 的话，那么这个 Service 就会运行在一个独立的进程里。 既然跨进程了，就需要了解一个东西，叫 AIDL ， Android Interface Definition Language。它是一个定义语言，说白了，你可以理解它是一个中间的桥梁，进程A得知道进程B的接口（也就是方法），才可以调用，传递参数，获取返回值。 ####Content ProviderAndroid 里，使用SQLite 数据库来存储数据，一般使用 SQLiteOpenHelper 创建的数据库是私有的，不希望它被其他的应用程序读取，甚至写入的，这个机制能保护你应用的数据安全。但是有时候你又需要对外提供数据，如果说电话本，短信等等，其他的应用都可以获取到的。Content Provider 其实也是对 SQLite 的另外一种封装而已，它提供了另外一种数据的访问方式。这个时候，你就需要理解什么是 URI ，统一资源路径。URI 就相当于官话，你懂我懂大家懂，而私有数据库就相当于方言，别人一般听不懂，hacker 例外。 Content Provider 可以在不同的应用之间共享数据。 ####Broadcast广播也很好理解了，系统广播一句“狼来啦”，然后大家都知道手机快没电了。A 广播一个消息（其实也是一个Intent），然后其他的应用程序可以接收到这个广播（当然得注册监听这个广播）。 广播虽然好用，但是有些局限性，通过 Intent 来携带数据，一般不允许携带复杂的数据，特别是一些大对象。另外，广播的频率也是一个问题，小喇叭嘴太欠的话，会遭人恨的。 ####Bound Services先来一段官方的解释：A bound service is the server in a client-server interface. A bound service allows components (such as activities) to bind to the service, send requests, receive responses, and even perform interprocess communication (IPC). 一个 Bound Service 可以和其他组件（当然也包括 Service 本身了）进行交互，也包括咱们要说的跨进程通信了。 一说到 Android 的跨进程通信，大家都想到了 AIDL，其实不仅是 AIDL，包括咱们上面说的，可以通过 Intent 的发送，来进行跨进程的通信，除此之外，用 bindService 的方式，也不仅仅是 AIDL。 从创建 Bound Service 开始。一般咱们使用 bindService 来获取一个 iBinder 对象，然后通过 iBinder 对象来与 Service 进行通信。 ####Extending the Binder class最一般的方式，就是继承于 Binder（Binder implements IBinder），然后写你想要的方法，在 Service 的 onBind 的方法里返回一个 Binder 对象。在其他组件里（比如 Activity）通过 bindService 来获取这个 Binder 对象，然后就可以和 Service 进行交互了。 这种方式适用于调用 Service 的组件和 Service 在同一个进程里。也就是没有跨进程啥事。 官方文档有这么一句话：The only reason you would not create your interface this way is because your service is used by other applications or across separate processes.也就是说，除非你真的需要跨进程，不然这个方式已经够用了，不要瞎搞跨进程。 ####Using a Messengermessenger 的翻译是报信者，送信者，信使。 这种方式，需要你在 Service 里实现一个 Handler 的子类，跟普通的 Handler 一样一样的。然后还需要一个 Messenger 对象，在 onBind 方法，通过 Messenger.getBinder() 获取一个 Binder。 (Messenger底层实现原理就是AIDL，它对AIDL做了一次封装，所以使用方法会比AIDL简单，由于它的效率比较低，一次只能处理一次请求，所以不存在线程同步的问题。) Activity 通过 bindService 获取到 Binder 后，new Messenger(binder) ，Messenger 有个 send 方法，可以把一个 Message 对象发送出去，Service 的 Handler 就会收到这个 Message。跟咱们平常使用的 Handler 和 Message 的方式基本一样，只不过它是跨进程的。 不过到目前为止，这个通信是单向的，由 Activity 向 Service 发送，如果 Service 执行完某些操作后，需要给个响应呢，这个时候，需要 Activity 也实现一个 Messenger ，然后在 send() 的时候需要把这个 Messenger 也传过去。这样在 Service 执行完任务后，也会发送一个 Message 给 Activity。这样就实现了双方的通信。 这个消息队列是在一个线程里去管理的，所以你的 Service 是线程安全的，你不需要额外的设计来保证线程安全。 使用这种方式需要注意, Messenger发送的Message里,传递的数据要保存在message的data里,例如message.getData().xxx,如果保存在obj里会报错 This is the simplest way to perform interprocess communication(IPC), because the Messenger queues all requests into a single thread so that you don’t have to design your service to be thread-safe. ####AIDL下面就开始 AIDL 了，这是大家很期待的，但是又是 Android 官方特别不推荐的方式。 AIDL (Android Interface Definition Language) performs all the work to decompose objects into primitives that the operating system can understand and marshall them across processes to perform IPC. The previous technique, using a Messenger, is actually based on AIDL as its underlying structure. As mentioned above, the Messenger creates a queue of all the client requests in a single thread, so the service receives requests one at a time. If, however, you want your service to handle multiple requests simultaneously, then you can use AIDL directly. In this case, your service must be capable of multi-threading and be built thread-safe. 看粗体的字。然后再看这段话下面还有一段话： Note: Most applications should not use AIDL to create a bound service, because it may require multithreading capabilities and can result in a more complicated implementation. As such, AIDL is not suitable for most applications and this document does not discuss how to use it for your service. If you’re certain that you need to use AIDL directly, see the AIDL document. 这段话的粗体不是我整的，是文档上的。意思就是说大部分应用不需要 AIDL 的。主要的问题出在，如果你使用 AIDL，你必须处理好多线程，并且保证线程安全。 这里不具体描述怎么使用 AIDL，大概就是需要写一个 aidl 文件，然后显示一个 Stub 的子类，其实 Stub 是 extends Binder，然后在 Service 的 onBind() 方法里返回一个 Stub 对象。其他组件还是通过 bindService 的方式获取这个 Binder，并且可以直接调用。 就是因为这里是直接调用，所以就调用者可以在任意线程里，任意时间调用，所以你需要处理好多线程，处理好线程安全。 以上就是 Android 里跟线程有关的内容。随时补充。 — EOF — 转载:http://www.binkery.com/archives/489.html]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>跨进程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Service的startService与bindService的区别]]></title>
+    <url>%2F2018%2F02%2F07%2FService%E7%9A%84startService%E4%B8%8EbindService%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+    <content type="text"><![CDATA[Android执行Service有两种方法，一种是startService，一种是bindService。下面让我们一起来聊一聊这两种执行Service方法的区别。 #####1、生命周期上的区别 执行startService时，Service会经历onCreate-&gt;onStartCommand。当执行stopService时，直接调用onDestroy方法。调用者如果没有stopService，Service会一直在后台运行，下次调用者再起来仍然可以stopService。 执行bindService时，Service会经历onCreate-&gt;onBind。这个时候调用者和Service绑定在一起。调用者调用unbindService方法或者调用者Context不存在了（如Activity被finish了），Service就会调用onUnbind-&gt;onDestroy。这里所谓的绑定在一起就是说两者共存亡了。 多次调用startService，该Service只能被创建一次，即该Service的onCreate方法只会被调用一次。但是每次调用startService，onStartCommand方法都会被调用。Service的onStart方法在API 5时被废弃，替代它的是onStartCommand方法。 第一次执行bindService时，onCreate和onBind方法会被调用，但是多次执行bindService时，onCreate和onBind方法并不会被多次调用，即并不会多次创建服务和绑定服务。 #####2、调用者如何获取绑定后的Service的方法 onBind回调方法将返回给客户端一个IBinder接口实例，IBinder允许客户端回调服务的方法，比如得到Service运行的状态或其他操作。我们需要IBinder对象返回具体的Service对象才能操作，所以说具体的Service对象必须首先实现Binder对象。 #####3、既使用startService又使用bindService的情况 如果一个Service又被启动又被绑定，则该Service会一直在后台运行。首先不管如何调用，onCreate始终只会调用一次。对应startService调用多少次，Service的onStart方法便会调用多少次。Service的终止，需要unbindService和stopService同时调用才行。不管startService与bindService的调用顺序，如果先调用unbindService，此时服务不会自动终止，再调用stopService之后，服务才会终止；如果先调用stopService，此时服务也不会终止，而再调用unbindService或者之前调用bindService的Context不存在了（如Activity被finish的时候）之后，服务才会自动停止。 那么，什么情况下既使用startService，又使用bindService呢？ 如果你只是想要启动一个后台服务长期进行某项任务，那么使用startService便可以了。如果你还想要与正在运行的Service取得联系，那么有两种方法：一种是使用broadcast，另一种是使用bindService。前者的缺点是如果交流较为频繁，容易造成性能上的问题，而后者则没有这些问题。因此，这种情况就需要startService和bindService一起使用了。 另外，如果你的服务只是公开一个远程接口，供连接上的客户端（Android的Service是C/S架构）远程调用执行方法，这个时候你可以不让服务一开始就运行，而只是bindService，这样在第一次bindService的时候才会创建服务的实例运行它，这会节约很多系统资源，特别是如果你的服务是远程服务，那么效果会越明显（当然在Servcie创建的时候会花去一定时间，这点需要注意）。 #####4、本地服务与远程服务 本地服务依附在主进程上，在一定程度上节约了资源。本地服务因为是在同一进程，因此不需要IPC，也不需要AIDL。相应bindService会方便很多。缺点是主进程被kill后，服务变会终止。 远程服务是独立的进程，对应进程名格式为所在包名加上你指定的android:process字符串。由于是独立的进程，因此在Activity所在进程被kill的是偶，该服务依然在运行。缺点是该服务是独立的进程，会占用一定资源，并且使用AIDL进行IPC稍微麻烦一点。 对于startService来说，不管是本地服务还是远程服务，我们需要做的工作都一样简单。 5、代码实例 startService启动服务12345678910111213141516171819202122232425public class LocalService1 extends Service &#123; /** * onBind 是 Service 的虚方法，因此我们不得不实现它。 * 返回 null，表示客服端不能建立到此服务的连接。 */ @Override public IBinder onBind(Intent intent) &#123; return null; &#125; @Override public void onCreate() &#123; super.onCreate(); &#125; @Override public void onStartCommand(Intent intent, int startId, int flags) &#123; super.onStartCommand(intent, startId, flags); &#125; @Override public void onDestroy() &#123; super.onDestroy(); &#125;&#125; bindService绑定服务12345678910111213141516171819202122232425262728293031323334353637public class LocalService extends Service &#123; public SimpleBinder sBinder; /** * 在 Local Service 中我们直接继承 Binder 而不是 IBinder,因 为 Binder 实现了 IBinder 接口，这样我们可以** 少做很多工 作。 */ public class SimpleBinder extends Binder&#123; /** * 获取 Service 实例 * @return */ public LocalService getService()&#123; return LocalService.this; &#125; &#125; public int add(int a, int b)&#123; return a + b; &#125; @Override public void onCreate() &#123; super.onCreate(); // 创建 SimpleBinder sBinder = new SimpleBinder(); &#125; @Override public IBinder onBind(Intent intent) &#123; // 返回 SimpleBinder 对象 return sBinder; &#125;&#125; 上面的代码关键之处，在于 onBind(Intent) 这个方法 返回了一个实现了 IBinder 接口的对象，这个对象将用于绑定Service 的 Activity 与 Local Service 通信。 下面是 Activity 中的代码：1234567891011121314151617181920212223242526272829303132333435363738394041public class Main extends Activity &#123; private final static String TAG = &quot;SERVICE_TEST&quot;; private ServiceConnection sc; private boolean isBind; @Override public void onCreate(Bundle savedInstanceState) &#123; super.onCreate(savedInstanceState); setContentView(R.layout.main); sc = new ServiceConnection() &#123; @Override public void onServiceDisconnected(ComponentName name) &#123; &#125; @Override public void onServiceConnected(ComponentName name, IBinder service) &#123; LocalService.SimpleBinder sBinder = (LocalService.SimpleBinder)service; Log.v(TAG, &quot;3 + 5 = &quot; + sBinder.add(3, 5)); Log.v(TAG, sBinder.getService().toString()); &#125; &#125;; findViewById(R.id.btnBind).setOnClickListener(new OnClickListener() &#123; @Override public void onClick(View v) &#123; bindService(new Intent(Main.this, LocalService.class), sc, Context.BIND_AUTO_CREATE); isBind = true; &#125; &#125;); findViewById(R.id.btnUnbind).setOnClickListener(new OnClickListener() &#123; @Override public void onClick(View v) &#123; if(isBind)&#123; unbindService(sc); isBind = false; &#125; &#125; &#125;); &#125;&#125; #####6、在AndroidManifest.xml里Service元素常见选项|属性|作用||——–|——–||android:name|服务类名||android:label|服务的名字，如果此项不设置，那么默认显示的服务名则为类名||android:icon|服务的图标||android:permission|申明此服务的权限，这意味着只有提供了该权限的应用才能控制或连接此服务||android:process|表示该服务是否运行在另外一个进程，如果设置了此项，那么将会在包名后面加上这段字符串表示另一进程的名字||android:enabled|表示是否能被系统实例化，为true表示可以，为false表示不可以，默认为true||android:exported|表示该服务是否能够被其他应用程序所控制或连接，不设置默认此项为 false| 转载:https://my.oschina.net/tingzi/blog/376545]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>Service</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[AndroidManifest.xml文件详解（service）]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroidManifest-xml%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%EF%BC%88service%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[语法（SYNTAX）：123456789&lt;service android:enabled=[&quot;true&quot; | &quot;false&quot;] android:exported[&quot;true&quot; | &quot;false&quot;] android:icon=&quot;drawable resource&quot; android:label=&quot;string resource&quot; android:name=&quot;string&quot; android:permission=&quot;string&quot; android:process=&quot;string&quot;&gt;&lt;/service&gt; 被包含于（CONTAINED IN）： 可能包含的元素（CAN CONTAIN）： 说明（DESCRIPTION）：这个元素用于声明一个服务（Service类的子类）作为应用程序的组件之一。跟Activity不一样，服务没有可见的用户界面。它们被用于实现长时的后台操作，或提供能够被其他应用程序调用的通信API。所有的服务都必须用清单文件中的元素来代表。任何没有在清单中声明的服务都不能被系统看到，也不会被运行。 属性（ATTRIBUTES）： android:enabled这个属性用于指示该服务是否能够被实例化。如果设置为true，则能够被实例化，否则不能被实例化。默认值是true。 元素有它自己的enabled属性，它的这个属性适用于应用中所有的组件，包括service组件。对于被启用的服务，和元素的enabled属性都必须是true（默认值都是true）。如果有一个元素的enabled属性被设置为false，该服务就会被禁用，而不能被实例化。 android:exported这个属性用于指示该服务是否能够被其他应用程序组件调用或跟它交互。如果设置为true，则能够被调用或交互，否则不能。设置为false时，只有同一个应用程序的组件或带有相同用户ID的应用程序才能启动或绑定该服务。它的默认值依赖与该服务所包含的过滤器。没有过滤器则意味着该服务只能通过指定明确的类名来调用，这样就是说该服务只能在应用程序的内部使用（因为其他外部使用者不会知道该服务的类名），因此这种情况下，这个属性的默认值是false。另一方面，如果至少包含了一个过滤器，则意味着该服务可以给外部的其他应用提供服务，因此默认值是true。这个属性不是限制把服务暴露给其他应用程序的唯一方法。还可以使用权限来限制能够跟该服务交互的外部实体。 android:icon这个属性定义了一个代表服务的图标，它必须要引用一个包含图片定义的可绘制资源。如果这个属性没有设置，则会使用元素的icon属性所设定的图标来代替。无论是元素设置的图标，还是元素所设置的图标，它们都是该服务所有的Intent过滤器的默认图标。 android:label这个属性用于设定一个要显示给用户的服务的名称。如果没有设置这个属性，则会使用元素的label属性值来代替。无论是设定的标签，还是元素设定的标签，它们都是该服务所有的Intent过滤器的默认标签。这个标签应用引用一个字符串资源，以便它能够像用户界面中的字符串一样能够被本地化。但是，为了开发应用程序方便，也可以使用原生字符串来设置这个属性。 android:name这个属性用于指定实现该服务的Service子类的类名。它应该是完整的Java类名（如：com.example.project.RoomService）。但是，也可以使用简写（如：.RoomService），系统会把元素中package属性所设定的值添加到简写名称的前面。一旦发布了应用程序，就不应该改变这个名称（除非android:exported=”false”）。这个属性没有默认值，名称必须要指定。 android:permission这个属性定义了要启动或绑定服务的实体必须要有的权限。如果调用者的startService()、bindService()和stopService()方法没有被授予这个权限，那么这些方法就不会工作，并且Intent对象也不会发送给改服务。如果这个属性没被设置，那么通过元素的permission属性所设定的权限就会适用于该服务。如果元素也没有设置权限，则该服务不受权限保护。 android:process这个属性用于设定服务所运行的进程名称。通常，应用程序的所有组件都运行在给应用程序创建的进程中，进程名与应用程序的包名相同。元素的process属性能够给应用程序的所有组件设置一个不同的默认名称。但是每个组件自己的process属性都能够覆盖这个默认值，这样允许把应用程序分离到不同的多个进程中。如果这个属性值用“:”开头，则在需要的时候系统会创建一个新的，应用程序私有的进程，并且该服务也会运行在这个进程中。如果这个属性值用小写字母开头，那该服务就会运行在以这个属性值命名的全局进程中，它提供了使其工作的权限。这样就允许不同的应用程序组件来共享这个进程，从而降低资源的使用。 被引入的版本（INTRODUCED IN）：API Level 1]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>AndroidManifest</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[使用adb dumpsys 命令查看app占用内存]]></title>
+    <url>%2F2018%2F02%2F07%2F%E4%BD%BF%E7%94%A8adb-dumpsys-%E5%91%BD%E4%BB%A4%E6%9F%A5%E7%9C%8Bapp%E5%8D%A0%E7%94%A8%E5%86%85%E5%AD%98%2F</url>
+    <content type="text"><![CDATA[adb是一个非常强大的工具，使用adb查看应用程序内存使用情况可按如下格式在命令行里查看内存使用情况：adb shell dumpsys meminfo 其中，package_name 也可以换成程序的pid，pid可以通过 adb shell top | grep app_name 来查找，下图是某个程序的内存使用情况：重点关注如下几个字段：（1） Native/Dalvik 的 Heap 信息具体在上面的第一行和第二行，它分别给出的是JNI层和Java层的内存分配情况，如果发现这个值一直增长，则代表程序可能出现了内存泄漏。（2） Total 的 PSS 信息这个值就是你的应用真正占据的内存大小，通过这个信息，你可以轻松判别手机中哪些程序占内存比较大了。]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android模拟app被系统回收掉（需要root权限）]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E6%A8%A1%E6%8B%9Fapp%E8%A2%AB%E7%B3%BB%E7%BB%9F%E5%9B%9E%E6%94%B6%E6%8E%89%EF%BC%88%E9%9C%80%E8%A6%81root%E6%9D%83%E9%99%90%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[12345678# 找到进程PIDadb shell ps | grep your.app.package# 结果类似下面这样:USER PID PPID VSIZE RSS WCHAN PC NAMEu0_a198 21997 160 827940 22064 ffffffff 00000000 S your.app.package# kill掉该进程,如果说没有权限就先执行adb rootadb shell kill -9 21997# app已经被模拟回收了 我习惯用下面的方式123456789# 找到进程PIDadb shellps | grep your.app.package# 结果类似下面这样:USER PID PPID VSIZE RSS WCHAN PC NAMEu0_a198 21997 160 827940 22064 ffffffff 00000000 S your.app.package# kill掉该进程,如果说没有权限就先执行sukill -9 21997# app已经被模拟回收了]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[android实现通过浏览器点击链接打开本地应用（APP）并拿到浏览器传递的数据]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid%E5%AE%9E%E7%8E%B0%E9%80%9A%E8%BF%87%E6%B5%8F%E8%A7%88%E5%99%A8%E7%82%B9%E5%87%BB%E9%93%BE%E6%8E%A5%E6%89%93%E5%BC%80%E6%9C%AC%E5%9C%B0%E5%BA%94%E7%94%A8%EF%BC%88APP%EF%BC%89%E5%B9%B6%E6%8B%BF%E5%88%B0%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BC%A0%E9%80%92%E7%9A%84%E6%95%B0%E6%8D%AE%2F</url>
+    <content type="text"><![CDATA[点击浏览器中的URL链接，启动特定的App。首先做成HTML的页面，页面内容格式如下：1&lt;a href=&quot;scheme://host/path?key=value&quot;&gt;启动应用程序&lt;/a&gt; 这一句就可以了。path,key,value都可以为空作为测试好好写了一下，如下：1&lt;a href=&quot;myapp://test.com/openwith?name=zhangsan&amp;age=26&quot;&gt;启动应用程序&lt;/a&gt; 接下来是Android端。如果要启动的Activity不是MainActivity,则需要加上如下代码123456&lt;intent-filter&gt; &lt;action android:name=&quot;android.intent.action.VIEW&quot;/&gt; &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt; &lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt; &lt;data android:scheme=&quot;myapp&quot; android:host=&quot;test.com&quot; android:pathPrefix=&quot;/openwith&quot;/&gt; &lt;/intent-filter&gt; 本文参考http://blog.csdn.net/geekpark/article/details/16118457]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[使用retrolambda使android支持lambda表达式简化代码]]></title>
+    <url>%2F2018%2F02%2F07%2F%E4%BD%BF%E7%94%A8retrolambda%E4%BD%BFandroid%E6%94%AF%E6%8C%81lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AE%80%E5%8C%96%E4%BB%A3%E7%A0%81%2F</url>
+    <content type="text"><![CDATA[在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。 在module的gradle.build中加入下面的代码即可在项目中使用lambda表达式了 1234567891011121314151617181920212223...apply plugin: &apos;me.tatarka.retrolambda&apos;buildscript &#123; repositories &#123; mavenCentral() &#125; dependencies &#123; classpath &apos;me.tatarka:gradle-retrolambda:3.4.0&apos; &#125;&#125;android &#123;... compileOptions &#123; targetCompatibility 1.8 sourceCompatibility 1.8 &#125;...&#125;//指定源码编译的级别,使用下列代码,会将代码编译到兼容1.6的字节码格式,android2.3.3-4.4使用的jdk6retrolambda &#123; javaVersion JavaVersion.VERSION_1_6&#125;]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[解决No cached version of net.orfjackal.retrolambda:retrolambda:x.x.x available for offline mode.]]></title>
+    <url>%2F2018%2F02%2F07%2F%E8%A7%A3%E5%86%B3No-cached-version-of-net-orfjackal-retrolambda-retrolambda-x-x-x-available-for-offline-mode%2F</url>
+    <content type="text"><![CDATA[转载:https://my.oschina.net/zhangdengjiexuyu/blog/701311 为了使用java8 的lambda表达式特性，特地在项目中添加了 me.tatarka:gradle-retrolambda插件，按照github上的指南，配置好gradle之后，同步项目是没问题的，但是运行打包安装的时候就出了问题，报错： 1No cached version of net.orfjackal.retrolambda:retrolambda:x.x.x available for offline mode 看到offline字眼，果断把Gradle配置项的Global Gradle settings的offline work 取消了，结果还是出现了改错误，实在不行，找不到办法，google了一下，发现了问题的所在：compile部分的运行参数之前加了–offline参数了，去除改参数即可。 设置gradle离线模式的地方有两处，如上图所示 对原文的补充:在github上搜索retrolambda会发现有2个最多星的,分别是evant/gradle-retrolambda和orfjackal/retrolambda。他们之间是啥关系呢？简单来说，gradle-retrolambda只是AS的一个gradle插件，他里面也依赖第二个开源库orfjackal/retrolambda。所以这里我们直接选第一个进行配置。]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>异常</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[命令查看keystore签名]]></title>
+    <url>%2F2018%2F02%2F07%2F%E5%91%BD%E4%BB%A4%E6%9F%A5%E7%9C%8Bkeystore%E7%AD%BE%E5%90%8D%2F</url>
+    <content type="text"><![CDATA[keytool -list -v -keystore “.keystore签名文件的绝对路径”]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>签名</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[adb常用命令]]></title>
+    <url>%2F2018%2F02%2F07%2Fadb%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[1.当有多个设备online时，命令行窗口通过adb连接指定设备方法 通过adb devices命令获取所有online设备的serial number。1234C:\Users\Administrator&gt;adb devicesList of devices attachedemulator-5554 deviceSH0A6PL00243 device 上面表示，当前有两个设备online，第一个emulator-5554是模拟器，后一个是真机会SH0A6PL00243。 通过adb -s cmd向设备发送adb命令。比如：运行命令shell。C:\Users\Administrator&gt;adb -s SH0A6PL00243 shell比如：down一个应用的[数据库]到本地f:\test目录下面。12C:\Users\Administrator&gt;adb -s SH0A6PL00243 pull data/data/com.android.tencent/databases/AgendaDetails.db f:\test555 KB/s (5120 bytes in 0.009s) 运行其它命令和运行pull命令一样的，只是在adb和cmd之间需要额外添加-s 即可。 2.模拟app被系统回收掉（需要root权限）1234567891011# find the process idadb shell ps# then find the line with the package name of your app# Mac/Unix: save some time by using grep:adb shell ps | grep your.app.package# The result should look like:# USER PID PPID VSIZE RSS WCHAN PC NAME# u0_a198 21997 160 827940 22064 ffffffff 00000000 S your.app.package# Kill the app by PIDadb shell kill -9 21997# the app is now killed]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>adb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[android databinding框架开发环境配置]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid-databinding%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[这几天学dagger2,无意中看到Data Binding Library这么个东西,Data Binding 框架如果能够推广开来，也许 RoboGuice、ButterKnife 这样的依赖注入框架会慢慢失去市场，因为在 Java 代码中直接使用 View变量的情况会越来越少。网上有很多配置databinding的方法,有些是错误的,所以在此记录一下 配置databinding 如果直接在xml使用@{}肯定会出错的,网上很多只说了怎么用,直接用@{}肯定会报错,我们首先要配置databinding,方法如下: 现在只需在 gradle 中加入 databinding 就可以使用了，之前的 plugin 和 classpath 都不需要了，现在的 databinding 作为 support lib 存在，所以使用之前需要去 SDK Manager 中更新 support 包。：1234567android &#123; ... dataBinding &#123; enabled = true &#125; ...&#125; 然后我们就可以使用Data Binding了,具体使用方法网上有很多,我就不再赘述了]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>第三方框架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ListView从底部开始绘制和新item自动移动到底部]]></title>
+    <url>%2F2018%2F02%2F07%2FListView%E4%BB%8E%E5%BA%95%E9%83%A8%E5%BC%80%E5%A7%8B%E7%BB%98%E5%88%B6%E5%92%8C%E6%96%B0item%E8%87%AA%E5%8A%A8%E7%A7%BB%E5%8A%A8%E5%88%B0%E5%BA%95%E9%83%A8%2F</url>
+    <content type="text"><![CDATA[今天做聊天,才知道ListView的2个属性,android:stackFromBottom和android:transcriptMode android:stackFromBottom true的时候,ListView内容就从底部开始显示,如果只有一条内容这条内容就在列表的最底部,默认是false android:transcriptMode 设置列表的transcriptMode模式，该模式指定列表添加新的选项的时候，是否自动滑动到底部，显示新的选项。 disabled：取消transcriptMode模式，默认的 normal：当接受到数据集合改变的通知，并且仅仅当最后一个选项已经显示在屏幕的时候，自动滑动到底部。 alwaysScroll：无论当前列表显示什么选项，列表将会自动滑动到底部显示最新的选项。]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>View</tag>
+        <tag>ListView</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[解决ScrollView里如果有动态更新的ChildView时会自动滚动到底部的方法]]></title>
+    <url>%2F2018%2F02%2F07%2F%E8%A7%A3%E5%86%B3ScrollView%E9%87%8C%E5%A6%82%E6%9E%9C%E6%9C%89%E5%8A%A8%E6%80%81%E6%9B%B4%E6%96%B0%E7%9A%84ChildView%E6%97%B6%E4%BC%9A%E8%87%AA%E5%8A%A8%E6%BB%9A%E5%8A%A8%E5%88%B0%E5%BA%95%E9%83%A8%E7%9A%84%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[在这个ChildView的xml属性里加上 android:focusable=”true”android:focusableInTouchMode=”true” 就可以解决]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>ScrollView</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[android studio 的配置]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid-studio-%E7%9A%84%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[因为GFW,android studio不是下载了就可以用的,最常见的是gradle的问题,现在把自己遇到的问题记录一下,以后再配置就直接看文章就可以了 1.gradle问题,下载最新gradle,然后android studio指定gradle目录 2.虽然指定了gradle目录,但是build的时候还得FQ,然后android studio会下载一些文件,这些文件就很小了,FQ下没关系 3.apply plugin: ‘com.android.application’这句话会报错,需要添加下面的代码到build.gradle,与android同级123456789buildscript &#123; repositories &#123; mavenCentral() // or jcenter() &#125; dependencies &#123; classpath &apos;com.android.tools.build:gradle:2.1.2&apos; &#125;&#125; 4.junit报错,FQ可以解决,或者直接删掉testCompile ‘junit:junit:4.12’]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>IDE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[windowSoftInputMode属性讲解]]></title>
+    <url>%2F2018%2F02%2F07%2FwindowSoftInputMode%E5%B1%9E%E6%80%A7%E8%AE%B2%E8%A7%A3%2F</url>
+    <content type="text"><![CDATA[windowSoftInputMode属性讲解（下面这段内容我参考别人的博客，并加入我的一些意见）我们从这个属性的名称中，可以很直观的看出它的作用，这个属性就是来设置窗口软键盘的交互模式的。android:windowSoftInputMode属性一共有9个取值，分别是： 【A】stateUnspecified：软键盘的状态并没有指定，系统将选择一个合适的状态或依赖于主题的设置【B】stateUnchanged：当这个activity出现时，软键盘将一直保持在上一个activity里的状态，无论是隐藏还是显示【C】stateHidden：用户选择activity时，软键盘总是被隐藏【D】stateAlwaysHidden：当该Activity主窗口获取焦点时，软键盘也总是被隐藏的【E】stateVisible：软键盘通常是可见的【F】stateAlwaysVisible：用户选择activity时，软键盘总是显示的状态【G】adjustUnspecified：默认设置，通常由系统自行决定是隐藏还是显示【H】adjustResize：该Activity总是调整屏幕的大小以便留出软键盘的空间【I】adjustPan：当前窗口的内容将自动移动以便当前焦点从不被键盘覆盖和用户能总是看到输入内容的部分 来源:http://www.bozhiyue.com/anroid/boke/2016/0604/177871.html]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>AndroidManifest</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[小米手机无法打开程序报错Unable to instantiate application com.android.tools.fd.runtime.BootstrapApplication的解决办法]]></title>
+    <url>%2F2018%2F02%2F07%2F%E5%B0%8F%E7%B1%B3%E6%89%8B%E6%9C%BA%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E7%A8%8B%E5%BA%8F%E6%8A%A5%E9%94%99Unable-to-instantiate-application-com-android-tools-fd-runtime-BootstrapApplication%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[打开studio的setting 然后Preferences -&gt; Build, Execution, Deployment -&gt; Instant Run -&gt; Enable Instant Run把勾去掉，就可以了]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>异常</tag>
+        <tag>小米</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何让自己的app尽量不被系统杀死]]></title>
+    <url>%2F2018%2F02%2F07%2F%E5%A6%82%E4%BD%95%E8%AE%A9%E8%87%AA%E5%B7%B1%E7%9A%84app%E5%B0%BD%E9%87%8F%E4%B8%8D%E8%A2%AB%E7%B3%BB%E7%BB%9F%E6%9D%80%E6%AD%BB%2F</url>
+    <content type="text"><![CDATA[1.在Service中重写下面的方法，这个方法有三个返回值， START_STICKY是service被kill掉后自动重写创建1234@Override public int onStartCommand(Intent intent, int flags, int startId)&#123; return START_STICKY;&#125; 2.在Service的onDestroy()中重启Service.1234567@Overridepublic void onDestroy() &#123; super.onDestroy(); Intent localIntent = new Intent(); localIntent.setClass(this, MyService.class); //销毁时重新启动Service this.startService(localIntent); &#125; 3.在mf.xml的application的节点中添加android:persistent=”true”这个方法,必须要system app,所以这个基本没用 4.fork进程的方式做守护,在5.0已经不行了 5.在Service里创建一个静态内部Service,然后启动外部Service和静态内部Service为前台服务,然后停止这个静态内部Service,这样通知栏虽然不显示通知但是外部Service仍然是前台Service,这是利用android的一个bug,不过高版本应该也修复了,参考 http://zhoujianghua.com/2015/07/28/black_technology_in_alipay/(最下面有个demo示例) http://blog.csdn.net/lhd201006/article/details/50920464 保活这个东西,我查了很多很多的资料了,在现在这个环境,我觉得保活的控制权各大厂商已经交给了用户,比如在华为EMUI系统和MIUI系统,锁屏后默认都杀死应用,想要应用不被杀死,就得自己开启锁屏不被杀或者开启自启动选项,如果做推送,就用手机厂商自己的推送服务,我个人也觉得这种方式很好,否则,你可以想一下android当初刚出来的时候,各种软件有多么的流氓,就知道现在为什么把控制权交给用户了]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[如何使用Service的Context弹出Dialog对话框，即全局性对话框]]></title>
+    <url>%2F2018%2F02%2F07%2F%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Service%E7%9A%84Context%E5%BC%B9%E5%87%BADialog%E5%AF%B9%E8%AF%9D%E6%A1%86%EF%BC%8C%E5%8D%B3%E5%85%A8%E5%B1%80%E6%80%A7%E5%AF%B9%E8%AF%9D%E6%A1%86%2F</url>
+    <content type="text"><![CDATA[在dialog.show()语句前加入：1dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT); 然后在AndroidManifest.xml中加入权限：1&lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot;/&gt; 下面进行简单的解释： 如果只在Service中写入常在Activity中使用的创建Dialog的代码，运行时是会发生错误的，因为Dialog的显示需要依附于一个确定的Activity类。而以上做法就是声明我们要弹出的这个提示框是一个系统的提示框，即全局性质的提示框，所以只要手机处于开机状态，无论它现在处于何种界面之下，只要调用dialog.show()，就会弹出提示框来。 需要注意的是，如果用TYPE_SYSTEM_ALERT，某些手机对底层进行了修改(小米，魅族之类)，系统会默认会拒绝该权限。解决：通过将type设定为TYPE_TOAST，就可以绕过检查，这时候需要改动TYPE_SYSTEM_ALERT为TYPE_TOAST]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>Dialog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[设置TextView按下时变换文字颜色]]></title>
+    <url>%2F2018%2F02%2F07%2F%E8%AE%BE%E7%BD%AETextView%E6%8C%89%E4%B8%8B%E6%97%B6%E5%8F%98%E6%8D%A2%E6%96%87%E5%AD%97%E9%A2%9C%E8%89%B2%2F</url>
+    <content type="text"><![CDATA[在res中建立一个color文件夹，在其中新建一个xml（这里为text_color.xml）： 1234&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; &gt; &lt;item android:state_pressed=&quot;true&quot; android:color=&quot;@color/white&quot;&gt;&lt;/item&gt; &lt;item android:color=&quot;@color/black&quot;&gt;&lt;/item&gt;&lt;/selector&gt; 然后设置你的TextView属性： 12345678&lt;TextView android:id=&quot;@+id/textView&quot; android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot; android:textColor=&quot;@color/text_color&quot; android:textSize=&quot;11dp&quot; android:clickable=&quot;true&quot; android:text=&quot;忘记密码&quot; /&gt; 重点要讲一下的是clickable属性，默认该属性为false，此时TextView是不可点击的，也就不会有变换颜色的效果。所以要将该属性设为true。]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>View</tag>
+        <tag>TextView</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[android onCreate中获取view宽高为0的解决方法]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid-onCreate%E4%B8%AD%E8%8E%B7%E5%8F%96view%E5%AE%BD%E9%AB%98%E4%B8%BA0%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[通过post可以将一个runnable投递到消息队列的尾部，然后等待UI线程Looper调用此runnable的时候，view也已经初始化好了。 123456view.post(new Runnable() &#123; @Override public void run() &#123; L.i(&quot;post(Runnable) : view.getWidth():&quot; + view.getWidth() + &quot; view.getHeight():&quot; + view.getHeight()); &#125;&#125;);]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>View</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[android:clipChildren属性的作用]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid-clipChildren%E5%B1%9E%E6%80%A7%E7%9A%84%E4%BD%9C%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[该属性默认为true,这个属性需要添加到最顶层的ViewGroup,作用是控制子View是否可以超出它所在的父View设定的边界 比如ImageView设置高度100dp,而它所在的父View设置的高度50dp,那么给这个xml最顶层(注意是最顶层,最顶层不一定是这个ImageView的父View)设置android:clipChildren=”false”,那么这个ImageView是可以显示100dp高度的,否则会被剪切为50dp]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>AndroidManifest</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SwipeMenuListView在ScrollView里上下滑动导致菜单不能显示完全的bug解决方法]]></title>
+    <url>%2F2018%2F02%2F07%2FSwipeMenuListView%E5%9C%A8ScrollView%E9%87%8C%E4%B8%8A%E4%B8%8B%E6%BB%91%E5%8A%A8%E5%AF%BC%E8%87%B4%E8%8F%9C%E5%8D%95%E4%B8%8D%E8%83%BD%E6%98%BE%E7%A4%BA%E5%AE%8C%E5%85%A8%E7%9A%84bug%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[这是因为上下滑动的时候,事件被ScrollView截获了,这时候应该禁止ScrollView截获上下滑动事件,解决方法如下 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162public class NoRollSwipeMenuListView extends SwipeMenuListView &#123; private GestureDetector mGestureDetector; public NoRollSwipeMenuListView(Context context) &#123; super(context); mGestureDetector = new GestureDetector(context, onGestureListener); &#125; public NoRollSwipeMenuListView(Context context, AttributeSet attrs) &#123; super(context, attrs); mGestureDetector = new GestureDetector(context, onGestureListener); &#125; public NoRollSwipeMenuListView(Context context, AttributeSet attrs, int defStyle) &#123; super(context, attrs, defStyle); mGestureDetector = new GestureDetector(context, onGestureListener); &#125; public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123; int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE &gt;&gt; 2, MeasureSpec.AT_MOST); super.onMeasure(widthMeasureSpec, expandSpec); &#125; @Override public boolean onTouchEvent(MotionEvent ev) &#123; boolean b = mGestureDetector.onTouchEvent(ev);// LogUtil.w(&quot;onTouchEvent&quot;, &quot;mGestureDetector.onTouchEvent(ev)-&gt;&quot; + b); return super.onTouchEvent(ev); &#125; private GestureDetector.OnGestureListener onGestureListener = new GestureDetector.SimpleOnGestureListener() &#123; //distanceX 左右滑动距离,左滑动正值,右滑动负值 //distanceY 上下滑动距离,上滑动正值,下滑动负值 @Override public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) &#123; if (Math.abs(distanceY) &gt;= Math.abs(distanceX)) &#123;//上下滑动距离大于左右滑动距离,当作上下滑动// LogUtil.w(&quot;onScroll&quot;, &quot;distanceX=&quot; + distanceX + &quot;:distanceY=&quot; + distanceY);// LogUtil.w(&quot;onScroll&quot;, &quot;true&quot;); //上下滑动不做任何操作,在这里父ScrollView已经交出onTouch权限,否则如果权限在父ScrollView的话这里接收不到事件 //所以执行到这里是因为下面的setParentScrollAble(false);已经执行过了 return true; &#125; //当滑动NoRollSwipeMenuListView的时候，让父ScrollView交出onTouch权限，也就是让父ScrollView停住不能滚动 setParentScrollAble(false);// LogUtil.w(&quot;onScroll&quot;, &quot;false&quot;); return false; &#125; &#125;; /** * 是否把滚动事件交给父ScrollView * * @param flag */ private void setParentScrollAble(boolean flag) &#123; //这里的parentScrollView就是NoRollSwipeMenuListView外面的那个ScrollView// LogUtil.w(&quot;setParentScrollAble&quot;, &quot;flag-&gt;&quot; + flag); getParent().requestDisallowInterceptTouchEvent(!flag); &#125;&#125;]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>ScrollView</tag>
+        <tag>SwipeMenuListView</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android控制ScrollView滚动]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E6%8E%A7%E5%88%B6ScrollView%E6%BB%9A%E5%8A%A8%2F</url>
+    <content type="text"><![CDATA[有两种办法: 第一种，使用scrollTo(),这个方法不需要handler,直接调用就行 第二种方式，使用fullScrol(),下面我们看一下这个函数:12 scrollView.fullScroll(ScrollView.FOCUS_DOWN);滚动到底部 scrollView.fullScroll(ScrollView.FOCUS_UP);滚动到顶部 需要注意的是，该方法不能直接被调用 因为Android很多函数都是基于消息队列来同步，所以需要异步操作， addView完之后，不等于马上就会显示，而是在队列中等待处理，虽然很快，但是如果立即调用fullScroll， view可能还没有显示出来，所以会失败 应该通过handler在新线程中更新]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>View</tag>
+        <tag>ScrollView</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android的Intent.FLAG_ACTIVITY_CLEAR_TOP无效]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E7%9A%84Intent-FLAG-ACTIVITY-CLEAR-TOP%E6%97%A0%E6%95%88%2F</url>
+    <content type="text"><![CDATA[转载:http://blog.csdn.net/u011361576/article/details/48626237 今天写代码遇到了一个问题：当 B - A - B 跳转的时候，使用Intent的FLAG_ACTIVITY_CLEAR_TOP会让第一个B和第二个A，destory掉，但是当B - A - C跳转的时候不会调用B和A的destory。查看API文档才发现原因，所以这里记录一下避免下次忘记了： 123public static final int FLAG_ACTIVITY_CLEAR_TOPAdded in [API level 1](http://developer.android.com/guide/topics/manifest/uses-sdk-element.html#ApiLevels)If set, and the activity being launched is already running in the current task, then instead of launching a new instance of that activity, all of the other activities on top of it will be closed and this Intent will be delivered to the (now on top) old activity as a new Intent. 如果设置这个属性，是当要启动的Activity已经存在当前Task中，才会在启动的时候销毁其他的Activity。所以上面当A跳C的时候不满足此条件。 当然如果想实现这个效果可以使用：1it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK); 不过此方法要求最低API为11]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>intent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[android-获得".apk"文件的相关信息。包名、版本号等等]]></title>
+    <url>%2F2018%2F02%2F07%2Fandroid-%E8%8E%B7%E5%BE%97-apk%E6%96%87%E4%BB%B6%E7%9A%84%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF%E3%80%82%E5%8C%85%E5%90%8D%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E7%AD%89%E7%AD%89%2F</url>
+    <content type="text"><![CDATA[1234567String filePath = &quot;/sdcard/feijiedemo.apk&quot;; PackageManager packageManager = getPackageManager(); PackageInfo packageInfo = packageManager.getPackageArchiveInfo(filePath, PackageManager.GET_ACTIVITIES); Log.d(&quot;name&quot;, packageInfo.packageName); Log.d(&quot;uid&quot;, packageInfo.sharedUserId); Log.d(&quot;vname&quot;, packageInfo.versionName); Log.d(&quot;code&quot;, packageInfo.versionCode+&quot;&quot;);]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>apk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android开发中的MVP实现]]></title>
+    <url>%2F2018%2F02%2F07%2FAndroid%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84MVP%E5%AE%9E%E7%8E%B0%2F</url>
+    <content type="text"><![CDATA[最近想要重构代码，因为项目需要给几个学校使用，而每个学校的界面是有差别的，但是功能几乎一模一样，虽然用gradle的分支可以做到代码的差异，但是公共部分的代码逻辑也越来越多，所以想重构一下，最近比较火的MVP模式看了一下，觉得很合适，不过网上很多资料也是抄来抄去，有的还有错误，就想按照自己的理解把MVP模式描述一下，方便他人理解，先说一下大家最熟悉的MVC设计模式吧 MVC模式解耦合了M层和V层，M层和V层通过C层来交互 然后看一下MVP，我下面的文字以I开头的是接口的意思(手打的图好累…) MVP和MVC最大的区别是P层代替了以前的C层，控制的不再是具体的实现而是接口，这样不管是多人开发还是频繁的UI更改，都不会影响P层，只要C和V层的接口不变，UI的改动只需要更改V层的实现而已，C层的实现都不需要改,这样代码就很清晰，而且方便测试，因为逻辑层和视图层完全分离了，下面用代码来说话，还是先来MVC模式的，用登录这个例子吧，android已经很好的把C层和V层分开了，我们写的xml相当于V层，Activity相当于C层 123public interface ICallback&#123; void receive(boolean success);&#125; 12345public class LoginModel&#123; public void login(String name,String password,ICallback callback)&#123; WebApi.login(name,password,callback); &#125;&#125; 123456789101112131415161718192021public class LoginActivity extends Activity&#123; private LoginModel mLoginModel; private EditText mUserNameEt; private EditText mPasswordEt; private Button mSubmitBtn; public void onCreate(......)&#123; mLoginModel = new LoginModel(...); mSubmitBtn.setOnClickListener(new OnClickListener(View view)&#123; mLoginModel.login(mUserNameEt.get...,mPasswordEt.get...,new ICallback()&#123; public void receive(boolean success)&#123; if(success)&#123; startActivity(new Intent(this,MainActivity.class)); finish(); &#125; else &#123; Toast.makeText(this,&quot;登录失败&quot;,Toast.LENGTH_SHORT).show(); &#125; &#125; &#125;); &#125;); &#125;&#125; 我们再来看一下用MVP模式怎么写,文章下面的评论有哥们说写个契约类,我查了一下,写个契约类是比较方便,所以下面的代码是我改过的1234567891011121314151617public interface ILoginContract &#123; public interface ILoginModel&#123; public void login(String name,String password,ICallback callback); &#125; public interface ILoginPresenter&#123; public void login(String name,String password); &#125; public interface ILoginView&#123; public void showDialog(); public void dismissDialog(); public void showToast(String message); public void navigateToMain(); &#125;&#125; 1234567891011121314151617181920212223242526272829public class PresenterImpl implements ILoginPresenter,ICallback&#123; private ILoginView mLoginView; private ILoginModel mLoginModel; public PresenterImpl(ILoginView loginView)&#123; this.mLoginView = loginView; this.mLoginModel = new LoginModelImpl(); &#125; public void login(String name,String password)&#123; if(isEmpty(name)||isEmpty(password))&#123; this.mLoginView.showToast(&quot;用户名或密码不能为空&quot;); return; &#125; this.mLoginModel.login(name,password,this); &#125; public void receive(boolean success)&#123; if(success)&#123; this.mLoginView.navigateToMain(); &#125;else&#123; this.mLoginView.showToast(&quot;登录失败&quot;); &#125; &#125; private boolean isEmpty(String text)&#123; return text==null||&quot;&quot;.equals(text)?true:false; &#125;&#125; 123456789101112131415161718192021222324252627282930public class LoginActivity extends Activity implements ILoginView&#123; private IPresenter mPresenter; private EditText mUserNameEt; private EditText mPasswordEt; private Button mSubmitBtn; public void onCreate(......)&#123; mPresenter = new PresenterImpl(this); mSubmitBtn.setOnClickListener(new OnClickListener(View view)&#123; mPresenter.login(mUserNameEt.getText().toString(), mPasswordEt.getText().toString()); &#125;); &#125; public void showDialog()&#123; //显示一个转圈的dialog; &#125; public void dismissDialog()&#123; //隐藏转圈的dialog; &#125; public void showToast(String message)&#123; Toast.makeText(this,message,Toast.LENGTH_SHORT).show(); &#125; public void navigateToMain()&#123; startActivity(new Intent(this,MainActivity.class)); finish(); &#125;&#125; MVP的类和代码确实要多一些，但是这些是非常值得的，可以看出现在的代码逻辑要比MVC模式写起来更清晰，代码测试也更简单，甚至可以在没有页面效果图只有功能的时候完成功能，UI的改变也不会影响任何的业务代码。 以上MVP设计模式是个人理解，如果有误请指正，谢谢，共同探讨，共同进步]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Fragment在ViewPager中判断显示还是隐藏]]></title>
+    <url>%2F2018%2F02%2F07%2FFragment%E5%9C%A8ViewPager%E4%B8%AD%E5%88%A4%E6%96%AD%E6%98%BE%E7%A4%BA%E8%BF%98%E6%98%AF%E9%9A%90%E8%97%8F%2F</url>
+    <content type="text"><![CDATA[注意只有在ViewPager中才会调用此方法123456789@Override public void setUserVisibleHint(boolean isVisibleToUser) &#123; super.setUserVisibleHint(isVisibleToUser); if (isVisibleToUser) &#123; //相当于activity的onResume &#125; else &#123; //相当于activity的onPause &#125; &#125;]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>fragment</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[欢迎]]></title>
+    <url>%2F2018%2F02%2F07%2Fwelcome%2F</url>
+    <content type="text"><![CDATA[简书不是专门的写技术文章的地方,掘金个人感觉页面太丑而且分类也不方便也不能搜索,所以在gayhub创建了一个博客,记录一些技术文章,Hexo做博客太简单了,分享一个文章,我就按照这个文章做的 Mac上搭建基于GitHub的Hexo博客]]></content>
+  </entry>
+</search>
