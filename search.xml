@@ -89,6 +89,14 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[Java中的强引用,软引用,弱引用,虚引用]]></title>
+    <url>%2F2018%2F02%2F08%2FJava%E4%B8%AD%E7%9A%84%E5%BC%BA%E5%BC%95%E7%94%A8-%E8%BD%AF%E5%BC%95%E7%94%A8-%E5%BC%B1%E5%BC%95%E7%94%A8-%E8%99%9A%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。 由于WeakReference被GC回收的可能性较大，因此，在使用它之前，你需要通过weakObj.get()去判断目的对象引用是否已经被回收. Reference queque 一旦WeakReference.get()返回null，它指向的对象就会被垃圾回收，那么WeakReference对象就没有用了，意味着你应该进行一些清理。比如在WeakHashMap中要把回收过的key从Map中删除掉，避免无用的的weakReference不断增长。ReferenceQueue可以让你很容易地跟踪dead references。WeakReference类的构造函数有一个ReferenceQueue参数，当指向的对象被垃圾回收时，会把WeakReference对象放到ReferenceQueue中。这样，遍历ReferenceQueue可以得到所有回收过的WeakReference。 ####4.虚引用和soft，weak Reference区别较大，它的get()方法总是返回null。这意味着你只能用PhantomReference本身，而得不到它指向的对象。当WeakReference指向的对象变得弱可达(weakly reachable）时会立即被放到ReferenceQueue中，这在finalization、garbage collection之前发生。理论上，你可以在finalize()方法中使对象“复活”（使一个强引用指向它就行了，gc不会回收它）。但没法复活PhantomReference指向的对象。而PhantomReference是在garbage collection之后被放到ReferenceQueue中的，没法复活。虚引用适合用来查看对象什么时候被回收,优化内存的时候使用 以上是个人在网上学习的时候总结的东西,有错误的地方请指正]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[Android Studio中的六种依赖]]></title>
     <url>%2F2018%2F02%2F08%2FAndroid-Studio%E4%B8%AD%E7%9A%84%E5%85%AD%E7%A7%8D%E4%BE%9D%E8%B5%96%2F</url>
     <content type="text"><![CDATA[####Compilecompile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。 ####ProvidedProvided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。 ####APK只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错 ####Test compileTest compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。 ####Debug compileDebug compile 仅仅针对debug模式的编译和最终的debug apk打包。 ####Release compileRelease compile 仅仅针对Release 模式的编译和最终的Release apk打包。]]></content>
@@ -98,14 +106,6 @@
       <tags>
         <tag>IDE</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Java中的强引用,软引用,弱引用,虚引用]]></title>
-    <url>%2F2018%2F02%2F08%2FJava%E4%B8%AD%E7%9A%84%E5%BC%BA%E5%BC%95%E7%94%A8-%E8%BD%AF%E5%BC%95%E7%94%A8-%E5%BC%B1%E5%BC%95%E7%94%A8-%E8%99%9A%E5%BC%95%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。 由于WeakReference被GC回收的可能性较大，因此，在使用它之前，你需要通过weakObj.get()去判断目的对象引用是否已经被回收. Reference queque 一旦WeakReference.get()返回null，它指向的对象就会被垃圾回收，那么WeakReference对象就没有用了，意味着你应该进行一些清理。比如在WeakHashMap中要把回收过的key从Map中删除掉，避免无用的的weakReference不断增长。ReferenceQueue可以让你很容易地跟踪dead references。WeakReference类的构造函数有一个ReferenceQueue参数，当指向的对象被垃圾回收时，会把WeakReference对象放到ReferenceQueue中。这样，遍历ReferenceQueue可以得到所有回收过的WeakReference。 ####4.虚引用和soft，weak Reference区别较大，它的get()方法总是返回null。这意味着你只能用PhantomReference本身，而得不到它指向的对象。当WeakReference指向的对象变得弱可达(weakly reachable）时会立即被放到ReferenceQueue中，这在finalization、garbage collection之前发生。理论上，你可以在finalize()方法中使对象“复活”（使一个强引用指向它就行了，gc不会回收它）。但没法复活PhantomReference指向的对象。而PhantomReference是在garbage collection之后被放到ReferenceQueue中的，没法复活。虚引用适合用来查看对象什么时候被回收,优化内存的时候使用 以上是个人在网上学习的时候总结的东西,有错误的地方请指正]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[一些常用类的记录]]></title>
@@ -132,19 +132,19 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux命令备忘录]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95%2F</url>
-    <content type="text"><![CDATA[####1.netstat常用命令-a：查看所有端口的占用-t：只列出 TCP 或 UDP 协议的连接-u：列出 UDP 协议的连接-n：禁用反向域名解析，加快查询速度-l：只列出监听中的连接-p：获取进程名、进程号以及用户 ID-ep：可以同时查看进程名和用户名 ####2.kill -9 pid杀死pid这个进程 ####3.刷新dnssudo /etc/init.d/networking restart]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[Joda-Time 简介]]></title>
     <url>%2F2018%2F02%2F08%2FJoda-Time-%E7%AE%80%E4%BB%8B%2F</url>
     <content type="text"><![CDATA[转载ibm:https://www.ibm.com/developerworks/cn/java/j-jodatime.html]]></content>
       <categories>
         <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux命令备忘录]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[####1.netstat常用命令-a：查看所有端口的占用-t：只列出 TCP 或 UDP 协议的连接-u：列出 UDP 协议的连接-n：禁用反向域名解析，加快查询速度-l：只列出监听中的连接-p：获取进程名、进程号以及用户 ID-ep：可以同时查看进程名和用户名 ####2.kill -9 pid杀死pid这个进程 ####3.刷新dnssudo /etc/init.d/networking restart]]></content>
+      <categories>
+        <category>linux</category>
       </categories>
   </entry>
   <entry>
@@ -164,17 +164,17 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux常用命令-文件搜索命令-locate,which,whereis,grep]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4-locate-which-whereis-grep%2F</url>
-    <content type="text"><![CDATA[locate 目录或文件名 -i 查找的时候不区分大小写这个类似everything,速度比find快很多,因为这个命令搜索的是它维护的文件资料库,文件资料库是var/lib/mlocate/mlocate.db,如果文件没有包含在它的文件资料库,那么是找不到这个文件的,这个时候需要用updatedb命令来更新文件资料库,但是,/tmp这个目录,是不会被文件资料库收录的,即使执行了updatedb也找不到tmp下面的文件 which 搜索命令所在目录及别名 例:which lswhereis 搜索命令所在目录及帮助文档路径 例:whereis ls 注意,这个命令查到的帮助文档的路径中,1代表命令的帮助,5代表文档的帮助,例如whereis passwd中就有man1和man5这两种帮助文档grep 在文件内容中搜寻子串匹配的行为并输出 -i 不区分大小写 -v 排除指定字串 例:grep mysql /root/install.log grep -v ^# /etc/inittab 把#开头的行排除]]></content>
+    <title><![CDATA[linux常用命令-压缩解压命令]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[gzip [文件] 压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件gunzip [文件] 或者 gzip -d [文件] 解压缩.gz的压缩文件tar [-zcvf] [压缩后文件名] [目录] 打包目录 压缩后文件格式 .tar.gz -c 打包 -x 解压缩 -v 显示详细信息 -f 指定文件名 -z 打包同时压缩tar [-zxvf] [解压缩文件名] [目录] zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高 [-r] [压缩后文件名] [目录]:压缩目录 压缩后文件格式 .zip 注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容 bzip2 [-k] [压缩文件] 压缩比例最高 -k 压缩后保留源文件 配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的bunzip2 [-k] [压缩文件] -k 压缩后保留源文件 配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的]]></content>
       <categories>
         <category>linux</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux常用命令-压缩解压命令]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[gzip [文件] 压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件gunzip [文件] 或者 gzip -d [文件] 解压缩.gz的压缩文件tar [-zcvf] [压缩后文件名] [目录] 打包目录 压缩后文件格式 .tar.gz -c 打包 -x 解压缩 -v 显示详细信息 -f 指定文件名 -z 打包同时压缩tar [-zxvf] [解压缩文件名] [目录] zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高 [-r] [压缩后文件名] [目录]:压缩目录 压缩后文件格式 .zip 注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容 bzip2 [-k] [压缩文件] 压缩比例最高 -k 压缩后保留源文件 配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的bunzip2 [-k] [压缩文件] -k 压缩后保留源文件 配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的]]></content>
+    <title><![CDATA[linux常用命令-文件搜索命令-locate,which,whereis,grep]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4-locate-which-whereis-grep%2F</url>
+    <content type="text"><![CDATA[locate 目录或文件名 -i 查找的时候不区分大小写这个类似everything,速度比find快很多,因为这个命令搜索的是它维护的文件资料库,文件资料库是var/lib/mlocate/mlocate.db,如果文件没有包含在它的文件资料库,那么是找不到这个文件的,这个时候需要用updatedb命令来更新文件资料库,但是,/tmp这个目录,是不会被文件资料库收录的,即使执行了updatedb也找不到tmp下面的文件 which 搜索命令所在目录及别名 例:which lswhereis 搜索命令所在目录及帮助文档路径 例:whereis ls 注意,这个命令查到的帮助文档的路径中,1代表命令的帮助,5代表文档的帮助,例如whereis passwd中就有man1和man5这两种帮助文档grep 在文件内容中搜寻子串匹配的行为并输出 -i 不区分大小写 -v 排除指定字串 例:grep mysql /root/install.log grep -v ^# /etc/inittab 把#开头的行排除]]></content>
       <categories>
         <category>linux</category>
       </categories>
