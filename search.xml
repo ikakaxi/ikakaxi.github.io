@@ -47,14 +47,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[source tree 配置 外部差异比对工具为beyond compare]]></title>
-    <url>%2F2018%2F02%2F08%2Fsource-tree-%E9%85%8D%E7%BD%AE-%E5%A4%96%E9%83%A8%E5%B7%AE%E5%BC%82%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%B8%BAbeyond-compare%2F</url>
-    <content type="text"><![CDATA[1、首先，安装好beyond compare后，创建一个快捷方式1ln -s /Applications/Beyond\ Compare.app/Contents/MacOS/bcomp /usr/local/bin/ 2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：123456Visual Diff Tool: OtherDiff Command:/usr/local/bin/bcompParameters:-ro $LOCAL $REMOTEMerge Tool: OtherMerge Command:/usr/local/bin/bcompParameters:$LOCAL $REMOTE $BASE $MERGED]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[windows下android studio在git push时失败的解决方法]]></title>
     <url>%2F2018%2F02%2F08%2Fwindows%E4%B8%8Bandroid-studio%E5%9C%A8git-push%E6%97%B6%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行然后生成ssh就可以了]]></content>
@@ -63,17 +55,17 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[source tree 配置 外部差异比对工具为beyond compare]]></title>
+    <url>%2F2018%2F02%2F08%2Fsource-tree-%E9%85%8D%E7%BD%AE-%E5%A4%96%E9%83%A8%E5%B7%AE%E5%BC%82%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%B8%BAbeyond-compare%2F</url>
+    <content type="text"><![CDATA[1、首先，安装好beyond compare后，创建一个快捷方式1ln -s /Applications/Beyond\ Compare.app/Contents/MacOS/bcomp /usr/local/bin/ 2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：123456Visual Diff Tool: OtherDiff Command:/usr/local/bin/bcompParameters:-ro $LOCAL $REMOTEMerge Tool: OtherMerge Command:/usr/local/bin/bcompParameters:$LOCAL $REMOTE $BASE $MERGED]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[gradle类重复的问题解决方法]]></title>
     <url>%2F2018%2F02%2F08%2Fgradle%E7%B1%BB%E9%87%8D%E5%A4%8D%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[今天遇到一个gradle的类重复问题,学习到一个命令 gradle -q dependencies ,可以查看项目里包的依赖关系,发生这个错误是因为我用了一个相册的项目,这个项目里用到了v4包,我自己的项目也用到了v4包, 然后我把这个项目1compile &apos;cn.finalteam:galleryfinal:1.4.8.7&apos; 改为123compile(&apos;cn.finalteam:galleryfinal:1.4.8.7&apos;) &#123; exclude module: &apos;support-v4&apos;&#125; 就解决了 如果是本地的项目,可以用下面的代码123compile (project(&apos;:yourAndroidLibrary&apos;))&#123; exclude module: &apos;support-v4&apos;&#125;]]></content>
-  </entry>
-  <entry>
-    <title><![CDATA[解决 release-stripped.ap_' specified for property 'resourceFile' does not exist.]]></title>
-    <url>%2F2018%2F02%2F08%2F%E8%A7%A3%E5%86%B3-release-stripped-ap-specified-for-property-resourceFile-does-not-exist%2F</url>
-    <content type="text"><![CDATA[设置buildTypes里的release的shrinkResources为false即可,如果是 release-stripped.ap_’ specified for property ‘resourceFile’ does not exist.则设置buildTypes里的debug的shrinkResources为false]]></content>
-      <categories>
-        <category>gradle</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[gradle中compile，provided，compile files，compile project有何区别？]]></title>
@@ -84,9 +76,28 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[解决 release-stripped.ap_' specified for property 'resourceFile' does not exist.]]></title>
+    <url>%2F2018%2F02%2F08%2F%E8%A7%A3%E5%86%B3-release-stripped-ap-specified-for-property-resourceFile-does-not-exist%2F</url>
+    <content type="text"><![CDATA[设置buildTypes里的release的shrinkResources为false即可,如果是 release-stripped.ap_’ specified for property ‘resourceFile’ does not exist.则设置buildTypes里的debug的shrinkResources为false]]></content>
+      <categories>
+        <category>gradle</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[解决Gradle下载太慢的问题]]></title>
     <url>%2F2018%2F02%2F08%2F%E8%A7%A3%E5%86%B3Gradle%E4%B8%8B%E8%BD%BD%E5%A4%AA%E6%85%A2%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[因为GFW的原因,国内用android studio的时候,在gradle这步一定会卡住,所以需要以下步骤自己去下载gradle ###1.在gradle-wrapper.properties中查看gradle下载地址和版本 ###2.去查看所有分发的gradle版本地址:https://services.gradle.org/distributions/ ###3.下载完成后放到什么地方? 1.windows在 C:\Users\yourname.gradle\wrapper\dists\gradle-版本\随机字符串\ 2.mac在 /Users/用户名/.gradle/wrapper/dists/gradle-版本/随机字符串/ 3.linux ###4.将gradle-版本.zip.part移除，把自己下载的gradle-gradle-版本.zip复制到这个目录。然后再次启动Andriod Studio，会自动读取gradle并解压 #完成]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Android Studio中的六种依赖]]></title>
+    <url>%2F2018%2F02%2F08%2FAndroid-Studio%E4%B8%AD%E7%9A%84%E5%85%AD%E7%A7%8D%E4%BE%9D%E8%B5%96%2F</url>
+    <content type="text"><![CDATA[####Compilecompile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。 ####ProvidedProvided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。 ####APK只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错 ####Test compileTest compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。 ####Debug compileDebug compile 仅仅针对debug模式的编译和最终的debug apk打包。 ####Release compileRelease compile 仅仅针对Release 模式的编译和最终的Release apk打包。]]></content>
+      <categories>
+        <category>gradle</category>
+      </categories>
+      <tags>
+        <tag>IDE</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Java中的强引用,软引用,弱引用,虚引用]]></title>
@@ -105,17 +116,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[Android Studio中的六种依赖]]></title>
-    <url>%2F2018%2F02%2F08%2FAndroid-Studio%E4%B8%AD%E7%9A%84%E5%85%AD%E7%A7%8D%E4%BE%9D%E8%B5%96%2F</url>
-    <content type="text"><![CDATA[####Compilecompile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。 ####ProvidedProvided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。 ####APK只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错 ####Test compileTest compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。 ####Debug compileDebug compile 仅仅针对debug模式的编译和最终的debug apk打包。 ####Release compileRelease compile 仅仅针对Release 模式的编译和最终的Release apk打包。]]></content>
-      <categories>
-        <category>gradle</category>
-      </categories>
-      <tags>
-        <tag>IDE</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Class.isAssignableFrom与 instanceof 区别]]></title>
     <url>%2F2018%2F02%2F08%2FClass-isAssignableFrom%E4%B8%8E-instanceof-%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。 通常调用格式是 Class1.isAssignableFrom (Class2) 调用者和参数都是 java.lang.Class 类型。 而 instanceof 是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。 格式是： o instanceof TypeName 第一个参数是对象实例名，第二个参数是具体的类名或接口名具体例子如下：123456789101112131415161718192021222324252627282930313233public class TestCase &#123; public static void main(String[] args) &#123; TestCase test = new TestCase(); test.testIsAssignedFrom1(); test.testIsAssignedFrom2(); test.testIsAssignedFrom3(); test.testInstanceOf1(); test.testInstanceOf2(); &#125; public void testIsAssignedFrom1() &#123; System.out.println(String.class.isAssignableFrom(Object.class)); &#125; public void testIsAssignedFrom2() &#123; System.out.println(Object.class.isAssignableFrom(Object.class)); &#125; public void testIsAssignedFrom3() &#123; System.out.println(Object.class.isAssignableFrom(String.class)); &#125; public void testInstanceOf1() &#123; String s = &quot;&quot;; System.out.println(s instanceof Object); &#125; public void testInstanceOf2() &#123; Object o = new Object(); System.out.println(o instanceof Object); &#125; &#125; 打印结果：12345false true true true true]]></content>
@@ -129,14 +129,6 @@
     <content type="text"><![CDATA[CountDownLatch:这个类适合一个任务需要另一个任务完成后才能继续的场景CyclicBarrier:与CountDownLatch类似 CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或N个线程等待其他线程完成执行；而CyclicBarrier则是允许N个线程相互等待。(02) CountDownLatch的计数器无法被重置；CyclicBarrier的计数器可以被重置后使用，因此它被称为是循环的barrier。]]></content>
       <categories>
         <category>java</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[linux命令备忘录]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95%2F</url>
-    <content type="text"><![CDATA[####1.netstat常用命令-a：查看所有端口的占用-t：只列出 TCP 或 UDP 协议的连接-u：列出 UDP 协议的连接-n：禁用反向域名解析，加快查询速度-l：只列出监听中的连接-p：获取进程名、进程号以及用户 ID-ep：可以同时查看进程名和用户名 ####2.kill -9 pid杀死pid这个进程 ####3.刷新dnssudo /etc/init.d/networking restart]]></content>
-      <categories>
-        <category>linux</category>
       </categories>
   </entry>
   <entry>
@@ -156,17 +148,9 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux常用命令-文件搜索命令-locate,which,whereis,grep]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4-locate-which-whereis-grep%2F</url>
-    <content type="text"><![CDATA[locate 目录或文件名 -i 查找的时候不区分大小写这个类似everything,速度比find快很多,因为这个命令搜索的是它维护的文件资料库,文件资料库是var/lib/mlocate/mlocate.db,如果文件没有包含在它的文件资料库,那么是找不到这个文件的,这个时候需要用updatedb命令来更新文件资料库,但是,/tmp这个目录,是不会被文件资料库收录的,即使执行了updatedb也找不到tmp下面的文件 which 搜索命令所在目录及别名 例:which lswhereis 搜索命令所在目录及帮助文档路径 例:whereis ls 注意,这个命令查到的帮助文档的路径中,1代表命令的帮助,5代表文档的帮助,例如whereis passwd中就有man1和man5这两种帮助文档grep 在文件内容中搜寻子串匹配的行为并输出 -i 不区分大小写 -v 排除指定字串 例:grep mysql /root/install.log grep -v ^# /etc/inittab 把#开头的行排除]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[linux常用命令-压缩解压命令]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[gzip [文件] 压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件gunzip [文件] 或者 gzip -d [文件] 解压缩.gz的压缩文件tar [-zcvf] [压缩后文件名] [目录] 打包目录 压缩后文件格式 .tar.gz -c 打包 -x 解压缩 -v 显示详细信息 -f 指定文件名 -z 打包同时压缩tar [-zxvf] [解压缩文件名] [目录] zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高 [-r] [压缩后文件名] [目录]:压缩目录 压缩后文件格式 .zip 注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容 bzip2 [-k] [压缩文件] 压缩比例最高 -k 压缩后保留源文件 配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的bunzip2 [-k] [压缩文件] -k 压缩后保留源文件 配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的]]></content>
+    <title><![CDATA[linux命令备忘录]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[####1.netstat常用命令-a：查看所有端口的占用-t：只列出 TCP 或 UDP 协议的连接-u：列出 UDP 协议的连接-n：禁用反向域名解析，加快查询速度-l：只列出监听中的连接-p：获取进程名、进程号以及用户 ID-ep：可以同时查看进程名和用户名 ####2.kill -9 pid杀死pid这个进程 ####3.刷新dnssudo /etc/init.d/networking restart]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -180,9 +164,25 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[linux常用命令-压缩解压命令]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[gzip [文件] 压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件gunzip [文件] 或者 gzip -d [文件] 解压缩.gz的压缩文件tar [-zcvf] [压缩后文件名] [目录] 打包目录 压缩后文件格式 .tar.gz -c 打包 -x 解压缩 -v 显示详细信息 -f 指定文件名 -z 打包同时压缩tar [-zxvf] [解压缩文件名] [目录] zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高 [-r] [压缩后文件名] [目录]:压缩目录 压缩后文件格式 .zip 注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容 bzip2 [-k] [压缩文件] 压缩比例最高 -k 压缩后保留源文件 配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的bunzip2 [-k] [压缩文件] -k 压缩后保留源文件 配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[linux常用命令-帮助命令man,whatis,apropos,info,help]]></title>
     <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4man-whatis-apropos-info-help%2F</url>
     <content type="text"><![CDATA[man 命令 man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径 man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页 man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助, 所以如果要看配置文件的帮助文档,需要输入man 5 passwd whatis 命令 可以查看某命令的简短的帮助信息 apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径 可以查看某配置文件的简短的帮助信息 命令 –help 列出该命令的常见选项 info 命令或者配置文件 类似man,可以显示当前查看文件的进度 help 可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的 例:help cd]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-文件搜索命令-locate,which,whereis,grep]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4-locate-which-whereis-grep%2F</url>
+    <content type="text"><![CDATA[locate 目录或文件名 -i 查找的时候不区分大小写这个类似everything,速度比find快很多,因为这个命令搜索的是它维护的文件资料库,文件资料库是var/lib/mlocate/mlocate.db,如果文件没有包含在它的文件资料库,那么是找不到这个文件的,这个时候需要用updatedb命令来更新文件资料库,但是,/tmp这个目录,是不会被文件资料库收录的,即使执行了updatedb也找不到tmp下面的文件 which 搜索命令所在目录及别名 例:which lswhereis 搜索命令所在目录及帮助文档路径 例:whereis ls 注意,这个命令查到的帮助文档的路径中,1代表命令的帮助,5代表文档的帮助,例如whereis passwd中就有man1和man5这两种帮助文档grep 在文件内容中搜寻子串匹配的行为并输出 -i 不区分大小写 -v 排除指定字串 例:grep mysql /root/install.log grep -v ^# /etc/inittab 把#开头的行排除]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -217,17 +217,17 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[ubuntu安装android开发环境]]></title>
-    <url>%2F2018%2F02%2F08%2Fubuntu%E5%AE%89%E8%A3%85android%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%2F</url>
-    <content type="text"><![CDATA[1.安装oracle-jdk打开终端，使用下面的命令：java -version如果你看到像下面的输出，这就意味着你并没有安装过Java: The program ‘java’ can be found in the following packages:* default-jre* gcj-4.6-jre-headless* openjdk-6-jre-headless* gcj-4.5-jre-headless* openjdk-7-jre-headlessTry: sudo apt-get install 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：sudo add-apt-repository ppa:webupd8team/javasudo apt-get updatesudo apt-get install oracle-java8-installersudo apt-get install oracle-java8-set-default 2.安装genymotion安装genymotion需要先安装virtualbox，命令如下：sudo apt-get install virtualbox然后下载genymotion，chmod +x geny…..bin 增加权限后执行，会解压缩，然后双击即可打开]]></content>
+    <title><![CDATA[linux各目录的作用]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%90%84%E7%9B%AE%E5%BD%95%E7%9A%84%E4%BD%9C%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[]]></content>
       <categories>
         <category>linux</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux各目录的作用]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%90%84%E7%9B%AE%E5%BD%95%E7%9A%84%E4%BD%9C%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[]]></content>
+    <title><![CDATA[ubuntu安装android开发环境]]></title>
+    <url>%2F2018%2F02%2F08%2Fubuntu%E5%AE%89%E8%A3%85android%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%2F</url>
+    <content type="text"><![CDATA[1.安装oracle-jdk打开终端，使用下面的命令：java -version如果你看到像下面的输出，这就意味着你并没有安装过Java: The program ‘java’ can be found in the following packages:* default-jre* gcj-4.6-jre-headless* openjdk-6-jre-headless* gcj-4.5-jre-headless* openjdk-7-jre-headlessTry: sudo apt-get install 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：sudo add-apt-repository ppa:webupd8team/javasudo apt-get updatesudo apt-get install oracle-java8-installersudo apt-get install oracle-java8-set-default 2.安装genymotion安装genymotion需要先安装virtualbox，命令如下：sudo apt-get install virtualbox然后下载genymotion，chmod +x geny…..bin 增加权限后执行，会解压缩，然后双击即可打开]]></content>
       <categories>
         <category>linux</category>
       </categories>
