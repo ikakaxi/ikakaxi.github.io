@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[android内存泄漏的多种方式]]></title>
     <url>%2F2018%2F03%2F15%2Fandroid%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E5%BC%8F%2F</url>
-    <content type="text"><![CDATA[内存泄漏的定义：简单的讲，就是该被释放的对象没有释放，虽然不再被使用却一直被某个或某些实例所持有而导致GC不能回收 因为Java的GC机制，我们并不需要去像C++一样去手动释放内存，但是如果不注意，Java一样会发生内存泄漏，下面列举一些开发中常见的内存泄漏场景： 1. 静态集合：123456static Vector v = new Vector(10);for (int i = 1; i&lt;100; i++)&#123; Object o = new Object(); v.add(o); o = null;&#125; 在这个例子中，循环申请Object 对象，并将所申请的对象放入一个Vector 中，如果仅仅释放引用本身（o=null），那么Vector 仍然引用该对象，所以这个对象对GC 来说是不可回收的。因此，如果对象加入到Vector 后，还必须从Vector 中删除，最简单的方法就是将Vector对象设置为null。 2. 当集合里面的对象属性被修改后，再调用remove()方法时不起作用。 //Person.kt 1234567891011121314151617181920212223 data class Person(private val name: String, private val password: String, var age: Int) fun main(args: Array&lt;String&gt;) &#123; val set = HashSet&lt;Person&gt;(); val p1 = Person("唐僧", "pwd1", 25) val p2 = Person("孙悟空", "pwd2", 26) val p3 = Person("猪八戒", "pwd3", 27) set.add(p1) set.add(p2) set.add(p3) System.out.println("总共有:" + set.size + " 个元素!"); //结果：总共有:3 个元素! set.forEach &#123; System.out.println(it) &#125; p3.age = 2 //修改p3的年龄,此时p3元素对应的hashcode值发生改变 set.remove(p3) //此时remove不掉，造成内存泄漏 set.add(p3) //重新添加，居然添加成功 System.out.println("总共有:" + set.size + " 个元素!"); //结果：总共有:4 个元素! set.forEach &#123; System.out.println(it) &#125;&#125; 这种情况需要我们重写hashCode和equals方法，例如将Person类改为： 12345678910111213 data class Person(private val name: String, private val password: String, var age: Int) &#123; override fun equals(other: Any?): Boolean &#123; return when &#123; other !is Person -&gt; false name != other.name -&gt; false else -&gt; true &#125; &#125; override fun hashCode(): Int &#123; return name.hashCode() &#125;&#125; 这时候结果就正确了，添加的时候不会重复了，可以自己将代码复制到IDE查看结果 3. 监听器Android很多控件设置监听器是setXXXListener，比如Button，但是有些View设置某些监听是addXXXListener，比如EditText，如果不注意可能就调用了多次addXXXListener方法，造成了内存泄漏和莫名其妙的bug 4. 各种连接比如数据库连接，网络连接，打开文件流之类的，除非其显式的调用了其close()方法将其连接关闭，否则是不会自动被GC回收的。 5. 非静态内部类这也是很常见的一种情况，我们写代码时写的最多的就是12345private val mHandler = object : Handler() &#123; override fun handleMessage(msg: Message) &#123; super.handleMessage(msg) &#125;&#125; 而在非静态内部类里，是默认持有外部类引用的，举个例子如果我们调用1mHandler.sendMessageDelayed(Message.obtain(),2000) 然后finish这个Activity，这时候就内存泄漏了，因为mHandler持有外部Activity的强引用，所以如果Handler中的任务没有执行完那么这个Activity是不能被回收的，这里的例子比较简单，有可能这不是Handler而是一个Thread之类的，解决办法是我们在Activity的onDestory方法里调用Handler的removeCallbacksAndMessages方法(如果是这里这种情况)，并且尽量将内部类写成静态的内部类，静态内部类是不持有外部类的引用的 如果一定要持有外部类的应用，我们可以考虑使用弱应用的方式 6. 单例模式的类持有其他类的引用 举个例子：123456789object Util &#123; private lateinit var mContext: Context fun init(context: Context) &#123; mContext = context &#125; fun getXXX(res: Int): String &#123; return mContext.getString(res) &#125;&#125; 可能有人想传入一个context，以后使用就不用每次都传入了，但是这时候这个context的内存就发生了泄露，因为这个context被这个单例工具类一直持有，所以这个context就没办法被GC回收了，所以我们应该在这个工具类的每个方法里都传入Context而不是在init里一次传入一个Context想一劳永逸，或者根据你的业务需要传入ApplicationContext，修改如下：1234567891011object Util &#123; //传入ApplicationContext private lateinit var mContext: Context fun init(context: Context) &#123; mContext = context.applicationContext &#125; //或者每个方法传入Context而不是一直持有引用 fun getXXX(context:Context,res: Int): String &#123; return context.getString(res) &#125;&#125; 7. BraodcastReceiver未及时解绑 广播我们用的比较多，但是很多新手动态注册广播后，并没有及时在Activity的onDestory方法里解绑，导致内存泄漏 8. Bitmap 没调用 recycle() 对于 Bitmap 对象在不使用时,我们应该先调用 recycle() 释放内存，然后才它设置为 null. 因为加载 Bitmap 对象的内存空间，一部分是 java 的，一部分 C 的（因为 Bitmap 分配的底层是通过 JNI 调用的 )。 而这个 recyle() 就是针对 C 部分的内存释放。 比较常见的就是这些]]></content>
+    <content type="text"><![CDATA[内存泄漏的定义：简单的讲，就是该被释放的对象没有释放，虽然不再被使用却一直被某个或某些实例所持有而导致GC不能回收 因为Java的GC机制，我们并不需要去像C++一样去手动释放内存，但是如果不注意，Java一样会发生内存泄漏，下面列举一些开发中常见的内存泄漏场景： 1. 静态集合：123456static Vector v = new Vector(10);for (int i = 1; i&lt;100; i++)&#123; Object o = new Object(); v.add(o); o = null;&#125; 在这个例子中，循环申请Object 对象，并将所申请的对象放入一个Vector 中，如果仅仅释放引用本身（o=null），那么Vector 仍然引用该对象，所以这个对象对GC 来说是不可回收的。因此，如果对象加入到Vector 后，还必须从Vector 中删除，最简单的方法就是将Vector对象设置为null。 2. 当集合里面的对象属性被修改后，再调用remove()方法时不起作用。 1234567891011121314151617181920212223 data class Person(private val name: String, private val password: String, var age: Int) fun main(args: Array&lt;String&gt;) &#123; val set = HashSet&lt;Person&gt;(); val p1 = Person("唐僧", "pwd1", 25) val p2 = Person("孙悟空", "pwd2", 26) val p3 = Person("猪八戒", "pwd3", 27) set.add(p1) set.add(p2) set.add(p3) System.out.println("总共有:" + set.size + " 个元素!"); //结果：总共有:3 个元素! set.forEach &#123; System.out.println(it) &#125; p3.age = 2 //修改p3的年龄,此时p3元素对应的hashcode值发生改变 set.remove(p3) //此时remove不掉，造成内存泄漏 set.add(p3) //重新添加，居然添加成功 System.out.println("总共有:" + set.size + " 个元素!"); //结果：总共有:4 个元素! set.forEach &#123; System.out.println(it) &#125;&#125; 这种情况需要我们重写hashCode和equals方法，例如将Person类改为： 12345678910111213 data class Person(private val name: String, private val password: String, var age: Int) &#123; override fun equals(other: Any?): Boolean &#123; return when &#123; other !is Person -&gt; false name != other.name -&gt; false else -&gt; true &#125; &#125; override fun hashCode(): Int &#123; return name.hashCode() &#125;&#125; 这时候结果就正确了，添加的时候不会重复了，可以自己将代码复制到IDE查看结果 3. 监听器Android很多控件设置监听器是setXXXListener，比如Button，但是有些View设置某些监听是addXXXListener，比如EditText，如果不注意可能就调用了多次addXXXListener方法，造成了内存泄漏和莫名其妙的bug 4. 各种连接比如数据库连接，网络连接，打开文件流之类的，除非其显式的调用了其close()方法将其连接关闭，否则是不会自动被GC回收的。 5. 非静态内部类这也是很常见的一种情况，我们写代码时写的最多的就是12345private val mHandler = object : Handler() &#123; override fun handleMessage(msg: Message) &#123; super.handleMessage(msg) &#125;&#125; 而在非静态内部类里，是默认持有外部类引用的，举个例子如果我们调用1mHandler.sendMessageDelayed(Message.obtain(),2000) 然后finish这个Activity，这时候就内存泄漏了，因为mHandler持有外部Activity的强引用，所以如果Handler中的任务没有执行完那么这个Activity是不能被回收的，这里的例子比较简单，有可能这不是Handler而是一个Thread之类的，解决办法是我们在Activity的onDestory方法里调用Handler的removeCallbacksAndMessages方法(如果是这里这种情况)，并且尽量将内部类写成静态的内部类，静态内部类是不持有外部类的引用的 如果一定要持有外部类的应用，我们可以考虑使用弱应用的方式 6. 单例模式的类持有其他类的引用 举个例子：123456789object Util &#123; private lateinit var mContext: Context fun init(context: Context) &#123; mContext = context &#125; fun getXXX(res: Int): String &#123; return mContext.getString(res) &#125;&#125; 可能有人想传入一个context，以后使用就不用每次都传入了，但是这时候这个context的内存就发生了泄露，因为这个context被这个单例工具类一直持有，所以这个context就没办法被GC回收了，所以我们应该在这个工具类的每个方法里都传入Context而不是在init里一次传入一个Context想一劳永逸，或者根据你的业务需要传入ApplicationContext，修改如下：1234567891011object Util &#123; //传入ApplicationContext private lateinit var mContext: Context fun init(context: Context) &#123; mContext = context.applicationContext &#125; //或者每个方法传入Context而不是一直持有引用 fun getXXX(context:Context,res: Int): String &#123; return context.getString(res) &#125;&#125; 7. BraodcastReceiver未及时解绑 广播我们用的比较多，但是很多新手动态注册广播后，并没有及时在Activity的onDestory方法里解绑，导致内存泄漏 8. Bitmap 没调用 recycle() 对于 Bitmap 对象在不使用时,我们应该先调用 recycle() 释放内存，然后才它设置为 null. 因为加载 Bitmap 对象的内存空间，一部分是 java 的，一部分 C 的（因为 Bitmap 分配的底层是通过 JNI 调用的 )。 而这个 recyle() 就是针对 C 部分的内存释放。 比较常见的就是这些]]></content>
       <categories>
         <category>android</category>
       </categories>
@@ -59,14 +59,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[source tree 配置 外部差异比对工具为beyond compare]]></title>
-    <url>%2F2018%2F02%2F08%2Fsource-tree-%E9%85%8D%E7%BD%AE-%E5%A4%96%E9%83%A8%E5%B7%AE%E5%BC%82%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%B8%BAbeyond-compare%2F</url>
-    <content type="text"><![CDATA[1、首先，安装好beyond compare后，创建一个快捷方式1ln -s /Applications/Beyond\ Compare.app/Contents/MacOS/bcomp /usr/local/bin/ 2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：123456Visual Diff Tool: OtherDiff Command:/usr/local/bin/bcompParameters:-ro $LOCAL $REMOTEMerge Tool: OtherMerge Command:/usr/local/bin/bcompParameters:$LOCAL $REMOTE $BASE $MERGED]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[windows下android studio在git push时失败的解决方法]]></title>
     <url>%2F2018%2F02%2F08%2Fwindows%E4%B8%8Bandroid-studio%E5%9C%A8git-push%E6%97%B6%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行然后生成ssh就可以了]]></content>
@@ -75,17 +67,17 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[source tree 配置 外部差异比对工具为beyond compare]]></title>
+    <url>%2F2018%2F02%2F08%2Fsource-tree-%E9%85%8D%E7%BD%AE-%E5%A4%96%E9%83%A8%E5%B7%AE%E5%BC%82%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%B8%BAbeyond-compare%2F</url>
+    <content type="text"><![CDATA[1、首先，安装好beyond compare后，创建一个快捷方式1ln -s /Applications/Beyond\ Compare.app/Contents/MacOS/bcomp /usr/local/bin/ 2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：123456Visual Diff Tool: OtherDiff Command:/usr/local/bin/bcompParameters:-ro $LOCAL $REMOTEMerge Tool: OtherMerge Command:/usr/local/bin/bcompParameters:$LOCAL $REMOTE $BASE $MERGED]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[gradle类重复的问题解决方法]]></title>
     <url>%2F2018%2F02%2F08%2Fgradle%E7%B1%BB%E9%87%8D%E5%A4%8D%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[今天遇到一个gradle的类重复问题,学习到一个命令 gradle -q dependencies ,可以查看项目里包的依赖关系,发生这个错误是因为我用了一个相册的项目,这个项目里用到了v4包,我自己的项目也用到了v4包, 然后我把这个项目1compile 'cn.finalteam:galleryfinal:1.4.8.7' 改为123compile('cn.finalteam:galleryfinal:1.4.8.7') &#123; exclude module: 'support-v4'&#125; 就解决了 如果是本地的项目,可以用下面的代码123compile (project(':yourAndroidLibrary'))&#123; exclude module: 'support-v4'&#125;]]></content>
-  </entry>
-  <entry>
-    <title><![CDATA[gradle中compile，provided，compile files，compile project有何区别？]]></title>
-    <url>%2F2018%2F02%2F08%2Fgradle%E4%B8%ADcompile%EF%BC%8Cprovided%EF%BC%8Ccompile-files%EF%BC%8Ccompile-project%E6%9C%89%E4%BD%95%E5%8C%BA%E5%88%AB%EF%BC%9F%2F</url>
-    <content type="text"><![CDATA[在一个Android项目的build.gradle中，dependencies闭包中有以下四种形式的声明： 1234compile 'com.android.support:appcompat-v7:22.2.1'provided 'com.squareup.dagger:dagger-compiler:1.2.1'compile files('libs/picasso-2.4.0.jar')compile project(':androidPullToRefresh') 1，3，4本质上是一样的，区别在于： 1 是从repository（默认是jCenter())里下载一个依赖包进行编译并打包3 是从本地的libs目录下寻找picasso-2.4.0.jar这个文件进行编译并打包。类似的命令有compile fileTree(dir: &#39;libs&#39;, include: &#39;*.jar&#39;)——将libs目录下所有jar文件进行编译并打包。4 是将另一个module（等同eclipse中的library)进行编译并打包至于provided，是提供给那些只编译不打包场景的命令。就是，我在编译的时候对某一个jar文件有依赖，但是最终打包apk文件时，我不想把这个jar文件放进去，可以用这个命令。生成jar文件的时候,也不会打包provided的模块。 推荐一本书 《gradle for android》https://segmentfault.com/a/1190000004229002]]></content>
-      <categories>
-        <category>gradle</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[解决 release-stripped.ap_' specified for property 'resourceFile' does not exist.]]></title>
@@ -96,17 +88,17 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[gradle中compile，provided，compile files，compile project有何区别？]]></title>
+    <url>%2F2018%2F02%2F08%2Fgradle%E4%B8%ADcompile%EF%BC%8Cprovided%EF%BC%8Ccompile-files%EF%BC%8Ccompile-project%E6%9C%89%E4%BD%95%E5%8C%BA%E5%88%AB%EF%BC%9F%2F</url>
+    <content type="text"><![CDATA[在一个Android项目的build.gradle中，dependencies闭包中有以下四种形式的声明： 1234compile 'com.android.support:appcompat-v7:22.2.1'provided 'com.squareup.dagger:dagger-compiler:1.2.1'compile files('libs/picasso-2.4.0.jar')compile project(':androidPullToRefresh') 1，3，4本质上是一样的，区别在于： 1 是从repository（默认是jCenter())里下载一个依赖包进行编译并打包3 是从本地的libs目录下寻找picasso-2.4.0.jar这个文件进行编译并打包。类似的命令有compile fileTree(dir: &#39;libs&#39;, include: &#39;*.jar&#39;)——将libs目录下所有jar文件进行编译并打包。4 是将另一个module（等同eclipse中的library)进行编译并打包至于provided，是提供给那些只编译不打包场景的命令。就是，我在编译的时候对某一个jar文件有依赖，但是最终打包apk文件时，我不想把这个jar文件放进去，可以用这个命令。生成jar文件的时候,也不会打包provided的模块。 推荐一本书 《gradle for android》https://segmentfault.com/a/1190000004229002]]></content>
+      <categories>
+        <category>gradle</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[解决Gradle下载太慢的问题]]></title>
     <url>%2F2018%2F02%2F08%2F%E8%A7%A3%E5%86%B3Gradle%E4%B8%8B%E8%BD%BD%E5%A4%AA%E6%85%A2%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[因为GFW的原因,国内用android studio的时候,在gradle这步一定会卡住,所以需要以下步骤自己去下载gradle ###1.在gradle-wrapper.properties中查看gradle下载地址和版本 ###2.去查看所有分发的gradle版本地址:https://services.gradle.org/distributions/ ###3.下载完成后放到什么地方? 1.windows在 C:\Users\yourname.gradle\wrapper\dists\gradle-版本\随机字符串\ 2.mac在 /Users/用户名/.gradle/wrapper/dists/gradle-版本/随机字符串/ 3.linux ###4.将gradle-版本.zip.part移除，把自己下载的gradle-gradle-版本.zip复制到这个目录。然后再次启动Andriod Studio，会自动读取gradle并解压 #完成]]></content>
-  </entry>
-  <entry>
-    <title><![CDATA[Java中的强引用,软引用,弱引用,虚引用]]></title>
-    <url>%2F2018%2F02%2F08%2FJava%E4%B8%AD%E7%9A%84%E5%BC%BA%E5%BC%95%E7%94%A8-%E8%BD%AF%E5%BC%95%E7%94%A8-%E5%BC%B1%E5%BC%95%E7%94%A8-%E8%99%9A%E5%BC%95%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。 由于WeakReference被GC回收的可能性较大，因此，在使用它之前，你需要通过weakObj.get()去判断目的对象引用是否已经被回收. Reference queque 一旦WeakReference.get()返回null，它指向的对象就会被垃圾回收，那么WeakReference对象就没有用了，意味着你应该进行一些清理。比如在WeakHashMap中要把回收过的key从Map中删除掉，避免无用的的weakReference不断增长。ReferenceQueue可以让你很容易地跟踪dead references。WeakReference类的构造函数有一个ReferenceQueue参数，当指向的对象被垃圾回收时，会把WeakReference对象放到ReferenceQueue中。这样，遍历ReferenceQueue可以得到所有回收过的WeakReference。 ####4.虚引用和soft，weak Reference区别较大，它的get()方法总是返回null。这意味着你只能用PhantomReference本身，而得不到它指向的对象。当WeakReference指向的对象变得弱可达(weakly reachable）时会立即被放到ReferenceQueue中，这在finalization、garbage collection之前发生。理论上，你可以在finalize()方法中使对象“复活”（使一个强引用指向它就行了，gc不会回收它）。但没法复活PhantomReference指向的对象。而PhantomReference是在garbage collection之后被放到ReferenceQueue中的，没法复活。虚引用适合用来查看对象什么时候被回收,优化内存的时候使用 以上是个人在网上学习的时候总结的东西,有错误的地方请指正]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[如何在library中使用productFlavors]]></title>
@@ -128,6 +120,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Java中的强引用,软引用,弱引用,虚引用]]></title>
+    <url>%2F2018%2F02%2F08%2FJava%E4%B8%AD%E7%9A%84%E5%BC%BA%E5%BC%95%E7%94%A8-%E8%BD%AF%E5%BC%95%E7%94%A8-%E5%BC%B1%E5%BC%95%E7%94%A8-%E8%99%9A%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。 由于WeakReference被GC回收的可能性较大，因此，在使用它之前，你需要通过weakObj.get()去判断目的对象引用是否已经被回收. Reference queque 一旦WeakReference.get()返回null，它指向的对象就会被垃圾回收，那么WeakReference对象就没有用了，意味着你应该进行一些清理。比如在WeakHashMap中要把回收过的key从Map中删除掉，避免无用的的weakReference不断增长。ReferenceQueue可以让你很容易地跟踪dead references。WeakReference类的构造函数有一个ReferenceQueue参数，当指向的对象被垃圾回收时，会把WeakReference对象放到ReferenceQueue中。这样，遍历ReferenceQueue可以得到所有回收过的WeakReference。 ####4.虚引用和soft，weak Reference区别较大，它的get()方法总是返回null。这意味着你只能用PhantomReference本身，而得不到它指向的对象。当WeakReference指向的对象变得弱可达(weakly reachable）时会立即被放到ReferenceQueue中，这在finalization、garbage collection之前发生。理论上，你可以在finalize()方法中使对象“复活”（使一个强引用指向它就行了，gc不会回收它）。但没法复活PhantomReference指向的对象。而PhantomReference是在garbage collection之后被放到ReferenceQueue中的，没法复活。虚引用适合用来查看对象什么时候被回收,优化内存的时候使用 以上是个人在网上学习的时候总结的东西,有错误的地方请指正]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[一些常用类的记录]]></title>
     <url>%2F2018%2F02%2F08%2F%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%B1%BB%E7%9A%84%E8%AE%B0%E5%BD%95-1%2F</url>
     <content type="text"><![CDATA[CountDownLatch:这个类适合一个任务需要另一个任务完成后才能继续的场景CyclicBarrier:与CountDownLatch类似 CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或N个线程等待其他线程完成执行；而CyclicBarrier则是允许N个线程相互等待。(02) CountDownLatch的计数器无法被重置；CyclicBarrier的计数器可以被重置后使用，因此它被称为是循环的barrier。]]></content>
@@ -144,11 +144,11 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[Joda-Time 简介]]></title>
-    <url>%2F2018%2F02%2F08%2FJoda-Time-%E7%AE%80%E4%BB%8B%2F</url>
-    <content type="text"><![CDATA[转载ibm:https://www.ibm.com/developerworks/cn/java/j-jodatime.html]]></content>
+    <title><![CDATA[linux命令备忘录]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[####1.netstat常用命令-a：查看所有端口的占用-t：只列出 TCP 或 UDP 协议的连接-u：列出 UDP 协议的连接-n：禁用反向域名解析，加快查询速度-l：只列出监听中的连接-p：获取进程名、进程号以及用户 ID-ep：可以同时查看进程名和用户名 ####2.kill -9 pid杀死pid这个进程 ####3.刷新dnssudo /etc/init.d/networking restart]]></content>
       <categories>
-        <category>java</category>
+        <category>linux</category>
       </categories>
   </entry>
   <entry>
@@ -160,9 +160,25 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux命令备忘录]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95%2F</url>
-    <content type="text"><![CDATA[####1.netstat常用命令-a：查看所有端口的占用-t：只列出 TCP 或 UDP 协议的连接-u：列出 UDP 协议的连接-n：禁用反向域名解析，加快查询速度-l：只列出监听中的连接-p：获取进程名、进程号以及用户 ID-ep：可以同时查看进程名和用户名 ####2.kill -9 pid杀死pid这个进程 ####3.刷新dnssudo /etc/init.d/networking restart]]></content>
+    <title><![CDATA[Joda-Time 简介]]></title>
+    <url>%2F2018%2F02%2F08%2FJoda-Time-%E7%AE%80%E4%BB%8B%2F</url>
+    <content type="text"><![CDATA[转载ibm:https://www.ibm.com/developerworks/cn/java/j-jodatime.html]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-帮助命令man,whatis,apropos,info,help]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4man-whatis-apropos-info-help%2F</url>
+    <content type="text"><![CDATA[man 命令 man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径 man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页 man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助, 所以如果要看配置文件的帮助文档,需要输入man 5 passwd whatis 命令 可以查看某命令的简短的帮助信息 apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径 可以查看某配置文件的简短的帮助信息 命令 –help 列出该命令的常见选项 info 命令或者配置文件 类似man,可以显示当前查看文件的进度 help 可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的 例:help cd]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用软件安装]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%2F</url>
+    <content type="text"><![CDATA[####1.mongodb的conf文件port=27017 #【代表端口号，如果不指定则默认为 27017 】dbpath= /home/username/Soft/mongoDBFiles #【数据库路径】logpath= /home/username/Soft/mongoDBFiles/mongodb.log #【日志路径】logappend=true #【日志文件自动累加，而不是覆盖】推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件] ####2.nodejs官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下 ####3.md文件转html要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。$ sudo apt-get install discount 用discount提供的markdown工具转换：$ markdown -o Release-Notes.html Release-Notes.md python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -176,25 +192,9 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux常用命令-帮助命令man,whatis,apropos,info,help]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4man-whatis-apropos-info-help%2F</url>
-    <content type="text"><![CDATA[man 命令 man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径 man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页 man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助, 所以如果要看配置文件的帮助文档,需要输入man 5 passwd whatis 命令 可以查看某命令的简短的帮助信息 apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径 可以查看某配置文件的简短的帮助信息 命令 –help 列出该命令的常见选项 info 命令或者配置文件 类似man,可以显示当前查看文件的进度 help 可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的 例:help cd]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[linux常用命令-压缩解压命令]]></title>
     <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[gzip [文件] 压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件gunzip [文件] 或者 gzip -d [文件] 解压缩.gz的压缩文件tar [-zcvf] [压缩后文件名] [目录] 打包目录 压缩后文件格式 .tar.gz -c 打包 -x 解压缩 -v 显示详细信息 -f 指定文件名 -z 打包同时压缩tar [-zxvf] [解压缩文件名] [目录] zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高 [-r] [压缩后文件名] [目录]:压缩目录 压缩后文件格式 .zip 注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容 bzip2 [-k] [压缩文件] 压缩比例最高 -k 压缩后保留源文件 配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的bunzip2 [-k] [压缩文件] -k 压缩后保留源文件 配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[linux常用软件安装]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%2F</url>
-    <content type="text"><![CDATA[####1.mongodb的conf文件port=27017 #【代表端口号，如果不指定则默认为 27017 】dbpath= /home/username/Soft/mongoDBFiles #【数据库路径】logpath= /home/username/Soft/mongoDBFiles/mongodb.log #【日志路径】logappend=true #【日志文件自动累加，而不是覆盖】推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件] ####2.nodejs官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下 ####3.md文件转html要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。$ sudo apt-get install discount 用discount提供的markdown工具转换：$ markdown -o Release-Notes.html Release-Notes.md python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -577,8 +577,8 @@
         <category>android</category>
       </categories>
       <tags>
-        <tag>API</tag>
         <tag>Service</tag>
+        <tag>API</tag>
       </tags>
   </entry>
   <entry>
