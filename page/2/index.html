@@ -592,7 +592,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/如何在library中使用productFlavors/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Android-Studio中的六种依赖/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuhc">
@@ -611,7 +611,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/08/如何在library中使用productFlavors/" itemprop="url">如何在library中使用productFlavors</a></h1>
+                <a class="post-title-link" href="/2018/02/08/Android-Studio中的六种依赖/" itemprop="url">Android Studio中的六种依赖</a></h1>
         
 
         <div class="post-meta">
@@ -664,9 +664,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/08/如何在library中使用productFlavors/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/08/Android-Studio中的六种依赖/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/如何在library中使用productFlavors/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/08/Android-Studio中的六种依赖/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -695,14 +695,15 @@
 
       
         
-          <p>源地址:<a href="http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao</a><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/08/如何在library中使用productFlavors/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>####Compile<br>compile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。</p>
+<p>####Provided<br>Provided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。</p>
+<p>####APK<br>只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错</p>
+<p>####Test compile<br>Test compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。</p>
+<p>####Debug compile<br>Debug compile 仅仅针对debug模式的编译和最终的debug apk打包。</p>
+<p>####Release compile<br>Release compile 仅仅针对Release 模式的编译和最终的Release apk打包。</p>
+
+          
         
       
     </div>
@@ -908,7 +909,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Android-Studio中的六种依赖/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/如何在library中使用productFlavors/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuhc">
@@ -927,7 +928,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/08/Android-Studio中的六种依赖/" itemprop="url">Android Studio中的六种依赖</a></h1>
+                <a class="post-title-link" href="/2018/02/08/如何在library中使用productFlavors/" itemprop="url">如何在library中使用productFlavors</a></h1>
         
 
         <div class="post-meta">
@@ -980,9 +981,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/08/Android-Studio中的六种依赖/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/08/如何在library中使用productFlavors/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/Android-Studio中的六种依赖/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/08/如何在library中使用productFlavors/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1011,15 +1012,14 @@
 
       
         
-          
-            <p>####Compile<br>compile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。</p>
-<p>####Provided<br>Provided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。</p>
-<p>####APK<br>只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错</p>
-<p>####Test compile<br>Test compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。</p>
-<p>####Debug compile<br>Debug compile 仅仅针对debug模式的编译和最终的debug apk打包。</p>
-<p>####Release compile<br>Release compile 仅仅针对Release 模式的编译和最终的Release apk打包。</p>
-
-          
+          <p>源地址:<a href="http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao" target="_blank" rel="noopener">http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao</a><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/08/如何在library中使用productFlavors/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1535,6 +1535,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Joda-Time-简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/Joda-Time-简介/" itemprop="url">Joda-Time 简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:49:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/Joda-Time-简介/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/Joda-Time-简介/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转载ibm:<a href="https://www.ibm.com/developerworks/cn/java/j-jodatime.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-jodatime.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Linux-操作系统下如何优雅的卸载软件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1647,159 +1800,6 @@
 <p>autoremove — 告诉 apt-get 我们所要做的操作是移除软件</p>
 <p>–purge ——— 注意这前面是两个短划线，这个参数是告诉他们要完整的干净的彻底的移除</p>
 <p>此方法 Ubuntu系、Debian系 系统可用</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/Joda-Time-简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liuhc">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/Joda-Time-简介/" itemprop="url">Joda-Time 简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:49:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/Joda-Time-简介/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/Joda-Time-简介/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转载ibm:<a href="https://www.ibm.com/developerworks/cn/java/j-jodatime.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-jodatime.html</a></p>
 
           
         
