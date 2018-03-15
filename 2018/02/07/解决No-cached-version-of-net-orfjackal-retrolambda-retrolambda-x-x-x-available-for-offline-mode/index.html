@@ -410,7 +410,7 @@
       
         <p>转载:<a href="https://my.oschina.net/zhangdengjiexuyu/blog/701311" target="_blank" rel="noopener">https://my.oschina.net/zhangdengjiexuyu/blog/701311</a><br><a id="more"></a></p>
 <p>为了使用java8 的lambda表达式特性，特地在项目中添加了 me.tatarka:gradle-retrolambda插件，按照github上的指南，配置好gradle之后，同步项目是没问题的，但是运行打包安装的时候就出了问题，报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No cached version of net.orfjackal.retrolambda:retrolambda:x.x.x available for offline mode</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No cached version of net<span class="selector-class">.orfjackal</span><span class="selector-class">.retrolambda</span>:retrolambda:x<span class="selector-class">.x</span><span class="selector-class">.x</span> available <span class="keyword">for</span> offline mode</span><br></pre></td></tr></table></figure>
 <p>看到offline字眼，果断把Gradle配置项的Global Gradle settings的offline work 取消了，结果还是出现了改错误，实在不行，找不到办法，google了一下，发现了问题的所在：compile部分的运行参数之前加了–offline参数了，去除改参数即可。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/545982-3e6b43967c84d670.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/545982-95a63f20f45ca8ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
@@ -536,7 +536,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">108</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

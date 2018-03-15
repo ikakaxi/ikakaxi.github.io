@@ -408,9 +408,9 @@
         <p>转载:<a href="http://blog.csdn.net/u011361576/article/details/48626237" target="_blank" rel="noopener">http://blog.csdn.net/u011361576/article/details/48626237</a></p>
 <a id="more"></a>
 <p>今天写代码遇到了一个问题：<br>当 B - A - B 跳转的时候，使用Intent的FLAG_ACTIVITY_CLEAR_TOP会让第一个B和第二个A，destory掉，但是当B - A - C跳转的时候不会调用B和A的destory。<br>查看API文档才发现原因，所以这里记录一下避免下次忘记了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static final int FLAG_ACTIVITY_CLEAR_TOP</span><br><span class="line">Added in [API level 1](http://developer.android.com/guide/topics/manifest/uses-sdk-element.html#ApiLevels)</span><br><span class="line">If set, and the activity being launched is already running in the current task, then instead of launching a new instance of that activity, all of the other activities on top of it will be closed and this Intent will be delivered to the (now on top) old activity as a new Intent.</span><br></pre></td></tr></table></figure>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> int FLAG_ACTIVITY_CLEAR_TOP</span><br><span class="line">Added <span class="keyword">in</span> [API level <span class="number">1</span>](http:<span class="comment">//developer.android.com/guide/topics/manifest/uses-sdk-element.html#ApiLevels)</span></span><br><span class="line"><span class="keyword">If</span> <span class="keyword">set</span>, <span class="keyword">and</span> the activity being launched <span class="keyword">is</span> already running <span class="keyword">in</span> the current task, <span class="keyword">then</span> instead <span class="keyword">of</span> launching a <span class="keyword">new</span> instance <span class="keyword">of</span> that activity, all <span class="keyword">of</span> the other activities <span class="keyword">on</span> top <span class="keyword">of</span> it will be closed <span class="keyword">and</span> this Intent will be delivered <span class="keyword">to</span> the (now <span class="keyword">on</span> top) <span class="keyword">old</span> activity <span class="keyword">as</span> a <span class="keyword">new</span> Intent.</span><br></pre></td></tr></table></figure>
 <p>如果设置这个属性，是当要启动的Activity已经存在当前Task中，才会在启动的时候销毁其他的Activity。<br>所以上面当A跳C的时候不满足此条件。</p>
-<p>当然如果想实现这个效果可以使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);</span><br></pre></td></tr></table></figure></p>
+<p>当然如果想实现这个效果可以使用：<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">it.setFlags(<span class="keyword">Intent</span>.FLAG_ACTIVITY_NEW_TASK|<span class="keyword">Intent</span>.FLAG_ACTIVITY_CLEAR_TASK);</span><br></pre></td></tr></table></figure></p>
 <p>不过此方法要求最低API为11</p>
 
       
@@ -532,7 +532,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">108</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

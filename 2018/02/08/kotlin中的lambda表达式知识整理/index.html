@@ -431,7 +431,7 @@ val f:(x:Int, y:Int) -&gt; Int = {y: Int, x: Int -&gt; x - y}
 <li>######如果没有小括号,可以直接写大括号里的方法体</li>
 </ul>
 <ol>
-<li>写方法体的时候,因为前面没有在小括号()里定义参数类型,就需要在方法体里指明参数类型,例如下面需要指明x的参数类型 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val add1 = &#123; x:Int-&gt;x + 1 &#125;</span><br></pre></td></tr></table></figure>
+<li>写方法体的时候,因为前面没有在小括号()里定义参数类型,就需要在方法体里指明参数类型,例如下面需要指明x的参数类型 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val <span class="keyword">add</span><span class="number">1</span> = &#123; <span class="keyword">x</span>:Int-&gt;<span class="keyword">x</span> + <span class="number">1</span> &#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>#####如何定义lambda表达式(直接给方法传参,读者可以联想view.setOnClickListener(new OnClickListener…)):</p>
@@ -573,7 +573,7 @@ invoke { x, y -&gt; x+y }
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">108</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

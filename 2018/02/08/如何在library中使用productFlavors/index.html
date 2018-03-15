@@ -417,14 +417,14 @@
 <p>main是普通产品，red和blue是定制化产品（这里只是里面使用的图片不一样）</p>
 <p>###3.解决方法<br>于是我们就在picmodule的gradle配置productFlavors，但是picmodule是属于一个library，所以这样做是不允许的，项目将找不到引入的picmodule</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/545982-65c9816351c171d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>那么如何解决呢？<br>首先我们需要在picmodule的gradle里面加入一句话（记住不要漏了）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">publishNonDefault true</span><br></pre></td></tr></table></figure></p>
+<p>那么如何解决呢？<br>首先我们需要在picmodule的gradle里面加入一句话（记住不要漏了）<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">publishNonDefault</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/545982-3762056f0f5faf2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>接着我们在application下的build.gradle里面加入一些配置<br>在<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>模块内加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">productFlavors&#123;</span><br><span class="line">    common&#123;&#125;</span><br><span class="line"></span><br><span class="line">    red&#123;&#125;</span><br><span class="line"></span><br><span class="line">    blue&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在gradle最外层加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">configurations &#123;</span><br><span class="line">    commonCompile</span><br><span class="line">    redCompile</span><br><span class="line">    blueCompile</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接着我们在application下的build.gradle里面加入一些配置<br>在<a href="http://lib.csdn.net/base/android" target="_blank" rel="noopener">Android</a>模块内加入<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">productFlavors&#123;</span><br><span class="line">    common&#123;&#125;</span><br><span class="line"></span><br><span class="line">    red&#123;&#125;</span><br><span class="line"></span><br><span class="line">    blue&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在gradle最外层加入<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">configurations</span> &#123;</span><br><span class="line">    commonCompile</span><br><span class="line">    redCompile</span><br><span class="line">    blueCompile</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/545982-9a7cae994136745b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>接着修改一下引入picmodule的方法<br>平时引入module是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile project(&apos;:picmodule&apos;)</span><br></pre></td></tr></table></figure></p>
-<p>我们改成下面这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">commonCompile project(path: &apos;:picmodule&apos;, configuration: &apos;commonRelease&apos;)</span><br><span class="line">redCompile project(path: &apos;:picmodule&apos;, configuration: &apos;redRelease&apos;)</span><br><span class="line">blueCompile project(path: &apos;:picmodule&apos;, configuration: &apos;blueRelease&apos;)</span><br></pre></td></tr></table></figure></p>
-<p>这里library我是用的Release包，如果要用debug版的library也可以改成下面这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">commonCompile project(path: &apos;:picmodule&apos;, configuration: &apos;commonDebug&apos;)</span><br><span class="line">redCompile project(path: &apos;:picmodule&apos;, configuration: &apos;redDebug&apos;)</span><br><span class="line">blueCompile project(path: &apos;:picmodule&apos;, configuration: &apos;blueDebug&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>接着修改一下引入picmodule的方法<br>平时引入module是这样的<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':picmodule'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>我们改成下面这样<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">commonCompile</span> <span class="selector-tag">project</span>(<span class="attribute">path</span>: <span class="string">':picmodule'</span>, <span class="attribute">configuration</span>: <span class="string">'commonRelease'</span>)</span><br><span class="line"><span class="selector-tag">redCompile</span> <span class="selector-tag">project</span>(<span class="attribute">path</span>: <span class="string">':picmodule'</span>, <span class="attribute">configuration</span>: <span class="string">'redRelease'</span>)</span><br><span class="line"><span class="selector-tag">blueCompile</span> <span class="selector-tag">project</span>(<span class="attribute">path</span>: <span class="string">':picmodule'</span>, <span class="attribute">configuration</span>: <span class="string">'blueRelease'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>这里library我是用的Release包，如果要用debug版的library也可以改成下面这样<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">commonCompile</span> <span class="selector-tag">project</span>(<span class="attribute">path</span>: <span class="string">':picmodule'</span>, <span class="attribute">configuration</span>: <span class="string">'commonDebug'</span>)</span><br><span class="line"><span class="selector-tag">redCompile</span> <span class="selector-tag">project</span>(<span class="attribute">path</span>: <span class="string">':picmodule'</span>, <span class="attribute">configuration</span>: <span class="string">'redDebug'</span>)</span><br><span class="line"><span class="selector-tag">blueCompile</span> <span class="selector-tag">project</span>(<span class="attribute">path</span>: <span class="string">':picmodule'</span>, <span class="attribute">configuration</span>: <span class="string">'blueDebug'</span>)</span><br></pre></td></tr></table></figure></p>
 <p><strong>然后同步一下就可以了</strong><br><strong>这个时候如果找不到R文件，那么clean一下或者重启一下as都可以</strong></p>
 
       
@@ -450,8 +450,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/08/Class-isAssignableFrom与-instanceof-区别/" rel="next" title="Class.isAssignableFrom与 instanceof 区别">
-                <i class="fa fa-chevron-left"></i> Class.isAssignableFrom与 instanceof 区别
+              <a href="/2018/02/08/Java中的强引用-软引用-弱引用-虚引用/" rel="next" title="Java中的强引用,软引用,弱引用,虚引用">
+                <i class="fa fa-chevron-left"></i> Java中的强引用,软引用,弱引用,虚引用
               </a>
             
           </div>
@@ -460,8 +460,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/02/08/Java中的强引用-软引用-弱引用-虚引用/" rel="prev" title="Java中的强引用,软引用,弱引用,虚引用">
-                Java中的强引用,软引用,弱引用,虚引用 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/02/08/解决Gradle下载太慢的问题/" rel="prev" title="解决Gradle下载太慢的问题">
+                解决Gradle下载太慢的问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -540,7 +540,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">108</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

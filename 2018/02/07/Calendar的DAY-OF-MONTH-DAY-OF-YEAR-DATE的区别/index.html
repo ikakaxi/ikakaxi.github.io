@@ -405,7 +405,7 @@
       
 
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cal1.add(Calendar.DAY_OF_MONTH,1);  </span><br><span class="line">cal1.add(Calendar.DAY_OF_YEAR,1);  </span><br><span class="line">cal1.add(Calendar.DATE,1);</span><br></pre></td></tr></table></figure>
+        <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">cal1</span><span class="selector-class">.add</span>(<span class="selector-tag">Calendar</span><span class="selector-class">.DAY_OF_MONTH</span>,1);  </span><br><span class="line"><span class="selector-tag">cal1</span><span class="selector-class">.add</span>(<span class="selector-tag">Calendar</span><span class="selector-class">.DAY_OF_YEAR</span>,1);  </span><br><span class="line"><span class="selector-tag">cal1</span><span class="selector-class">.add</span>(<span class="selector-tag">Calendar</span><span class="selector-class">.DATE</span>,1);</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>就单纯的add操作结果都一样，因为都是将日期+1<br>就没有区别说是在月的日期中加1还是年的日期中加1<br>但是Calendar设置DAY_OF_MONTH和DAY_OF_YEAR的目的不是用来+1<br>将日期加1，这通过cal1.add(Calendar.DATE,1)就可以实现<br>DAY_OF_MONTH的主要作用是cal.get(DAY_OF_MONTH)，用来获得这一天在是这个月的第多少天<br>Calendar.DAY_OF_YEAR的主要作用是cal.get(DAY_OF_YEAR)，用来获得这一天在是这个年的第多少天。<br>同样，还有DAY_OF_WEEK，用来获得当前日期是一周的第几天</p>
 
@@ -528,7 +528,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">108</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
