@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="AndroidManifest," />
+  <meta name="keywords" content="WebView," />
 
 
 
@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="windowSoftInputMode属性讲解（下面这段内容我参考别人的博客，并加入我的一些意见）我们从这个属性的名称中，可以很直观的看出它的作用，这个属性就是来设置窗口软键盘的交互模式的。android:windowSoftInputMode属性一共有9个取值，分别是：">
-<meta name="keywords" content="AndroidManifest">
+<meta name="description" content="现在Android开发很多都是混合开发了，WebView也不再只是显示一个网页而已而是与Native App有很多交互，所以熟悉JavaScript与Java交互很有必要。">
+<meta name="keywords" content="WebView">
 <meta property="og:type" content="article">
-<meta property="og:title" content="windowSoftInputMode属性讲解">
-<meta property="og:url" content="https://ikakaxi.github.io/2018/02/07/windowSoftInputMode属性讲解/index.html">
+<meta property="og:title" content="WebView中JavaScript与Java交互流程">
+<meta property="og:url" content="https://ikakaxi.github.io/2018/02/24/WebView中JavaScript与Java交互流程/index.html">
 <meta property="og:site_name" content="我的技术小屋">
-<meta property="og:description" content="windowSoftInputMode属性讲解（下面这段内容我参考别人的博客，并加入我的一些意见）我们从这个属性的名称中，可以很直观的看出它的作用，这个属性就是来设置窗口软键盘的交互模式的。android:windowSoftInputMode属性一共有9个取值，分别是：">
+<meta property="og:description" content="现在Android开发很多都是混合开发了，WebView也不再只是显示一个网页而已而是与Native App有很多交互，所以熟悉JavaScript与Java交互很有必要。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-10T03:42:48.000Z">
+<meta property="og:updated_time" content="2018-03-24T15:00:56.418Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="windowSoftInputMode属性讲解">
-<meta name="twitter:description" content="windowSoftInputMode属性讲解（下面这段内容我参考别人的博客，并加入我的一些意见）我们从这个属性的名称中，可以很直观的看出它的作用，这个属性就是来设置窗口软键盘的交互模式的。android:windowSoftInputMode属性一共有9个取值，分别是：">
+<meta name="twitter:title" content="WebView中JavaScript与Java交互流程">
+<meta name="twitter:description" content="现在Android开发很多都是混合开发了，WebView也不再只是显示一个网页而已而是与Native App有很多交互，所以熟悉JavaScript与Java交互很有必要。">
 
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://ikakaxi.github.io/2018/02/07/windowSoftInputMode属性讲解/"/>
+  <link rel="canonical" href="https://ikakaxi.github.io/2018/02/24/WebView中JavaScript与Java交互流程/"/>
 
 
 
 
 
-  <title>windowSoftInputMode属性讲解 | 我的技术小屋</title>
+  <title>WebView中JavaScript与Java交互流程 | 我的技术小屋</title>
   
 
 
@@ -305,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/07/windowSoftInputMode属性讲解/">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/24/WebView中JavaScript与Java交互流程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuhc">
@@ -322,7 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">windowSoftInputMode属性讲解</h1>
+          <h1 class="post-title" itemprop="name headline">WebView中JavaScript与Java交互流程</h1>
         
 
         <div class="post-meta">
@@ -334,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T18:15:30+08:00">
-                2018-02-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-24T22:59:06+08:00">
+                2018-02-24
               </time>
             
 
@@ -375,9 +375,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/07/windowSoftInputMode属性讲解/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/24/WebView中JavaScript与Java交互流程/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/07/windowSoftInputMode属性讲解/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/24/WebView中JavaScript与Java交互流程/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -405,9 +405,35 @@
       
 
       
-        <p><strong>windowSoftInputMode属性讲解</strong>（下面这段内容我参考别人的博客，并加入我的一些意见）<br>我们从这个属性的名称中，可以很直观的看出它的作用，这个属性就是来设置窗口软键盘的交互模式的。android:windowSoftInputMode属性一共有9个取值，分别是：<br><a id="more"></a></p>
-<p>【A】stateUnspecified：软键盘的状态并没有指定，系统将选择一个合适的状态或依赖于主题的设置<br>【B】stateUnchanged：当这个activity出现时，软键盘将一直保持在上一个activity里的状态，无论是隐藏还是显示<br>【C】stateHidden：用户选择activity时，软键盘总是被隐藏<br>【D】stateAlwaysHidden：当该Activity主窗口获取焦点时，软键盘也总是被隐藏的<br>【E】stateVisible：软键盘通常是可见的<br>【F】stateAlwaysVisible：用户选择activity时，软键盘总是显示的状态<br>【G】adjustUnspecified：默认设置，通常由系统自行决定是隐藏还是显示<br>【H】adjustResize：该Activity总是调整屏幕的大小以便留出软键盘的空间<br>【I】adjustPan：当前窗口的内容将自动移动以便当前焦点从不被键盘覆盖和用户能总是看到输入内容的部分</p>
-<p>来源:<a href="http://www.bozhiyue.com/anroid/boke/2016/0604/177871.html" target="_blank" rel="noopener">http://www.bozhiyue.com/anroid/boke/2016/0604/177871.html</a></p>
+        <p>现在Android开发很多都是混合开发了，WebView也不再只是显示一个网页而已而是与Native App有很多交互，所以熟悉JavaScript与Java交互很有必要。<br><a id="more"></a></p>
+<p>#1. JavaScript调用Java</p>
+<p>##1.1.1 Java注册<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置与Js交互的权限</span></span><br><span class="line">webSettings.setJavaScriptEnabled(<span class="keyword">true</span>);</span><br><span class="line">webView.addJavascriptInterface(<span class="keyword">new</span> JSInvokeClass(), <span class="string">"JSInvokeClassName"</span>);</span><br><span class="line">...</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">JSInvokeClass</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 被JS调用的方法必须加入@JavascriptInterface注解</span></span><br><span class="line">    <span class="meta">@JavascriptInterface</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">methodName</span><span class="params">(String param)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"&#123;error:'error'&#125;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>##1.1.2 JavaScript调用<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用一个Html的button测试</span></span><br><span class="line">&lt;button onclick=<span class="string">"JSInvokeClassName.methodName('aabbcc')"</span>&gt;调用Java方法&lt;<span class="regexp">/button&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>JSInvokeClassName和methodName分别是JavaScript调用在Java代码里注册的类名映射和方法，名字随便起只要对应上就可以</p>
+<p>但是这种方法有很多漏洞，具体请看 <a href="https://blog.csdn.net/carson_ho/article/details/64904635" target="_blank" rel="noopener">https://blog.csdn.net/carson_ho/article/details/64904635</a></p>
+<p>##1.2通过 WebViewClient 的方法shouldOverrideUrlLoading ()回调拦截 url<br>优点：不存在方式1.1的漏洞；</p>
+<p>缺点：JS获取Android方法的返回值复杂，需要Java调用JavaScript的方法然后在JavaScript的这个方法里再调用1.1.1中注册的方法</p>
+<p>示例如下：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假定传入进来的 url = "js://webview?arg1=111&amp;arg2=222"（同时也是约定好的需要拦截的）</span></span><br><span class="line"></span><br><span class="line">Uri uri = Uri.parse(url);</span><br><span class="line"><span class="comment">// 步骤1：根据协议的参数，判断是否是所需要的url（一般根据scheme（协议格式） &amp; authority（协议名）判断）</span></span><br><span class="line"><span class="comment">// 如果url的协议 = 预先约定的 js 协议就解析往下解析参数</span></span><br><span class="line"><span class="keyword">if</span> (uri.getScheme().<span class="keyword">equals</span>(<span class="string">"js"</span>)) &#123;</span><br><span class="line">	<span class="comment">// 步骤2：如果 authority  = 预先约定协议里的 webview，即代表都符合约定的协议</span></span><br><span class="line">	<span class="keyword">if</span> (uri.getAuthority().<span class="keyword">equals</span>(<span class="string">"webview"</span>)) &#123;</span><br><span class="line">		<span class="comment">// 步骤3：执行JS所需要调用的逻辑</span></span><br><span class="line">		System.out.println(<span class="string">"js调用了Android的方法"</span>);</span><br><span class="line">		<span class="comment">// 可以在协议上带有参数并传递到Android上</span></span><br><span class="line">		HashMap&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; <span class="keyword">params</span> = <span class="literal">new</span> HashMap&lt;&gt;();</span><br><span class="line">		<span class="built_in">Set</span>&lt;<span class="built_in">String</span>&gt; collection = uri.getQueryParameterNames();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>##1.3通过 WebChromeClient 的onJsAlert()、onJsConfirm()、onJsPrompt（）方法回调拦截JS对话框alert()、confirm()、prompt（） 消息<br>一般使用onJsPrompt方法，因为该方法可以返回值给JavaScript，既没有1.1的漏洞也能方便的接收JavaScript的值和返回给JavaScript值</p>
+<p>示例如下：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假定传入进来的 url = "js://webview?arg1=111&amp;arg2=222"（同时也是约定好的需要拦截的）</span></span><br><span class="line"></span><br><span class="line">Uri uri = Uri.parse(url);</span><br><span class="line"><span class="comment">// 步骤1：根据协议的参数，判断是否是所需要的url（一般根据scheme（协议格式） &amp; authority（协议名）判断）</span></span><br><span class="line"><span class="comment">// 如果url的协议 = 预先约定的 js 协议就解析往下解析参数</span></span><br><span class="line"><span class="keyword">if</span> (uri.getScheme().<span class="keyword">equals</span>(<span class="string">"js"</span>)) &#123;</span><br><span class="line">	<span class="comment">// 步骤2：如果 authority  = 预先约定协议里的 webview，即代表都符合约定的协议</span></span><br><span class="line">	<span class="keyword">if</span> (uri.getAuthority().<span class="keyword">equals</span>(<span class="string">"webview"</span>)) &#123;</span><br><span class="line">		<span class="comment">// 步骤3：执行JS所需要调用的逻辑</span></span><br><span class="line">		System.out.println(<span class="string">"js调用了Android的方法"</span>);</span><br><span class="line">		<span class="comment">// 可以在协议上带有参数并传递到Android上</span></span><br><span class="line">		HashMap&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; <span class="keyword">params</span> = <span class="literal">new</span> HashMap&lt;&gt;();</span><br><span class="line">		<span class="built_in">Set</span>&lt;<span class="built_in">String</span>&gt; collection = uri.getQueryParameterNames();</span><br><span class="line">		<span class="params">...</span></span><br><span class="line">		<span class="comment">//参数result:代表消息框的返回值(输入值)</span></span><br><span class="line">		result.confirm(<span class="string">"js调用了Android的方法成功啦"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>#2. Java调用JavaScript</p>
+<blockquote>
+<p>这时候有<b>两种</b>方法</p>
+</blockquote>
+<p>先上HTML代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="actionscript">            <span class="function"><span class="keyword">function</span> <span class="title">callJS</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">                alert(<span class="string">"Android调用了JS的callJS方法"</span>);</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>特别注意：Java调用JavaScript代码调用一定要在 onPageFinished（） 回调之后才能调用，否则不会调用。onPageFinished()属于WebViewClient类的方法，主要在页面加载结束时调用。</p>
+</blockquote>
+<p>##2.1 loadUrl<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置与Js交互的权限</span></span><br><span class="line"><span class="selector-tag">webSettings</span><span class="selector-class">.setJavaScriptEnabled</span>(true);</span><br><span class="line"><span class="selector-tag">webView</span><span class="selector-class">.loadUrl</span>(<span class="string">"javascript:callJS()"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>##2.2 evaluateJavascript<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">webSettings.setJavaScriptEnabled(<span class="literal">true</span>);</span><br><span class="line">webView.evaluateJavascript（<span class="string">"javascript:callJS()"</span>, <span class="keyword">new</span> ValueCallback&lt;<span class="built_in">String</span>&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">void</span> onReceiveValue(<span class="built_in">String</span> value) &#123;</span><br><span class="line">            <span class="comment">//此处为 js 返回的结果</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>优点：该方法比第一种方法效率更高、使用更简洁。因为该方法的执行不会使页面刷新，而第一种方法（loadUrl ）的执行则会。该方法在Android 4.4 后才可使用。</p>
+<p>####使用建议：两种方法混合使用，即Android 4.4以下使用方法2.1，Android 4.4以上方法2.2，示例如下：</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Android版本变量</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> <span class="keyword">version</span> = Build.VERSION.SDK_INT;</span><br><span class="line"><span class="comment">// 因为该方法在 Android 4.4 版本才可使用，所以使用时需进行版本判断</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">version</span> &lt; <span class="number">18</span>) &#123;</span><br><span class="line">    webView.loadUrl(<span class="string">"javascript:callJS()"</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    webView.evaluateJavascript（<span class="string">"javascript:callJS()"</span>, <span class="keyword">new</span> ValueCallback&lt;String&gt;() &#123;</span><br><span class="line">        <span class="keyword">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> onReceiveValue(String value) &#123;</span><br><span class="line">            <span class="comment">//此处为 js 返回的结果</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://blog.csdn.net/carson_ho/article/details/64904691" target="_blank" rel="noopener">https://blog.csdn.net/carson_ho/article/details/64904691</a></p>
 
       
     </div>
@@ -425,7 +451,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/AndroidManifest/" rel="tag"># AndroidManifest</a>
+            <a href="/tags/WebView/" rel="tag"># WebView</a>
           
         </div>
       
@@ -438,8 +464,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/07/小米手机无法打开程序报错Unable-to-instantiate-application-com-android-tools-fd-runtime-BootstrapApplication的解决办法/" rel="next" title="小米手机无法打开程序报错Unable to instantiate application com.android.tools.fd.runtime.BootstrapApplication的解决办法">
-                <i class="fa fa-chevron-left"></i> 小米手机无法打开程序报错Unable to instantiate application com.android.tools.fd.runtime.BootstrapApplication的解决办法
+              <a href="/2018/02/09/从DNS到github-pages自定义域名-漫谈域名那些事/" rel="next" title="从DNS到github pages自定义域名 -- 漫谈域名那些事">
+                <i class="fa fa-chevron-left"></i> 从DNS到github pages自定义域名 -- 漫谈域名那些事
               </a>
             
           </div>
@@ -448,8 +474,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/02/07/android-studio-的配置/" rel="prev" title="android studio 的配置">
-                android studio 的配置 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/03/常量池、栈、堆的比较/" rel="prev" title="常量池、栈、堆的比较">
+                常量池、栈、堆的比较 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -731,9 +757,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://ikakaxi.github.io/2018/02/07/windowSoftInputMode属性讲解/';
-          this.page.identifier = '2018/02/07/windowSoftInputMode属性讲解/';
-          this.page.title = 'windowSoftInputMode属性讲解';
+          this.page.url = 'https://ikakaxi.github.io/2018/02/24/WebView中JavaScript与Java交互流程/';
+          this.page.identifier = '2018/02/24/WebView中JavaScript与Java交互流程/';
+          this.page.title = 'WebView中JavaScript与Java交互流程';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://liuhc.disqus.com/embed.js';

@@ -40,6 +40,17 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[WebView中JavaScript与Java交互流程]]></title>
+    <url>%2F2018%2F02%2F24%2FWebView%E4%B8%ADJavaScript%E4%B8%8EJava%E4%BA%A4%E4%BA%92%E6%B5%81%E7%A8%8B%2F</url>
+    <content type="text"><![CDATA[现在Android开发很多都是混合开发了，WebView也不再只是显示一个网页而已而是与Native App有很多交互，所以熟悉JavaScript与Java交互很有必要。 #1. JavaScript调用Java ##1.1.1 Java注册123456789101112// 设置与Js交互的权限webSettings.setJavaScriptEnabled(true);webView.addJavascriptInterface(new JSInvokeClass(), "JSInvokeClassName");...private static final class JSInvokeClass &#123; // 被JS调用的方法必须加入@JavascriptInterface注解 @JavascriptInterface public String methodName(String param) &#123; ... return "&#123;error:'error'&#125;"; &#125;&#125; ##1.1.2 JavaScript调用12//用一个Html的button测试&lt;button onclick="JSInvokeClassName.methodName('aabbcc')"&gt;调用Java方法&lt;/button&gt; JSInvokeClassName和methodName分别是JavaScript调用在Java代码里注册的类名映射和方法，名字随便起只要对应上就可以 但是这种方法有很多漏洞，具体请看 https://blog.csdn.net/carson_ho/article/details/64904635 ##1.2通过 WebViewClient 的方法shouldOverrideUrlLoading ()回调拦截 url优点：不存在方式1.1的漏洞； 缺点：JS获取Android方法的返回值复杂，需要Java调用JavaScript的方法然后在JavaScript的这个方法里再调用1.1.1中注册的方法 示例如下： 12345678910111213141516// 假定传入进来的 url = "js://webview?arg1=111&amp;arg2=222"（同时也是约定好的需要拦截的）Uri uri = Uri.parse(url);// 步骤1：根据协议的参数，判断是否是所需要的url（一般根据scheme（协议格式） &amp; authority（协议名）判断）// 如果url的协议 = 预先约定的 js 协议就解析往下解析参数if (uri.getScheme().equals("js")) &#123; // 步骤2：如果 authority = 预先约定协议里的 webview，即代表都符合约定的协议 if (uri.getAuthority().equals("webview")) &#123; // 步骤3：执行JS所需要调用的逻辑 System.out.println("js调用了Android的方法"); // 可以在协议上带有参数并传递到Android上 HashMap&lt;String, String&gt; params = new HashMap&lt;&gt;(); Set&lt;String&gt; collection = uri.getQueryParameterNames(); &#125; return true;&#125; ##1.3通过 WebChromeClient 的onJsAlert()、onJsConfirm()、onJsPrompt（）方法回调拦截JS对话框alert()、confirm()、prompt（） 消息一般使用onJsPrompt方法，因为该方法可以返回值给JavaScript，既没有1.1的漏洞也能方便的接收JavaScript的值和返回给JavaScript值 示例如下： 12345678910111213141516171819// 假定传入进来的 url = "js://webview?arg1=111&amp;arg2=222"（同时也是约定好的需要拦截的）Uri uri = Uri.parse(url);// 步骤1：根据协议的参数，判断是否是所需要的url（一般根据scheme（协议格式） &amp; authority（协议名）判断）// 如果url的协议 = 预先约定的 js 协议就解析往下解析参数if (uri.getScheme().equals("js")) &#123; // 步骤2：如果 authority = 预先约定协议里的 webview，即代表都符合约定的协议 if (uri.getAuthority().equals("webview")) &#123; // 步骤3：执行JS所需要调用的逻辑 System.out.println("js调用了Android的方法"); // 可以在协议上带有参数并传递到Android上 HashMap&lt;String, String&gt; params = new HashMap&lt;&gt;(); Set&lt;String&gt; collection = uri.getQueryParameterNames(); ... //参数result:代表消息框的返回值(输入值) result.confirm("js调用了Android的方法成功啦"); &#125; return true;&#125; #2. Java调用JavaScript 这时候有两种方法 先上HTML代码 1234567891011&lt;!DOCTYPE html&gt;&lt;html&gt; &lt;head&gt; &lt;meta charset="utf-8"&gt; &lt;script&gt; function callJS()&#123; alert("Android调用了JS的callJS方法"); &#125; &lt;/script&gt; &lt;/head&gt;&lt;/html&gt; 特别注意：Java调用JavaScript代码调用一定要在 onPageFinished（） 回调之后才能调用，否则不会调用。onPageFinished()属于WebViewClient类的方法，主要在页面加载结束时调用。 ##2.1 loadUrl123// 设置与Js交互的权限webSettings.setJavaScriptEnabled(true);webView.loadUrl("javascript:callJS()"); ##2.2 evaluateJavascript1234567webSettings.setJavaScriptEnabled(true);webView.evaluateJavascript（"javascript:callJS()", new ValueCallback&lt;String&gt;() &#123; @Override public void onReceiveValue(String value) &#123; //此处为 js 返回的结果 &#125; &#125;); 优点：该方法比第一种方法效率更高、使用更简洁。因为该方法的执行不会使页面刷新，而第一种方法（loadUrl ）的执行则会。该方法在Android 4.4 后才可使用。 ####使用建议：两种方法混合使用，即Android 4.4以下使用方法2.1，Android 4.4以上方法2.2，示例如下： 12345678910111213// Android版本变量final int version = Build.VERSION.SDK_INT;// 因为该方法在 Android 4.4 版本才可使用，所以使用时需进行版本判断if (version &lt; 18) &#123; webView.loadUrl("javascript:callJS()");&#125; else &#123; webView.evaluateJavascript（"javascript:callJS()", new ValueCallback&lt;String&gt;() &#123; @Override public void onReceiveValue(String value) &#123; //此处为 js 返回的结果 &#125; &#125;);&#125; 参考：https://blog.csdn.net/carson_ho/article/details/64904691]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>WebView</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[从DNS到github pages自定义域名 -- 漫谈域名那些事]]></title>
     <url>%2F2018%2F02%2F09%2F%E4%BB%8EDNS%E5%88%B0github-pages%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D-%E6%BC%AB%E8%B0%88%E5%9F%9F%E5%90%8D%E9%82%A3%E4%BA%9B%E4%BA%8B%2F</url>
     <content type="text"><![CDATA[转载:http://winterttr.me/2015/10/23/from-dns-to-github-custom-domain/当我们在github申请一个pages之后，很多人会选择自定义域名，给自己的github pages一个属于自己的名字。那么，从申请到域名到最后的github自定义域名设置，中间究竟发生了什么，本文就来说说域名那些事。 域名域名就是一段文字，更具体地说，是一段人类容易识别的文字，它的作用很简单，就是用来给一个ip起一个人们能够记得住的名字。域名是一种资源，很多时候甚至是地位财富和身份的象征，所以越来越多的geek们都趋之若鹜的申请自己的域名，我也不例外。 根域我们通常知道的域名，例如winterttr.me，其实是完整域名的缩写。 真正的全称为winterttr.me.，请注意最后的.，这个就是根域。 它的现实体现为全球13台固定ip的根域服务器。 从a.root-servers.net到m.root.servers.net。 当我们在进行dns查询的时候，如果一个全新的域名从来没有进行查询，那么，最终会向这13台根域服务器进行请求。 不过，现在的浏览器已经基本上默认不再添加这个”多余”的点了，已然成为一种默认习惯。 当然，事实上，并不是真正的13台，而是13组，每一台在全球都有很多的镜像节点，所以你不用担心其中一台挂了会引起全球混乱~ 顶级域名(Top Level Domain - TLD)常用的顶级域名分为几种：1 国家顶级域名，例如.cn,.jp2 机构顶级域名，例如.com,.edu3 还有其他分类 二级域名这个就是我们常常能够申请到的域名，在顶级域名的左侧加上的一个自定义的文字段。据个例子： winterTTr.me。所以，我们通常所说的域名，往往指的是这个二级域名。 子域名(sbudomain name)相对于上文所提到的“我们通常所说的域名”（二级域名）的基础上，又加入了子域名的概念，就是在一个域名的前面，加上新的字段，代表这个域名下的某个特定的主机或者协议。最常用的就是WWW协议，所以，我的子域名www.winterttr.me就是winterttr.me的WWW子域名。 有关DNS的那些事咱们谈完了域名，那么就不得不说到DNS（Domain Name System)，DNS所承担的主要任务，就是所谓的域名解析。这些由DNS系统中的DNS服务器负责。那么，DNS服务器解析一个域名得到了什么？ – IP地址 所以，域名解析的过程，说白了就是把一个人类记得住的域名变成ip网络中机器认识的ip地址。 那么，DNS服务器上都存了些啥？最主要的就是能够完成域名解析的一些记录 A记录（A record)A记录在DNS中的意义就是，域名到ip地址的转换。所以，当我们在DNS服务器中添加一个A记录时，是告诉服务器，将某个特定的域名映射到一个ip地址。这个算是最简单直白的转换规则了。 CNAME记录（CNAME record)CNAME的意义，简单说就是别名，即将一个域名射到另一个域名（区别于A记录的ip）。所以，CNAME通常有两种用法： 不同顶级域名之间的跳转例如：我的域名是 winterTTr.me(顶级域名为me)。如果我希望，当我访问这个域名的时候，实际上是访问我的winterTTr.github.io（顶级域名为io）的主页时，虽然他们在不同的顶级域名，但是我可以用CNAME记录映射。 将一个子域名映射到域名例如，你想当访问者输入www.winterTTr.me（一个WWW子域名）的时候，仍旧访问winterTTr.me这个域名所指向的内容时，可以将www.winterTTr.me利用CNAME记录映射到winterTTr.me。 NS记录（Name Server）简单来说，就是声明谁来负责解析我这个域名，指定了负责解析我这个域名的服务器的地址。这条记录赋予我们一个特殊的能力，就是，我可以让自己指定的一个DNS解析服务器，而不一定是域名提供商自带的域名解析服务器。简单来说，就是在godaddy买的域名，默认是使用godaddy的域名服务器来进行域名解析的，但是如果我想让别的server解析（例如NDSPod），而不受godaddy服务器的限制呢？那就是更改这个NS记录的内容。一般来讲，是两条记录，一条主服务器，一条副服务器。 现实中的一些例子这个就是我的域名在DNSPod中的设置。 可以看到，NS记录为dnspod的服务器域名，dnspod提供了一种非常方便的服务。就是可以根据不同的线路类型，进行不同的解析。图中可以看到，国内的使用gitcafe，国外的使用github，同时，baidu抓取国内线路gitcafe的内容，躲避了github封闭baidu spider的问题。 在godaddy花钱的时候买到了什么这不是废话么，买到了域名！当然，除了这一串字符串之外，是什么让我们真正拥有了这些字符串使用权呢？ 在godaddy中配置域名的能力话说花了钱，买了域名，为啥这个域名就是你的呢？这是因为，godaddy将这个域名中的各种记录的配置权力分配了给你，于是，你可以定义域名的ip（A记录），或者将这个域名指向另一个别名（CNAME记录）。 除了这些我还能做啥默认的域名，是在godaddy自带的域名解析服务器中进行的。godaddy是提供更改NS记录的权利的，所以，我们可以将这个域名解析的能力交给godaddy之外的人，这就是我如何做到使用DNSPod来进行域名解析的。 github中的自定义域名那么，经过上面一堆讲解，最终还是回到最实际的问题，github中的自定义域名。 github中的域名支持github的域名是支持A记录的，这个意思就是，github的服务器域名是个固定ip。所以，当我们需要将申请的域名给予一个自己的github.io的地址的时候，我们可以在DNS服务器的配置中添加一条A记录，指向github的服务器地址。现在github的服务器地址为： 192.30.252.153 192.30.252.154 如果你做了上面的操作，那意思就是，我希望把我的主域名winterTTr.me完全指向github.io的主页。 不过，如果你的只是想将一个子域名，例如www.winterTTr.me，而不是主域名winterTTr.me分配给你的github主页，那么，A记录会完全绑定你的主域名，所以这个场景A记录不适合。你需要在DNS服务器中添加一条CNAME记录，将子域名指向winterTTr.github.io，这样，当用户访问WWW子域名的时候，会跳转到github.io的主页上。 告诉github你的域名在项目下建立一个CNAME文件，在其中写上给你的主页分配的域名地址。这个操作的作用在哪里？ 当直接访问github.io主页的时候github知道redirect到哪里也就是说，当你指定了CNAME之后，我们再次访问一个github.io的网站时，我们会发现，域名自动变成了我们制定的自定义域名。这是因为CNAME中指出了自定义域名是什么，所以，当我们访问github.io的时候，会触发http 301。 azureuser@ubuntu-jpe:~$ curl -I winterttr.github.ioHTTP/1.1 301 Moved PermanentlyServer: GitHub.comContent-Type: text/htmlLocation: http://winterttr.me/X-GitHub-Request-Id: 2BF9481E:370C:8930CF:562B48F6Content-Length: 178Accept-Ranges: bytesDate: Sat, 24 Oct 2015 09:02:36 GMTVia: 1.1 varnishAge: 54Connection: keep-aliveX-Served-By: cache-nrt6130-NRTX-Cache: HITX-Cache-Hits: 1X-Timer: S1445677356.846925,VS0,VE0Vary: Accept-Encoding 我们可以看到，github的服务器知道，我们需要访问的io网站已经有了别的域名，并且返回301让浏览器跳转到自定义域名。 当用你的域名访问的时候github知道我去那个io里面找当然，当我们直接使用自定义域名访问的时候，由于DNS服务器的配置，最终我们会访问github.io的主机，当主机收到我们的请求的时候，会拿我们http请求中的host和repository中的CNAME文件比较，从而知道，当前的域名应该访问那个具体的xxx.github.io的内容。 这基本上就是从一个从申请域名到到github.io配置后的完整故事]]></content>
@@ -59,14 +70,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[windows下android studio在git push时失败的解决方法]]></title>
-    <url>%2F2018%2F02%2F08%2Fwindows%E4%B8%8Bandroid-studio%E5%9C%A8git-push%E6%97%B6%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行然后生成ssh就可以了]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[source tree 配置 外部差异比对工具为beyond compare]]></title>
     <url>%2F2018%2F02%2F08%2Fsource-tree-%E9%85%8D%E7%BD%AE-%E5%A4%96%E9%83%A8%E5%B7%AE%E5%BC%82%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%B8%BAbeyond-compare%2F</url>
     <content type="text"><![CDATA[1、首先，安装好beyond compare后，创建一个快捷方式1ln -s /Applications/Beyond\ Compare.app/Contents/MacOS/bcomp /usr/local/bin/ 2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：123456Visual Diff Tool: OtherDiff Command:/usr/local/bin/bcompParameters:-ro $LOCAL $REMOTEMerge Tool: OtherMerge Command:/usr/local/bin/bcompParameters:$LOCAL $REMOTE $BASE $MERGED]]></content>
@@ -75,22 +78,30 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[windows下android studio在git push时失败的解决方法]]></title>
+    <url>%2F2018%2F02%2F08%2Fwindows%E4%B8%8Bandroid-studio%E5%9C%A8git-push%E6%97%B6%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行然后生成ssh就可以了]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[gradle类重复的问题解决方法]]></title>
     <url>%2F2018%2F02%2F08%2Fgradle%E7%B1%BB%E9%87%8D%E5%A4%8D%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[今天遇到一个gradle的类重复问题,学习到一个命令 gradle -q dependencies ,可以查看项目里包的依赖关系,发生这个错误是因为我用了一个相册的项目,这个项目里用到了v4包,我自己的项目也用到了v4包, 然后我把这个项目1compile 'cn.finalteam:galleryfinal:1.4.8.7' 改为123compile('cn.finalteam:galleryfinal:1.4.8.7') &#123; exclude module: 'support-v4'&#125; 就解决了 如果是本地的项目,可以用下面的代码123compile (project(':yourAndroidLibrary'))&#123; exclude module: 'support-v4'&#125;]]></content>
   </entry>
   <entry>
-    <title><![CDATA[解决 release-stripped.ap_' specified for property 'resourceFile' does not exist.]]></title>
-    <url>%2F2018%2F02%2F08%2F%E8%A7%A3%E5%86%B3-release-stripped-ap-specified-for-property-resourceFile-does-not-exist%2F</url>
-    <content type="text"><![CDATA[设置buildTypes里的release的shrinkResources为false即可,如果是 release-stripped.ap_’ specified for property ‘resourceFile’ does not exist.则设置buildTypes里的debug的shrinkResources为false]]></content>
+    <title><![CDATA[gradle中compile，provided，compile files，compile project有何区别？]]></title>
+    <url>%2F2018%2F02%2F08%2Fgradle%E4%B8%ADcompile%EF%BC%8Cprovided%EF%BC%8Ccompile-files%EF%BC%8Ccompile-project%E6%9C%89%E4%BD%95%E5%8C%BA%E5%88%AB%EF%BC%9F%2F</url>
+    <content type="text"><![CDATA[在一个Android项目的build.gradle中，dependencies闭包中有以下四种形式的声明： 1234compile 'com.android.support:appcompat-v7:22.2.1'provided 'com.squareup.dagger:dagger-compiler:1.2.1'compile files('libs/picasso-2.4.0.jar')compile project(':androidPullToRefresh') 1，3，4本质上是一样的，区别在于： 1 是从repository（默认是jCenter())里下载一个依赖包进行编译并打包3 是从本地的libs目录下寻找picasso-2.4.0.jar这个文件进行编译并打包。类似的命令有compile fileTree(dir: &#39;libs&#39;, include: &#39;*.jar&#39;)——将libs目录下所有jar文件进行编译并打包。4 是将另一个module（等同eclipse中的library)进行编译并打包至于provided，是提供给那些只编译不打包场景的命令。就是，我在编译的时候对某一个jar文件有依赖，但是最终打包apk文件时，我不想把这个jar文件放进去，可以用这个命令。生成jar文件的时候,也不会打包provided的模块。 推荐一本书 《gradle for android》https://segmentfault.com/a/1190000004229002]]></content>
       <categories>
         <category>gradle</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[gradle中compile，provided，compile files，compile project有何区别？]]></title>
-    <url>%2F2018%2F02%2F08%2Fgradle%E4%B8%ADcompile%EF%BC%8Cprovided%EF%BC%8Ccompile-files%EF%BC%8Ccompile-project%E6%9C%89%E4%BD%95%E5%8C%BA%E5%88%AB%EF%BC%9F%2F</url>
-    <content type="text"><![CDATA[在一个Android项目的build.gradle中，dependencies闭包中有以下四种形式的声明： 1234compile 'com.android.support:appcompat-v7:22.2.1'provided 'com.squareup.dagger:dagger-compiler:1.2.1'compile files('libs/picasso-2.4.0.jar')compile project(':androidPullToRefresh') 1，3，4本质上是一样的，区别在于： 1 是从repository（默认是jCenter())里下载一个依赖包进行编译并打包3 是从本地的libs目录下寻找picasso-2.4.0.jar这个文件进行编译并打包。类似的命令有compile fileTree(dir: &#39;libs&#39;, include: &#39;*.jar&#39;)——将libs目录下所有jar文件进行编译并打包。4 是将另一个module（等同eclipse中的library)进行编译并打包至于provided，是提供给那些只编译不打包场景的命令。就是，我在编译的时候对某一个jar文件有依赖，但是最终打包apk文件时，我不想把这个jar文件放进去，可以用这个命令。生成jar文件的时候,也不会打包provided的模块。 推荐一本书 《gradle for android》https://segmentfault.com/a/1190000004229002]]></content>
+    <title><![CDATA[解决 release-stripped.ap_' specified for property 'resourceFile' does not exist.]]></title>
+    <url>%2F2018%2F02%2F08%2F%E8%A7%A3%E5%86%B3-release-stripped-ap-specified-for-property-resourceFile-does-not-exist%2F</url>
+    <content type="text"><![CDATA[设置buildTypes里的release的shrinkResources为false即可,如果是 release-stripped.ap_’ specified for property ‘resourceFile’ does not exist.则设置buildTypes里的debug的shrinkResources为false]]></content>
       <categories>
         <category>gradle</category>
       </categories>
@@ -152,14 +163,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[Linux 操作系统下如何优雅的卸载软件]]></title>
-    <url>%2F2018%2F02%2F08%2FLinux-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6%2F</url>
-    <content type="text"><![CDATA[输入如下命令： sudo apt-get autoremove –purge 要卸载的软件名字 我们来讲解一下这个命令 sudo ———— 获取 root 权限 apt-get ——— 执行安装卸载功能的软件 autoremove — 告诉 apt-get 我们所要做的操作是移除软件 –purge ——— 注意这前面是两个短划线，这个参数是告诉他们要完整的干净的彻底的移除 此方法 Ubuntu系、Debian系 系统可用]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[Joda-Time 简介]]></title>
     <url>%2F2018%2F02%2F08%2FJoda-Time-%E7%AE%80%E4%BB%8B%2F</url>
     <content type="text"><![CDATA[转载ibm:https://www.ibm.com/developerworks/cn/java/j-jodatime.html]]></content>
@@ -168,9 +171,17 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux常用命令-帮助命令man,whatis,apropos,info,help]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4man-whatis-apropos-info-help%2F</url>
-    <content type="text"><![CDATA[man 命令 man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径 man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页 man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助, 所以如果要看配置文件的帮助文档,需要输入man 5 passwd whatis 命令 可以查看某命令的简短的帮助信息 apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径 可以查看某配置文件的简短的帮助信息 命令 –help 列出该命令的常见选项 info 命令或者配置文件 类似man,可以显示当前查看文件的进度 help 可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的 例:help cd]]></content>
+    <title><![CDATA[Linux 操作系统下如何优雅的卸载软件]]></title>
+    <url>%2F2018%2F02%2F08%2FLinux-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6%2F</url>
+    <content type="text"><![CDATA[输入如下命令： sudo apt-get autoremove –purge 要卸载的软件名字 我们来讲解一下这个命令 sudo ———— 获取 root 权限 apt-get ——— 执行安装卸载功能的软件 autoremove — 告诉 apt-get 我们所要做的操作是移除软件 –purge ——— 注意这前面是两个短划线，这个参数是告诉他们要完整的干净的彻底的移除 此方法 Ubuntu系、Debian系 系统可用]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令-压缩解压命令]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[gzip [文件] 压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件gunzip [文件] 或者 gzip -d [文件] 解压缩.gz的压缩文件tar [-zcvf] [压缩后文件名] [目录] 打包目录 压缩后文件格式 .tar.gz -c 打包 -x 解压缩 -v 显示详细信息 -f 指定文件名 -z 打包同时压缩tar [-zxvf] [解压缩文件名] [目录] zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高 [-r] [压缩后文件名] [目录]:压缩目录 压缩后文件格式 .zip 注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容 bzip2 [-k] [压缩文件] 压缩比例最高 -k 压缩后保留源文件 配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的bunzip2 [-k] [压缩文件] -k 压缩后保留源文件 配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -192,9 +203,9 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux常用命令-压缩解压命令]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[gzip [文件] 压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件gunzip [文件] 或者 gzip -d [文件] 解压缩.gz的压缩文件tar [-zcvf] [压缩后文件名] [目录] 打包目录 压缩后文件格式 .tar.gz -c 打包 -x 解压缩 -v 显示详细信息 -f 指定文件名 -z 打包同时压缩tar [-zxvf] [解压缩文件名] [目录] zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高 [-r] [压缩后文件名] [目录]:压缩目录 压缩后文件格式 .zip 注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容 bzip2 [-k] [压缩文件] 压缩比例最高 -k 压缩后保留源文件 配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的bunzip2 [-k] [压缩文件] -k 压缩后保留源文件 配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的]]></content>
+    <title><![CDATA[linux常用命令-帮助命令man,whatis,apropos,info,help]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4man-whatis-apropos-info-help%2F</url>
+    <content type="text"><![CDATA[man 命令 man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径 man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页 man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助, 所以如果要看配置文件的帮助文档,需要输入man 5 passwd whatis 命令 可以查看某命令的简短的帮助信息 apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径 可以查看某配置文件的简短的帮助信息 命令 –help 列出该命令的常见选项 info 命令或者配置文件 类似man,可以显示当前查看文件的进度 help 可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的 例:help cd]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -229,17 +240,17 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux各目录的作用]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%90%84%E7%9B%AE%E5%BD%95%E7%9A%84%E4%BD%9C%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[]]></content>
+    <title><![CDATA[ubuntu安装android开发环境]]></title>
+    <url>%2F2018%2F02%2F08%2Fubuntu%E5%AE%89%E8%A3%85android%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%2F</url>
+    <content type="text"><![CDATA[1.安装oracle-jdk打开终端，使用下面的命令：java -version如果你看到像下面的输出，这就意味着你并没有安装过Java: The program ‘java’ can be found in the following packages:* default-jre* gcj-4.6-jre-headless* openjdk-6-jre-headless* gcj-4.5-jre-headless* openjdk-7-jre-headlessTry: sudo apt-get install 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：sudo add-apt-repository ppa:webupd8team/javasudo apt-get updatesudo apt-get install oracle-java8-installersudo apt-get install oracle-java8-set-default 2.安装genymotion安装genymotion需要先安装virtualbox，命令如下：sudo apt-get install virtualbox然后下载genymotion，chmod +x geny…..bin 增加权限后执行，会解压缩，然后双击即可打开]]></content>
       <categories>
         <category>linux</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[ubuntu安装android开发环境]]></title>
-    <url>%2F2018%2F02%2F08%2Fubuntu%E5%AE%89%E8%A3%85android%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%2F</url>
-    <content type="text"><![CDATA[1.安装oracle-jdk打开终端，使用下面的命令：java -version如果你看到像下面的输出，这就意味着你并没有安装过Java: The program ‘java’ can be found in the following packages:* default-jre* gcj-4.6-jre-headless* openjdk-6-jre-headless* gcj-4.5-jre-headless* openjdk-7-jre-headlessTry: sudo apt-get install 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：sudo add-apt-repository ppa:webupd8team/javasudo apt-get updatesudo apt-get install oracle-java8-installersudo apt-get install oracle-java8-set-default 2.安装genymotion安装genymotion需要先安装virtualbox，命令如下：sudo apt-get install virtualbox然后下载genymotion，chmod +x geny…..bin 增加权限后执行，会解压缩，然后双击即可打开]]></content>
+    <title><![CDATA[linux各目录的作用]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%90%84%E7%9B%AE%E5%BD%95%E7%9A%84%E4%BD%9C%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -577,8 +588,8 @@
         <category>android</category>
       </categories>
       <tags>
-        <tag>Service</tag>
         <tag>API</tag>
+        <tag>Service</tag>
       </tags>
   </entry>
   <entry>
