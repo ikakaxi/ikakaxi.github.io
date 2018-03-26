@@ -335,7 +335,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T12:47:17+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T12:47:00+08:00">
                 2018-03-26
               </time>
             
@@ -345,6 +345,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WebView/" itemprop="url" rel="index">
+                    <span itemprop="name">WebView</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1604,6 +1626,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/windows下android-studio在git-push时失败的解决方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/08/windows下android-studio在git-push时失败的解决方法/" itemprop="url">windows下android studio在git push时失败的解决方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:54:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/08/windows下android-studio在git-push时失败的解决方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/08/windows下android-studio在git-push时失败的解决方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行<br><img src="http://upload-images.jianshu.io/upload_images/545982-5fc34fd8c1765436.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="QQ截图20161220094526.png"><br>然后生成ssh就可以了</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/source-tree-配置-外部差异比对工具为beyond-compare/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1710,159 +1885,6 @@
           
             <p>1、首先，安装好beyond compare后，创建一个快捷方式<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s <span class="regexp">/Applications/</span>Beyond\ Compare.app<span class="regexp">/Contents/</span>MacOS<span class="regexp">/bcomp /u</span>sr<span class="regexp">/local/</span>bin<span class="regexp">/</span></span><br></pre></td></tr></table></figure></p>
 <p>2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Visual Diff Tool: Other</span><br><span class="line">Diff Command:<span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>bcomp</span><br><span class="line">Parameters:-ro <span class="variable">$LOCAL</span> <span class="variable">$REMOTE</span></span><br><span class="line">Merge Tool: Other</span><br><span class="line">Merge Command:<span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>bcomp</span><br><span class="line">Parameters:<span class="variable">$LOCAL</span> <span class="variable">$REMOTE</span> <span class="variable">$BASE</span> <span class="variable">$MERGED</span></span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/02/08/windows下android-studio在git-push时失败的解决方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liuhc">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的技术小屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/windows下android-studio在git-push时失败的解决方法/" itemprop="url">windows下android studio在git push时失败的解决方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:54:00+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/02/08/windows下android-studio在git-push时失败的解决方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/08/windows下android-studio在git-push时失败的解决方法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行<br><img src="http://upload-images.jianshu.io/upload_images/545982-5fc34fd8c1765436.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="QQ截图20161220094526.png"><br>然后生成ssh就可以了</p>
 
           
         

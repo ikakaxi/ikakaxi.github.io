@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="我的技术小屋">
 <meta property="og:description" content="现在Android开发很多都是混合开发了，WebView也不再只是显示一个网页而已而是与Native App有很多交互，所以熟悉JavaScript与Java交互很有必要。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-24T15:10:45.720Z">
+<meta property="og:updated_time" content="2018-03-26T05:14:49.582Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WebView中JavaScript与Java交互流程">
 <meta name="twitter:description" content="现在Android开发很多都是混合开发了，WebView也不再只是显示一个网页而已而是与Native App有很多交互，所以熟悉JavaScript与Java交互很有必要。">
@@ -409,7 +409,22 @@
 <h1 id="1-JavaScript调用Java"><a href="#1-JavaScript调用Java" class="headerlink" title="1. JavaScript调用Java"></a>1. JavaScript调用Java</h1><h2 id="1-1-1-Java注册"><a href="#1-1-1-Java注册" class="headerlink" title="1.1.1 Java注册"></a>1.1.1 Java注册</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置与Js交互的权限</span></span><br><span class="line">webSettings.setJavaScriptEnabled(<span class="keyword">true</span>);</span><br><span class="line">webView.addJavascriptInterface(<span class="keyword">new</span> JSInvokeClass(), <span class="string">"JSInvokeClassName"</span>);</span><br><span class="line">...</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">JSInvokeClass</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 被JS调用的方法必须加入@JavascriptInterface注解</span></span><br><span class="line">    <span class="meta">@JavascriptInterface</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">methodName</span><span class="params">(String param)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"&#123;error:'error'&#125;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="1-1-2-JavaScript调用"><a href="#1-1-2-JavaScript调用" class="headerlink" title="1.1.2 JavaScript调用"></a>1.1.2 JavaScript调用</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用一个Html的button测试</span></span><br><span class="line">&lt;button onclick=<span class="string">"JSInvokeClassName.methodName('aabbcc')"</span>&gt;调用Java方法&lt;<span class="regexp">/button&gt;</span></span><br></pre></td></tr></table></figure>
 <p>JSInvokeClassName和methodName分别是JavaScript调用在Java代码里注册的类名映射和方法，名字随便起只要对应上就可以</p>
-<p>但是这种方法有很多漏洞，具体请看 <a href="https://blog.csdn.net/carson_ho/article/details/64904635" target="_blank" rel="noopener">https://blog.csdn.net/carson_ho/article/details/64904635</a></p>
+<p>但是这种方法有很多漏洞，需要解决如下问题：</p>
+<ol>
+<li><p>防止XSS</p>
+</li>
+<li><p>android 4.2之前的版本不要使用javainterface，可使用拦截prompt的方式</p>
+</li>
+<li><p>移除android 4.2之前的默认接口</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">removeJavascriptInterface(“searchBoxJavaBridge_”)</span></span><br><span class="line"><span class="comment">removeJavascriptInterface(“accessibility”)</span></span><br><span class="line"><span class="comment">removeJavascriptInterface(“accessibilityTraversal”)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>防止不安全的访问</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setAllowFileAccessFromFileURLs(<span class="name">false</span>)<span class="comment">;</span></span><br><span class="line">setAllowUniversalAccessFromFileURLs(<span class="name">false</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用https或者http2.0交互</p>
+</li>
+</ol>
+<p>解决参考 <a href="https://blog.csdn.net/carson_ho/article/details/64904635" target="_blank" rel="noopener">https://blog.csdn.net/carson_ho/article/details/64904635</a></p>
 <h2 id="1-2通过-WebViewClient-的方法shouldOverrideUrlLoading-回调拦截-url"><a href="#1-2通过-WebViewClient-的方法shouldOverrideUrlLoading-回调拦截-url" class="headerlink" title="1.2通过 WebViewClient 的方法shouldOverrideUrlLoading ()回调拦截 url"></a>1.2通过 WebViewClient 的方法shouldOverrideUrlLoading ()回调拦截 url</h2><p>优点：不存在方式1.1的漏洞；</p>
 <p>缺点：JS获取Android方法的返回值复杂，需要Java调用JavaScript的方法然后在JavaScript的这个方法里再调用1.1.1中注册的方法</p>
 <p>示例如下：</p>
