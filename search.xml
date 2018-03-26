@@ -5,10 +5,11 @@
     <url>%2F2018%2F03%2F26%2F%E7%94%A8%E4%B8%80%E5%BC%A0%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0Android%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92%E6%9C%BA%E5%88%B6%2F</url>
     <content type="text"><![CDATA[其中，如果有步骤返回false，就会把该事件传递给上层，如果全部是false，最终会把该事件交给Activity来处理]]></content>
       <categories>
-        <category>Android机制</category>
+        <category>android</category>
       </categories>
       <tags>
-        <tag>android</tag>
+        <tag>原创</tag>
+        <tag>Android机制</tag>
       </tags>
   </entry>
   <entry>
@@ -92,19 +93,19 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[windows下android studio在git push时失败的解决方法]]></title>
-    <url>%2F2018%2F02%2F08%2Fwindows%E4%B8%8Bandroid-studio%E5%9C%A8git-push%E6%97%B6%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行然后生成ssh就可以了]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[source tree 配置 外部差异比对工具为beyond compare]]></title>
     <url>%2F2018%2F02%2F08%2Fsource-tree-%E9%85%8D%E7%BD%AE-%E5%A4%96%E9%83%A8%E5%B7%AE%E5%BC%82%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%B8%BAbeyond-compare%2F</url>
     <content type="text"><![CDATA[1、首先，安装好beyond compare后，创建一个快捷方式1ln -s /Applications/Beyond\ Compare.app/Contents/MacOS/bcomp /usr/local/bin/ 2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：123456Visual Diff Tool: OtherDiff Command:/usr/local/bin/bcompParameters:-ro $LOCAL $REMOTEMerge Tool: OtherMerge Command:/usr/local/bin/bcompParameters:$LOCAL $REMOTE $BASE $MERGED]]></content>
       <categories>
         <category>其他</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[windows下android studio在git push时失败的解决方法]]></title>
+    <url>%2F2018%2F02%2F08%2Fwindows%E4%B8%8Bandroid-studio%E5%9C%A8git-push%E6%97%B6%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行然后生成ssh就可以了]]></content>
+      <categories>
+        <category>git</category>
       </categories>
   </entry>
   <entry>
@@ -145,14 +146,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[如何在library中使用productFlavors]]></title>
-    <url>%2F2018%2F02%2F08%2F%E5%A6%82%E4%BD%95%E5%9C%A8library%E4%B8%AD%E4%BD%BF%E7%94%A8productFlavors%2F</url>
-    <content type="text"><![CDATA[源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是不允许的。所以下面我们就来介绍一下如何在library中使用productFlavors。 ###1.基础前面介绍过如何使用productFlavors，不了解的朋友需要先看看这篇文章活用productFlavors,批量定制化http://blog.csdn.net/yulyu/article/details/59111697 ###2.场景介绍首先我们引用了一个picmodule，然后picmodule里面有一个正常的产品，两个定制化的产品 main是普通产品，red和blue是定制化产品（这里只是里面使用的图片不一样） ###3.解决方法于是我们就在picmodule的gradle配置productFlavors，但是picmodule是属于一个library，所以这样做是不允许的，项目将找不到引入的picmodule 那么如何解决呢？首先我们需要在picmodule的gradle里面加入一句话（记住不要漏了）1publishNonDefault true 接着我们在application下的build.gradle里面加入一些配置在Android模块内加入1234567productFlavors&#123; common&#123;&#125; red&#123;&#125; blue&#123;&#125;&#125; 在gradle最外层加入12345configurations &#123; commonCompile redCompile blueCompile&#125; 接着修改一下引入picmodule的方法平时引入module是这样的1compile project(':picmodule') 我们改成下面这样123commonCompile project(path: ':picmodule', configuration: 'commonRelease')redCompile project(path: ':picmodule', configuration: 'redRelease')blueCompile project(path: ':picmodule', configuration: 'blueRelease') 这里library我是用的Release包，如果要用debug版的library也可以改成下面这样123commonCompile project(path: ':picmodule', configuration: 'commonDebug')redCompile project(path: ':picmodule', configuration: 'redDebug')blueCompile project(path: ':picmodule', configuration: 'blueDebug') 然后同步一下就可以了这个时候如果找不到R文件，那么clean一下或者重启一下as都可以]]></content>
-      <categories>
-        <category>gradle</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[Java中的强引用,软引用,弱引用,虚引用]]></title>
     <url>%2F2018%2F02%2F08%2FJava%E4%B8%AD%E7%9A%84%E5%BC%BA%E5%BC%95%E7%94%A8-%E8%BD%AF%E5%BC%95%E7%94%A8-%E5%BC%B1%E5%BC%95%E7%94%A8-%E8%99%9A%E5%BC%95%E7%94%A8%2F</url>
     <content type="text"><![CDATA[####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。 由于WeakReference被GC回收的可能性较大，因此，在使用它之前，你需要通过weakObj.get()去判断目的对象引用是否已经被回收. Reference queque 一旦WeakReference.get()返回null，它指向的对象就会被垃圾回收，那么WeakReference对象就没有用了，意味着你应该进行一些清理。比如在WeakHashMap中要把回收过的key从Map中删除掉，避免无用的的weakReference不断增长。ReferenceQueue可以让你很容易地跟踪dead references。WeakReference类的构造函数有一个ReferenceQueue参数，当指向的对象被垃圾回收时，会把WeakReference对象放到ReferenceQueue中。这样，遍历ReferenceQueue可以得到所有回收过的WeakReference。 ####4.虚引用和soft，weak Reference区别较大，它的get()方法总是返回null。这意味着你只能用PhantomReference本身，而得不到它指向的对象。当WeakReference指向的对象变得弱可达(weakly reachable）时会立即被放到ReferenceQueue中，这在finalization、garbage collection之前发生。理论上，你可以在finalize()方法中使对象“复活”（使一个强引用指向它就行了，gc不会回收它）。但没法复活PhantomReference指向的对象。而PhantomReference是在garbage collection之后被放到ReferenceQueue中的，没法复活。虚引用适合用来查看对象什么时候被回收,优化内存的时候使用 以上是个人在网上学习的时候总结的东西,有错误的地方请指正]]></content>
@@ -161,11 +154,11 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[Class.isAssignableFrom与 instanceof 区别]]></title>
-    <url>%2F2018%2F02%2F08%2FClass-isAssignableFrom%E4%B8%8E-instanceof-%E5%8C%BA%E5%88%AB%2F</url>
-    <content type="text"><![CDATA[isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。 通常调用格式是 Class1.isAssignableFrom (Class2) 调用者和参数都是 java.lang.Class 类型。 而 instanceof 是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。 格式是： o instanceof TypeName 第一个参数是对象实例名，第二个参数是具体的类名或接口名具体例子如下：123456789101112131415161718192021222324252627282930313233public class TestCase &#123; public static void main(String[] args) &#123; TestCase test = new TestCase(); test.testIsAssignedFrom1(); test.testIsAssignedFrom2(); test.testIsAssignedFrom3(); test.testInstanceOf1(); test.testInstanceOf2(); &#125; public void testIsAssignedFrom1() &#123; System.out.println(String.class.isAssignableFrom(Object.class)); &#125; public void testIsAssignedFrom2() &#123; System.out.println(Object.class.isAssignableFrom(Object.class)); &#125; public void testIsAssignedFrom3() &#123; System.out.println(Object.class.isAssignableFrom(String.class)); &#125; public void testInstanceOf1() &#123; String s = ""; System.out.println(s instanceof Object); &#125; public void testInstanceOf2() &#123; Object o = new Object(); System.out.println(o instanceof Object); &#125; &#125; 打印结果：12345false true true true true]]></content>
+    <title><![CDATA[如何在library中使用productFlavors]]></title>
+    <url>%2F2018%2F02%2F08%2F%E5%A6%82%E4%BD%95%E5%9C%A8library%E4%B8%AD%E4%BD%BF%E7%94%A8productFlavors%2F</url>
+    <content type="text"><![CDATA[源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是不允许的。所以下面我们就来介绍一下如何在library中使用productFlavors。 ###1.基础前面介绍过如何使用productFlavors，不了解的朋友需要先看看这篇文章活用productFlavors,批量定制化http://blog.csdn.net/yulyu/article/details/59111697 ###2.场景介绍首先我们引用了一个picmodule，然后picmodule里面有一个正常的产品，两个定制化的产品 main是普通产品，red和blue是定制化产品（这里只是里面使用的图片不一样） ###3.解决方法于是我们就在picmodule的gradle配置productFlavors，但是picmodule是属于一个library，所以这样做是不允许的，项目将找不到引入的picmodule 那么如何解决呢？首先我们需要在picmodule的gradle里面加入一句话（记住不要漏了）1publishNonDefault true 接着我们在application下的build.gradle里面加入一些配置在Android模块内加入1234567productFlavors&#123; common&#123;&#125; red&#123;&#125; blue&#123;&#125;&#125; 在gradle最外层加入12345configurations &#123; commonCompile redCompile blueCompile&#125; 接着修改一下引入picmodule的方法平时引入module是这样的1compile project(':picmodule') 我们改成下面这样123commonCompile project(path: ':picmodule', configuration: 'commonRelease')redCompile project(path: ':picmodule', configuration: 'redRelease')blueCompile project(path: ':picmodule', configuration: 'blueRelease') 这里library我是用的Release包，如果要用debug版的library也可以改成下面这样123commonCompile project(path: ':picmodule', configuration: 'commonDebug')redCompile project(path: ':picmodule', configuration: 'redDebug')blueCompile project(path: ':picmodule', configuration: 'blueDebug') 然后同步一下就可以了这个时候如果找不到R文件，那么clean一下或者重启一下as都可以]]></content>
       <categories>
-        <category>java</category>
+        <category>gradle</category>
       </categories>
   </entry>
   <entry>
@@ -177,9 +170,9 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[Joda-Time 简介]]></title>
-    <url>%2F2018%2F02%2F08%2FJoda-Time-%E7%AE%80%E4%BB%8B%2F</url>
-    <content type="text"><![CDATA[转载ibm:https://www.ibm.com/developerworks/cn/java/j-jodatime.html]]></content>
+    <title><![CDATA[Class.isAssignableFrom与 instanceof 区别]]></title>
+    <url>%2F2018%2F02%2F08%2FClass-isAssignableFrom%E4%B8%8E-instanceof-%E5%8C%BA%E5%88%AB%2F</url>
+    <content type="text"><![CDATA[isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。 通常调用格式是 Class1.isAssignableFrom (Class2) 调用者和参数都是 java.lang.Class 类型。 而 instanceof 是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。 格式是： o instanceof TypeName 第一个参数是对象实例名，第二个参数是具体的类名或接口名具体例子如下：123456789101112131415161718192021222324252627282930313233public class TestCase &#123; public static void main(String[] args) &#123; TestCase test = new TestCase(); test.testIsAssignedFrom1(); test.testIsAssignedFrom2(); test.testIsAssignedFrom3(); test.testInstanceOf1(); test.testInstanceOf2(); &#125; public void testIsAssignedFrom1() &#123; System.out.println(String.class.isAssignableFrom(Object.class)); &#125; public void testIsAssignedFrom2() &#123; System.out.println(Object.class.isAssignableFrom(Object.class)); &#125; public void testIsAssignedFrom3() &#123; System.out.println(Object.class.isAssignableFrom(String.class)); &#125; public void testInstanceOf1() &#123; String s = ""; System.out.println(s instanceof Object); &#125; public void testInstanceOf2() &#123; Object o = new Object(); System.out.println(o instanceof Object); &#125; &#125; 打印结果：12345false true true true true]]></content>
       <categories>
         <category>java</category>
       </categories>
@@ -201,11 +194,11 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux常用命令-文件搜索命令-locate,which,whereis,grep]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4-locate-which-whereis-grep%2F</url>
-    <content type="text"><![CDATA[locate 目录或文件名 -i 查找的时候不区分大小写这个类似everything,速度比find快很多,因为这个命令搜索的是它维护的文件资料库,文件资料库是var/lib/mlocate/mlocate.db,如果文件没有包含在它的文件资料库,那么是找不到这个文件的,这个时候需要用updatedb命令来更新文件资料库,但是,/tmp这个目录,是不会被文件资料库收录的,即使执行了updatedb也找不到tmp下面的文件 which 搜索命令所在目录及别名 例:which lswhereis 搜索命令所在目录及帮助文档路径 例:whereis ls 注意,这个命令查到的帮助文档的路径中,1代表命令的帮助,5代表文档的帮助,例如whereis passwd中就有man1和man5这两种帮助文档grep 在文件内容中搜寻子串匹配的行为并输出 -i 不区分大小写 -v 排除指定字串 例:grep mysql /root/install.log grep -v ^# /etc/inittab 把#开头的行排除]]></content>
+    <title><![CDATA[Joda-Time 简介]]></title>
+    <url>%2F2018%2F02%2F08%2FJoda-Time-%E7%AE%80%E4%BB%8B%2F</url>
+    <content type="text"><![CDATA[转载ibm:https://www.ibm.com/developerworks/cn/java/j-jodatime.html]]></content>
       <categories>
-        <category>linux</category>
+        <category>java</category>
       </categories>
   </entry>
   <entry>
@@ -217,17 +210,25 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux常用软件安装]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%2F</url>
-    <content type="text"><![CDATA[####1.mongodb的conf文件port=27017 #【代表端口号，如果不指定则默认为 27017 】dbpath= /home/username/Soft/mongoDBFiles #【数据库路径】logpath= /home/username/Soft/mongoDBFiles/mongodb.log #【日志路径】logappend=true #【日志文件自动累加，而不是覆盖】推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件] ####2.nodejs官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下 ####3.md文件转html要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。$ sudo apt-get install discount 用discount提供的markdown工具转换：$ markdown -o Release-Notes.html Release-Notes.md python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式]]></content>
+    <title><![CDATA[linux常用命令-帮助命令man,whatis,apropos,info,help]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4man-whatis-apropos-info-help%2F</url>
+    <content type="text"><![CDATA[man 命令 man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径 man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页 man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助, 所以如果要看配置文件的帮助文档,需要输入man 5 passwd whatis 命令 可以查看某命令的简短的帮助信息 apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径 可以查看某配置文件的简短的帮助信息 命令 –help 列出该命令的常见选项 info 命令或者配置文件 类似man,可以显示当前查看文件的进度 help 可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的 例:help cd]]></content>
       <categories>
         <category>linux</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux常用命令-帮助命令man,whatis,apropos,info,help]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4man-whatis-apropos-info-help%2F</url>
-    <content type="text"><![CDATA[man 命令 man 配置文件,注意这里只需要写文件名称就可以了,不能写文件的绝对路径 man既可以查看命令的帮助信息也可以查看配置文件的帮助信息,如果内容太多,可以输入”/内容”查找,按n继续查找下一页 man passwd这个命令,有2个帮助文档,分别是passwd命令的帮助文档和passwd配置文件的帮助文档,在whereis命令里学习到,1代表命令的帮助,5代表文档的帮助, 所以如果要看配置文件的帮助文档,需要输入man 5 passwd whatis 命令 可以查看某命令的简短的帮助信息 apropos 配置文件,注意这里也是只需要写文件名称就可以了,不能写文件的绝对路径 可以查看某配置文件的简短的帮助信息 命令 –help 列出该命令的常见选项 info 命令或者配置文件 类似man,可以显示当前查看文件的进度 help 可以查看shell内置命令的帮助,shell内置命令用which或者whereis是找不到命令所在路径的 例:help cd]]></content>
+    <title><![CDATA[linux常用命令-文件搜索命令-locate,which,whereis,grep]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E5%91%BD%E4%BB%A4-locate-which-whereis-grep%2F</url>
+    <content type="text"><![CDATA[locate 目录或文件名 -i 查找的时候不区分大小写这个类似everything,速度比find快很多,因为这个命令搜索的是它维护的文件资料库,文件资料库是var/lib/mlocate/mlocate.db,如果文件没有包含在它的文件资料库,那么是找不到这个文件的,这个时候需要用updatedb命令来更新文件资料库,但是,/tmp这个目录,是不会被文件资料库收录的,即使执行了updatedb也找不到tmp下面的文件 which 搜索命令所在目录及别名 例:which lswhereis 搜索命令所在目录及帮助文档路径 例:whereis ls 注意,这个命令查到的帮助文档的路径中,1代表命令的帮助,5代表文档的帮助,例如whereis passwd中就有man1和man5这两种帮助文档grep 在文件内容中搜寻子串匹配的行为并输出 -i 不区分大小写 -v 排除指定字串 例:grep mysql /root/install.log grep -v ^# /etc/inittab 把#开头的行排除]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用软件安装]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%2F</url>
+    <content type="text"><![CDATA[####1.mongodb的conf文件port=27017 #【代表端口号，如果不指定则默认为 27017 】dbpath= /home/username/Soft/mongoDBFiles #【数据库路径】logpath= /home/username/Soft/mongoDBFiles/mongodb.log #【日志路径】logappend=true #【日志文件自动累加，而不是覆盖】推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件] ####2.nodejs官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下 ####3.md文件转html要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。$ sudo apt-get install discount 用discount提供的markdown工具转换：$ markdown -o Release-Notes.html Release-Notes.md python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -262,17 +263,17 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[linux各目录的作用]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%90%84%E7%9B%AE%E5%BD%95%E7%9A%84%E4%BD%9C%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[]]></content>
+    <title><![CDATA[ubuntu安装android开发环境]]></title>
+    <url>%2F2018%2F02%2F08%2Fubuntu%E5%AE%89%E8%A3%85android%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%2F</url>
+    <content type="text"><![CDATA[1.安装oracle-jdk打开终端，使用下面的命令：java -version如果你看到像下面的输出，这就意味着你并没有安装过Java: The program ‘java’ can be found in the following packages:* default-jre* gcj-4.6-jre-headless* openjdk-6-jre-headless* gcj-4.5-jre-headless* openjdk-7-jre-headlessTry: sudo apt-get install 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：sudo add-apt-repository ppa:webupd8team/javasudo apt-get updatesudo apt-get install oracle-java8-installersudo apt-get install oracle-java8-set-default 2.安装genymotion安装genymotion需要先安装virtualbox，命令如下：sudo apt-get install virtualbox然后下载genymotion，chmod +x geny…..bin 增加权限后执行，会解压缩，然后双击即可打开]]></content>
       <categories>
         <category>linux</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[ubuntu安装android开发环境]]></title>
-    <url>%2F2018%2F02%2F08%2Fubuntu%E5%AE%89%E8%A3%85android%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%2F</url>
-    <content type="text"><![CDATA[1.安装oracle-jdk打开终端，使用下面的命令：java -version如果你看到像下面的输出，这就意味着你并没有安装过Java: The program ‘java’ can be found in the following packages:* default-jre* gcj-4.6-jre-headless* openjdk-6-jre-headless* gcj-4.5-jre-headless* openjdk-7-jre-headlessTry: sudo apt-get install 使用下面的命令安装，只需一些时间，它就会下载许多的文件，所及你要确保你的网络环境良好：sudo add-apt-repository ppa:webupd8team/javasudo apt-get updatesudo apt-get install oracle-java8-installersudo apt-get install oracle-java8-set-default 2.安装genymotion安装genymotion需要先安装virtualbox，命令如下：sudo apt-get install virtualbox然后下载genymotion，chmod +x geny…..bin 增加权限后执行，会解压缩，然后双击即可打开]]></content>
+    <title><![CDATA[linux各目录的作用]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%90%84%E7%9B%AE%E5%BD%95%E7%9A%84%E4%BD%9C%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[]]></content>
       <categories>
         <category>linux</category>
       </categories>
