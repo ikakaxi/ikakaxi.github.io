@@ -85,12 +85,12 @@
 <meta property="og:site_name" content="我的技术小屋">
 <meta property="og:description" content="其中MeasureSpec类的说明：MeasureSpec.EXACTLY(完全)：LayoutParams.MATCH_PARENT或确切的数值。父控件为子View指定确切大小，希望子View完全按照自己给定的尺寸来处理，这时的MeasureSpec一般是父控件根据自身的MeasureSpec跟子View的布局参数来确定的。一般这种情况下size&amp;gt;0，有个确定值。 MeasureSpec">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/545982-1b770d50e9e55028.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-03-29T04:49:23.150Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/545982-1a001be2690f4f83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-03-29T04:55:03.726Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用一张图告诉你Android中View的measure过程">
 <meta name="twitter:description" content="其中MeasureSpec类的说明：MeasureSpec.EXACTLY(完全)：LayoutParams.MATCH_PARENT或确切的数值。父控件为子View指定确切大小，希望子View完全按照自己给定的尺寸来处理，这时的MeasureSpec一般是父控件根据自身的MeasureSpec跟子View的布局参数来确定的。一般这种情况下size&amp;gt;0，有个确定值。 MeasureSpec">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/545982-1b770d50e9e55028.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/545982-1a001be2690f4f83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -407,7 +407,7 @@
       
 
       
-        <p><img src="https://upload-images.jianshu.io/upload_images/545982-1b770d50e9e55028.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="绘制View流程-onMeasure.png"></p>
+        <p><img src="https://upload-images.jianshu.io/upload_images/545982-1a001be2690f4f83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="绘制View流程-onMeasure.png"></p>
 <h4 id="其中MeasureSpec类的说明："><a href="#其中MeasureSpec类的说明：" class="headerlink" title="其中MeasureSpec类的说明："></a>其中MeasureSpec类的说明：</h4><p>MeasureSpec.EXACTLY(完全)：LayoutParams.MATCH_PARENT或确切的数值。父控件为子View指定确切大小，希望子View完全按照自己给定的尺寸来处理，这时的MeasureSpec一般是父控件根据自身的MeasureSpec跟子View的布局参数来确定的。一般这种情况下size&gt;0，有个确定值。</p>
 <p>MeasureSpec.AT_MOST(至多)：LayoutParams.WRAP_CONTENT 父控件为子元素指定最大参考尺寸，希望子View的尺寸不要超过这个尺寸。这种模式也是父控件根据自身的MeasureSpec跟子View的布局参数来确定的。</p>
 <p>MeasureSpec.UNSPECIFIED(未指定)：父容器不对子View有任何限制，要多大给多大，多见于ListView、GridView、ScrollView。这种MeasureSpec一般是由父控件自身的特性决定的。比如ScrollView，它的子View可以随意设置大小，无论多高，都能滚动显示。</p>
