@@ -86,7 +86,7 @@
 <meta property="og:description" content="其中getChildMeasureSpec方法的说明： MeasureSpec.EXACTLY：LayoutParams.MATCH_PARENT 父View大小或者具体数值（如100dp） MeasureSpec.AT_MOST：LayoutParams.WRAP_CONTENT 不确定的值，子View决定自己的大小，但最大不能超过父View MeasureSpec.UNSPECIFIED：父">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/545982-7474c9fc0e14835b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-03-27T16:12:57.837Z">
+<meta property="og:updated_time" content="2018-03-29T02:33:21.069Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用一张图告诉你Android中View的measure过程">
 <meta name="twitter:description" content="其中getChildMeasureSpec方法的说明： MeasureSpec.EXACTLY：LayoutParams.MATCH_PARENT 父View大小或者具体数值（如100dp） MeasureSpec.AT_MOST：LayoutParams.WRAP_CONTENT 不确定的值，子View决定自己的大小，但最大不能超过父View MeasureSpec.UNSPECIFIED：父">
@@ -411,7 +411,7 @@
 <p>其中getChildMeasureSpec方法的说明：</p>
 <p>MeasureSpec.EXACTLY：LayoutParams.MATCH_PARENT 父View大小或者具体数值（如100dp）</p>
 <p>MeasureSpec.AT_MOST：LayoutParams.WRAP_CONTENT 不确定的值，子View决定自己的大小，但最大不能超过父View</p>
-<p>MeasureSpec.UNSPECIFIED：父容器不对子View有任何限制，要多大给多大，多见于ListView、GridView</p>
+<p>MeasureSpec.UNSPECIFIED：父容器不对子View有任何限制，要多大给多大，多见于ListView、GridView、ScrollView。这种MeasureSpec一般是由父控件自身的特性决定的。比如ScrollView，它的子View可以随意设置大小，无论多高，都能滚动显示，这个时候，size一般就没什么意义。</p>
 <hr>
 <p>在ViewGroup的getChildMeasureSpec(int spec, int padding, int childDimension)方法里：</p>
 <ol>
