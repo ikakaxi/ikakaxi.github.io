@@ -8,7 +8,7 @@
   <entry>
     <title><![CDATA[用一张图告诉你Android中View的measure过程]]></title>
     <url>%2F2018%2F03%2F27%2F%E7%94%A8%E4%B8%80%E5%BC%A0%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0Android%E4%B8%ADView%E7%9A%84measure%E8%BF%87%E7%A8%8B%2F</url>
-    <content type="text"><![CDATA[其中MeasureSpec类的说明： MeasureSpec.EXACTLY(完全)：LayoutParams.MATCH_PARENT或确切的数值。父控件为子View指定确切大小，希望子View完全按照自己给定的尺寸来处理，这时的MeasureSpec一般是父控件根据自身的MeasureSpec跟子View的布局参数来确定的。一般这种情况下size&gt;0，有个确定值。 MeasureSpec.AT_MOST(至多)：LayoutParams.WRAP_CONTENT 父控件为子元素指定最大参考尺寸，希望子View的尺寸不要超过这个尺寸。这种模式也是父控件根据自身的MeasureSpec跟子View的布局参数来确定的 MeasureSpec.UNSPECIFIED(未指定)：父容器不对子View有任何限制，要多大给多大，多见于ListView、GridView、ScrollView。这种MeasureSpec一般是由父控件自身的特性决定的。比如ScrollView，它的子View可以随意设置大小，无论多高，都能滚动显示，这个时候，size一般就没什么意义。 在ViewGroup的getChildMeasureSpec(int spec, int padding, int childDimension)方法里： 不管该ViewGroup的测量模式是什么，只要childDimension&gt;=0，返回的子View的绘制大小就是childDimension，测量模式就是MeasureSpec.EXACTLY 如果该ViewGroup的测量模式是MeasureSpec.EXACTLY 如果childDimension == LayoutParams.MATCH_PARENT，返回的子View大小为父View大小，模式为EXACTLY 如果childDimension == LayoutParams.WRAP_CONTENT，返回的子View决定自己的大小，但最大不能超过父View大小，模式为AT_MOST 如果该ViewGroup的测量模式是MeasureSpec.AT_MOST，childDimension == LayoutParams.MATCH_PARENT或者childDimension == LayoutParams.WRAP_CONTENT，返回的子View决定自己的大小，但最大不能超过父View大小，模式为AT_MOST 如果该ViewGroup的测量模式是MeasureSpec.UNSPECIFIED，childDimension == LayoutParams.MATCH_PARENT或者childDimension == LayoutParams.WRAP_CONTENT，返回的子View的建议大小是0（小于6.0）或者ViewGroup的大小（6.0和以上），测量模式是MeasureSpec.UNSPECIFIED 参考：https://www.jianshu.com/p/1dab927b2f36]]></content>
+    <content type="text"><![CDATA[其中MeasureSpec类的说明：MeasureSpec.EXACTLY(完全)：LayoutParams.MATCH_PARENT或确切的数值。父控件为子View指定确切大小，希望子View完全按照自己给定的尺寸来处理，这时的MeasureSpec一般是父控件根据自身的MeasureSpec跟子View的布局参数来确定的。一般这种情况下size&gt;0，有个确定值。 MeasureSpec.AT_MOST(至多)：LayoutParams.WRAP_CONTENT 父控件为子元素指定最大参考尺寸，希望子View的尺寸不要超过这个尺寸。这种模式也是父控件根据自身的MeasureSpec跟子View的布局参数来确定的。 MeasureSpec.UNSPECIFIED(未指定)：父容器不对子View有任何限制，要多大给多大，多见于ListView、GridView、ScrollView。这种MeasureSpec一般是由父控件自身的特性决定的。比如ScrollView，它的子View可以随意设置大小，无论多高，都能滚动显示。 ViewGroup的getChildMeasureSpec(int spec, int padding, int childDimension)方法说明： 不管该ViewGroup的测量模式是什么，只要childDimension&gt;=0，返回的子View的绘制大小就是childDimension，测量模式就是MeasureSpec.EXACTLY 如果该ViewGroup的测量模式是MeasureSpec.EXACTLY 如果childDimension == LayoutParams.MATCH_PARENT，返回的子View大小为父View大小，模式为EXACTLY 如果childDimension == LayoutParams.WRAP_CONTENT，返回的子View决定自己的大小，但最大不能超过父View大小，模式为AT_MOST 如果该ViewGroup的测量模式是MeasureSpec.AT_MOST，childDimension == LayoutParams.MATCH_PARENT或者childDimension == LayoutParams.WRAP_CONTENT，返回的子View决定自己的大小，但最大不能超过父View大小，模式为AT_MOST 如果该ViewGroup的测量模式是MeasureSpec.UNSPECIFIED，childDimension == LayoutParams.MATCH_PARENT或者childDimension == LayoutParams.WRAP_CONTENT，返回的子View的建议大小是0（小于6.0）或者ViewGroup的大小（6.0和以上），测量模式是MeasureSpec.UNSPECIFIED 顶层View的MeasureSpec是谁指定传递给子View的MeasureSpec是父容器根据自己的MeasureSpec及子View的布局参数所确定的，那么根MeasureSpec是谁创建的呢？我们用最常用的两种Window来解释一下，Activity与Dialog，DecorView是Activity的根布局，传递给DecorView的MeasureSpec是系统根据Activity或者Dialog的Theme来确定的，也就是说，最初的MeasureSpec是直接根据Window的属性构建的，一般对于Activity来说，根MeasureSpec是EXACTLY+屏幕尺寸，对于Dialog来说，如果不做特殊设定会采用AT_MOST+屏幕尺寸。这里牵扯到WindowManagerService跟ActivityManagerService 参考： https://www.jianshu.com/p/1dab927b2f36https://www.jianshu.com/p/d16ec64181f2]]></content>
       <categories>
         <category>android</category>
       </categories>
@@ -109,19 +109,19 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[source tree 配置 外部差异比对工具为beyond compare]]></title>
-    <url>%2F2018%2F02%2F08%2Fsource-tree-%E9%85%8D%E7%BD%AE-%E5%A4%96%E9%83%A8%E5%B7%AE%E5%BC%82%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%B8%BAbeyond-compare%2F</url>
-    <content type="text"><![CDATA[1、首先，安装好beyond compare后，创建一个快捷方式1ln -s /Applications/Beyond\ Compare.app/Contents/MacOS/bcomp /usr/local/bin/ 2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：123456Visual Diff Tool: OtherDiff Command:/usr/local/bin/bcompParameters:-ro $LOCAL $REMOTEMerge Tool: OtherMerge Command:/usr/local/bin/bcompParameters:$LOCAL $REMOTE $BASE $MERGED]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[windows下android studio在git push时失败的解决方法]]></title>
     <url>%2F2018%2F02%2F08%2Fwindows%E4%B8%8Bandroid-studio%E5%9C%A8git-push%E6%97%B6%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[网上查了很多资料,今天无意中看到一个git命令大全,找到了解决办法,只要在你的用户目录下的.ssh文件夹里创建pub公钥然后填到你的git服务器就可以了,git有个方便的工具不用自己敲命令,在git项目里打git citool命令,然后运行然后生成ssh就可以了]]></content>
       <categories>
         <category>git</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[source tree 配置 外部差异比对工具为beyond compare]]></title>
+    <url>%2F2018%2F02%2F08%2Fsource-tree-%E9%85%8D%E7%BD%AE-%E5%A4%96%E9%83%A8%E5%B7%AE%E5%BC%82%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%B8%BAbeyond-compare%2F</url>
+    <content type="text"><![CDATA[1、首先，安装好beyond compare后，创建一个快捷方式1ln -s /Applications/Beyond\ Compare.app/Contents/MacOS/bcomp /usr/local/bin/ 2、打开source tree，在系统偏好设置里面，找到diff，按照下面的进行配置：123456Visual Diff Tool: OtherDiff Command:/usr/local/bin/bcompParameters:-ro $LOCAL $REMOTEMerge Tool: OtherMerge Command:/usr/local/bin/bcompParameters:$LOCAL $REMOTE $BASE $MERGED]]></content>
+      <categories>
+        <category>其他</category>
       </categories>
   </entry>
   <entry>
@@ -151,11 +151,11 @@
     <content type="text"><![CDATA[因为GFW的原因,国内用android studio的时候,在gradle这步一定会卡住,所以需要以下步骤自己去下载gradle ###1.在gradle-wrapper.properties中查看gradle下载地址和版本 ###2.去查看所有分发的gradle版本地址:https://services.gradle.org/distributions/ ###3.下载完成后放到什么地方? 1.windows在 C:\Users\yourname.gradle\wrapper\dists\gradle-版本\随机字符串\ 2.mac在 /Users/用户名/.gradle/wrapper/dists/gradle-版本/随机字符串/ 3.linux ###4.将gradle-版本.zip.part移除，把自己下载的gradle-gradle-版本.zip复制到这个目录。然后再次启动Andriod Studio，会自动读取gradle并解压 #完成]]></content>
   </entry>
   <entry>
-    <title><![CDATA[Java中的强引用,软引用,弱引用,虚引用]]></title>
-    <url>%2F2018%2F02%2F08%2FJava%E4%B8%AD%E7%9A%84%E5%BC%BA%E5%BC%95%E7%94%A8-%E8%BD%AF%E5%BC%95%E7%94%A8-%E5%BC%B1%E5%BC%95%E7%94%A8-%E8%99%9A%E5%BC%95%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。 由于WeakReference被GC回收的可能性较大，因此，在使用它之前，你需要通过weakObj.get()去判断目的对象引用是否已经被回收. Reference queque 一旦WeakReference.get()返回null，它指向的对象就会被垃圾回收，那么WeakReference对象就没有用了，意味着你应该进行一些清理。比如在WeakHashMap中要把回收过的key从Map中删除掉，避免无用的的weakReference不断增长。ReferenceQueue可以让你很容易地跟踪dead references。WeakReference类的构造函数有一个ReferenceQueue参数，当指向的对象被垃圾回收时，会把WeakReference对象放到ReferenceQueue中。这样，遍历ReferenceQueue可以得到所有回收过的WeakReference。 ####4.虚引用和soft，weak Reference区别较大，它的get()方法总是返回null。这意味着你只能用PhantomReference本身，而得不到它指向的对象。当WeakReference指向的对象变得弱可达(weakly reachable）时会立即被放到ReferenceQueue中，这在finalization、garbage collection之前发生。理论上，你可以在finalize()方法中使对象“复活”（使一个强引用指向它就行了，gc不会回收它）。但没法复活PhantomReference指向的对象。而PhantomReference是在garbage collection之后被放到ReferenceQueue中的，没法复活。虚引用适合用来查看对象什么时候被回收,优化内存的时候使用 以上是个人在网上学习的时候总结的东西,有错误的地方请指正]]></content>
+    <title><![CDATA[如何在library中使用productFlavors]]></title>
+    <url>%2F2018%2F02%2F08%2F%E5%A6%82%E4%BD%95%E5%9C%A8library%E4%B8%AD%E4%BD%BF%E7%94%A8productFlavors%2F</url>
+    <content type="text"><![CDATA[源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是不允许的。所以下面我们就来介绍一下如何在library中使用productFlavors。 ###1.基础前面介绍过如何使用productFlavors，不了解的朋友需要先看看这篇文章活用productFlavors,批量定制化http://blog.csdn.net/yulyu/article/details/59111697 ###2.场景介绍首先我们引用了一个picmodule，然后picmodule里面有一个正常的产品，两个定制化的产品 main是普通产品，red和blue是定制化产品（这里只是里面使用的图片不一样） ###3.解决方法于是我们就在picmodule的gradle配置productFlavors，但是picmodule是属于一个library，所以这样做是不允许的，项目将找不到引入的picmodule 那么如何解决呢？首先我们需要在picmodule的gradle里面加入一句话（记住不要漏了）1publishNonDefault true 接着我们在application下的build.gradle里面加入一些配置在Android模块内加入1234567productFlavors&#123; common&#123;&#125; red&#123;&#125; blue&#123;&#125;&#125; 在gradle最外层加入12345configurations &#123; commonCompile redCompile blueCompile&#125; 接着修改一下引入picmodule的方法平时引入module是这样的1compile project(':picmodule') 我们改成下面这样123commonCompile project(path: ':picmodule', configuration: 'commonRelease')redCompile project(path: ':picmodule', configuration: 'redRelease')blueCompile project(path: ':picmodule', configuration: 'blueRelease') 这里library我是用的Release包，如果要用debug版的library也可以改成下面这样123commonCompile project(path: ':picmodule', configuration: 'commonDebug')redCompile project(path: ':picmodule', configuration: 'redDebug')blueCompile project(path: ':picmodule', configuration: 'blueDebug') 然后同步一下就可以了这个时候如果找不到R文件，那么clean一下或者重启一下as都可以]]></content>
       <categories>
-        <category>java</category>
+        <category>gradle</category>
       </categories>
   </entry>
   <entry>
@@ -170,11 +170,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[如何在library中使用productFlavors]]></title>
-    <url>%2F2018%2F02%2F08%2F%E5%A6%82%E4%BD%95%E5%9C%A8library%E4%B8%AD%E4%BD%BF%E7%94%A8productFlavors%2F</url>
-    <content type="text"><![CDATA[源地址:http://blog.csdn.net/yulyu/article/details/70257015?utm_medium=referral&amp;utm_source=itdadao ###前言：前面笔者介绍过，如果用一套代码，定制化多个app。那就是使用productFlavors。一般情况下都没有问题，但是在library的gradle里面，直接使用productFlavors是不允许的。所以下面我们就来介绍一下如何在library中使用productFlavors。 ###1.基础前面介绍过如何使用productFlavors，不了解的朋友需要先看看这篇文章活用productFlavors,批量定制化http://blog.csdn.net/yulyu/article/details/59111697 ###2.场景介绍首先我们引用了一个picmodule，然后picmodule里面有一个正常的产品，两个定制化的产品 main是普通产品，red和blue是定制化产品（这里只是里面使用的图片不一样） ###3.解决方法于是我们就在picmodule的gradle配置productFlavors，但是picmodule是属于一个library，所以这样做是不允许的，项目将找不到引入的picmodule 那么如何解决呢？首先我们需要在picmodule的gradle里面加入一句话（记住不要漏了）1publishNonDefault true 接着我们在application下的build.gradle里面加入一些配置在Android模块内加入1234567productFlavors&#123; common&#123;&#125; red&#123;&#125; blue&#123;&#125;&#125; 在gradle最外层加入12345configurations &#123; commonCompile redCompile blueCompile&#125; 接着修改一下引入picmodule的方法平时引入module是这样的1compile project(':picmodule') 我们改成下面这样123commonCompile project(path: ':picmodule', configuration: 'commonRelease')redCompile project(path: ':picmodule', configuration: 'redRelease')blueCompile project(path: ':picmodule', configuration: 'blueRelease') 这里library我是用的Release包，如果要用debug版的library也可以改成下面这样123commonCompile project(path: ':picmodule', configuration: 'commonDebug')redCompile project(path: ':picmodule', configuration: 'redDebug')blueCompile project(path: ':picmodule', configuration: 'blueDebug') 然后同步一下就可以了这个时候如果找不到R文件，那么clean一下或者重启一下as都可以]]></content>
+    <title><![CDATA[Java中的强引用,软引用,弱引用,虚引用]]></title>
+    <url>%2F2018%2F02%2F08%2FJava%E4%B8%AD%E7%9A%84%E5%BC%BA%E5%BC%95%E7%94%A8-%E8%BD%AF%E5%BC%95%E7%94%A8-%E5%BC%B1%E5%BC%95%E7%94%A8-%E8%99%9A%E5%BC%95%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[####1.强引用这个就不用说了,基本上写程序都是强引用,比如1Object obj = new Object(); ####2. 软引用软引用的特点是内存足够的时候,gc的时候不会回收它,只有内存不足的时候才会回收软引用的对象 ####3.弱引用在垃圾回收器扫描的时候,发现弱引用会把它放到ReferenceQueue中,等下次gc的时候会回收它 系统为我们提供了WeakHashMap，和HashMap类似，只是其key使用了weak reference。如果WeakHashMap的某个key被垃圾回收器回收，那么entity也会自动被remove。 由于WeakReference被GC回收的可能性较大，因此，在使用它之前，你需要通过weakObj.get()去判断目的对象引用是否已经被回收. Reference queque 一旦WeakReference.get()返回null，它指向的对象就会被垃圾回收，那么WeakReference对象就没有用了，意味着你应该进行一些清理。比如在WeakHashMap中要把回收过的key从Map中删除掉，避免无用的的weakReference不断增长。ReferenceQueue可以让你很容易地跟踪dead references。WeakReference类的构造函数有一个ReferenceQueue参数，当指向的对象被垃圾回收时，会把WeakReference对象放到ReferenceQueue中。这样，遍历ReferenceQueue可以得到所有回收过的WeakReference。 ####4.虚引用和soft，weak Reference区别较大，它的get()方法总是返回null。这意味着你只能用PhantomReference本身，而得不到它指向的对象。当WeakReference指向的对象变得弱可达(weakly reachable）时会立即被放到ReferenceQueue中，这在finalization、garbage collection之前发生。理论上，你可以在finalize()方法中使对象“复活”（使一个强引用指向它就行了，gc不会回收它）。但没法复活PhantomReference指向的对象。而PhantomReference是在garbage collection之后被放到ReferenceQueue中的，没法复活。虚引用适合用来查看对象什么时候被回收,优化内存的时候使用 以上是个人在网上学习的时候总结的东西,有错误的地方请指正]]></content>
       <categories>
-        <category>gradle</category>
+        <category>java</category>
       </categories>
   </entry>
   <entry>
@@ -194,6 +194,14 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[Linux 操作系统下如何优雅的卸载软件]]></title>
+    <url>%2F2018%2F02%2F08%2FLinux-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6%2F</url>
+    <content type="text"><![CDATA[输入如下命令： sudo apt-get autoremove –purge 要卸载的软件名字 我们来讲解一下这个命令 sudo ———— 获取 root 权限 apt-get ——— 执行安装卸载功能的软件 autoremove — 告诉 apt-get 我们所要做的操作是移除软件 –purge ——— 注意这前面是两个短划线，这个参数是告诉他们要完整的干净的彻底的移除 此方法 Ubuntu系、Debian系 系统可用]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[linux命令备忘录]]></title>
     <url>%2F2018%2F02%2F08%2Flinux%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95%2F</url>
     <content type="text"><![CDATA[####1.netstat常用命令-a：查看所有端口的占用-t：只列出 TCP 或 UDP 协议的连接-u：列出 UDP 协议的连接-n：禁用反向域名解析，加快查询速度-l：只列出监听中的连接-p：获取进程名、进程号以及用户 ID-ep：可以同时查看进程名和用户名 ####2.kill -9 pid杀死pid这个进程 ####3.刷新dnssudo /etc/init.d/networking restart]]></content>
@@ -210,9 +218,9 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[Linux 操作系统下如何优雅的卸载软件]]></title>
-    <url>%2F2018%2F02%2F08%2FLinux-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6%2F</url>
-    <content type="text"><![CDATA[输入如下命令： sudo apt-get autoremove –purge 要卸载的软件名字 我们来讲解一下这个命令 sudo ———— 获取 root 权限 apt-get ——— 执行安装卸载功能的软件 autoremove — 告诉 apt-get 我们所要做的操作是移除软件 –purge ——— 注意这前面是两个短划线，这个参数是告诉他们要完整的干净的彻底的移除 此方法 Ubuntu系、Debian系 系统可用]]></content>
+    <title><![CDATA[linux常用软件安装]]></title>
+    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%2F</url>
+    <content type="text"><![CDATA[####1.mongodb的conf文件port=27017 #【代表端口号，如果不指定则默认为 27017 】dbpath= /home/username/Soft/mongoDBFiles #【数据库路径】logpath= /home/username/Soft/mongoDBFiles/mongodb.log #【日志路径】logappend=true #【日志文件自动累加，而不是覆盖】推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件] ####2.nodejs官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下 ####3.md文件转html要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。$ sudo apt-get install discount 用discount提供的markdown工具转换：$ markdown -o Release-Notes.html Release-Notes.md python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -229,14 +237,6 @@
     <title><![CDATA[linux常用命令-压缩解压命令]]></title>
     <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[gzip [文件] 压缩后文件格式 .gz,这个命令只能压缩文件,不能压缩目录.并且这个命令压缩后不保留源文件gunzip [文件] 或者 gzip -d [文件] 解压缩.gz的压缩文件tar [-zcvf] [压缩后文件名] [目录] 打包目录 压缩后文件格式 .tar.gz -c 打包 -x 解压缩 -v 显示详细信息 -f 指定文件名 -z 打包同时压缩tar [-zxvf] [解压缩文件名] [目录] zip [压缩后文件名] [文件]:压缩文件,这个命令没有gzip压缩比例高 [-r] [压缩后文件名] [目录]:压缩目录 压缩后文件格式 .zip 注意:如果压缩目录的时候没有加-r,那么压缩后的文件只有根目录文件名,而没有子目录和里面的内容 bzip2 [-k] [压缩文件] 压缩比例最高 -k 压缩后保留源文件 配合tar使用示例: tar -cjf testfile.tar.bz2 testfile,把z换成了f, 请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的bunzip2 [-k] [压缩文件] -k 压缩后保留源文件 配合tar使用示例:tar -xjf testfile.tar.bz2, 把z换成了f,请留意,在 f 之后要立即接文件或者目录名,不要再加参数,否则会出错,例如tar -cfj testfile.tar.bz2 testfile是错误的]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[linux常用软件安装]]></title>
-    <url>%2F2018%2F02%2F08%2Flinux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%2F</url>
-    <content type="text"><![CDATA[####1.mongodb的conf文件port=27017 #【代表端口号，如果不指定则默认为 27017 】dbpath= /home/username/Soft/mongoDBFiles #【数据库路径】logpath= /home/username/Soft/mongoDBFiles/mongodb.log #【日志路径】logappend=true #【日志文件自动累加，而不是覆盖】推荐用配置文件启动mongodb服务，配置文件启动方式:mongod -f [conf文件] ####2.nodejs官网下载nodejs压缩包后解压，然后用ln -s命令软链接node和npm命令到/usr/local/bin或者/usr/bin目录下 ####3.md文件转html要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown工具。$ sudo apt-get install discount 用discount提供的markdown工具转换：$ markdown -o Release-Notes.html Release-Notes.md python-markdown用过之后发现生成的html点击链接无法定位描点，但是discount可以，所以不提供python-markdown的使用方式]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -295,6 +295,14 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[修复 VirtualBox 下 Ubuntu 14.10 屏幕分辨率问题]]></title>
+    <url>%2F2018%2F02%2F08%2F%E4%BF%AE%E5%A4%8D-VirtualBox-%E4%B8%8B-Ubuntu-14-10-%E5%B1%8F%E5%B9%95%E5%88%86%E8%BE%A8%E7%8E%87%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。 解决办法你需要安装一个 VirtualBox 的额外组件到你的 Ubuntu-Guest 中，可运行如下命令：安装完毕需要重启虚拟机就可以。]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[ubuntu安装python一些安装包]]></title>
     <url>%2F2018%2F02%2F08%2Fubuntu%E5%AE%89%E8%A3%85python%E4%B8%80%E4%BA%9B%E5%AE%89%E8%A3%85%E5%8C%85%2F</url>
     <content type="text"><![CDATA[sudo apt-get install python-pipsudo pip install distributesudo pip install nosesudo pip install virtualenvsudo pip install lpthw.webwindows下面去掉sudo即可 windows安装pip pip 是一个安装和管理 Python 包的工具 , 是 easy_install 的一个替换品，使用 pip 使安装、更新和卸载 python 包变得简单。 第一步：https://pypi.python.org/pypi/pip下载，运行python setup.py install即完成安装 第二步：设windows环境变量，将C:\Python27\Scripts添加至path，重启cmd窗口 第三步：pip使用，如最基本的pip install MODELNAME windows安装pyQt4http://www.riverbankcomputing.com/software/pyqt/download Qt开发IDEhttps://www.qt.io/zh-hans/download-open-source/ windows安装wxPython界面开发工具http://boa-constructor.sourceforge.net/Download.html windows安装Qt设计师安装完pyQt自动安装了好像 把python文件做成exe文件 安装py2exe:在这里下载安装程序安装:http://sourceforge.net/projects/py2exe/files/py2exe/0.6.9/ 或者cx-freeze: http://sourceforge.net/projects/cx-freeze/files/4.3.2/poster包可以上传文件到服务器 pip install poster]]></content>
@@ -304,14 +312,6 @@
       <tags>
         <tag>python</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[修复 VirtualBox 下 Ubuntu 14.10 屏幕分辨率问题]]></title>
-    <url>%2F2018%2F02%2F08%2F%E4%BF%AE%E5%A4%8D-VirtualBox-%E4%B8%8B-Ubuntu-14-10-%E5%B1%8F%E5%B9%95%E5%88%86%E8%BE%A8%E7%8E%87%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[在 Windows 7 下使用 VirtualBox 安装了一个 Ubuntu 14.10 后，碰到了一个 640×480 屏幕分辨率的问题。 在 ‘Display Settings’ 设置界面的 ‘Detect Displays’ 按钮无法点击到，因为 640x480 的分辨率的确太小了。 解决办法你需要安装一个 VirtualBox 的额外组件到你的 Ubuntu-Guest 中，可运行如下命令：安装完毕需要重启虚拟机就可以。]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[AndroidStudio 多个module统一gradle文件配置]]></title>
