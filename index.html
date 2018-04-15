@@ -1,0 +1,2696 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="用来记录一些技术文章">
+<meta property="og:type" content="website">
+<meta property="og:title" content="我的技术小屋">
+<meta property="og:url" content="https://ikakaxi.github.io/index.html">
+<meta property="og:site_name" content="我的技术小屋">
+<meta property="og:description" content="用来记录一些技术文章">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的技术小屋">
+<meta name="twitter:description" content="用来记录一些技术文章">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ikakaxi.github.io/"/>
+
+
+
+
+
+  <title>我的技术小屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我的技术小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">爱编码,爱电子产品,爱科幻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/04/15/JIMU组件化开发流程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/15/JIMU组件化开发流程/" itemprop="url">JIMU组件化开发流程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-15T15:19:00+08:00">
+                2018-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/15/JIMU组件化开发流程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/15/JIMU组件化开发流程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="JIMU组件化开发流程"><a href="#JIMU组件化开发流程" class="headerlink" title="JIMU组件化开发流程"></a>JIMU组件化开发流程</h1><p>github：<a href="https://github.com/mqzhangw/JIMU" target="_blank" rel="noopener">https://github.com/mqzhangw/JIMU</a><br>目前公司的项目用到了组件化开发，这里记录一下开发流程，基本就是官网的文档，我只是整理了一下，加了一些说明，重点记录一下如何填坑。</p>
+<h2 id="1-配置"><a href="#1-配置" class="headerlink" title="1. 配置"></a>1. 配置</h2><h3 id="配置根目录"><a href="#配置根目录" class="headerlink" title="配置根目录"></a>配置根目录</h3><p>在<strong>根目录</strong>的<strong>gradle.properties</strong>文件中，增加属性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mainmodulename=app</span><br></pre></td></tr></table></figure>
+<p>其中mainmodulename是项目中的host工程名称(主模块），一般名字为app</p>
+<p>在<strong>根目录</strong>的<strong>build.gradle</strong>中增加配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath <span class="string">'com.luojilab.ddcomponent:build-gradle:1.2.0'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="配置主模块和每个组件"><a href="#配置主模块和每个组件" class="headerlink" title="配置主模块和每个组件"></a>配置主模块和每个组件</h3><h4 id="配置build-gradle文件"><a href="#配置build-gradle文件" class="headerlink" title="配置build.gradle文件"></a>配置build.gradle文件</h4><p>在主模块和每个组件都增加如下插件：</p>
+<p><strong>注意，只有主模块和组件模块才需要这样配置，而平时用的library模块不需要做如下改动</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'com.dd.comgradle'</span></span><br></pre></td></tr></table></figure>
+<p>在主模块和每个组件都加入如下依赖，如果项目中存在basiclib等基础lib库，可以统一交给basiclib引入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile <span class="string">'com.luojilab.ddcomponent:componentlib:1.3.0'</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意：主模块和组件模块不需要再引用com.android.application或者com.android.library</strong></p>
+<p>在主模块和每个组件都增加以下配置，设置组件单独运行时候的Application（如果不需要单独运行可以不设置），其中<strong>isRegisterCompoAuto</strong>参数我解释一下，如果该值为<strong>true</strong>，意思是该模块需要的组件只需要在gradle.properties里配置就可以了，JIMU会自动注册这些组件，如果为<strong>false</strong>意思是不仅要在gradle.properties里配置里配置组件，还需要手动注册这些组件，如果该组件里不需要引入其他组件该值也可以不设置，否则一般把该值设置为true即可。</p>
+<p>如果applicationName和isRegisterCompoAuto都不设置，combuild这块代码也可以删掉的没有问题，不删掉保持为空也可以，例如<code>combuild {}</code>，不过都不配置的话直接删掉<code>combuild {}</code>吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">combuild &#123;</span><br><span class="line">    applicationName = <span class="string">'com.luojilab.reader.runalone.application.ReaderApplication'</span></span><br><span class="line">    isRegisterCompoAuto = <span class="keyword">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>组件注册还支持反射的方式</p>
+<p>如果项目里有UI跳转，还需要其他配置，请看下面的步骤 <strong>3. UI跳转</strong></p>
+<h4 id="配置gradle-properties文件"><a href="#配置gradle-properties文件" class="headerlink" title="配置gradle.properties文件"></a>配置gradle.properties文件</h4><p>在主模块和每个组件都增加如下配置，isRunAlone是必须设置的，否则编译不通过，<strong>如果需要单独运行，就设置为true，否则设置为false</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">isRunAlone=<span class="keyword">true</span></span><br><span class="line">debugComponent=sharecomponent</span><br><span class="line">compileComponent=sharecomponent</span><br></pre></td></tr></table></figure>
+<p>上面三个属性分别对应是否单独调试、debug模式下依赖的组件，release模式下依赖的组件。</p>
+<h3 id="配置主模块的gradle-properties文件"><a href="#配置主模块的gradle-properties文件" class="headerlink" title="配置主模块的gradle.properties文件"></a>配置主模块的gradle.properties文件</h3><p>有个需要<strong>注意</strong>的地方，主模块必须在gradle.properties文件里配置debugComponent和compileComponent，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">isRunAlone=<span class="keyword">true</span></span><br><span class="line">debugComponent=module1,module2</span><br><span class="line">compileComponent=module1,module2</span><br></pre></td></tr></table></figure>
+<p>不配置的话，组件是不会打包到主模块的</p>
+<h2 id="2-组件数据交互"><a href="#2-组件数据交互" class="headerlink" title="2. 组件数据交互"></a>2. 组件数据交互</h2><h3 id="2-1-所有组件的服务接口都统一定义在componentService-名字随意-这个module中"><a href="#2-1-所有组件的服务接口都统一定义在componentService-名字随意-这个module中" class="headerlink" title="2.1. 所有组件的服务接口都统一定义在componentService(名字随意)这个module中"></a>2.1. 所有组件的服务接口都统一定义在componentService(名字随意)这个module中</h3><p>为了增加可读性，所有组件的服务都统一定义在componentService这个module中，例如reader组件需要向外提供服务，在componentService增加readerbook文件夹，定义ReadBookService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadBookService</span> </span>&#123;</span><br><span class="line">    <span class="function">Fragment <span class="title">getReadBookFragment</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-组件提供具体实现类"><a href="#2-2-组件提供具体实现类" class="headerlink" title="2.2. 组件提供具体实现类"></a>2.2. 组件提供具体实现类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadBookServiceImpl</span> <span class="keyword">implements</span> <span class="title">ReadBookService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Fragment <span class="title">getReadBookFragment</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ReaderFragment();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-将实现类注册到Router中"><a href="#2-3-将实现类注册到Router中" class="headerlink" title="2.3. 将实现类注册到Router中"></a>2.3. 将实现类注册到Router中</h3><p>实现类的注册时机在每个组件的ApplicationLike中，ApplicationLike相当于每个组件的Application类，控制组件的生命周期。</p>
+<p>在组件加载的时候进行注册，同时在组件卸载的时候进行反注册。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReaderAppLike</span> <span class="keyword">implements</span> <span class="title">IApplicationLike</span> </span>&#123;</span><br><span class="line">    Router router = Router.getInstance();</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        router.addService(ReadBookService.class.getSimpleName(), <span class="keyword">new</span> ReadBookServiceImpl());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        router.removeService(ReadBookService.class.getSimpleName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>经过上面3个步骤，就可以在其他组件中获取这个服务，进而获取所需数据了</strong></p>
+<h3 id="其他组件调用服务"><a href="#其他组件调用服务" class="headerlink" title="其他组件调用服务"></a>其他组件调用服务</h3><p>由于代码隔离，只有componentService这个module中的接口们（建议起名为XXXService）才对组件们可见，所以只能针对这些接口进行编程。</p>
+<p>通过Router获取服务的具体实现，使用前需要判空。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Router router = Router.getInstance();</span><br><span class="line"><span class="keyword">if</span> (router.getService(ReadBookService.class.getSimpleName()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">    ReadBookService service = (ReadBookService) router.getService(ReadBookService.class.getSimpleName());</span><br><span class="line">    fragment = service.getReadBookFragment();</span><br><span class="line">    t = getSupportFragmentManager().beginTransaction();</span><br><span class="line">    ft.add(R.id.tab_content, fragment).commitAllowingStateLoss();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-UI跳转"><a href="#3-UI跳转" class="headerlink" title="3. UI跳转"></a>3. UI跳转</h2><p>上面的步骤仅仅可以通过获取服务来交换数据，但是我们肯定需要跳转页面，所以除了注册Router外我们还需要注册组件到UIRouter中</p>
+<h4 id="3-1-组件添加必要的依赖"><a href="#3-1-组件添加必要的依赖" class="headerlink" title="3.1 组件添加必要的依赖"></a>3.1 组件添加必要的依赖</h4><p>在组件的build.gradle中添加依赖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//java需要下面的</span></span><br><span class="line">annotationProcessor <span class="string">'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'</span></span><br><span class="line"><span class="comment">//kotlin需要下面的</span></span><br><span class="line">kapt <span class="string">'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'</span></span><br><span class="line"><span class="comment">//两种方式选择一种就可以，如果用kotlin只需要下面那句，否则只需要上面那句</span></span><br></pre></td></tr></table></figure>
+<p>同时添加</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//java</span></span><br><span class="line">defaultConfig &#123;</span><br><span class="line">    javaCompileOptions &#123;</span><br><span class="line">        annotationProcessorOptions &#123;</span><br><span class="line">             arguments = [host: <span class="string">"share"</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//kotlin</span></span><br><span class="line">kapt &#123;</span><br><span class="line">    arguments &#123;</span><br><span class="line">        arg(<span class="string">"host"</span>, <span class="string">"share"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//两种方式选择一种就可以，如果用kotlin只需要下面那句，否则只需要上面那句，这些句子写在android标签外面或者里面都可以</span></span><br></pre></td></tr></table></figure>
+<p>此处的”share”是跳转URI中的host，每个组件需要设置不同的host。</p>
+<h3 id="3-2-注册组件到UIRouter中"><a href="#3-2-注册组件到UIRouter中" class="headerlink" title="3.2 注册组件到UIRouter中"></a>3.2 注册组件到UIRouter中</h3><p>在组件的声明周期类ApplicationLike中，添加注册和反注册代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShareApplike</span> <span class="keyword">implements</span> <span class="title">IApplicationLike</span> </span>&#123;</span><br><span class="line">    UIRouter uiRouter = UIRouter.getInstance();</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        uiRouter.registerUI(<span class="string">"share"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        uiRouter.unregisterUI(<span class="string">"share"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-目标页面添加注解"><a href="#3-3-目标页面添加注解" class="headerlink" title="3.3 目标页面添加注解"></a>3.3 目标页面添加注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RouteNode</span>(path = <span class="string">"/shareBook"</span>, desc = <span class="string">"分享书籍页面"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShareActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    。。。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果需要传入参数，在具体的参数定义上增加Autowired注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span>(name = <span class="string">"bookName"</span>)<span class="comment">//name也可以不设置，不设置的话默认是字段名</span></span><br><span class="line">String bookName;</span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">Author author;</span><br></pre></td></tr></table></figure>
+<p><strong>注意此处的参数需要设置为非private，否则编译会直接报错，如果是kotlin代码还需要加@JvmField，这样kotlin才会编译成public字段而不是private字段加set/get方法</strong></p>
+<h3 id="3-4-自动装载"><a href="#3-4-自动装载" class="headerlink" title="3.4 自动装载"></a>3.4 自动装载</h3><p>如果想使用自动装载功能，需要在Activity的onCreate中调用方法，调用该方法后，在类中配置的@Autowired才会有数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutowiredService.Factory.getInstance().create().autowire(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>建议该方法在基类Activity中调用，如果在Fragment有@Autowired注解的字段，需要手动在Activity中传给Fragment，否则会空指针异常，因为调用openUri跳转的是Activity，参数传给Activity了，如果不手动传给Fragment的话Fragment的arguments并没有值，再去get东西的时候就会报空指针异常。</p>
+<h3 id="3-5-build项目"><a href="#3-5-build项目" class="headerlink" title="3.5 build项目"></a>3.5 build项目</h3><p>项目执行build，会生成apt文件，具体可在build目录下面查看，同时还会在根目录生成UIRouterTable文件夹，里面会列出每个组件向外提供的路由表。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">auto generated, <span class="keyword">do</span> not change !!!! </span><br><span class="line"></span><br><span class="line">HOST : share</span><br><span class="line"></span><br><span class="line">分享书籍页面(<span class="meta">@RouteNode</span>配置的desc)</span><br><span class="line">/shareBook(<span class="meta">@RouteNode</span>配置的path)</span><br><span class="line">author:com.luojilab.componentservice.share.bean.Author(<span class="meta">@Autowired</span>配置的参数)</span><br><span class="line">bookName:String(<span class="meta">@Autowired</span>配置的参数)</span><br></pre></td></tr></table></figure>
+<h3 id="3-6-跳转页面"><a href="#3-6-跳转页面" class="headerlink" title="3.6 跳转页面"></a>3.6 跳转页面</h3><p>在发起跳转页面，有三种方式可以跳转到目的页面</p>
+<h4 id="3-6-1-Bundle方式"><a href="#3-6-1-Bundle方式" class="headerlink" title="3.6.1 Bundle方式"></a>3.6.1 Bundle方式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UI transfer with Bundle</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">goToShareActivityWithBundle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Author author = <span class="keyword">new</span> Author();</span><br><span class="line">    author.setName(<span class="string">"Margaret Mitchell"</span>);</span><br><span class="line">    author.setCounty(<span class="string">"USA"</span>);</span><br><span class="line">    Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">    bundle.putString(<span class="string">"bookName"</span>, <span class="string">"Gone with the Wind"</span>);</span><br><span class="line">    bundle.putString(<span class="string">"author"</span>, JsonService.Factory.getInstance()</span><br><span class="line">            .create().toJsonString(author));</span><br><span class="line">    String path = <span class="string">"DDComp://share/shareBook"</span>;<span class="comment">//或者share/shareBook</span></span><br><span class="line">    UIRouter.getInstance().openUri(getActivity(), <span class="string">"DDComp://share/shareBook"</span>, bundle);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-6-2-URI方式"><a href="#3-6-2-URI方式" class="headerlink" title="3.6.2 URI方式"></a>3.6.2 URI方式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UI transfer with URI</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">goToShareActivityWithUri</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Author author = <span class="keyword">new</span> Author();</span><br><span class="line">    author.setName(<span class="string">"Barack Obama"</span>);</span><br><span class="line">    author.setCounty(<span class="string">"New York"</span>);</span><br><span class="line">    <span class="keyword">final</span> String URI_LEGAL = <span class="string">"DDComp://share/shareMagazine?bookName=NYTIME&amp;author="</span>;</span><br><span class="line">    <span class="comment">//URI_LEGAL能不能去掉DDComp://我没有测试，有兴趣可以自己测试一下</span></span><br><span class="line">    legal and illegal data delivering*/</span><br><span class="line">    UIRouter.getInstance().openUri(</span><br><span class="line">    		getActivity(),</span><br><span class="line">            URI_LEGAL + JsonService.Factory.getInstance().create().toJsonString(author), <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-6-3-startActivityForResult"><a href="#2-6-3-startActivityForResult" class="headerlink" title="2.6.3 startActivityForResult"></a>2.6.3 startActivityForResult</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//startActivityForResult</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">goToShareActivityForResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Author author = <span class="keyword">new</span> Author();</span><br><span class="line">    author.setName(<span class="string">"Margaret Mitchell"</span>);</span><br><span class="line">    author.setCounty(<span class="string">"USA"</span>);</span><br><span class="line">    UIRouter.getInstance().openUri(</span><br><span class="line">    		getActivity(),</span><br><span class="line">        	<span class="comment">//下面的代码能不能去掉DDComp://我没有测试，有兴趣可以自己测试一下</span></span><br><span class="line">            <span class="string">"DDComp://share/shareBook?bookName=Gone with the Wind&amp;author="</span></span><br><span class="line">             + JsonService.Factory.getInstance().create().toJsonString(author), <span class="keyword">null</span>, <span class="number">7777</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="JIMU框架代码内部主要流程"><a href="#JIMU框架代码内部主要流程" class="headerlink" title="JIMU框架代码内部主要流程"></a>JIMU框架代码内部主要流程</h4><p>在执行uiRouter.registerUI(“game”)的时候会把当前组件自动生成的BaseCompRouter的子类（一个组件一个BaseCompRouter的子类，如刚才注册game就会生成GameUiRouter，代码路径在该模块的build/generated/source/kapt/debug(或者release)/com.luojilab.gen.router），uiRouter.registerUI方法会将刚才生成的GameUiRouter类添加到UIRouter类的uiRouters这个集合里，在跳转页面的时候（UIRouter.getInstance().openUri）会遍历这个uiRouters集合，执行每个BaseCompRouter子类的openUri方法，该方法如果能自己处理就返回true，否则返回false。</p>
+<p>自动生成的BaseCompRouter的子类执行openUri方法时会查找当前组件中用@RouteNode配置的页面（Activity），如果当前BaseCompRouter的子类第一次运行会执行initMap，在这个方法里会把这个页面保存到routeMapper，key是这个页面配置的path，value是这个页面。然后在openUri方法里会根据传过来的uri找到在routeMapper中对应的Activity，然后执行startActivityForResult或者startActivity方法。</p>
+<hr>
+<h2 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h2><ol>
+<li>按照上面的<strong>配置</strong>先配置好JIMU的依赖</li>
+<li>在公共库创建Service接口，Activity、Fragment父类等公共类和公共资源</li>
+<li>每个组件项目继承公共库的Service接口，提供其他组件需要的实例</li>
+<li>在每个组件添加IApplicationLike的子类，不需要手动注册该子类</li>
+<li>如果有页面跳转，还需要配置页面的@RouteNode</li>
+</ol>
+<p>demo在github的地址：<a href="https://github.com/ikakaxi/JIMUDemo" target="_blank" rel="noopener">https://github.com/ikakaxi/JIMUDemo</a></p>
+<p>个人简书：<a href="https://www.jianshu.com/u/b433b31eadad" target="_blank" rel="noopener">https://www.jianshu.com/u/b433b31eadad</a></p>
+<p>个人博客：<a href="http://liuhc.me" target="_blank" rel="noopener">http://liuhc.me</a></p>
+<p>个人博客和简书同步更新，会先更新简书，顺便吐槽一下简书为什么不能搜索自己的文章。。。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/04/15/dagger2使用方法简明讲解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/15/dagger2使用方法简明讲解/" itemprop="url">dagger2使用方法简明讲解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-15T15:17:00+08:00">
+                2018-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/15/dagger2使用方法简明讲解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/15/dagger2使用方法简明讲解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>现在的公司项目用到了Dagger2，之前只是稍微了解一些，没有用过，然后查了查资料，整理如下，方便快速上手</p>
+<h4 id="四个基本注解"><a href="#四个基本注解" class="headerlink" title="四个基本注解"></a>四个基本注解</h4><ol>
+<li><p><strong>@Inject</strong> 主要有两个作用，一个是使用在构造函数上，通过标记构造函数让Dagger2来使用（Dagger2通过Inject标记可以在需要这个类实例的时候来找到这个构造函数并把相关实例new出来）从而提供依赖，另一个作用就是标记在需要依赖的变量让Dagger2为其提供依赖。</p>
+<blockquote>
+<p><strong>@Inject</strong>注解的字段不能是private和protected的</p>
+</blockquote>
+</li>
+<li><p><strong>@Module</strong> 用Module标注的类是专门用来提供依赖的。有的人可能有些疑惑，看了上面的@Inject，需要在构造函数上标记才能提供依赖，那么如果我们需要提供的类构造函数无法修改怎么办，比如一些jar包里的类，我们无法修改源码。这时候就需要使用Module了。Module可以给不能修改源码的类提供依赖，当然，能用Inject标注的通过Module也可以提供依赖。</p>
+<blockquote>
+<p>这里需要注意，Module和Inject这两个注解还是有区别的，@Inject使用在构造函数上的时候，这个构造函数有没有参数都可以，如果有参数的话这个Module也需要有其他Module或者@Inject构造函数提供实例，适合在提供该类自己的时候使用。但是如果用@Module的话，@Module注解的这个类需要有默认无参构造函数（显示隐式都可以），否则会报“”xxx must be set”。如果没有默认无参构造函数，就需要手动把这个Module的实例传入Component，一般在MVP模式里使用该方式，用来提供Activity实例给Presenter实例。</p>
+<p>所以，如果该类只需要提供自己，建议直接使用@Inject函数，如果是用来提供其他类的实例，建议使用@Module的方式。</p>
+</blockquote>
+</li>
+<li><p><strong>@Provides</strong> 用Provides来标注一个方法，该方法可以在需要提供依赖时被调用，从而把预先提供好的对象当做依赖给标注了@Inject的变量赋值。provides主要用于标注Module里的方法。</p>
+</li>
+<li><p><strong>@Component</strong> 一般用来标注接口，被标注了Component的接口在编译时会产生相应的类的实例来作为提供依赖方和需要依赖方之间的桥梁，把相关依赖注入到其中。</p>
+</li>
+</ol>
+<h4 id="四个扩展注解"><a href="#四个扩展注解" class="headerlink" title="四个扩展注解"></a>四个扩展注解</h4><ol>
+<li><p><strong>@Qulifier</strong> 这里有个概念，叫依赖迷失，就是在Module注解的类里，有2个Provides都提供某个类的实例，这时候不用<strong>@Qulifier</strong>注解的话Component会不知道用哪个实例，这时候就要使用<strong>@Qulifier</strong>，下面直接提供代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Qualifier</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> A &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Qualifier</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> B &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Provides</span></span><br><span class="line"> <span class="meta">@A</span></span><br><span class="line"> <span class="function">Cooker <span class="title">provideCookerA</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> Cooker(<span class="string">"James"</span>,<span class="string">"Espresso"</span>);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Provides</span></span><br><span class="line"> <span class="meta">@B</span></span><br><span class="line"> <span class="function">Cooker <span class="title">provideCookerB</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> Cooker(<span class="string">"Karry"</span>,<span class="string">"Machiato"</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ComplexMaker</span> <span class="keyword">implements</span> <span class="title">CoffeeMaker</span> </span>&#123;</span><br><span class="line">    Cooker cookerA;</span><br><span class="line">    Cooker cookerB;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ComplexMaker</span><span class="params">(@A Cooker cookerA,@B Cooker cookerB)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.cookerA = cookerA;</span><br><span class="line">        <span class="keyword">this</span>.cookerB = cookerB;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>@Named</strong> 和<strong>@Qulifier</strong>一样，并且<strong>@Named</strong>就是继承<strong>@Qulifier</strong>的，而且用起来比<strong>@Qulifier</strong>方便，示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="meta">@Named</span>(<span class="string">"red"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Cloth <span class="title">getRedCloth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Cloth cloth = <span class="keyword">new</span> Cloth();</span><br><span class="line">        cloth.setColor(<span class="string">"红色"</span>);</span><br><span class="line">        <span class="keyword">return</span> cloth;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="meta">@Named</span>(<span class="string">"blue"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Cloth <span class="title">getBlueCloth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Cloth cloth = <span class="keyword">new</span> Cloth();</span><br><span class="line">        cloth.setColor(<span class="string">"蓝色"</span>);</span><br><span class="line">        <span class="keyword">return</span> cloth;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Clothes <span class="title">getClothes</span><span class="params">(@Named(<span class="string">"blue"</span>)</span> Cloth cloth)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Clothes(cloth);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"> ...</span><br><span class="line"> <span class="meta">@Inject</span></span><br><span class="line"> <span class="meta">@Named</span>(<span class="string">"red"</span>)</span><br><span class="line"> Cloth redCloth;</span><br><span class="line"> <span class="meta">@Inject</span></span><br><span class="line"> <span class="meta">@Named</span>(<span class="string">"blue"</span>)</span><br><span class="line"> Cloth blueCloth;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">     ...</span><br><span class="line">     tv.setText(<span class="string">"我现在有"</span> + redCloth + <span class="string">"和"</span> + blueCloth );</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>@Scope</strong> 局部单例，意思就是在被注入类里只有一个该类的实例，局部范围是啥，那就是它生命周期范围内。直接上代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//PerActivity.java</span></span><br><span class="line"><span class="meta">@Scope</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> PerActivity &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ActivityModule.java</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Provides</span></span><br><span class="line"> <span class="function">CoffeeShop <span class="title">provideCoffeeShop</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="keyword">return</span> CoffeeShop.getInstance();<span class="comment">//一个普通的单例</span></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 直接在这里说结果，<span class="doctag">@PerActivity</span>是用<span class="doctag">@Scope</span>注解的，除了在这里注解还需要在用到该Module类的Component的类名上方也要注解，然后该实例在注入到某个类里的时候用同一个Component就会不管有几个字段都会只有一个实例。注意：如果用不同的Component实例的话仍然会新的CookerFactory实例，单例CookerFactory只存在一个Component实例里。所以叫局部单例。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="meta">@Provides</span></span><br><span class="line"> <span class="meta">@PerActivity</span></span><br><span class="line"> <span class="function">CookerFactory <span class="title">provideCookerFactory</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> CookerFactory();</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Provides</span></span><br><span class="line"> <span class="function">CookerFactoryMulty <span class="title">provideCookerFactoryMulty</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> CookerFactoryMulty();<span class="comment">//非单例</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//CoffeeShop.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CoffeeShop</span> </span>&#123;</span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">static</span> CoffeeShop INSTANCE;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">private</span> <span class="title">CoffeeShop</span><span class="params">()</span></span>&#123;</span><br><span class="line">     Log.d(<span class="string">"TAG"</span>,<span class="string">"CoffeeShop New Instance"</span>);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CoffeeShop <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="keyword">if</span>(INSTANCE == <span class="keyword">null</span>)&#123;</span><br><span class="line">         INSTANCE = <span class="keyword">new</span> CoffeeShop();</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> INSTANCE;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//CookerFactory.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CookerFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">CookerFactory</span><span class="params">()</span></span>&#123;</span><br><span class="line">     Log.d(<span class="string">"TAG"</span>,<span class="string">"CookerFactory New Instance"</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//CookerFactoryMulty.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CookerFactoryMulty</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">CookerFactoryMulty</span><span class="params">()</span></span>&#123;</span><br><span class="line">     Log.d(<span class="string">"TAG"</span>,<span class="string">"CookerFactoryMulty New Instance"</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//除了在Module的Provides方法里写上@Scope还需要在Component类名上方写上，这里自定义的@Scope名字叫PerActivity</span></span><br><span class="line"><span class="meta">@PerActivity</span></span><br><span class="line"><span class="meta">@Component</span>(modules = &#123;ActivityModule.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ActivityComponent</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(MainActivity simpleActivity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> ActivityComponent activityComponent;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Inject</span></span><br><span class="line"> CoffeeShop coffeeShop1;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Inject</span></span><br><span class="line"> CoffeeShop coffeeShop2;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Inject</span></span><br><span class="line"> CookerFactory cookerFactory1;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Inject</span></span><br><span class="line"> CookerFactory cookerFactory2;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Inject</span></span><br><span class="line"> CookerFactoryMulty cookerFactoryMulty1;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Inject</span></span><br><span class="line"> CookerFactoryMulty cookerFactoryMulty2;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">     setContentView(R.layout.activity_main);</span><br><span class="line">     activityComponent = DaggerActivityComponent.builder()</span><br><span class="line">         <span class="comment">//下面这句话可以不写，因为Module有默认构造函数。如果Module的构造器里有参数，并且该参数不是注入进去的，就需要用类似下面的方法手动设置实例到Component中</span></span><br><span class="line">             .activityModule(provideModule())</span><br><span class="line">             .applicationComponent(MyApplication.getComponent()).build();</span><br><span class="line">     activityComponent.inject(<span class="keyword">this</span>);</span><br><span class="line">     coffeeFactory.run();</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">private</span> ActivityModule <span class="title">provideModule</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> ActivityModule();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">07-11 16:53:27.978    1927-1927/? D/TAG﹕ CoffeeShop New Instance</span><br><span class="line">07-11 16:53:27.978    1927-1927/? D/TAG﹕ CookerFactory New Instance</span><br><span class="line">07-11 16:53:27.978    1927-1927/? D/TAG﹕ CookerFactoryMulty New Instance</span><br><span class="line">07-11 16:53:27.978    1927-1927/? D/TAG﹕ CookerFactoryMulty New Instance</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>@Singleton</strong> 该注解继承<strong>@Scope</strong>，用的时候区别就是不用去自定义<strong>@Scope</strong>了，比如上面定义<strong>@PerActivity</strong>的这步就不需要了，其他的用法和使用<strong>@PerActivity</strong>一模一样，也是在Component类名上面和Module的Provides方法里都写上注解。</p>
+<blockquote>
+<p><strong>注意注意注意：</strong>再次提醒，局部单例是在同一个Component实例提供依赖的前提下才有效的，不同的Component实例只能通过Component依赖才能实现单例。也就是说，你虽然在两个Component接口上都添加了PerActivity注解或者Singleton注解，但是这两个Component提供依赖时是没有联系的，他们只能在各自的范围内实现单例<br><strong>在@Inject标注的构造器上使用局部单例直接在类名上声明作用范围（类名上添加@Singleton或自定义Scope）</strong></p>
+</blockquote>
+</li>
+</ol>
+<h4 id="依赖：dependencies"><a href="#依赖：dependencies" class="headerlink" title="依赖：dependencies"></a>依赖：dependencies</h4><p>Component依赖Component的情况下，两个Component的@Scope不能相同，否则会编译错误，为什么这么设计我还不是很清楚，有知道的小伙伴请告诉我谢谢。</p>
+<p>依赖的示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Person.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//PerActivity.java</span></span><br><span class="line"><span class="meta">@Scope</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> PerActivity &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//BaseModule.java</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Singleton</span></span><br><span class="line">   <span class="meta">@Provides</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Person <span class="title">providePerson</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> Person();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Module1.java</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Module1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Module2.java</span></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Module2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//BaseComponent.java</span></span><br><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component</span>(modules = BaseModule.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseComponent</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Person <span class="title">providePerson</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Component1.java</span></span><br><span class="line"><span class="meta">@PerActivity</span></span><br><span class="line"><span class="comment">//@Singleton</span></span><br><span class="line"><span class="comment">//因为依赖（dependencies）的BaseComponent中用到了@Singleton，所以这个Component就不能再用了，否则会编译错误，为什么这么设计还不是很清楚</span></span><br><span class="line"><span class="meta">@Component</span>(modules = Module1.class,dependencies = BaseComponent.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Component1</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(TestScopeActivity1 simpleActivity)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Component2.java</span></span><br><span class="line"><span class="meta">@PerActivity</span></span><br><span class="line"><span class="comment">//@Singleton 为什么不能用？原理同上</span></span><br><span class="line"><span class="meta">@Component</span>(modules = Module2.class,dependencies = BaseComponent.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Component2</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(TestScopeActivity2 simpleActivity)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//MyApplication.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> BaseComponent baseComponent;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate();</span><br><span class="line">		baseComponent = DaggerBaseComponent.builder().build();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BaseComponent <span class="title">getBaseComponent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> baseComponent;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//TestScopeActivity1.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestScopeActivity1</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Inject</span></span><br><span class="line">	Person p = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		DaggerComponent1.builder().baseComponent(MyApplication.getBaseComponent()).build().inject(<span class="keyword">this</span>);</span><br><span class="line">		TextView textView = findViewById(R.id.textView);</span><br><span class="line">		textView.setText(p.toString());</span><br><span class="line">		textView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">				startActivity(<span class="keyword">new</span> Intent(TestScopeActivity1.<span class="keyword">this</span>,TestScopeActivity2.class));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//TestScopeActivity2.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestScopeActivity2</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Inject</span></span><br><span class="line">	Person p = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		DaggerComponent2.builder().baseComponent(MyApplication.getBaseComponent()).build().inject(<span class="keyword">this</span>);</span><br><span class="line">		TextView textView = findViewById(R.id.textView);</span><br><span class="line">		textView.setText(p.toString());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="daggar2如何选择依赖呢，按照这样的顺序"><a href="#daggar2如何选择依赖呢，按照这样的顺序" class="headerlink" title="daggar2如何选择依赖呢，按照这样的顺序"></a>daggar2如何选择依赖呢，按照这样的顺序</h4><p>当Component调用inject方法的时候，会搜索被注入类中用<strong>@Inject</strong>注解的字段，然后会在该Component中查找在<strong>@Component</strong>(modules=。。。)注解中注册的Module，如果搜索到Module有<strong>@Provides</strong>注解的方法提供该<strong>@Inject</strong>注解的字段所需的实例，就调用相应的方法完成注入，否则就查找所有用<strong>@Inject</strong>注解构造函数的类，如果找到就调用相应的构造函数完成注入，如果在获得实例的时候还需要获取参数的实例，再按照刚才的流程依次注入参数实例</p>
+<p>画个简单的流程，如下所示</p>
+<p>Component.inject-&gt;在Component搜索Module-&gt;找到就调用<strong>@Provides</strong>注解的方法提供实例</p>
+<p>​                -&gt;没找到就搜索<strong>@Inject</strong>注解的构造函数</p>
+<p>​                -&gt;都找不到就报错。。。</p>
+<p>都没找到肯定就报错了。。。但是会优先寻找Component注册的Module，而<strong>@Inject</strong>注册的构造器可以调用任何Component的inject方法完成注入，因为<strong>@Inject</strong>注册的构造器不需要在Component里注册，这里和Module有区别，Module是需要在某个Component中注册的，而<strong>@Inject</strong>不需要</p>
+<hr>
+<p>举一个MVP中使用Dagger2的示例，我就不贴代码了，直接看下面这个链接好了：</p>
+<p><a href="https://www.jianshu.com/p/5a936942db2a" target="_blank" rel="noopener">https://www.jianshu.com/p/5a936942db2a</a></p>
+<p>参考：</p>
+<p><a href="https://dreamerhome.github.io/2016/07/11/dagger%20for%20code/" target="_blank" rel="noopener">https://dreamerhome.github.io/2016/07/11/dagger%20for%20code/</a></p>
+<p><a href="https://blog.csdn.net/it_zouxiang/article/details/53471192" target="_blank" rel="noopener">https://blog.csdn.net/it_zouxiang/article/details/53471192</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/04/01/手把手教你自定义流式布局/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/01/手把手教你自定义流式布局/" itemprop="url">手把手教你自定义流式布局</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-01T00:04:00+08:00">
+                2018-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/01/手把手教你自定义流式布局/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/01/手把手教你自定义流式布局/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>代码是kotlin代码，所以看到有些值直接调用的不要疑惑，这些直接调用的值并不是类属性实际也是调用的get和set方法</p>
+</blockquote>
+<p>废话不多说，直接开始。</p>
+<p>根据之前的文章，自定义ViewGroup需要重写onMeasure和onLayout方法，所以我们先来重写onMeasure方法</p>
+<h4 id="重写onMeasure方法分为下面几步："><a href="#重写onMeasure方法分为下面几步：" class="headerlink" title="重写onMeasure方法分为下面几步："></a>重写onMeasure方法分为下面几步：</h4><ol>
+<li>遍历当前ViewGroup的所有子View，调用<code>measureChildWithMargins</code>方法设置每个ChildView的宽高，<code>measureChildWithMargins</code>和<code>measureChild</code>的区别是<code>measureChildWithMargins</code>同时设置了ChildView的margin值，使用<code>measureChildWithMargins</code>的前提是当前ViewGroup覆盖了<code>generateLayoutParams</code>3个方法，下面我们会说到，没有覆盖<code>generateLayoutParams</code>3个方法的话调用<code>measureChildWithMargins</code>会崩溃。</li>
+<li>遍历的时候同时记录当前ChildView的left和top值，在onLayout方法里使用这些值直接调用ChildView的layout方法，这样就不需要在onLayout方法里再次遍历计算ChildView的layout的值了，优化代码性能。</li>
+<li>遍历完以后调用<code>View.resolveSize</code>方法传入自己的宽高和宽高的<code>MeasureSpec</code>，来计算自己在不同父容器的<code>MeasureSpec</code>下的不同宽高</li>
+</ol>
+<h4 id="首先定义几个类属性"><a href="#首先定义几个类属性" class="headerlink" title="首先定义几个类属性"></a>首先定义几个类属性</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//记录执行onMeasure方法时ChildView左上角相对ViewGroup的坐标</span></span><br><span class="line"><span class="comment">//这样在onLayout方法就不需要再次计算了，提高效率</span></span><br><span class="line"><span class="keyword">private</span> val pointList = mutableListOf&lt;Pair&lt;Int, Int&gt;&gt;()</span><br><span class="line"><span class="comment">//行间距，在xml获取该值</span></span><br><span class="line"><span class="keyword">private</span> var mRowSpacing = <span class="number">0</span></span><br><span class="line"><span class="comment">//列间距，在xml获取该值</span></span><br><span class="line"><span class="keyword">private</span> var mColumnSpacing = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h4 id="重写的onMeasure方法如下"><a href="#重写的onMeasure方法如下" class="headerlink" title="重写的onMeasure方法如下"></a>重写的<code>onMeasure</code>方法如下</h4><ol>
+<li><p>首先在该方法里我们先定义几个变量：</p>
+<ol>
+<li><p>需要1个变量记录自己的宽（width）</p>
+</li>
+<li><p>需要1个变量记录当前行顶部坐标（相对于ViewGroup），用来最后计算该ViewGroup的高度（startY）</p>
+</li>
+<li><p>需要2个变量记录当前行的行宽和行高，用来判断是否需要换行（lineWidth，lineHeight）</p>
+</li>
+<li><p>需要1个变量记录当前ChildView的左边坐标（相对于ViewGroup）（childLeft），用来保存当前ChildView的绘制位置（left和top）<br> 代码如下</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//计算的宽度</span></span><br><span class="line">var width = <span class="number">0</span></span><br><span class="line"><span class="comment">//记录当前行顶部坐标（相对于ViewGroup）</span></span><br><span class="line">var startY = <span class="number">0</span></span><br><span class="line"><span class="comment">//记录当前行宽</span></span><br><span class="line">var lineWidth = <span class="number">0</span></span><br><span class="line"><span class="comment">//记录当前行高</span></span><br><span class="line">var lineHeight = <span class="number">0</span></span><br><span class="line"><span class="comment">//当前ChildView的左边坐标（相对于ViewGroup）</span></span><br><span class="line">var childLeft = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后我们还需要记录2个值，因为ChildView可用空间不包括上层容器的padding值，所以先定义2个值，下面会用到</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ViewGroup的左右padding值</span></span><br><span class="line">val lrPaddingUsed = paddingLeft + paddingRight</span><br><span class="line"><span class="comment">//ViewGroup的上下padding值</span></span><br><span class="line">val tbPaddingUsed = paddingTop + paddingBottom</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>开始遍历，并且记录ChildView在调用ChildView自己的layout方法时需要的left和top值，代码如下</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">0</span> until childCount).forEach &#123; i -&gt;</span><br><span class="line">    val child = getChildAt(i)</span><br><span class="line">    <span class="comment">//GONE状态的View就不需要执行measureChild方法了，以提高效率，因为这种状态的View宽高是0(自定义View需要将GONE状态的自己的宽高设置为0)</span></span><br><span class="line">    <span class="keyword">if</span> (child.visibility != View.GONE) &#123;</span><br><span class="line">        <span class="comment">//2.调用measureChildWithMargins计算子View宽高</span></span><br><span class="line">        <span class="comment">//因为重写了3个generateLayout方法所以这里调用measureChildWithMargins不会有异常</span></span><br><span class="line">        measureChildWithMargins(child, widthMeasureSpec, lrPaddingUsed, heightMeasureSpec, tbPaddingUsed)</span><br><span class="line">        <span class="comment">//3.1.子View执行measure方法后该ViewGroup获取子View的getMeasuredWidth和getMeasuredHeight</span></span><br><span class="line">        val layoutParams = child.layoutParams as MarginLayoutParams</span><br><span class="line">        <span class="comment">//记录该ChildView占用的空间</span></span><br><span class="line">        val childWidth = layoutParams.leftMargin + child.measuredWidth + layoutParams.rightMargin</span><br><span class="line">        val childHeight = layoutParams.topMargin + child.measuredHeight + layoutParams.bottomMargin</span><br><span class="line">        <span class="comment">//3.2.计算ViewGroup自己的宽高</span></span><br><span class="line">        <span class="comment">//第一个ChildView或者每行第一个ChildView的左边都是没有mColumnSpacing的</span></span><br><span class="line">        <span class="comment">//每行的最后一个ChildView也是没有mColumnSpacing的</span></span><br><span class="line">        <span class="comment">//第一行第一个ChildView不需要换行</span></span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;<span class="comment">//第一行</span></span><br><span class="line">            <span class="comment">//第一个ChildView初始化childLeft和childTop</span></span><br><span class="line">            <span class="comment">//paddingLeft是ViewGroup的左边内间距</span></span><br><span class="line">            childLeft = paddingLeft + layoutParams.leftMargin</span><br><span class="line">            <span class="comment">//paddingTop是ViewGroup的上边内间距，将第一行的顶部坐标设为paddingTop</span></span><br><span class="line">            startY = paddingTop</span><br><span class="line">            <span class="comment">//lineWidth行宽在每行放置第一个ChildView时除了累加childWidth还需要累加ViewGroup的左右内间距</span></span><br><span class="line">            lineWidth += lrPaddingUsed + childWidth</span><br><span class="line">            <span class="comment">//lineHeight设置为第一行第一个ChildView的高度</span></span><br><span class="line">            lineHeight = childHeight</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (lineWidth + mColumnSpacing + childWidth &lt;= measureWidth) &#123;</span><br><span class="line">            <span class="comment">//进入该代码块代表当前ChildView和上一个ChildView在同一行</span></span><br><span class="line">            <span class="comment">//所以只需要设置childLeft而不需要设置childTop</span></span><br><span class="line">            <span class="comment">//判断时需要mColumnSpacing是因为2个ChildView之间有列间距</span></span><br><span class="line">            childLeft += mColumnSpacing + layoutParams.leftMargin</span><br><span class="line">            lineWidth += mColumnSpacing + childWidth</span><br><span class="line">            <span class="comment">//lineHeight取最大高度</span></span><br><span class="line">            lineHeight = Math.max(childHeight, lineHeight)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;<span class="comment">//需要换行，该ChildView放到了新行</span></span><br><span class="line">            <span class="comment">//换行时childLeft和第一行一样需要重新设置为ViewGroup的左边内间距加该ChildView的左外间距</span></span><br><span class="line">            childLeft = paddingLeft + layoutParams.leftMargin</span><br><span class="line">            <span class="comment">//该行顶部坐标（相对于ViewGroup）需要累加上一行的行高和行间距</span></span><br><span class="line">            startY += lineHeight + mRowSpacing</span><br><span class="line">            <span class="comment">//下面2个值的操作和第一行一样</span></span><br><span class="line">            lineWidth = lrPaddingUsed + childWidth</span><br><span class="line">            <span class="comment">//lineHeight取新行第一个ChildView的高度</span></span><br><span class="line">            lineHeight = childHeight</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//添加该ChildView的left和top到集合，以便在该类的onLayout方法中调用ChildView的layout方法给该ChildView布局</span></span><br><span class="line">        pointList.add(Pair(childLeft, startY + layoutParams.topMargin))</span><br><span class="line">        <span class="comment">//该ViewGroup的宽度取当前该ViewGroup的宽度和行宽的最大值</span></span><br><span class="line">        width = Math.max(width, lineWidth)</span><br><span class="line">        <span class="comment">//childLeft设置为该ChildView所占空间的右边坐标</span></span><br><span class="line">        <span class="comment">//说明一下，每个ChildView所占空间包括了它的margin值，因为ChildView的外间距是不能显示任何控件的，外间距这部分空间是View之间的间距</span></span><br><span class="line">        childLeft += child.measuredWidth + layoutParams.rightMargin</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码我把注释写的很详细，已经不需要解释什么了。。。</p>
+<ol start="3">
+<li><p>遍历完以后，就可以该ViewGroup的宽高也就可以确定了，接下来调用<code>View.resolveSize</code>方法来计算自己在不同父容器的<code>MeasureSpec</code>下的不同宽高，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//4.调用resolveSize方法传入自己计算的宽高和上级ViewGroup的MeasureSpec，得到自身不同MeasureSpec下的宽高</span></span><br><span class="line">val resultWidth = resolveSize(width, widthMeasureSpec)</span><br><span class="line">val resultHeight = resolveSize(startY + lineHeight + paddingBottom, heightMeasureSpec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后调用<code>setMeasuredDimension</code>方法保存自己的宽高，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//5.调用setMeasuredDimension保存自己的宽高</span></span><br><span class="line">setMeasuredDimension(resultWidth, resultHeight)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>到这里，<code>onMeasure</code>方法就结束了，下面我们开始onLayout方法的重写</p>
+</li>
+</ol>
+<h4 id="重写的onLayout方法如下"><a href="#重写的onLayout方法如下" class="headerlink" title="重写的onLayout方法如下"></a>重写的<code>onLayout</code>方法如下</h4><p>   这个方法就很简单了，因为在onMeasure方法里已经设置好了ChildView们的位置，让我们来看一下代码吧</p>
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">override fun <span class="title">onLayout</span><span class="params">(changed: Boolean, l: Int, t: Int, r: Int, b: Int)</span> </span>&#123;</span><br><span class="line">    val childCount = <span class="keyword">this</span>.childCount</span><br><span class="line">    (<span class="number">0</span> until childCount).forEach &#123; i -&gt;</span><br><span class="line">        val child = getChildAt(i)</span><br><span class="line">        <span class="comment">//GONE状态的View就不需要执行layout方法了，以提高效率，因为这种状态的View宽高是0(自定义View需要将GONE状态的自己的宽高设置为0)</span></span><br><span class="line">        <span class="keyword">if</span> (child.visibility != View.GONE) &#123;</span><br><span class="line">            val pair = pointList[i]</span><br><span class="line">            child.layout(pair.first, pair.second, pair.first + child.measuredWidth, pair.second + child.measuredHeight)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后该流式布局的主要部分就完成了</p>
+<h4 id="重写generateLayoutParams的3个方法"><a href="#重写generateLayoutParams的3个方法" class="headerlink" title="重写generateLayoutParams的3个方法"></a>重写<code>generateLayoutParams</code>的3个方法</h4><p>然后我们需要重写<code>generateLayoutParams</code>的3个方法，否则在调用<code>measureChildWithMargins</code>方法的时候是会报类转换异常的，至于为什么自己看一下源码就知道了，下面直接上重写好的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ChildView的LayoutParams是包裹它的ViewGroup传递的，而默认传递的ViewGroup.LayoutParams是没有margin值的</span></span><br><span class="line"><span class="comment">//所以如果要使用margin需要重写这3个方法，ViewGroup会根据不同情况调用不同的方法的，所以最好把3个方法都重写了</span></span><br><span class="line"><span class="function">override fun <span class="title">generateDefaultLayoutParams</span><span class="params">()</span>: LayoutParams </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> MarginLayoutParams(<span class="keyword">super</span>.generateDefaultLayoutParams())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">override fun <span class="title">generateLayoutParams</span><span class="params">(attrs: AttributeSet?)</span>: LayoutParams </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> MarginLayoutParams(context, attrs)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">override fun <span class="title">generateLayoutParams</span><span class="params">(p: LayoutParams?)</span>: LayoutParams </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> MarginLayoutParams(p)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后还有个之前提到的<code>mRowSpacing</code>和<code>mColumnSpacing</code>，这两个值在xml里设置该流式布局的行间距和列间距，我们在res/value下创建一个文件，例如叫做<code>attrs_flowlayout.xml</code>，然后添加如下代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">"FlowLayout"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"rowSpacing"</span> <span class="attr">format</span>=<span class="string">"dimension"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"columnSpacing"</span> <span class="attr">format</span>=<span class="string">"dimension"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用方法如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">"liuhc.me.flowlayout.MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">liuhc.me.flowlayout.FlowLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"#ff0000"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:rowSpacing</span>=<span class="string">"10dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:columnSpacing</span>=<span class="string">"10dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:padding</span>=<span class="string">"10dp"</span>&gt;</span></span><br><span class="line">      ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">liuhc.me.flowlayout.FlowLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>至此，一个流式布局就完成了，代码提交到了github，地址：<br><a href="https://github.com/ikakaxi/FlowLayout" target="_blank" rel="noopener">https://github.com/ikakaxi/FlowLayout</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/03/31/用一张图告诉你Android中View的layout过程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/31/用一张图告诉你Android中View的layout过程/" itemprop="url">用一张图告诉你Android中View的layout过程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-31T23:43:50+08:00">
+                2018-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/31/用一张图告诉你Android中View的layout过程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/31/用一张图告诉你Android中View的layout过程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://upload-images.jianshu.io/upload_images/545982-1e4d60427eadfef1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="noopener"><img src="https://upload-images.jianshu.io/upload_images/545982-1e4d60427eadfef1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="绘制View流程-onLayout.png"></a></p>
+<p>参考：<a href="https://www.jianshu.com/p/158736a2549d" target="_blank" rel="noopener">https://www.jianshu.com/p/158736a2549d</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/03/31/用一张图告诉你Android中View的measure过程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/31/用一张图告诉你Android中View的measure过程/" itemprop="url">用一张图告诉你Android中View的measure过程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-31T23:41:00+08:00">
+                2018-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/31/用一张图告诉你Android中View的measure过程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/31/用一张图告诉你Android中View的measure过程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://upload-images.jianshu.io/upload_images/545982-1a001be2690f4f83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="noopener"><img src="https://upload-images.jianshu.io/upload_images/545982-1a001be2690f4f83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="绘制View流程-onMeasure.png"></a></p>
+<h4 id="其中MeasureSpec类的说明："><a href="#其中MeasureSpec类的说明：" class="headerlink" title="其中MeasureSpec类的说明："></a>其中MeasureSpec类的说明：</h4><p>MeasureSpec.EXACTLY(完全)：LayoutParams.MATCH_PARENT或确切的数值。父控件为子View指定确切大小，希望子View完全按照自己给定的尺寸来处理，这时的MeasureSpec一般是父控件根据自身的MeasureSpec跟子View的布局参数来确定的。一般这种情况下size&gt;0，有个确定值。</p>
+<p>MeasureSpec.AT_MOST(至多)：LayoutParams.WRAP_CONTENT 父控件为子元素指定最大参考尺寸，希望子View的尺寸不要超过这个尺寸。这种模式也是父控件根据自身的MeasureSpec跟子View的布局参数来确定的。</p>
+<p>MeasureSpec.UNSPECIFIED(未指定)：父容器不对子View有任何限制，要多大给多大，多见于ListView、GridView、ScrollView。这种MeasureSpec一般是由父控件自身的特性决定的。比如ScrollView，它的子View可以随意设置大小，无论多高，都能滚动显示。</p>
+<hr>
+<h4 id="ViewGroup的getChildMeasureSpec-int-spec-int-padding-int-childDimension-方法说明："><a href="#ViewGroup的getChildMeasureSpec-int-spec-int-padding-int-childDimension-方法说明：" class="headerlink" title="ViewGroup的getChildMeasureSpec(int spec, int padding, int childDimension)方法说明："></a>ViewGroup的<code>getChildMeasureSpec(int spec, int padding, int childDimension)</code>方法说明：</h4><ol>
+<li><p>不管该ViewGroup的测量模式是什么，只要childDimension&gt;=0，返回的子View的绘制大小就是childDimension，测量模式就是MeasureSpec.EXACTLY</p>
+</li>
+<li><p>如果该ViewGroup的测量模式是MeasureSpec.EXACTLY</p>
+<ol>
+<li>如果childDimension == LayoutParams.MATCH_PARENT，返回的子View大小为父View大小，模式为EXACTLY</li>
+<li>如果childDimension == LayoutParams.WRAP_CONTENT，返回的子View决定自己的大小，但最大不能超过父View大小，模式为AT_MOST</li>
+</ol>
+</li>
+<li><p>如果该ViewGroup的测量模式是MeasureSpec.AT_MOST，childDimension == LayoutParams.MATCH_PARENT或者childDimension == LayoutParams.WRAP_CONTENT，返回的子View决定自己的大小，但最大不能超过父View大小，模式为AT_MOST</p>
+</li>
+<li><p>如果该ViewGroup的测量模式是MeasureSpec.UNSPECIFIED，childDimension == LayoutParams.MATCH_PARENT或者childDimension == LayoutParams.WRAP_CONTENT，返回的子View的建议大小是0（小于6.0）或者ViewGroup的大小（6.0和以上），测量模式是MeasureSpec.UNSPECIFIED</p>
+</li>
+</ol>
+<hr>
+<h4 id="顶层View的MeasureSpec是谁指定"><a href="#顶层View的MeasureSpec是谁指定" class="headerlink" title="顶层View的MeasureSpec是谁指定"></a>顶层View的MeasureSpec是谁指定</h4><p>传递给子View的MeasureSpec是父容器根据自己的MeasureSpec及子View的布局参数所确定的，那么根MeasureSpec是谁创建的呢？我们用最常用的两种Window来解释一下，Activity与Dialog，DecorView是Activity的根布局，传递给DecorView的MeasureSpec是系统根据Activity或者Dialog的Theme来确定的，也就是说，最初的MeasureSpec是直接根据Window的属性构建的，一般对于Activity来说，根MeasureSpec是EXACTLY+屏幕尺寸，对于Dialog来说，如果不做特殊设定会采用AT_MOST+屏幕尺寸。这里牵扯到WindowManagerService跟ActivityManagerService</p>
+<p>参考：</p>
+<p><a href="https://www.jianshu.com/p/1dab927b2f36" target="_blank" rel="noopener">https://www.jianshu.com/p/1dab927b2f36</a><br><a href="https://www.jianshu.com/p/d16ec64181f2" target="_blank" rel="noopener">https://www.jianshu.com/p/d16ec64181f2</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/03/31/用一张图告诉你Android中的事件传递机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/31/用一张图告诉你Android中的事件传递机制/" itemprop="url">用一张图告诉你Android中的事件传递机制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-31T23:38:00+08:00">
+                2018-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/31/用一张图告诉你Android中的事件传递机制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/31/用一张图告诉你Android中的事件传递机制/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://upload-images.jianshu.io/upload_images/545982-e1b0bea3b5de2844.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="noopener"><img src="https://upload-images.jianshu.io/upload_images/545982-e1b0bea3b5de2844.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="事件传递机制_gaitubao_com_watermark.png"></a></p>
+<p>其中，如果有步骤返回false，就会把该事件传递给上层，如果全部是false，最终会把该事件交给Activity来处理</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/03/31/记一个WebView的shouldOverrideUrlLoading方法的常见错误/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/31/记一个WebView的shouldOverrideUrlLoading方法的常见错误/" itemprop="url">记一个WebView的shouldOverrideUrlLoading方法的常见错误</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-31T23:35:00+08:00">
+                2018-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/31/记一个WebView的shouldOverrideUrlLoading方法的常见错误/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/31/记一个WebView的shouldOverrideUrlLoading方法的常见错误/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>平时我们写WebViewClient的时候，会覆盖shouldOverrideUrlLoading方法，代码可能都是下面这种：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">webView.webViewClient = object : WebViewClient() &#123;  </span><br><span class="line"> <span class="function">override fun <span class="title">shouldOverrideUrlLoading</span><span class="params">(view: WebView, url: String)</span>: Boolean </span>&#123;  </span><br><span class="line"> view.loadUrl(url)  </span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">true</span>  </span><br><span class="line"> &#125;  </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>今天看一些资料的时候发现，这个方法直接return false就可以在该WebView里跳转而不是弹出系统的浏览器选择框，网上充斥的都是某篇文章说的必须view.loadUrl(url)才会在自己的程序里跳转页面而不是跳出系统的浏览器选择框。今天才知道这个，惭愧惭愧。。。</p>
+<p>总结一下：</p>
+<ol>
+<li>如果不设置webView.webViewClient，调用webView.loadUrl(url)就会弹出系统的浏览器选择框让你选一个浏览器来显示。</li>
+<li>如果设置webView.webViewClient，就会在自己的WebView里跳转页面。</li>
+<li>如果设置webView.webViewClient，并且重写shouldOverrideUrlLoading方法，在方法体里如果return true，那么就需要自己调用view.loadUrl(url)才能显示了，因为return true的时候一般是跳转Activity之类的逻辑。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/03/31/WebView中JavaScript与Java交互流程与WebView的漏洞处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/31/WebView中JavaScript与Java交互流程与WebView的漏洞处理/" itemprop="url">WebView中JavaScript与Java交互流程与WebView的漏洞处理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-31T23:26:00+08:00">
+                2018-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/31/WebView中JavaScript与Java交互流程与WebView的漏洞处理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/31/WebView中JavaScript与Java交互流程与WebView的漏洞处理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>现在Android开发很多都是混合开发了，WebView也不再只是显示一个网页而已而是与Native App有很多交互，所以熟悉JavaScript与Java交互很有必要。  </p>
+<h1 id="1-JavaScript调用Java"><a href="#1-JavaScript调用Java" class="headerlink" title="1. JavaScript调用Java"></a>1. JavaScript调用Java</h1><h2 id="1-1-1-Java注册"><a href="#1-1-1-Java注册" class="headerlink" title="1.1.1 Java注册"></a>1.1.1 Java注册</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置与Js交互的权限  </span></span><br><span class="line">webSettings.setJavaScriptEnabled(<span class="keyword">true</span>);  </span><br><span class="line">webView.addJavascriptInterface(<span class="keyword">new</span> JSInvokeClass(), <span class="string">"JSInvokeClassName"</span>);  </span><br><span class="line">...  </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">JSInvokeClass</span> </span>&#123;  </span><br><span class="line"> <span class="comment">// 被JS调用的方法必须加入@JavascriptInterface注解  </span></span><br><span class="line"> <span class="meta">@JavascriptInterface</span>  </span><br><span class="line"> <span class="function"><span class="keyword">public</span> String <span class="title">methodName</span><span class="params">(String param)</span> </span>&#123;  </span><br><span class="line"> ...  </span><br><span class="line"> <span class="keyword">return</span> <span class="string">"&#123;error:'error'&#125;"</span>;  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-1-2-JavaScript调用"><a href="#1-1-2-JavaScript调用" class="headerlink" title="1.1.2 JavaScript调用"></a>1.1.2 JavaScript调用</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//用一个Html的button测试  </span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"JSInvokeClassName.methodName('aabbcc')"</span>&gt;</span>调用Java方法<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>JSInvokeClassName和methodName分别是JavaScript调用在Java代码里注册的类名映射和方法，名字随便起只要对应上就可以</p>
+<p>但是这种方法有很多漏洞，需要解决如下问题：</p>
+<ol>
+<li><p>防止XSS</p>
+</li>
+<li><p>android 4.2之前的版本不要使用javainterface，可使用拦截prompt的方式</p>
+</li>
+<li><p>移除android 4.2之前的默认接口</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">removeJavascriptInterface(“searchBoxJavaBridge_”)  </span><br><span class="line">removeJavascriptInterface(“accessibility”)  </span><br><span class="line">removeJavascriptInterface(“accessibilityTraversal”)</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>防止不安全的访问</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setAllowFileAccessFromFileURLs(<span class="keyword">false</span>);  </span><br><span class="line">setAllowUniversalAccessFromFileURLs(<span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>使用https或者http2.0交互</li>
+</ol>
+<p>解决参考</p>
+<p><a href="https://blog.csdn.net/carson_ho/article/details/64904635" target="_blank" rel="noopener">https://blog.csdn.net/carson_ho/article/details/64904635</a><br><a href="https://kotlintc.com/articles/5224?fr=email" target="_blank" rel="noopener">https://kotlintc.com/articles/5224?fr=email</a></p>
+<h2 id="1-2通过-WebViewClient-的方法shouldOverrideUrlLoading-回调拦截-url"><a href="#1-2通过-WebViewClient-的方法shouldOverrideUrlLoading-回调拦截-url" class="headerlink" title="1.2通过 WebViewClient 的方法shouldOverrideUrlLoading ()回调拦截 url"></a>1.2通过 WebViewClient 的方法shouldOverrideUrlLoading ()回调拦截 url</h2><p>优点：不存在方式1.1的漏洞；</p>
+<p>缺点：JS获取Android方法的返回值复杂，需要Java调用JavaScript的方法然后在JavaScript的这个方法里再调用1.1.1中注册的方法</p>
+<p>示例如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假定传入进来的 url = "js://webview?arg1=111&amp;arg2=222"（同时也是约定好的需要拦截的）  </span></span><br><span class="line"></span><br><span class="line">Uri uri = Uri.parse(url);  </span><br><span class="line"><span class="comment">// 步骤1：根据协议的参数，判断是否是所需要的url（一般根据scheme（协议格式） &amp; authority（协议名）判断）  </span></span><br><span class="line"><span class="comment">// 如果url的协议 = 预先约定的 js 协议就解析往下解析参数  </span></span><br><span class="line"><span class="keyword">if</span> (uri.getScheme().equals(<span class="string">"js"</span>)) &#123;  </span><br><span class="line"> <span class="comment">// 步骤2：如果 authority  = 预先约定协议里的 webview，即代表都符合约定的协议  </span></span><br><span class="line"> <span class="keyword">if</span> (uri.getAuthority().equals(<span class="string">"webview"</span>)) &#123;  </span><br><span class="line"> <span class="comment">// 步骤3：执行JS所需要调用的逻辑  </span></span><br><span class="line"> System.out.println(<span class="string">"js调用了Android的方法"</span>);  </span><br><span class="line"> <span class="comment">// 可以在协议上带有参数并传递到Android上  </span></span><br><span class="line"> HashMap&lt;String, String&gt; params = <span class="keyword">new</span> HashMap&lt;&gt;();  </span><br><span class="line"> Set&lt;String&gt; collection = uri.getQueryParameterNames();  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">true</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="1-3通过-WebChromeClient-的onJsAlert-、onJsConfirm-、onJsPrompt（）方法回调拦截JS对话框alert-、confirm-、prompt（）-消息"><a href="#1-3通过-WebChromeClient-的onJsAlert-、onJsConfirm-、onJsPrompt（）方法回调拦截JS对话框alert-、confirm-、prompt（）-消息" class="headerlink" title="1.3通过 WebChromeClient 的onJsAlert()、onJsConfirm()、onJsPrompt（）方法回调拦截JS对话框alert()、confirm()、prompt（） 消息"></a>1.3通过 WebChromeClient 的onJsAlert()、onJsConfirm()、onJsPrompt（）方法回调拦截JS对话框alert()、confirm()、prompt（） 消息</h2><p>一般使用onJsPrompt方法，因为该方法可以返回值给JavaScript，既没有1.1的漏洞也能方便的接收JavaScript的值和返回给JavaScript值</p>
+<p>示例如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假定传入进来的 url = "js://webview?arg1=111&amp;arg2=222"（同时也是约定好的需要拦截的）  </span></span><br><span class="line"></span><br><span class="line">Uri uri = Uri.parse(url);  </span><br><span class="line"><span class="comment">// 步骤1：根据协议的参数，判断是否是所需要的url（一般根据scheme（协议格式） &amp; authority（协议名）判断）  </span></span><br><span class="line"><span class="comment">// 如果url的协议 = 预先约定的 js 协议就解析往下解析参数  </span></span><br><span class="line"><span class="keyword">if</span> (uri.getScheme().equals(<span class="string">"js"</span>)) &#123;  </span><br><span class="line"> <span class="comment">// 步骤2：如果 authority  = 预先约定协议里的 webview，即代表都符合约定的协议  </span></span><br><span class="line"> <span class="keyword">if</span> (uri.getAuthority().equals(<span class="string">"webview"</span>)) &#123;  </span><br><span class="line"> <span class="comment">// 步骤3：执行JS所需要调用的逻辑  </span></span><br><span class="line"> System.out.println(<span class="string">"js调用了Android的方法"</span>);  </span><br><span class="line"> <span class="comment">// 可以在协议上带有参数并传递到Android上  </span></span><br><span class="line"> HashMap&lt;String, String&gt; params = <span class="keyword">new</span> HashMap&lt;&gt;();  </span><br><span class="line"> Set&lt;String&gt; collection = uri.getQueryParameterNames();  </span><br><span class="line"> ...  </span><br><span class="line"> <span class="comment">//参数result:代表消息框的返回值(输入值)  </span></span><br><span class="line"> result.confirm(<span class="string">"js调用了Android的方法成功啦"</span>);  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">true</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="2-Java调用JavaScript"><a href="#2-Java调用JavaScript" class="headerlink" title="2. Java调用JavaScript"></a>2. Java调用JavaScript</h1><blockquote>
+<p>这时候有<strong>两种</strong>方法</p>
+</blockquote>
+<p>先上HTML代码<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span>  </span><br><span class="line"> <span class="tag">&lt;<span class="name">head</span>&gt;</span>  </span><br><span class="line"> <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span>  </span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">  </span></span><br><span class="line"><span class="undefined"> function callJS()&#123;  </span></span><br><span class="line"><span class="undefined"> alert("Android调用了JS的callJS方法");  </span></span><br><span class="line"><span class="undefined"> &#125;  </span></span><br><span class="line"><span class="undefined"> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  </span><br><span class="line"> <span class="tag">&lt;/<span class="name">head</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>特别注意：Java调用JavaScript代码调用一定要在 onPageFinished（） 回调之后才能调用，否则不会调用。onPageFinished()属于WebViewClient类的方法，主要在页面加载结束时调用。</p>
+</blockquote>
+<h2 id="2-1-loadUrl"><a href="#2-1-loadUrl" class="headerlink" title="2.1 loadUrl"></a>2.1 loadUrl</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置与Js交互的权限  </span></span><br><span class="line">webSettings.setJavaScriptEnabled(<span class="keyword">true</span>);  </span><br><span class="line">webView.loadUrl(<span class="string">"javascript:callJS()"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-evaluateJavascript"><a href="#2-2-evaluateJavascript" class="headerlink" title="2.2 evaluateJavascript"></a>2.2 evaluateJavascript</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">webSettings.setJavaScriptEnabled(<span class="keyword">true</span>);  </span><br><span class="line">webView.evaluateJavascript（<span class="string">"javascript:callJS()"</span>, <span class="keyword">new</span> ValueCallback&lt;String&gt;() &#123;  </span><br><span class="line"> <span class="meta">@Override</span>  </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceiveValue</span><span class="params">(String value)</span> </span>&#123;  </span><br><span class="line"> <span class="comment">//此处为 js 返回的结果  </span></span><br><span class="line"> &#125;  </span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure>
+<p>优点：该方法比第一种方法效率更高、使用更简洁。因为该方法的执行不会使页面刷新，而第一种方法（loadUrl ）的执行则会。该方法在Android 4.4 后才可使用。</p>
+<h4 id="使用建议：两种方法混合使用，即Android-4-4以下使用方法2-1，Android-4-4以上方法2-2，示例如下："><a href="#使用建议：两种方法混合使用，即Android-4-4以下使用方法2-1，Android-4-4以上方法2-2，示例如下：" class="headerlink" title="使用建议：两种方法混合使用，即Android 4.4以下使用方法2.1，Android 4.4以上方法2.2，示例如下："></a>使用建议：两种方法混合使用，即Android 4.4以下使用方法2.1，Android 4.4以上方法2.2，示例如下：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Android版本变量  </span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> version = Build.VERSION.SDK_INT;  </span><br><span class="line"><span class="comment">// 因为该方法在 Android 4.4 版本才可使用，所以使用时需进行版本判断  </span></span><br><span class="line"><span class="keyword">if</span> (version &lt; <span class="number">18</span>) &#123;  </span><br><span class="line"> webView.loadUrl(<span class="string">"javascript:callJS()"</span>);  </span><br><span class="line">&#125; <span class="keyword">else</span> &#123;  </span><br><span class="line"> webView.evaluateJavascript（<span class="string">"javascript:callJS()"</span>, <span class="keyword">new</span> ValueCallback&lt;String&gt;() &#123;  </span><br><span class="line"> <span class="meta">@Override</span>  </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceiveValue</span><span class="params">(String value)</span> </span>&#123;  </span><br><span class="line"> <span class="comment">//此处为 js 返回的结果  </span></span><br><span class="line"> &#125;  </span><br><span class="line"> &#125;);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://blog.csdn.net/carson_ho/article/details/64904691" target="_blank" rel="noopener">https://blog.csdn.net/carson_ho/article/details/64904691</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/03/31/android内存泄漏的多种方式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/31/android内存泄漏的多种方式/" itemprop="url">android内存泄漏的多种方式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-31T23:19:00+08:00">
+                2018-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/31/android内存泄漏的多种方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/31/android内存泄漏的多种方式/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>内存泄漏的定义：简单的讲，就是该被释放的对象没有释放，虽然不再被使用却一直被某个或某些实例所持有而导致GC不能回收</p>
+</blockquote>
+<p>因为Java的GC机制，我们并不需要去像C++一样去手动释放内存，但是如果不注意，Java一样会发生内存泄漏，下面列举一些开发中常见的内存泄漏场景：</p>
+<h6 id="1-静态集合："><a href="#1-静态集合：" class="headerlink" title="1. 静态集合："></a>1. 静态集合：</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> Vector v = <span class="keyword">new</span> Vector(<span class="number">10</span>);  </span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;<span class="number">100</span>; i++)&#123;  </span><br><span class="line"> Object o = <span class="keyword">new</span> Object();  </span><br><span class="line"> v.add(o);  </span><br><span class="line"> o = <span class="keyword">null</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，循环申请Object 对象，并将所申请的对象放入一个Vector 中，如果仅仅释放引用本身（o=null），那么Vector 仍然引用该对象，所以这个对象对GC 来说是不可回收的。因此，如果对象加入到Vector 后，还必须从Vector 中删除，最简单的方法就是将Vector对象设置为null。</p>
+<h6 id="2-当集合里面的对象属性被修改后，再调用remove-方法时不起作用。"><a href="#2-当集合里面的对象属性被修改后，再调用remove-方法时不起作用。" class="headerlink" title="2. 当集合里面的对象属性被修改后，再调用remove()方法时不起作用。"></a>2. 当集合里面的对象属性被修改后，再调用remove()方法时不起作用。</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function">data class <span class="title">Person</span><span class="params">(<span class="keyword">private</span> val name: String, <span class="keyword">private</span> val password: String, var age: Int)</span>   </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"> fun <span class="title">main</span><span class="params">(args: Array&lt;String&gt;)</span> </span>&#123;  </span><br><span class="line"> val set = HashSet&lt;Person&gt;();  </span><br><span class="line"> val p1 = Person(<span class="string">"唐僧"</span>, <span class="string">"pwd1"</span>, <span class="number">25</span>)  </span><br><span class="line"> val p2 = Person(<span class="string">"孙悟空"</span>, <span class="string">"pwd2"</span>, <span class="number">26</span>)  </span><br><span class="line"> val p3 = Person(<span class="string">"猪八戒"</span>, <span class="string">"pwd3"</span>, <span class="number">27</span>)  </span><br><span class="line"> set.add(p1)  </span><br><span class="line"> set.add(p2)  </span><br><span class="line"> set.add(p3)  </span><br><span class="line"> System.out.println(<span class="string">"总共有:"</span> +set.size + <span class="string">" 个元素!"</span>); <span class="comment">//结果：总共有:3 个元素!  </span></span><br><span class="line"> set.forEach &#123;  </span><br><span class="line"> System.out.println(it)  </span><br><span class="line"> &#125;  </span><br><span class="line"></span><br><span class="line"> p3.age = <span class="number">2</span> <span class="comment">//修改p3的年龄,此时p3元素对应的hashcode值发生改变  </span></span><br><span class="line"> set.remove(p3) <span class="comment">//此时remove不掉，造成内存泄漏  </span></span><br><span class="line"> set.add(p3) <span class="comment">//重新添加，居然添加成功  </span></span><br><span class="line"> System.out.println(<span class="string">"总共有:"</span> +set.size + <span class="string">" 个元素!"</span>); <span class="comment">//结果：总共有:4 个元素!  </span></span><br><span class="line"> set.forEach &#123;  </span><br><span class="line"> System.out.println(it)  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种情况需要我们重写hashCode和equals方法，例如将Person类改为：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function">data class <span class="title">Person</span><span class="params">(<span class="keyword">private</span> val name: String, <span class="keyword">private</span> val password: String, var age: Int)</span> </span>&#123;  </span><br><span class="line"> <span class="function">override fun <span class="title">equals</span><span class="params">(other: Any?)</span>: Boolean </span>&#123;  </span><br><span class="line"> <span class="keyword">return</span> when &#123;  </span><br><span class="line"> other !is Person -&gt; <span class="keyword">false</span>  </span><br><span class="line"> name != other.name -&gt; <span class="keyword">false</span>  </span><br><span class="line"> <span class="keyword">else</span> -&gt; <span class="keyword">true</span>  </span><br><span class="line"> &#125;  </span><br><span class="line"> &#125;  </span><br><span class="line"></span><br><span class="line"> <span class="function">override fun <span class="title">hashCode</span><span class="params">()</span>: Int </span>&#123;  </span><br><span class="line"> <span class="keyword">return</span> name.hashCode()  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候结果就正确了，添加的时候不会重复了，可以自己将代码复制到IDE查看结果</p>
+<h6 id="3-监听器"><a href="#3-监听器" class="headerlink" title="3. 监听器"></a>3. 监听器</h6><p>Android很多控件设置监听器是setXXXListener，比如Button，但是有些View设置某些监听是addXXXListener，比如EditText，如果不注意可能就调用了多次addXXXListener方法，造成了内存泄漏和莫名其妙的bug</p>
+<h6 id="4-各种连接"><a href="#4-各种连接" class="headerlink" title="4. 各种连接"></a>4. 各种连接</h6><p>比如数据库连接，网络连接，打开文件流之类的，除非其显式的调用了其close()方法将其连接关闭，否则是不会自动被GC回收的。</p>
+<h6 id="5-非静态内部类"><a href="#5-非静态内部类" class="headerlink" title="5. 非静态内部类"></a>5. 非静态内部类</h6><p>这也是很常见的一种情况，我们写代码时写的最多的就是<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> val mHandler = object : Handler() &#123;  </span><br><span class="line"> <span class="function">override fun <span class="title">handleMessage</span><span class="params">(msg: Message)</span> </span>&#123;  </span><br><span class="line"> <span class="keyword">super</span>.handleMessage(msg)  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而在非静态内部类里，是默认持有外部类引用的，举个例子如果我们调用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mHandler.sendMessageDelayed(Message.obtain(),<span class="number">2000</span>)</span><br></pre></td></tr></table></figure></p>
+<p>然后finish这个Activity，这时候就内存泄漏了，因为mHandler持有外部Activity的强引用，所以如果Handler中的任务没有执行完那么这个Activity是不能被回收的，这里的例子比较简单，有可能这不是Handler而是一个Thread之类的，解决办法是我们在Activity的onDestory方法里调用Handler的removeCallbacksAndMessages方法(如果是这里这种情况)，并且尽量将内部类写成静态的内部类，静态内部类是不持有外部类的引用的</p>
+<blockquote>
+<p>如果一定要持有外部类的应用，我们可以考虑使用弱应用的方式</p>
+</blockquote>
+<h6 id="6-单例模式的类持有其他类的引用"><a href="#6-单例模式的类持有其他类的引用" class="headerlink" title="6. 单例模式的类持有其他类的引用"></a>6. 单例模式的类持有其他类的引用</h6><p>举个例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">object Util &#123;  </span><br><span class="line"> <span class="keyword">private</span> lateinit var mContext: Context  </span><br><span class="line"> <span class="function">fun <span class="title">init</span><span class="params">(context: Context)</span> </span>&#123;  </span><br><span class="line"> mContext = context  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="function">fun <span class="title">getXXX</span><span class="params">(res: Int)</span>: String </span>&#123;  </span><br><span class="line"> <span class="keyword">return</span> mContext.getString(res)  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可能有人想传入一个context，以后使用就不用每次都传入了，但是这时候这个context的内存就发生了泄露，因为这个context被这个单例工具类一直持有，所以这个context就没办法被GC回收了，所以我们应该在这个工具类的每个方法里都传入Context而不是在init里一次传入一个Context想一劳永逸，或者根据你的业务需要传入ApplicationContext，修改如下：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">object Util &#123;  </span><br><span class="line"> <span class="comment">//传入ApplicationContext  </span></span><br><span class="line"> <span class="keyword">private</span> lateinit var mContext: Context  </span><br><span class="line"> <span class="function">fun <span class="title">init</span><span class="params">(context: Context)</span> </span>&#123;  </span><br><span class="line"> mContext = context.applicationContext  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="comment">//或者每个方法传入Context而不是一直持有引用  </span></span><br><span class="line"> <span class="function">fun <span class="title">getXXX</span><span class="params">(context:Context,res: Int)</span>: String </span>&#123;  </span><br><span class="line"> <span class="keyword">return</span> context.getString(res)  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="7-BraodcastReceiver未及时解绑"><a href="#7-BraodcastReceiver未及时解绑" class="headerlink" title="7. BraodcastReceiver未及时解绑"></a>7. BraodcastReceiver未及时解绑</h6><p>广播我们用的比较多，但是很多新手动态注册广播后，并没有及时在Activity的onDestory方法里解绑，导致内存泄漏</p>
+<h6 id="8-Bitmap-没调用-recycle"><a href="#8-Bitmap-没调用-recycle" class="headerlink" title="8. Bitmap 没调用 recycle()"></a>8. Bitmap 没调用 recycle()</h6><p>对于 Bitmap 对象在不使用时,我们应该先调用 recycle() 释放内存，然后才它设置为 null. 因为加载 Bitmap 对象的内存空间，一部分是 java 的，一部分 C 的（因为 Bitmap 分配的底层是通过 JNI 调用的 )。 而这个 recyle() 就是针对 C 部分的内存释放。</p>
+<p>比较常见的就是这些</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/03/31/Looper-Handler-MessageQueue简明讲解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/31/Looper-Handler-MessageQueue简明讲解/" itemprop="url">Looper,Handler,MessageQueue简明讲解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-31T23:17:00+08:00">
+                2018-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/31/Looper-Handler-MessageQueue简明讲解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/31/Looper-Handler-MessageQueue简明讲解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这个Looper，Handler，MessageQueue机制其实很简单，网上也有很多教程，有很多讲的很详细，废话不多说，我按照我的理解来简单的讲解一下，详细的可以在网上找教程</p>
+<ol>
+<li>Looper类用ThreadLocal来保证一个线程里面一个Looper，在prepare方法里，调用ThreadLocal.get()来获取当前线程的Looper，如果没有的话就set一个Looper对象进去，在Looper的构造函数里会创建一个MessageQueue对象</li>
+</ol>
+<ul>
+<li>在Looper类的loop方法里，调用ThreadLocal.get()获取当前线程的Looper，然后获取当前Looper的MessageQueue，然后用一个死循环来一直从里面取Message，取到以后就调用Message的target——也就是Handler，来执行Handler的dispatchMessage方法，这个target哪里来的呢，可以查看一下Handler的sendMessage的那几个方法，它们最终都会调用Handler的enqueueMessage方法，在这个方法里把Message的target设置为了Handler自己，然后把该Message加入到了MessageQueue，那么MessageQueue又是哪里来的呢，可以看Handler的几个构造函数，最终都会调用<code>Handler(Callback callback, boolean async)</code>这个构造函数，在这个构造函数里调用<code>Looper.myLooper()</code>获取了当前线程的Looper，然后从这个Looper获取了MessageQueue</li>
+</ul>
+<p>讲完了，就上面这几个步骤，至于新创建的线程想直接操作控件需要先执行Looper.prepare方法再怎样怎样，可以自己思考一下原因，看一下我上面说的几个步骤就明白为什么了</p>
+<p>这个Looper机制，java层很简单，主要的地方在native层，为什么loop方法是一个死循环而程序不会卡住呢？这就涉及到linux的pipe（管道）方面的知识了</p>
+<blockquote>
+<p>关于管道，简单来说，管道就是一个文件。<br>在管道的两端，分别是两个打开文件文件描述符，这两个打开文件描述符都是对应同一个文件，其中一个是用来读的，别一个是用来写的。<br>一般的使用方式就是，一个线程通过读文件描述符中来读管道的内容，当管道没有内容时，这个线程就会进入等待状态，而另外一个线程通过写文件描述符来向管道中写入内容，写入内容的时候，如果另一端正有线程正在等待管道中的内容，那么这个线程就会被唤醒。这个等待和唤醒的操作是如何进行的呢，这就要借助Linux系统中的epoll机制了。 Linux系统中的epoll机制为处理大批量句柄而作了改进的poll，是Linux下多路复用IO接口select/poll的增强版本，它能显著减少程序在大量并发连接中只有少量活跃的情况下的系统CPU利用率。</p>
+</blockquote>
+<p>参考文章：</p>
+<p><a href="https://www.zhihu.com/question/34652589" target="_blank" rel="noopener">https://www.zhihu.com/question/34652589</a><br><a href="http://wangkuiwu.github.io/2014/08/26/MessageQueue/" target="_blank" rel="noopener">http://wangkuiwu.github.io/2014/08/26/MessageQueue/</a><br><a href="http://www.bijishequ.com/detail/381606" target="_blank" rel="noopener">http://www.bijishequ.com/detail/381606</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">liuhc</p>
+              <p class="site-description motion-element" itemprop="description">用来记录一些技术文章</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">117</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuhc</span>
+  <!--以下4句为一条竖线和Coding Page-->
+  <span class="post-meta-divider">|</span>
+  <div class="powered-by">  
+  </div>
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+  
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://liuhc.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

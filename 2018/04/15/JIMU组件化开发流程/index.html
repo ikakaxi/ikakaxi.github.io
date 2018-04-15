@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="第三方框架," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="JIMU组件化开发流程github：https://github.com/mqzhangw/JIMU目前公司的项目用到了组件化开发，这里记录一下开发流程，基本就是官网的文档，我只是整理了一下，加了一些说明，重点记录一下如何填坑。 1. 配置配置根目录在根目录的gradle.properties文件中，增加属性： 1mainmodulename=app 其中mainmodulename是项目中的ho">
+<meta name="keywords" content="第三方框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JIMU组件化开发流程">
+<meta property="og:url" content="https://ikakaxi.github.io/2018/04/15/JIMU组件化开发流程/index.html">
+<meta property="og:site_name" content="我的技术小屋">
+<meta property="og:description" content="JIMU组件化开发流程github：https://github.com/mqzhangw/JIMU目前公司的项目用到了组件化开发，这里记录一下开发流程，基本就是官网的文档，我只是整理了一下，加了一些说明，重点记录一下如何填坑。 1. 配置配置根目录在根目录的gradle.properties文件中，增加属性： 1mainmodulename=app 其中mainmodulename是项目中的ho">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-15T07:19:51.883Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JIMU组件化开发流程">
+<meta name="twitter:description" content="JIMU组件化开发流程github：https://github.com/mqzhangw/JIMU目前公司的项目用到了组件化开发，这里记录一下开发流程，基本就是官网的文档，我只是整理了一下，加了一些说明，重点记录一下如何填坑。 1. 配置配置根目录在根目录的gradle.properties文件中，增加属性： 1mainmodulename=app 其中mainmodulename是项目中的ho">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ikakaxi.github.io/2018/04/15/JIMU组件化开发流程/"/>
+
+
+
+
+
+  <title>JIMU组件化开发流程 | 我的技术小屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我的技术小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">爱编码,爱电子产品,爱科幻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ikakaxi.github.io/2018/04/15/JIMU组件化开发流程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuhc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的技术小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JIMU组件化开发流程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-15T15:19:00+08:00">
+                2018-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/15/JIMU组件化开发流程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/15/JIMU组件化开发流程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="JIMU组件化开发流程"><a href="#JIMU组件化开发流程" class="headerlink" title="JIMU组件化开发流程"></a>JIMU组件化开发流程</h1><p>github：<a href="https://github.com/mqzhangw/JIMU" target="_blank" rel="noopener">https://github.com/mqzhangw/JIMU</a><br>目前公司的项目用到了组件化开发，这里记录一下开发流程，基本就是官网的文档，我只是整理了一下，加了一些说明，重点记录一下如何填坑。</p>
+<h2 id="1-配置"><a href="#1-配置" class="headerlink" title="1. 配置"></a>1. 配置</h2><h3 id="配置根目录"><a href="#配置根目录" class="headerlink" title="配置根目录"></a>配置根目录</h3><p>在<strong>根目录</strong>的<strong>gradle.properties</strong>文件中，增加属性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mainmodulename=app</span><br></pre></td></tr></table></figure>
+<p>其中mainmodulename是项目中的host工程名称(主模块），一般名字为app</p>
+<p>在<strong>根目录</strong>的<strong>build.gradle</strong>中增加配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath <span class="string">'com.luojilab.ddcomponent:build-gradle:1.2.0'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="配置主模块和每个组件"><a href="#配置主模块和每个组件" class="headerlink" title="配置主模块和每个组件"></a>配置主模块和每个组件</h3><h4 id="配置build-gradle文件"><a href="#配置build-gradle文件" class="headerlink" title="配置build.gradle文件"></a>配置build.gradle文件</h4><p>在主模块和每个组件都增加如下插件：</p>
+<p><strong>注意，只有主模块和组件模块才需要这样配置，而平时用的library模块不需要做如下改动</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'com.dd.comgradle'</span></span><br></pre></td></tr></table></figure>
+<p>在主模块和每个组件都加入如下依赖，如果项目中存在basiclib等基础lib库，可以统一交给basiclib引入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile <span class="string">'com.luojilab.ddcomponent:componentlib:1.3.0'</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意：主模块和组件模块不需要再引用com.android.application或者com.android.library</strong></p>
+<p>在主模块和每个组件都增加以下配置，设置组件单独运行时候的Application（如果不需要单独运行可以不设置），其中<strong>isRegisterCompoAuto</strong>参数我解释一下，如果该值为<strong>true</strong>，意思是该模块需要的组件只需要在gradle.properties里配置就可以了，JIMU会自动注册这些组件，如果为<strong>false</strong>意思是不仅要在gradle.properties里配置里配置组件，还需要手动注册这些组件，如果该组件里不需要引入其他组件该值也可以不设置，否则一般把该值设置为true即可。</p>
+<p>如果applicationName和isRegisterCompoAuto都不设置，combuild这块代码也可以删掉的没有问题，不删掉保持为空也可以，例如<code>combuild {}</code>，不过都不配置的话直接删掉<code>combuild {}</code>吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">combuild &#123;</span><br><span class="line">    applicationName = <span class="string">'com.luojilab.reader.runalone.application.ReaderApplication'</span></span><br><span class="line">    isRegisterCompoAuto = <span class="keyword">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>组件注册还支持反射的方式</p>
+<p>如果项目里有UI跳转，还需要其他配置，请看下面的步骤 <strong>3. UI跳转</strong></p>
+<h4 id="配置gradle-properties文件"><a href="#配置gradle-properties文件" class="headerlink" title="配置gradle.properties文件"></a>配置gradle.properties文件</h4><p>在主模块和每个组件都增加如下配置，isRunAlone是必须设置的，否则编译不通过，<strong>如果需要单独运行，就设置为true，否则设置为false</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">isRunAlone=<span class="keyword">true</span></span><br><span class="line">debugComponent=sharecomponent</span><br><span class="line">compileComponent=sharecomponent</span><br></pre></td></tr></table></figure>
+<p>上面三个属性分别对应是否单独调试、debug模式下依赖的组件，release模式下依赖的组件。</p>
+<h3 id="配置主模块的gradle-properties文件"><a href="#配置主模块的gradle-properties文件" class="headerlink" title="配置主模块的gradle.properties文件"></a>配置主模块的gradle.properties文件</h3><p>有个需要<strong>注意</strong>的地方，主模块必须在gradle.properties文件里配置debugComponent和compileComponent，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">isRunAlone=<span class="keyword">true</span></span><br><span class="line">debugComponent=module1,module2</span><br><span class="line">compileComponent=module1,module2</span><br></pre></td></tr></table></figure>
+<p>不配置的话，组件是不会打包到主模块的</p>
+<h2 id="2-组件数据交互"><a href="#2-组件数据交互" class="headerlink" title="2. 组件数据交互"></a>2. 组件数据交互</h2><h3 id="2-1-所有组件的服务接口都统一定义在componentService-名字随意-这个module中"><a href="#2-1-所有组件的服务接口都统一定义在componentService-名字随意-这个module中" class="headerlink" title="2.1. 所有组件的服务接口都统一定义在componentService(名字随意)这个module中"></a>2.1. 所有组件的服务接口都统一定义在componentService(名字随意)这个module中</h3><p>为了增加可读性，所有组件的服务都统一定义在componentService这个module中，例如reader组件需要向外提供服务，在componentService增加readerbook文件夹，定义ReadBookService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadBookService</span> </span>&#123;</span><br><span class="line">    <span class="function">Fragment <span class="title">getReadBookFragment</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-组件提供具体实现类"><a href="#2-2-组件提供具体实现类" class="headerlink" title="2.2. 组件提供具体实现类"></a>2.2. 组件提供具体实现类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadBookServiceImpl</span> <span class="keyword">implements</span> <span class="title">ReadBookService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Fragment <span class="title">getReadBookFragment</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ReaderFragment();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-将实现类注册到Router中"><a href="#2-3-将实现类注册到Router中" class="headerlink" title="2.3. 将实现类注册到Router中"></a>2.3. 将实现类注册到Router中</h3><p>实现类的注册时机在每个组件的ApplicationLike中，ApplicationLike相当于每个组件的Application类，控制组件的生命周期。</p>
+<p>在组件加载的时候进行注册，同时在组件卸载的时候进行反注册。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReaderAppLike</span> <span class="keyword">implements</span> <span class="title">IApplicationLike</span> </span>&#123;</span><br><span class="line">    Router router = Router.getInstance();</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        router.addService(ReadBookService.class.getSimpleName(), <span class="keyword">new</span> ReadBookServiceImpl());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        router.removeService(ReadBookService.class.getSimpleName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>经过上面3个步骤，就可以在其他组件中获取这个服务，进而获取所需数据了</strong></p>
+<h3 id="其他组件调用服务"><a href="#其他组件调用服务" class="headerlink" title="其他组件调用服务"></a>其他组件调用服务</h3><p>由于代码隔离，只有componentService这个module中的接口们（建议起名为XXXService）才对组件们可见，所以只能针对这些接口进行编程。</p>
+<p>通过Router获取服务的具体实现，使用前需要判空。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Router router = Router.getInstance();</span><br><span class="line"><span class="keyword">if</span> (router.getService(ReadBookService.class.getSimpleName()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">    ReadBookService service = (ReadBookService) router.getService(ReadBookService.class.getSimpleName());</span><br><span class="line">    fragment = service.getReadBookFragment();</span><br><span class="line">    t = getSupportFragmentManager().beginTransaction();</span><br><span class="line">    ft.add(R.id.tab_content, fragment).commitAllowingStateLoss();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-UI跳转"><a href="#3-UI跳转" class="headerlink" title="3. UI跳转"></a>3. UI跳转</h2><p>上面的步骤仅仅可以通过获取服务来交换数据，但是我们肯定需要跳转页面，所以除了注册Router外我们还需要注册组件到UIRouter中</p>
+<h4 id="3-1-组件添加必要的依赖"><a href="#3-1-组件添加必要的依赖" class="headerlink" title="3.1 组件添加必要的依赖"></a>3.1 组件添加必要的依赖</h4><p>在组件的build.gradle中添加依赖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//java需要下面的</span></span><br><span class="line">annotationProcessor <span class="string">'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'</span></span><br><span class="line"><span class="comment">//kotlin需要下面的</span></span><br><span class="line">kapt <span class="string">'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'</span></span><br><span class="line"><span class="comment">//两种方式选择一种就可以，如果用kotlin只需要下面那句，否则只需要上面那句</span></span><br></pre></td></tr></table></figure>
+<p>同时添加</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//java</span></span><br><span class="line">defaultConfig &#123;</span><br><span class="line">    javaCompileOptions &#123;</span><br><span class="line">        annotationProcessorOptions &#123;</span><br><span class="line">             arguments = [host: <span class="string">"share"</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//kotlin</span></span><br><span class="line">kapt &#123;</span><br><span class="line">    arguments &#123;</span><br><span class="line">        arg(<span class="string">"host"</span>, <span class="string">"share"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//两种方式选择一种就可以，如果用kotlin只需要下面那句，否则只需要上面那句，这些句子写在android标签外面或者里面都可以</span></span><br></pre></td></tr></table></figure>
+<p>此处的”share”是跳转URI中的host，每个组件需要设置不同的host。</p>
+<h3 id="3-2-注册组件到UIRouter中"><a href="#3-2-注册组件到UIRouter中" class="headerlink" title="3.2 注册组件到UIRouter中"></a>3.2 注册组件到UIRouter中</h3><p>在组件的声明周期类ApplicationLike中，添加注册和反注册代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShareApplike</span> <span class="keyword">implements</span> <span class="title">IApplicationLike</span> </span>&#123;</span><br><span class="line">    UIRouter uiRouter = UIRouter.getInstance();</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        uiRouter.registerUI(<span class="string">"share"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        uiRouter.unregisterUI(<span class="string">"share"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-目标页面添加注解"><a href="#3-3-目标页面添加注解" class="headerlink" title="3.3 目标页面添加注解"></a>3.3 目标页面添加注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RouteNode</span>(path = <span class="string">"/shareBook"</span>, desc = <span class="string">"分享书籍页面"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShareActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    。。。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果需要传入参数，在具体的参数定义上增加Autowired注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span>(name = <span class="string">"bookName"</span>)<span class="comment">//name也可以不设置，不设置的话默认是字段名</span></span><br><span class="line">String bookName;</span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">Author author;</span><br></pre></td></tr></table></figure>
+<p><strong>注意此处的参数需要设置为非private，否则编译会直接报错，如果是kotlin代码还需要加@JvmField，这样kotlin才会编译成public字段而不是private字段加set/get方法</strong></p>
+<h3 id="3-4-自动装载"><a href="#3-4-自动装载" class="headerlink" title="3.4 自动装载"></a>3.4 自动装载</h3><p>如果想使用自动装载功能，需要在Activity的onCreate中调用方法，调用该方法后，在类中配置的@Autowired才会有数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutowiredService.Factory.getInstance().create().autowire(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>建议该方法在基类Activity中调用，如果在Fragment有@Autowired注解的字段，需要手动在Activity中传给Fragment，否则会空指针异常，因为调用openUri跳转的是Activity，参数传给Activity了，如果不手动传给Fragment的话Fragment的arguments并没有值，再去get东西的时候就会报空指针异常。</p>
+<h3 id="3-5-build项目"><a href="#3-5-build项目" class="headerlink" title="3.5 build项目"></a>3.5 build项目</h3><p>项目执行build，会生成apt文件，具体可在build目录下面查看，同时还会在根目录生成UIRouterTable文件夹，里面会列出每个组件向外提供的路由表。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">auto generated, <span class="keyword">do</span> not change !!!! </span><br><span class="line"></span><br><span class="line">HOST : share</span><br><span class="line"></span><br><span class="line">分享书籍页面(<span class="meta">@RouteNode</span>配置的desc)</span><br><span class="line">/shareBook(<span class="meta">@RouteNode</span>配置的path)</span><br><span class="line">author:com.luojilab.componentservice.share.bean.Author(<span class="meta">@Autowired</span>配置的参数)</span><br><span class="line">bookName:String(<span class="meta">@Autowired</span>配置的参数)</span><br></pre></td></tr></table></figure>
+<h3 id="3-6-跳转页面"><a href="#3-6-跳转页面" class="headerlink" title="3.6 跳转页面"></a>3.6 跳转页面</h3><p>在发起跳转页面，有三种方式可以跳转到目的页面</p>
+<h4 id="3-6-1-Bundle方式"><a href="#3-6-1-Bundle方式" class="headerlink" title="3.6.1 Bundle方式"></a>3.6.1 Bundle方式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UI transfer with Bundle</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">goToShareActivityWithBundle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Author author = <span class="keyword">new</span> Author();</span><br><span class="line">    author.setName(<span class="string">"Margaret Mitchell"</span>);</span><br><span class="line">    author.setCounty(<span class="string">"USA"</span>);</span><br><span class="line">    Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">    bundle.putString(<span class="string">"bookName"</span>, <span class="string">"Gone with the Wind"</span>);</span><br><span class="line">    bundle.putString(<span class="string">"author"</span>, JsonService.Factory.getInstance()</span><br><span class="line">            .create().toJsonString(author));</span><br><span class="line">    String path = <span class="string">"DDComp://share/shareBook"</span>;<span class="comment">//或者share/shareBook</span></span><br><span class="line">    UIRouter.getInstance().openUri(getActivity(), <span class="string">"DDComp://share/shareBook"</span>, bundle);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-6-2-URI方式"><a href="#3-6-2-URI方式" class="headerlink" title="3.6.2 URI方式"></a>3.6.2 URI方式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UI transfer with URI</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">goToShareActivityWithUri</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Author author = <span class="keyword">new</span> Author();</span><br><span class="line">    author.setName(<span class="string">"Barack Obama"</span>);</span><br><span class="line">    author.setCounty(<span class="string">"New York"</span>);</span><br><span class="line">    <span class="keyword">final</span> String URI_LEGAL = <span class="string">"DDComp://share/shareMagazine?bookName=NYTIME&amp;author="</span>;</span><br><span class="line">    <span class="comment">//URI_LEGAL能不能去掉DDComp://我没有测试，有兴趣可以自己测试一下</span></span><br><span class="line">    legal and illegal data delivering*/</span><br><span class="line">    UIRouter.getInstance().openUri(</span><br><span class="line">    		getActivity(),</span><br><span class="line">            URI_LEGAL + JsonService.Factory.getInstance().create().toJsonString(author), <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-6-3-startActivityForResult"><a href="#2-6-3-startActivityForResult" class="headerlink" title="2.6.3 startActivityForResult"></a>2.6.3 startActivityForResult</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//startActivityForResult</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">goToShareActivityForResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Author author = <span class="keyword">new</span> Author();</span><br><span class="line">    author.setName(<span class="string">"Margaret Mitchell"</span>);</span><br><span class="line">    author.setCounty(<span class="string">"USA"</span>);</span><br><span class="line">    UIRouter.getInstance().openUri(</span><br><span class="line">    		getActivity(),</span><br><span class="line">        	<span class="comment">//下面的代码能不能去掉DDComp://我没有测试，有兴趣可以自己测试一下</span></span><br><span class="line">            <span class="string">"DDComp://share/shareBook?bookName=Gone with the Wind&amp;author="</span></span><br><span class="line">             + JsonService.Factory.getInstance().create().toJsonString(author), <span class="keyword">null</span>, <span class="number">7777</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="JIMU框架代码内部主要流程"><a href="#JIMU框架代码内部主要流程" class="headerlink" title="JIMU框架代码内部主要流程"></a>JIMU框架代码内部主要流程</h4><p>在执行uiRouter.registerUI(“game”)的时候会把当前组件自动生成的BaseCompRouter的子类（一个组件一个BaseCompRouter的子类，如刚才注册game就会生成GameUiRouter，代码路径在该模块的build/generated/source/kapt/debug(或者release)/com.luojilab.gen.router），uiRouter.registerUI方法会将刚才生成的GameUiRouter类添加到UIRouter类的uiRouters这个集合里，在跳转页面的时候（UIRouter.getInstance().openUri）会遍历这个uiRouters集合，执行每个BaseCompRouter子类的openUri方法，该方法如果能自己处理就返回true，否则返回false。</p>
+<p>自动生成的BaseCompRouter的子类执行openUri方法时会查找当前组件中用@RouteNode配置的页面（Activity），如果当前BaseCompRouter的子类第一次运行会执行initMap，在这个方法里会把这个页面保存到routeMapper，key是这个页面配置的path，value是这个页面。然后在openUri方法里会根据传过来的uri找到在routeMapper中对应的Activity，然后执行startActivityForResult或者startActivity方法。</p>
+<hr>
+<h2 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h2><ol>
+<li>按照上面的<strong>配置</strong>先配置好JIMU的依赖</li>
+<li>在公共库创建Service接口，Activity、Fragment父类等公共类和公共资源</li>
+<li>每个组件项目继承公共库的Service接口，提供其他组件需要的实例</li>
+<li>在每个组件添加IApplicationLike的子类，不需要手动注册该子类</li>
+<li>如果有页面跳转，还需要配置页面的@RouteNode</li>
+</ol>
+<p>demo在github的地址：<a href="https://github.com/ikakaxi/JIMUDemo" target="_blank" rel="noopener">https://github.com/ikakaxi/JIMUDemo</a></p>
+<p>个人简书：<a href="https://www.jianshu.com/u/b433b31eadad" target="_blank" rel="noopener">https://www.jianshu.com/u/b433b31eadad</a></p>
+<p>个人博客：<a href="http://liuhc.me" target="_blank" rel="noopener">http://liuhc.me</a></p>
+<p>个人博客和简书同步更新，会先更新简书，顺便吐槽一下简书为什么不能搜索自己的文章。。。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/第三方框架/" rel="tag"># 第三方框架</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/15/dagger2使用方法简明讲解/" rel="next" title="dagger2使用方法简明讲解">
+                <i class="fa fa-chevron-left"></i> dagger2使用方法简明讲解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">liuhc</p>
+              <p class="site-description motion-element" itemprop="description">用来记录一些技术文章</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">117</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JIMU组件化开发流程"><span class="nav-number">1.</span> <span class="nav-text">JIMU组件化开发流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-配置"><span class="nav-number">1.1.</span> <span class="nav-text">1. 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置根目录"><span class="nav-number">1.1.1.</span> <span class="nav-text">配置根目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置主模块和每个组件"><span class="nav-number">1.1.2.</span> <span class="nav-text">配置主模块和每个组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置build-gradle文件"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">配置build.gradle文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置gradle-properties文件"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">配置gradle.properties文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置主模块的gradle-properties文件"><span class="nav-number">1.1.3.</span> <span class="nav-text">配置主模块的gradle.properties文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-组件数据交互"><span class="nav-number">1.2.</span> <span class="nav-text">2. 组件数据交互</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-所有组件的服务接口都统一定义在componentService-名字随意-这个module中"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1. 所有组件的服务接口都统一定义在componentService(名字随意)这个module中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-组件提供具体实现类"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2. 组件提供具体实现类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-将实现类注册到Router中"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3. 将实现类注册到Router中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他组件调用服务"><span class="nav-number">1.2.4.</span> <span class="nav-text">其他组件调用服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-UI跳转"><span class="nav-number">1.3.</span> <span class="nav-text">3. UI跳转</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-组件添加必要的依赖"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">3.1 组件添加必要的依赖</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-注册组件到UIRouter中"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.2 注册组件到UIRouter中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-目标页面添加注解"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.3 目标页面添加注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-自动装载"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.4 自动装载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-build项目"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.5 build项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-跳转页面"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.6 跳转页面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-1-Bundle方式"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">3.6.1 Bundle方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-2-URI方式"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">3.6.2 URI方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-3-startActivityForResult"><span class="nav-number">1.3.5.3.</span> <span class="nav-text">2.6.3 startActivityForResult</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JIMU框架代码内部主要流程"><span class="nav-number">1.3.5.4.</span> <span class="nav-text">JIMU框架代码内部主要流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发流程"><span class="nav-number">1.4.</span> <span class="nav-text">开发流程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuhc</span>
+  <!--以下4句为一条竖线和Coding Page-->
+  <span class="post-meta-divider">|</span>
+  <div class="powered-by">  
+  </div>
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+  
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://liuhc.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://ikakaxi.github.io/2018/04/15/JIMU组件化开发流程/';
+          this.page.identifier = '2018/04/15/JIMU组件化开发流程/';
+          this.page.title = 'JIMU组件化开发流程';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://liuhc.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
