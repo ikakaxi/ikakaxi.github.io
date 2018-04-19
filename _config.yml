@@ -92,3 +92,23 @@ deploy:
     github: https://github.com/ikakaxi/ikakaxi.github.io.git
     coding: https://git.coding.net/ikakaxi/ikakaxi.coding.me.git
   branch: master
+
+#yilia主题配置
+jsonContent:
+meta: false
+pages: false
+posts:
+  title: true
+  date: true
+  path: true
+  text: false
+  raw: false
+  content: false
+  slug: false
+  updated: false
+  comments: false
+  link: false
+  permalink: false
+  excerpt: false
+  categories: false
+  tags: true
